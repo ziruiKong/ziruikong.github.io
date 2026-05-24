@@ -17,15 +17,8 @@
 
     .hero{max-width:1240px;margin:0 auto;padding:44px 24px 18px}
     .eyebrow{margin:0;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
-    h1{margin:8px 0 10px;font-size:clamp(42px,8vw,108px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+    h1{margin:8px 0 10px;font-size:clamp(36px,6vw,72px);line-height:.95;letter-spacing:-.03em;text-transform:uppercase;max-width:12ch}
     .lead{margin:0;max-width:820px;font-size:18px;line-height:1.56;color:#322c24}
-
-    .toolbar{max-width:1240px;margin:8px auto 0;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px}
-    .input,.select{width:100%;border:1px solid var(--line);background:#fff;padding:12px 13px;font-size:14px}
-    .select{font-size:12px;letter-spacing:.1em;text-transform:uppercase}
-    .chips{max-width:1240px;margin:10px auto 0;padding:0 24px;display:flex;gap:8px;flex-wrap:wrap}
-    .chip{border:1px solid #1113;background:#fff;padding:7px 10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-    .chip.active{background:#111;color:#fff}
 
     .section{max-width:1240px;margin:0 auto;padding:18px 24px 44px}
     .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
@@ -65,24 +58,11 @@
 
   <section class="hero">
     <p class="eyebrow">Resource Archive</p>
-    <h1>Bookshelf</h1>
+    <h1>Bayesian Modeling<br>and Computation in Python</h1>
     <p class="lead">A focused bookshelf for selected readings.</p>
   </section>
 
-  <section class="toolbar" aria-label="Filters">
-    <input id="searchInput" class="input" type="search" placeholder="Search title, author, note...">
-    <select id="tagFilter" class="select"><option value="all">All Tags</option><option value="bayesian">Bayesian</option><option value="statistics">Statistics</option></select>
-    <select id="sortFilter" class="select"><option value="az">Sort A → Z</option><option value="za">Sort Z → A</option></select>
-  </section>
-
-  <div class="chips" id="chips">
-    <button class="chip active" data-tag="all">All</button>
-    <button class="chip" data-tag="bayesian">Bayesian</button>
-    <button class="chip" data-tag="statistics">Statistics</button>
-    <button class="chip" data-tag="python">Python</button>
-  </div>
-
-  <main class="section">
+    <main class="section">
     <div class="head"><h2>Selected Books</h2><span id="count" class="count">[00-01]</span></div>
     <div class="shelf" id="shelf">
       <a class="book" data-tag="bayesian statistics python" href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer">
@@ -99,55 +79,10 @@
 
   <script>
     const books = Array.from(document.querySelectorAll('.book'));
-    const searchInput = document.getElementById('searchInput');
-    const tagFilter = document.getElementById('tagFilter');
-    const sortFilter = document.getElementById('sortFilter');
-    const chips = Array.from(document.querySelectorAll('.chip'));
-    const shelf = document.getElementById('shelf');
-    const count = document.getElementById('count');
-    const empty = document.getElementById('empty');
-    let activeChip = 'all';
-
-    function sortBooks(){
-      const arr = Array.from(shelf.children);
-      arr.sort((a,b)=>{
-        const an = a.querySelector('.title').textContent.trim();
-        const bn = b.querySelector('.title').textContent.trim();
-        return sortFilter.value === 'za' ? bn.localeCompare(an) : an.localeCompare(bn);
-      });
-      arr.forEach(el=>shelf.appendChild(el));
-    }
-
-    function apply(){
-      const q = searchInput.value.trim().toLowerCase();
-      const tag = tagFilter.value;
-      books.forEach(book=>{
-        const txt = (book.textContent + ' ' + (book.dataset.tag || '')).toLowerCase();
-        const matchSearch = !q || txt.includes(q);
-        const matchSelect = tag === 'all' || (book.dataset.tag || '').includes(tag);
-        const matchChip = activeChip === 'all' || (book.dataset.tag || '').includes(activeChip);
-        book.classList.toggle('hidden', !(matchSearch && matchSelect && matchChip));
-      });
-      sortBooks();
-      const visible = books.filter(b=>!b.classList.contains('hidden')).length;
-      count.textContent = `[00-${String(visible).padStart(2,'0')}]`;
-      empty.classList.toggle('show', visible === 0);
-    }
-
-    chips.forEach(chip=>chip.addEventListener('click',()=>{
-      chips.forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      activeChip = chip.dataset.tag;
-      apply();
-    }));
-    [searchInput, tagFilter, sortFilter].forEach(el=>el.addEventListener('input', apply));
-
     const io = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
     },{threshold:.15});
     books.forEach(b=>io.observe(b));
-
-    apply();
   </script>
 </body>
 </html>
