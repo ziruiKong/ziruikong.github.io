@@ -149,7 +149,7 @@
 
     .top-nav-groups {
       display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 1fr));
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
       gap: clamp(18px, 3.2vw, 48px);
       color: #fff7ed;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
@@ -190,6 +190,12 @@
     .nav-shape.square {
       width: 18px;
       height: 18px;
+    }
+
+    .nav-shape.diamond {
+      width: 17px;
+      height: 17px;
+      transform: rotate(45deg);
     }
 
     .nav-group a {
@@ -2153,6 +2159,12 @@
           <a href="mailto:zk2332@columbia.edu">Columbia</a>
           <a href="shop.html">Shop</a>
         </div>
+        <div class="nav-group">
+          <div class="nav-group-title"><span class="nav-shape diamond"></span> Resources</div>
+          <a href="field.html?subject=political-science">Research</a>
+          <a href="about.html">Archive</a>
+          <a href="shop.html">Collection</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -2339,6 +2351,8 @@
     let inquiryPreviewImage = null;
     let inquiryPreviewFrame = null;
     let gravityScrollLocked = false;
+    let chapterScrollAnimation = null;
+    let chapterUnlockTimer = null;
     let archiveAudioContext = null;
     let archiveMasterGain = null;
     let archivePulseGain = null;
@@ -2377,39 +2391,106 @@
       return Math.max(0, main?.offsetTop || window.innerHeight);
     }
 
+    function getConnectTop() {
+      const connect = $("#connect");
+      return Math.max(getInquiryTop(), connect?.offsetTop || getInquiryTop());
+    }
+
+    function getChapterPoints() {
+      const inquiryTop = getInquiryTop();
+      const connectTop = getConnectTop();
+      return [0, inquiryTop, connectTop];
+    }
+
+    function releaseChapterLock() {
+      gravityScrollLocked = false;
+      document.body.classList.remove("gravity-scrolling");
+      if (chapterUnlockTimer) {
+        window.clearTimeout(chapterUnlockTimer);
+        chapterUnlockTimer = null;
+      }
+    }
+
     function snapToChapter(targetY) {
+      const startY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const finalY = Math.max(0, Math.round(targetY));
+      const distance = finalY - startY;
+      if (Math.abs(distance) < 2) return;
+
+      if (chapterScrollAnimation?.id) {
+        window.cancelAnimationFrame(chapterScrollAnimation.id);
+      }
+
       gravityScrollLocked = true;
       document.body.classList.add("gravity-scrolling");
-      window.scrollTo({ top: targetY, behavior: "smooth" });
-      window.setTimeout(() => {
-        gravityScrollLocked = false;
-        document.body.classList.remove("gravity-scrolling");
+
+      const duration = Math.min(740, Math.max(440, Math.abs(distance) * 0.4));
+      const startTime = performance.now();
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+      if (chapterUnlockTimer) window.clearTimeout(chapterUnlockTimer);
+      chapterUnlockTimer = window.setTimeout(() => {
+        if (!chapterScrollAnimation) releaseChapterLock();
+      }, duration + 280);
+
+      const state = { id: 0 };
+      chapterScrollAnimation = state;
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - startTime) / duration);
+        window.scrollTo(0, startY + distance * easeOutCubic(progress));
+        if (progress < 1) {
+          state.id = window.requestAnimationFrame(tick);
+          return;
+        }
+        window.scrollTo(0, finalY);
+        chapterScrollAnimation = null;
+        releaseChapterLock();
         updateHeaderTone();
-      }, 940);
+      };
+      state.id = window.requestAnimationFrame(tick);
     }
 
     function handleGravityWheel(event) {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (document.body.classList.contains("booking-open")) return;
 
-      const inquiryTop = getInquiryTop();
+      const [homeTop, inquiryTop, connectTop] = getChapterPoints();
       const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const delta = event.deltaY;
       const pullThreshold = 18;
-      const nearHome = y < inquiryTop * 0.64;
-      const nearInquiry = y > inquiryTop - 80 && y < inquiryTop + window.innerHeight * 0.42;
+      const snapBand = Math.max(78, window.innerHeight * 0.1);
 
       if (gravityScrollLocked) {
+        if (!chapterScrollAnimation) {
+          releaseChapterLock();
+          return;
+        }
         event.preventDefault();
         return;
       }
 
-      if (delta > pullThreshold && nearHome) {
-        event.preventDefault();
-        snapToChapter(inquiryTop);
-      } else if (delta < -pullThreshold && nearInquiry) {
-        event.preventDefault();
-        snapToChapter(0);
+      const nearHome = Math.abs(y - homeTop) <= snapBand;
+      const nearInquiry = Math.abs(y - inquiryTop) <= snapBand;
+      const nearConnect = Math.abs(y - connectTop) <= snapBand;
+      const inInquiryRange = y >= inquiryTop - snapBand && y < connectTop - snapBand;
+      const inConnectRange = y >= connectTop - snapBand;
+
+      if (delta > pullThreshold) {
+        if (nearHome) {
+          event.preventDefault();
+          snapToChapter(inquiryTop);
+        } else if (nearInquiry || inInquiryRange) {
+          event.preventDefault();
+          snapToChapter(connectTop);
+        }
+      } else if (delta < -pullThreshold) {
+        if (nearConnect || inConnectRange) {
+          event.preventDefault();
+          snapToChapter(inquiryTop);
+        } else if (nearInquiry || inInquiryRange) {
+          event.preventDefault();
+          snapToChapter(homeTop);
+        }
       }
     }
 
