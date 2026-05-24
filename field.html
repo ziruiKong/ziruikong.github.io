@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KZR - Field Page</title>
+  <title>ZIRUIKONG</title>
   <meta name="description" content="A dedicated KZR field page for a selected area of inquiry.">
-  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
-  <link rel="apple-touch-icon" href="assets/favicon-kzr.png">
+  <link rel="icon" type="image/png" href="/assets/favicon-kzr.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/favicon-kzr.png?v=2">
   <link rel="stylesheet" href="cookie-consent.css">
   <style>
     :root {
@@ -406,7 +406,7 @@
     const subject = params.get("subject");
     const activeField = fieldLibrary[subject] || fieldLibrary.economics;
 
-    document.title = `KZR - ${activeField.title}`;
+    document.title = `ZIRUIKONG - ${activeField.title}`;
     document.getElementById("fieldTitle").textContent = activeField.title;
     document.getElementById("fieldSummary").textContent = activeField.summary;
     document.getElementById("fieldCaptionTitle").textContent = activeField.title;
