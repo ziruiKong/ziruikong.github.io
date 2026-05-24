@@ -149,7 +149,7 @@
 
     .top-nav-groups {
       display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 1fr));
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
       gap: clamp(18px, 3.2vw, 48px);
       color: #fff7ed;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
@@ -190,6 +190,12 @@
     .nav-shape.square {
       width: 18px;
       height: 18px;
+    }
+
+    .nav-shape.diamond {
+      width: 17px;
+      height: 17px;
+      transform: rotate(45deg);
     }
 
     .nav-group a {
@@ -2125,35 +2131,57 @@
         border-radius: 18px;
       }
     }
+  
+
+    /* Floating soundtrack-style navbar */
+    .site-header { position: fixed; inset: 16px 18px auto; z-index: 60; background: none; padding: 0; }
+    .header-inner.soundtrack-bar {
+      max-width: 980px; margin: 0 auto; width: min(96vw, 980px);
+      display: grid; grid-template-columns: 52px 28px minmax(160px, 1fr) 140px auto;
+      align-items: center; gap: 14px;
+      padding: 14px 18px; border-radius: 24px;
+      background: rgba(248, 244, 236, 0.92);
+      box-shadow: 0 10px 30px rgba(39, 32, 23, 0.14);
+      backdrop-filter: blur(10px) saturate(110%); -webkit-backdrop-filter: blur(10px) saturate(110%);
+      border: 1px solid rgba(210, 198, 181, 0.6);
+    }
+    .soundtrack-cover { width: 44px; height: 44px; border-radius: 12px; object-fit: cover; display: block; }
+    .soundtrack-play { border: 0; background: transparent; width: 26px; height: 26px; padding: 0; color: #4b453f; display:grid; place-items:center; }
+    .soundtrack-play svg { width: 18px; height: 18px; fill: currentColor; }
+    .soundtrack-meta { min-width: 0; display: grid; gap: 3px; }
+    .soundtrack-title { color: #21201f; text-decoration: none; font-weight: 700; font-size: 18px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .soundtrack-artist { color: #7d756b; font-size: 13px; }
+    .soundtrack-wave { height: 30px; border-radius: 8px; background: repeating-linear-gradient(90deg, rgba(113,105,95,.26) 0 2px, transparent 2px 8px); opacity: .55; }
+    .soundtrack-links { display: inline-flex; align-items: center; gap: 14px; font-size: 13px; }
+    .soundtrack-links a { color: #4f4a44; text-decoration: none; font-weight: 600; }
+    .soundtrack-links a:hover { color: #151515; }
+    @media (max-width: 980px) {
+      .site-header { inset: 12px 12px auto; }
+      .header-inner.soundtrack-bar { width: 100%; grid-template-columns: 46px 24px minmax(120px,1fr); padding: 12px 14px; }
+      .soundtrack-wave, .soundtrack-links { display: none; }
+      .soundtrack-title { font-size: 16px; }
+    }
+
   </style>
 </head>
 <body>
   <header class="site-header">
-    <div class="header-inner">
-      <a class="brand" href="#overview">
-        <div class="brand-text">
-          <img class="brand-mark" src="assets/kzr-home-logo.png" alt="KZR logo">
-        </div>
-      </a>
-      <nav class="top-nav-groups" aria-label="Homepage navigation">
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape triangle"></span> Repertoire</div>
-          <a href="#inquiry">Fields</a>
-          <a href="shop.html">Shop</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape circle"></span> Narrative</div>
-          <a href="about.html">About</a>
-          <a href="#overview">Overview</a>
-          <a href="mailto:kongzirui2004@163.com">Connect</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape square"></span> Liaison</div>
-          <a href="mailto:ray20040626@gmail.com">Global Mail</a>
-          <a href="mailto:zk2332@columbia.edu">Columbia</a>
-          <a href="shop.html">Shop</a>
-        </div>
-      </nav>
+    <div class="header-inner soundtrack-bar" role="navigation" aria-label="Floating navigation">
+      <img class="soundtrack-cover" src="assets/kid-logo.png" alt="Album cover">
+      <button class="soundtrack-play" id="floatingPlayButton" type="button" aria-label="Play theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
+      </button>
+      <div class="soundtrack-meta">
+        <a href="#overview" class="soundtrack-title">Interstellar Main Theme</a>
+        <span class="soundtrack-artist">Hans Zimmer</span>
+      </div>
+      <div class="soundtrack-wave" aria-hidden="true"></div>
+      <div class="soundtrack-links">
+        <a href="#inquiry">Fields</a>
+        <a href="about.html">About</a>
+        <a href="shop.html">Shop</a>
+        <a href="field.html?subject=political-science">Resources</a>
+      </div>
     </div>
   </header>
 
@@ -2339,6 +2367,9 @@
     let inquiryPreviewImage = null;
     let inquiryPreviewFrame = null;
     let gravityScrollLocked = false;
+    let chapterScrollAnimation = null;
+    let chapterUnlockTimer = null;
+    let chapterLastSnapAt = 0;
     let archiveAudioContext = null;
     let archiveMasterGain = null;
     let archivePulseGain = null;
@@ -2377,40 +2408,100 @@
       return Math.max(0, main?.offsetTop || window.innerHeight);
     }
 
+    function getConnectTop() {
+      const connect = $("#connect");
+      return Math.max(getInquiryTop(), connect?.offsetTop || getInquiryTop());
+    }
+
+    function getChapterPoints() {
+      const inquiryTop = getInquiryTop();
+      const connectTop = getConnectTop();
+      return [0, inquiryTop, connectTop];
+    }
+
+    function releaseChapterLock() {
+      gravityScrollLocked = false;
+      document.body.classList.remove("gravity-scrolling");
+      if (chapterUnlockTimer) {
+        window.clearTimeout(chapterUnlockTimer);
+        chapterUnlockTimer = null;
+      }
+    }
+
     function snapToChapter(targetY) {
+      const startY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const finalY = Math.max(0, Math.round(targetY));
+      const distance = finalY - startY;
+      if (Math.abs(distance) < 2) return;
+
+      if (chapterScrollAnimation?.id) {
+        window.cancelAnimationFrame(chapterScrollAnimation.id);
+      }
+
       gravityScrollLocked = true;
       document.body.classList.add("gravity-scrolling");
-      window.scrollTo({ top: targetY, behavior: "smooth" });
-      window.setTimeout(() => {
-        gravityScrollLocked = false;
-        document.body.classList.remove("gravity-scrolling");
+
+      const duration = Math.min(740, Math.max(440, Math.abs(distance) * 0.4));
+      const startTime = performance.now();
+      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+      if (chapterUnlockTimer) window.clearTimeout(chapterUnlockTimer);
+      chapterUnlockTimer = window.setTimeout(() => {
+        if (!chapterScrollAnimation) releaseChapterLock();
+      }, duration + 280);
+
+      const state = { id: 0 };
+      chapterScrollAnimation = state;
+
+      const tick = (now) => {
+        const progress = Math.min(1, (now - startTime) / duration);
+        window.scrollTo(0, startY + distance * easeOutCubic(progress));
+        if (progress < 1) {
+          state.id = window.requestAnimationFrame(tick);
+          return;
+        }
+        window.scrollTo(0, finalY);
+        chapterScrollAnimation = null;
+        releaseChapterLock();
         updateHeaderTone();
-      }, 940);
+      };
+      state.id = window.requestAnimationFrame(tick);
     }
 
     function handleGravityWheel(event) {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (document.body.classList.contains("booking-open")) return;
 
-      const inquiryTop = getInquiryTop();
+      const points = getChapterPoints();
       const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const delta = event.deltaY;
-      const pullThreshold = 18;
-      const nearHome = y < inquiryTop * 0.64;
-      const nearInquiry = y > inquiryTop - 80 && y < inquiryTop + window.innerHeight * 0.42;
+      const pullThreshold = 16;
+      const now = performance.now();
 
       if (gravityScrollLocked) {
         event.preventDefault();
         return;
       }
 
-      if (delta > pullThreshold && nearHome) {
-        event.preventDefault();
-        snapToChapter(inquiryTop);
-      } else if (delta < -pullThreshold && nearInquiry) {
-        event.preventDefault();
-        snapToChapter(0);
+      if (Math.abs(delta) < pullThreshold) return;
+      if (now - chapterLastSnapAt < 220) return;
+
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+      for (let i = 0; i < points.length; i += 1) {
+        const d = Math.abs(y - points[i]);
+        if (d < nearestDistance) {
+          nearestDistance = d;
+          nearestIndex = i;
+        }
       }
+
+      const direction = delta > 0 ? 1 : -1;
+      const targetIndex = Math.max(0, Math.min(points.length - 1, nearestIndex + direction));
+      if (targetIndex === nearestIndex) return;
+
+      event.preventDefault();
+      chapterLastSnapAt = now;
+      snapToChapter(points[targetIndex]);
     }
 
     function setInquiryPointerActive(activeItem = null) {
@@ -2560,6 +2651,7 @@
       const bookingForm = $("#bookingForm");
       const inquiryMenuButton = $("#inquiryMenuButton");
       const inquiryMusicButton = $("#inquiryMusicButton");
+      const floatingPlayButton = $("#floatingPlayButton");
 
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
@@ -2584,6 +2676,9 @@
       }
       if (inquiryMusicButton) {
         inquiryMusicButton.addEventListener("click", toggleArchiveMusic);
+      }
+      if (floatingPlayButton) {
+        floatingPlayButton.addEventListener("click", toggleArchiveMusic);
       }
       document.addEventListener("click", (event) => {
         const shell = $("#inquiryNavShell");
