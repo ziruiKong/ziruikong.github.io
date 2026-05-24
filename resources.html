@@ -6,72 +6,187 @@
   <title>Resources — K.I.D.</title>
   <meta name="description" content="Curated resources: websites and files collected for long-term study.">
   <style>
-    :root{--bg:#f7f2e8;--ink:#151515;--muted:#6a645b;--line:#1f1f1f22;--accent:#1a1a1a}
-    *{box-sizing:border-box}
+    :root{--bg:#f5efe4;--ink:#121212;--muted:#665f54;--line:#1d1d1d1f;--card:#fffdf8;--gold:#8a6330}
+    *{box-sizing:border-box} html{scroll-behavior:smooth}
     body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    .top{position:sticky;top:0;background:rgba(247,242,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
-    .top-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
-    .top a{text-decoration:none;color:var(--ink);font-weight:700;letter-spacing:.02em}
-    .hero{max-width:1240px;margin:0 auto;padding:48px 24px 20px}
-    .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-    h1{margin:10px 0 8px;font-size:clamp(40px,8vw,110px);line-height:.88;letter-spacing:-.04em;text-transform:uppercase}
-    .lead{max-width:780px;color:#2e2a26;font-size:18px;line-height:1.6}
-    .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:24px 0}
-    .marquee p{white-space:nowrap;margin:0;padding:12px 0;font-size:28px;font-weight:900;letter-spacing:.03em;text-transform:uppercase;animation:roll 20s linear infinite}
-    @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-    .section{max-width:1240px;margin:0 auto;padding:18px 24px 50px}
-    .section-head{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:20px}
-    .section-head h2{margin:0;font-size:clamp(26px,4vw,52px);text-transform:uppercase;letter-spacing:-.03em}
+    .top{position:sticky;top:0;z-index:80;background:rgba(245,239,228,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{max-width:1320px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px}
+    .brand img{width:82px;height:auto;display:block;filter:brightness(0)}
+    .nav{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+    .nav a{text-decoration:none;color:var(--ink);font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;opacity:.78}
+    .nav a:hover,.nav a.active{opacity:1;color:#000}
+    .top-cta{border:1px solid #1113;padding:8px 12px;text-decoration:none;color:#121212;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+
+    .hero{max-width:1320px;margin:0 auto;padding:46px 24px 16px}
+    .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0}
+    h1{margin:8px 0 10px;font-size:clamp(44px,9vw,128px);line-height:.86;letter-spacing:-.05em;text-transform:uppercase}
+    .lead{max-width:860px;color:#2e2a24;font-size:18px;line-height:1.58;margin:0}
+
+    .toolbar{max-width:1320px;margin:20px auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}
+    .search{padding:12px 14px;border:1px solid var(--line);background:#fff;border-radius:0;font-size:14px}
+    .select{padding:12px 14px;border:1px solid var(--line);background:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+    .stats{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+
+    .chips{max-width:1320px;margin:0 auto 8px;padding:0 24px;display:flex;flex-wrap:wrap;gap:8px}
+    .chip{border:1px solid #1113;background:#fff;padding:7px 11px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .chip.active{background:#121212;color:#fff}
+
+    .section{max-width:1320px;margin:0 auto;padding:14px 24px 42px;scroll-margin-top:88px}
+    .section-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+    .section-head h2{margin:0;font-size:clamp(28px,4vw,56px);letter-spacing:-.03em;text-transform:uppercase}
     .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
-    .card{grid-column:span 6;border:1px solid var(--line);padding:16px;background:#fffdf8;min-height:170px;display:grid;gap:10px;align-content:start}
-    .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
-    .name{font-size:24px;font-weight:900;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em}
-    .meta{color:#514b42;font-size:14px}
-    .card a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid #0003;padding-bottom:1px;width:max-content}
-    .file{grid-column:span 4}
-    footer{max-width:1240px;margin:0 auto;padding:8px 24px 40px;color:var(--muted);font-size:13px}
-    @media (max-width:980px){.card,.file{grid-column:span 12}.marquee p{font-size:22px}}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .card{grid-column:span 4;border:1px solid var(--line);background:var(--card);padding:14px;display:grid;gap:8px;min-height:180px;transform:translateY(10px);opacity:0;transition:.5s}
+    .card.show{transform:none;opacity:1}
+    .card:hover{box-shadow:0 18px 36px rgba(22,18,13,.12);border-color:#1116}
+    .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+    .name{font-size:22px;line-height:1.08;text-transform:uppercase;letter-spacing:-.02em;font-weight:900}
+    .meta{font-size:14px;color:#4e483f;line-height:1.45}
+    .card a{text-decoration:none;color:#181818;font-weight:700;border-bottom:1px solid #0004;width:max-content}
+    .hidden{display:none !important}
+    .file{grid-column:span 3}
+    .index-rail{position:fixed;right:16px;top:120px;display:grid;gap:8px;z-index:60}
+    .index-rail a{text-decoration:none;color:#222;font-size:11px;border:1px solid #1112;background:#fffc;padding:6px 8px;letter-spacing:.08em;text-transform:uppercase}
+    footer{max-width:1320px;margin:0 auto;padding:8px 24px 40px;color:var(--muted);font-size:13px}
+    @media (max-width:1080px){.card{grid-column:span 6}.file{grid-column:span 6}.toolbar{grid-template-columns:1fr}.index-rail{display:none}}
+    @media (max-width:740px){.card,.file{grid-column:span 12}.brand img{width:66px}.top-inner{grid-template-columns:auto 1fr}.top-cta{display:none}}
   </style>
 </head>
 <body>
   <header class="top">
     <div class="top-inner">
-      <a href="index.html#overview">K.I.D. / HOME</a>
-      <a href="mailto:kongzirui2004@163.com">SUBMIT RESOURCE →</a>
+      <a class="brand" href="index.html#overview" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Resources navigation">
+        <a href="index.html#overview">Home</a>
+        <a href="about.html">About</a>
+        <a href="#websites" class="active">Websites</a>
+        <a href="#files">Files</a>
+        <a href="shop.html">Shop</a>
+      </nav>
+      <a class="top-cta" href="mailto:kongzirui2004@163.com">Submit Resource</a>
     </div>
   </header>
 
-  <section class="hero">
+  <aside class="index-rail" aria-label="Quick locate">
+    <a href="#websites">Web</a>
+    <a href="#files">Files</a>
+    <a href="#top">Top</a>
+  </aside>
+
+  <section class="hero" id="top">
     <p class="kicker">Resource Archive</p>
-    <h1>Websites + Files<br>That I Keep</h1>
-    <p class="lead">A dedicated board for整理我收集到的网站和文件. The structure is simple: websites for discovery, files for direct reference, updated continuously.</p>
+    <h1>Resource Board</h1>
+    <p class="lead">更加便利地整理我收集到的网站和文件：支持搜索、分类筛选、排序与快速定位。风格保持强视觉编辑感，同时偏实用。</p>
   </section>
 
-  <div class="marquee"><p>RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ]</p></div>
+  <section class="toolbar" aria-label="Filter tools">
+    <input id="searchInput" class="search" type="search" placeholder="Search title, note, tag...">
+    <select id="typeFilter" class="select">
+      <option value="all">All Types</option>
+      <option value="website">Websites</option>
+      <option value="file">Files</option>
+    </select>
+    <select id="sortFilter" class="select">
+      <option value="az">Sort A → Z</option>
+      <option value="za">Sort Z → A</option>
+      <option value="tag">Sort by Tag</option>
+    </select>
+  </section>
 
-  <section class="section">
-    <div class="section-head"><h2>Websites</h2><span class="count">[00-06]</span></div>
-    <div class="grid">
-      <article class="card"><span class="tag">Research</span><div class="name">Stanford Encyclopedia of Philosophy</div><div class="meta">Philosophy entries with rigorous citation trees.</div><a href="https://plato.stanford.edu/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card"><span class="tag">Economics</span><div class="name">NBER Working Papers</div><div class="meta">Economic research updates and data-backed discussions.</div><a href="https://www.nber.org/papers" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card"><span class="tag">Data</span><div class="name">Our World in Data</div><div class="meta">Interactive long-run data for policy and growth questions.</div><a href="https://ourworldindata.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card"><span class="tag">Math</span><div class="name">3Blue1Brown</div><div class="meta">Visual intuition for core mathematics and ML concepts.</div><a href="https://www.3blue1brown.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card"><span class="tag">ML</span><div class="name">Papers with Code</div><div class="meta">Track SOTA models, implementations, and benchmarks.</div><a href="https://paperswithcode.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card"><span class="tag">Finance</span><div class="name">FRED</div><div class="meta">Macro and financial series for time-series analysis.</div><a href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
+  <div class="chips" id="chipGroup">
+    <button class="chip active" data-tag="all">All</button>
+    <button class="chip" data-tag="research">Research</button>
+    <button class="chip" data-tag="economics">Economics</button>
+    <button class="chip" data-tag="data">Data</button>
+    <button class="chip" data-tag="math">Math</button>
+    <button class="chip" data-tag="ml">ML</button>
+    <button class="chip" data-tag="finance">Finance</button>
+    <button class="chip" data-tag="reading">Reading</button>
+  </div>
+
+  <section class="section" id="websites">
+    <div class="section-head"><h2>Websites</h2><span class="count" id="websiteCount">[00-06]</span></div>
+    <div class="grid" id="websiteGrid">
+      <article class="card" data-type="website" data-tag="research"><span class="tag">Research</span><div class="name">Stanford Encyclopedia of Philosophy</div><div class="meta">Philosophy entries with rigorous citation trees.</div><a href="https://plato.stanford.edu/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card" data-type="website" data-tag="economics"><span class="tag">Economics</span><div class="name">NBER Working Papers</div><div class="meta">Economic research updates and data-backed discussions.</div><a href="https://www.nber.org/papers" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card" data-type="website" data-tag="data"><span class="tag">Data</span><div class="name">Our World in Data</div><div class="meta">Interactive long-run data for policy and growth questions.</div><a href="https://ourworldindata.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card" data-type="website" data-tag="math"><span class="tag">Math</span><div class="name">3Blue1Brown</div><div class="meta">Visual intuition for core mathematics and ML concepts.</div><a href="https://www.3blue1brown.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card" data-type="website" data-tag="ml"><span class="tag">ML</span><div class="name">Papers with Code</div><div class="meta">Track SOTA models, implementations, and benchmarks.</div><a href="https://paperswithcode.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card" data-type="website" data-tag="finance"><span class="tag">Finance</span><div class="name">FRED</div><div class="meta">Macro and financial series for time-series analysis.</div><a href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
     </div>
   </section>
 
-  <section class="section">
-    <div class="section-head"><h2>Files</h2><span class="count">[00-04]</span></div>
-    <div class="grid">
-      <article class="card file"><span class="tag">PDF / Reading</span><div class="name">Political Theory Notes</div><div class="meta">Path suggestion: <code>files/political-theory-notes.pdf</code></div><a href="#">Attach File →</a></article>
-      <article class="card file"><span class="tag">Dataset</span><div class="name">Macro Indicators</div><div class="meta">Path suggestion: <code>files/macro-indicators.csv</code></div><a href="#">Attach File →</a></article>
-      <article class="card file"><span class="tag">Slides</span><div class="name">Statistics Review Deck</div><div class="meta">Path suggestion: <code>files/statistics-review.pdf</code></div><a href="#">Attach File →</a></article>
-      <article class="card file"><span class="tag">Code Snippets</span><div class="name">Modeling Templates</div><div class="meta">Path suggestion: <code>files/modeling-templates.zip</code></div><a href="#">Attach File →</a></article>
+  <section class="section" id="files">
+    <div class="section-head"><h2>Files</h2><span class="count" id="fileCount">[00-04]</span></div>
+    <div class="grid" id="fileGrid">
+      <article class="card file" data-type="file" data-tag="reading"><span class="tag">PDF / Reading</span><div class="name">Political Theory Notes</div><div class="meta">Path: <code>files/political-theory-notes.pdf</code></div><a href="#">Attach File →</a></article>
+      <article class="card file" data-type="file" data-tag="data"><span class="tag">Dataset</span><div class="name">Macro Indicators</div><div class="meta">Path: <code>files/macro-indicators.csv</code></div><a href="#">Attach File →</a></article>
+      <article class="card file" data-type="file" data-tag="math"><span class="tag">Slides</span><div class="name">Statistics Review Deck</div><div class="meta">Path: <code>files/statistics-review.pdf</code></div><a href="#">Attach File →</a></article>
+      <article class="card file" data-type="file" data-tag="ml"><span class="tag">Code Snippets</span><div class="name">Modeling Templates</div><div class="meta">Path: <code>files/modeling-templates.zip</code></div><a href="#">Attach File →</a></article>
     </div>
   </section>
 
-  <footer>Inspired by the bold editorial rhythm of marinkurir.com, adapted into a practical resource board for K.I.D.</footer>
+  <footer>Editorial visual language, but built for practical filtering, locating and long-term maintenance.</footer>
+
+  <script>
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const searchInput = document.getElementById('searchInput');
+    const typeFilter = document.getElementById('typeFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const chips = Array.from(document.querySelectorAll('.chip'));
+    const websiteGrid = document.getElementById('websiteGrid');
+    const fileGrid = document.getElementById('fileGrid');
+    const websiteCount = document.getElementById('websiteCount');
+    const fileCount = document.getElementById('fileCount');
+    let activeTag = 'all';
+
+    function cardText(card){ return (card.textContent || '').toLowerCase(); }
+
+    function applySort(grid){
+      const items = Array.from(grid.children);
+      items.sort((a,b)=>{
+        const aName = a.querySelector('.name')?.textContent.trim() || '';
+        const bName = b.querySelector('.name')?.textContent.trim() || '';
+        if(sortFilter.value==='za') return bName.localeCompare(aName);
+        if(sortFilter.value==='tag') return (a.dataset.tag||'').localeCompare(b.dataset.tag||'') || aName.localeCompare(bName);
+        return aName.localeCompare(bName);
+      });
+      items.forEach(i=>grid.appendChild(i));
+    }
+
+    function updateCounts(){
+      const webVisible = cards.filter(c=>c.dataset.type==='website' && !c.classList.contains('hidden')).length;
+      const fileVisible = cards.filter(c=>c.dataset.type==='file' && !c.classList.contains('hidden')).length;
+      websiteCount.textContent = `[00-${String(webVisible).padStart(2,'0')}]`;
+      fileCount.textContent = `[00-${String(fileVisible).padStart(2,'0')}]`;
+    }
+
+    function applyFilters(){
+      const q = searchInput.value.trim().toLowerCase();
+      cards.forEach(card=>{
+        const matchType = typeFilter.value==='all' || card.dataset.type===typeFilter.value;
+        const matchTag = activeTag==='all' || card.dataset.tag===activeTag;
+        const matchSearch = !q || cardText(card).includes(q);
+        card.classList.toggle('hidden', !(matchType && matchTag && matchSearch));
+      });
+      applySort(websiteGrid); applySort(fileGrid); updateCounts();
+    }
+
+    chips.forEach(chip=>chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      activeTag = chip.dataset.tag;
+      applyFilters();
+    }));
+
+    [searchInput,typeFilter,sortFilter].forEach(el=>el.addEventListener('input',applyFilters));
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    },{threshold:.12});
+    cards.forEach(c=>io.observe(c));
+
+    applyFilters();
+  </script>
 </body>
 </html>
