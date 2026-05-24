@@ -149,7 +149,7 @@
 
     .top-nav-groups {
       display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 1fr));
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
       gap: clamp(18px, 3.2vw, 48px);
       color: #fff7ed;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
@@ -190,6 +190,12 @@
     .nav-shape.square {
       width: 18px;
       height: 18px;
+    }
+
+    .nav-shape.diamond {
+      width: 17px;
+      height: 17px;
+      transform: rotate(45deg);
     }
 
     .nav-group a {
@@ -2152,6 +2158,12 @@
           <a href="mailto:ray20040626@gmail.com">Global Mail</a>
           <a href="mailto:zk2332@columbia.edu">Columbia</a>
           <a href="shop.html">Shop</a>
+        </div>
+        <div class="nav-group">
+          <div class="nav-group-title"><span class="nav-shape diamond"></span> Resources</div>
+          <a href="field.html?subject=political-science">Research</a>
+          <a href="about.html">Archive</a>
+          <a href="shop.html">Collection</a>
         </div>
       </nav>
     </div>
