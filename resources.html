@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources — K.I.D.</title>
+  <meta name="description" content="Curated resources: websites and files collected for long-term study.">
+  <style>
+    :root{--bg:#f7f2e8;--ink:#151515;--muted:#6a645b;--line:#1f1f1f22;--accent:#1a1a1a}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;background:rgba(247,242,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
+    .top-inner{max-width:1240px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+    .top a{text-decoration:none;color:var(--ink);font-weight:700;letter-spacing:.02em}
+    .hero{max-width:1240px;margin:0 auto;padding:48px 24px 20px}
+    .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+    h1{margin:10px 0 8px;font-size:clamp(40px,8vw,110px);line-height:.88;letter-spacing:-.04em;text-transform:uppercase}
+    .lead{max-width:780px;color:#2e2a26;font-size:18px;line-height:1.6}
+    .marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:24px 0}
+    .marquee p{white-space:nowrap;margin:0;padding:12px 0;font-size:28px;font-weight:900;letter-spacing:.03em;text-transform:uppercase;animation:roll 20s linear infinite}
+    @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .section{max-width:1240px;margin:0 auto;padding:18px 24px 50px}
+    .section-head{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:20px}
+    .section-head h2{margin:0;font-size:clamp(26px,4vw,52px);text-transform:uppercase;letter-spacing:-.03em}
+    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{grid-column:span 6;border:1px solid var(--line);padding:16px;background:#fffdf8;min-height:170px;display:grid;gap:10px;align-content:start}
+    .tag{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+    .name{font-size:24px;font-weight:900;line-height:1.05;text-transform:uppercase;letter-spacing:-.02em}
+    .meta{color:#514b42;font-size:14px}
+    .card a{color:var(--accent);font-weight:700;text-decoration:none;border-bottom:1px solid #0003;padding-bottom:1px;width:max-content}
+    .file{grid-column:span 4}
+    footer{max-width:1240px;margin:0 auto;padding:8px 24px 40px;color:var(--muted);font-size:13px}
+    @media (max-width:980px){.card,.file{grid-column:span 12}.marquee p{font-size:22px}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a href="index.html#overview">K.I.D. / HOME</a>
+      <a href="mailto:kongzirui2004@163.com">SUBMIT RESOURCE →</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="kicker">Resource Archive</p>
+    <h1>Websites + Files<br>That I Keep</h1>
+    <p class="lead">A dedicated board for整理我收集到的网站和文件. The structure is simple: websites for discovery, files for direct reference, updated continuously.</p>
+  </section>
+
+  <div class="marquee"><p>RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ] RESOURCES [ + ]</p></div>
+
+  <section class="section">
+    <div class="section-head"><h2>Websites</h2><span class="count">[00-06]</span></div>
+    <div class="grid">
+      <article class="card"><span class="tag">Research</span><div class="name">Stanford Encyclopedia of Philosophy</div><div class="meta">Philosophy entries with rigorous citation trees.</div><a href="https://plato.stanford.edu/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card"><span class="tag">Economics</span><div class="name">NBER Working Papers</div><div class="meta">Economic research updates and data-backed discussions.</div><a href="https://www.nber.org/papers" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card"><span class="tag">Data</span><div class="name">Our World in Data</div><div class="meta">Interactive long-run data for policy and growth questions.</div><a href="https://ourworldindata.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card"><span class="tag">Math</span><div class="name">3Blue1Brown</div><div class="meta">Visual intuition for core mathematics and ML concepts.</div><a href="https://www.3blue1brown.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card"><span class="tag">ML</span><div class="name">Papers with Code</div><div class="meta">Track SOTA models, implementations, and benchmarks.</div><a href="https://paperswithcode.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
+      <article class="card"><span class="tag">Finance</span><div class="name">FRED</div><div class="meta">Macro and financial series for time-series analysis.</div><a href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Files</h2><span class="count">[00-04]</span></div>
+    <div class="grid">
+      <article class="card file"><span class="tag">PDF / Reading</span><div class="name">Political Theory Notes</div><div class="meta">Path suggestion: <code>files/political-theory-notes.pdf</code></div><a href="#">Attach File →</a></article>
+      <article class="card file"><span class="tag">Dataset</span><div class="name">Macro Indicators</div><div class="meta">Path suggestion: <code>files/macro-indicators.csv</code></div><a href="#">Attach File →</a></article>
+      <article class="card file"><span class="tag">Slides</span><div class="name">Statistics Review Deck</div><div class="meta">Path suggestion: <code>files/statistics-review.pdf</code></div><a href="#">Attach File →</a></article>
+      <article class="card file"><span class="tag">Code Snippets</span><div class="name">Modeling Templates</div><div class="meta">Path suggestion: <code>files/modeling-templates.zip</code></div><a href="#">Attach File →</a></article>
+    </div>
+  </section>
+
+  <footer>Inspired by the bold editorial rhythm of marinkurir.com, adapted into a practical resource board for K.I.D.</footer>
+</body>
+</html>
