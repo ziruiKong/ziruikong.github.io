@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resources — K.I.D.</title>
+  <title>ZIRUI KONG'S WEBSITE — Resources</title>
   <meta name="description" content="Minimal resources page with searchable bookshelf entries.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
     :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--accent:#111}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
@@ -31,8 +32,8 @@
     .head h2{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}
     .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
 
-    .shelf{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-    .book{grid-column:span 4;display:grid;grid-template-rows:auto 1fr auto;gap:10px;background:var(--panel);border:1px solid var(--line);padding:14px;text-decoration:none;color:inherit;transform:translateY(8px);opacity:0;transition:.45s}
+    .shelf{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;justify-items:start}
+    .book{grid-column:span 3;max-width:260px;display:grid;grid-template-rows:auto 1fr auto;gap:10px;background:var(--panel);border:1px solid var(--line);padding:12px;text-decoration:none;color:inherit;transform:translateY(8px);opacity:0;transition:.45s}
     .book.show{transform:none;opacity:1}.book:hover{box-shadow:0 14px 30px rgba(22,16,10,.12);border-color:#1115}
     .cover{aspect-ratio:7/10;border-radius:2px;overflow:hidden;background:#bf1735}
     .cover img{width:100%;height:100%;display:block;object-fit:cover}
@@ -65,7 +66,7 @@
   <section class="hero">
     <p class="eyebrow">Resource Archive</p>
     <h1>Bookshelf</h1>
-    <p class="lead">保持简约设计，同时保留高效功能。当前只保留一本真实条目：<strong>Bayesian Modeling and Computation in Python</strong>。支持搜索、筛选与排序，后续可直接扩展更多书籍。</p>
+    <p class="lead">A focused bookshelf for selected readings.</p>
   </section>
 
   <section class="toolbar" aria-label="Filters">
@@ -85,7 +86,7 @@
     <div class="head"><h2>Selected Books</h2><span id="count" class="count">[00-01]</span></div>
     <div class="shelf" id="shelf">
       <a class="book" data-tag="bayesian statistics python" href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer">
-        <div class="cover"><img src="https://xishansnow.github.io/BayesianModelingandComputationInPython/_images/book_cover.jpg" alt="Bayesian Modeling and Computation in Python cover"></div>
+        <div class="cover"><img src="assets/bayesian-modeling-cover.svg" alt="Bayesian Modeling and Computation in Python cover"></div>
         <div>
           <div class="title">Bayesian Modeling and Computation in Python</div>
           <div class="meta">Authors: Osvaldo A. Martin · Ravin Kumar · Junpeng Lao<br>Series: Texts in Statistical Science</div>
