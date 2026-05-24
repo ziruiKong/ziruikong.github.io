@@ -2408,30 +2408,30 @@
       const delta = event.deltaY;
       const pullThreshold = 18;
       const [homeTop, inquiryTop, connectTop] = getChapterPoints();
-      const rangePadding = Math.max(80, window.innerHeight * 0.08);
+      const snapBand = Math.max(72, window.innerHeight * 0.1);
 
       if (gravityScrollLocked) {
         event.preventDefault();
         return;
       }
 
-      const inHomeRange = y >= homeTop - rangePadding && y < inquiryTop - rangePadding;
-      const inInquiryRange = y >= inquiryTop - rangePadding && y < connectTop - rangePadding;
-      const inConnectRange = y >= connectTop - rangePadding;
+      const nearHomeTop = Math.abs(y - homeTop) <= snapBand;
+      const nearInquiryTop = Math.abs(y - inquiryTop) <= snapBand;
+      const nearConnectTop = Math.abs(y - connectTop) <= snapBand;
 
       if (delta > pullThreshold) {
-        if (inHomeRange) {
+        if (nearHomeTop) {
           event.preventDefault();
           snapToChapter(inquiryTop);
-        } else if (inInquiryRange) {
+        } else if (nearInquiryTop) {
           event.preventDefault();
           snapToChapter(connectTop);
         }
       } else if (delta < -pullThreshold) {
-        if (inConnectRange) {
+        if (nearConnectTop) {
           event.preventDefault();
           snapToChapter(inquiryTop);
-        } else if (inInquiryRange) {
+        } else if (nearInquiryTop) {
           event.preventDefault();
           snapToChapter(homeTop);
         }
