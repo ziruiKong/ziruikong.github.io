@@ -4,52 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resources — K.I.D.</title>
-  <meta name="description" content="Curated resources: websites and files collected for long-term study.">
+  <meta name="description" content="Bookshelf-style resource page for collected readings.">
   <style>
-    :root{--bg:#f5efe4;--ink:#121212;--muted:#665f54;--line:#1d1d1d1f;--card:#fffdf8;--gold:#8a6330}
-    *{box-sizing:border-box} html{scroll-behavior:smooth}
-    body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    .top{position:sticky;top:0;z-index:80;background:rgba(245,239,228,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .top-inner{max-width:1320px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px}
-    .brand img{width:82px;height:auto;display:block;filter:brightness(0)}
-    .nav{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
-    .nav a{text-decoration:none;color:var(--ink);font-size:12px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;opacity:.78}
-    .nav a:hover,.nav a.active{opacity:1;color:#000}
-    .top-cta{border:1px solid #1113;padding:8px 12px;text-decoration:none;color:#121212;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+    :root{--bg:#efe7d8;--ink:#141414;--wood1:#7a4d2e;--wood2:#5d3621;--shelf:#6a4027}
+    *{box-sizing:border-box} html,body{margin:0}
+    body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:radial-gradient(circle at 20% 0,#f7f1e6 0,#efe7d8 45%,#e8ddcb 100%);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:30;background:rgba(239,231,216,.88);backdrop-filter:blur(8px);border-bottom:1px solid #0002}
+    .top-inner{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand img{width:84px;filter:brightness(0);display:block}
+    .nav{display:flex;gap:14px;flex-wrap:wrap}
+    .nav a{text-decoration:none;color:#221c17;font-size:12px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;opacity:.78}
+    .nav a:hover,.nav a.active{opacity:1}
 
-    .hero{max-width:1320px;margin:0 auto;padding:46px 24px 16px}
-    .kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0}
-    h1{margin:8px 0 10px;font-size:clamp(44px,9vw,128px);line-height:.86;letter-spacing:-.05em;text-transform:uppercase}
-    .lead{max-width:860px;color:#2e2a24;font-size:18px;line-height:1.58;margin:0}
+    .hero{max-width:1280px;margin:0 auto;padding:42px 24px 16px}
+    .eyebrow{margin:0;color:#655a4c;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+    h1{margin:10px 0 6px;font-size:clamp(40px,8vw,108px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+    .lead{margin:0;max-width:760px;font-size:18px;line-height:1.55;color:#312920}
 
-    .toolbar{max-width:1320px;margin:20px auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center}
-    .search{padding:12px 14px;border:1px solid var(--line);background:#fff;border-radius:0;font-size:14px}
-    .select{padding:12px 14px;border:1px solid var(--line);background:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
-    .stats{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .library-wrap{max-width:1280px;margin:12px auto 54px;padding:0 24px}
+    .shelf{
+      position:relative;
+      padding:34px 26px 28px;
+      border-radius:14px;
+      background:linear-gradient(180deg,var(--wood1),var(--wood2));
+      box-shadow:0 22px 50px rgba(43,24,11,.32), inset 0 1px 0 rgba(255,255,255,.15);
+      overflow:hidden;
+    }
+    .shelf::before{
+      content:"";position:absolute;left:0;right:0;bottom:0;height:22px;
+      background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.26));
+    }
+    .label{margin:0 0 18px;color:#f7ecdc;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
+    .books{display:flex;gap:18px;align-items:flex-end;min-height:470px}
 
-    .chips{max-width:1320px;margin:0 auto 8px;padding:0 24px;display:flex;flex-wrap:wrap;gap:8px}
-    .chip{border:1px solid #1113;background:#fff;padding:7px 11px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-    .chip.active{background:#121212;color:#fff}
+    .book{
+      position:relative;
+      width:min(86vw,320px);
+      aspect-ratio: 7 / 10;
+      border-radius:4px;
+      text-decoration:none;
+      color:#fff;
+      background:linear-gradient(180deg,#be1733 0%,#c31635 52%,#991b2f 100%);
+      box-shadow:0 20px 40px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.24);
+      transform:translateY(8px) rotate(-1deg);
+      transition:transform .35s ease, box-shadow .35s ease;
+      display:grid;
+      grid-template-rows:auto auto 1fr auto;
+      padding:0;
+      overflow:hidden;
+    }
+    .book:hover{transform:translateY(-2px) rotate(0deg);box-shadow:0 28px 46px rgba(0,0,0,.45)}
+    .series{background:#e7c9c8;color:#1a1716;text-align:center;font-family:Georgia,serif;padding:12px 8px;font-size:clamp(20px,2vw,40px)}
+    .title{padding:20px 16px 8px;font-size:clamp(20px,2.4vw,54px);line-height:.96;font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+    .cover-art{margin:8px 16px;border-radius:4px;background:radial-gradient(circle at 18% 76%,#40cf8a 0,#20a981 23%,transparent 32%),radial-gradient(circle at 78% 16%,#3344b7 0,#1f2872 33%,transparent 50%),linear-gradient(145deg,#0e1138,#121844 45%,#0f112f);min-height:150px;border:1px solid #ffffff3d;position:relative;overflow:hidden}
+    .cover-art::after{content:"P(θ|Y) ∝ P(Y|θ)P(θ)";position:absolute;right:10px;bottom:10px;font-family:Georgia,serif;font-size:20px;background:#fff;padding:10px 8px;border-radius:8px;color:#111;transform:rotate(-16deg)}
+    .authors{padding:12px 16px 16px;font-size:clamp(15px,1.15vw,24px);line-height:1.3;letter-spacing:.01em}
 
-    .section{max-width:1320px;margin:0 auto;padding:14px 24px 42px;scroll-margin-top:88px}
-    .section-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
-    .section-head h2{margin:0;font-size:clamp(28px,4vw,56px);letter-spacing:-.03em;text-transform:uppercase}
-    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-    .card{grid-column:span 4;border:1px solid var(--line);background:var(--card);padding:14px;display:grid;gap:8px;min-height:180px;transform:translateY(10px);opacity:0;transition:.5s}
-    .card.show{transform:none;opacity:1}
-    .card:hover{box-shadow:0 18px 36px rgba(22,18,13,.12);border-color:#1116}
-    .tag{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-    .name{font-size:22px;line-height:1.08;text-transform:uppercase;letter-spacing:-.02em;font-weight:900}
-    .meta{font-size:14px;color:#4e483f;line-height:1.45}
-    .card a{text-decoration:none;color:#181818;font-weight:700;border-bottom:1px solid #0004;width:max-content}
-    .hidden{display:none !important}
-    .file{grid-column:span 3}
-    .index-rail{position:fixed;right:16px;top:120px;display:grid;gap:8px;z-index:60}
-    .index-rail a{text-decoration:none;color:#222;font-size:11px;border:1px solid #1112;background:#fffc;padding:6px 8px;letter-spacing:.08em;text-transform:uppercase}
-    footer{max-width:1320px;margin:0 auto;padding:8px 24px 40px;color:var(--muted);font-size:13px}
-    @media (max-width:1080px){.card{grid-column:span 6}.file{grid-column:span 6}.toolbar{grid-template-columns:1fr}.index-rail{display:none}}
-    @media (max-width:740px){.card,.file{grid-column:span 12}.brand img{width:66px}.top-inner{grid-template-columns:auto 1fr}.top-cta{display:none}}
+    .meta{margin-top:20px;display:grid;gap:10px;color:#f2e4cf}
+    .meta a{color:#fff;font-weight:700}
+    .meta code{background:#0003;padding:2px 6px;border-radius:4px}
+
+    @media (max-width:760px){.books{min-height:0}.book{width:100%;max-width:340px}.hero{padding-top:30px}}
   </style>
 </head>
 <body>
@@ -59,134 +74,34 @@
       <nav class="nav" aria-label="Resources navigation">
         <a href="index.html#overview">Home</a>
         <a href="about.html">About</a>
-        <a href="#websites" class="active">Websites</a>
-        <a href="#files">Files</a>
+        <a href="resources.html" class="active">Resources</a>
         <a href="shop.html">Shop</a>
       </nav>
-      <a class="top-cta" href="mailto:kongzirui2004@163.com">Submit Resource</a>
     </div>
   </header>
 
-  <aside class="index-rail" aria-label="Quick locate">
-    <a href="#websites">Web</a>
-    <a href="#files">Files</a>
-    <a href="#top">Top</a>
-  </aside>
-
-  <section class="hero" id="top">
-    <p class="kicker">Resource Archive</p>
-    <h1>Resource Board</h1>
-    <p class="lead">更加便利地整理我收集到的网站和文件：支持搜索、分类筛选、排序与快速定位。风格保持强视觉编辑感，同时偏实用。</p>
+  <section class="hero">
+    <p class="eyebrow">Bookshelf</p>
+    <h1>Selected Reading</h1>
+    <p class="lead">去除所有虚构条目后，目前书架只保留一本：<strong>Bayesian Modeling and Computation in Python</strong>。点击封面即可打开在线版本。</p>
   </section>
 
-  <section class="toolbar" aria-label="Filter tools">
-    <input id="searchInput" class="search" type="search" placeholder="Search title, note, tag...">
-    <select id="typeFilter" class="select">
-      <option value="all">All Types</option>
-      <option value="website">Websites</option>
-      <option value="file">Files</option>
-    </select>
-    <select id="sortFilter" class="select">
-      <option value="az">Sort A → Z</option>
-      <option value="za">Sort Z → A</option>
-      <option value="tag">Sort by Tag</option>
-    </select>
-  </section>
-
-  <div class="chips" id="chipGroup">
-    <button class="chip active" data-tag="all">All</button>
-    <button class="chip" data-tag="research">Research</button>
-    <button class="chip" data-tag="economics">Economics</button>
-    <button class="chip" data-tag="data">Data</button>
-    <button class="chip" data-tag="math">Math</button>
-    <button class="chip" data-tag="ml">ML</button>
-    <button class="chip" data-tag="finance">Finance</button>
-    <button class="chip" data-tag="reading">Reading</button>
-  </div>
-
-  <section class="section" id="websites">
-    <div class="section-head"><h2>Websites</h2><span class="count" id="websiteCount">[00-06]</span></div>
-    <div class="grid" id="websiteGrid">
-      <article class="card" data-type="website" data-tag="research"><span class="tag">Research</span><div class="name">Stanford Encyclopedia of Philosophy</div><div class="meta">Philosophy entries with rigorous citation trees.</div><a href="https://plato.stanford.edu/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card" data-type="website" data-tag="economics"><span class="tag">Economics</span><div class="name">NBER Working Papers</div><div class="meta">Economic research updates and data-backed discussions.</div><a href="https://www.nber.org/papers" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card" data-type="website" data-tag="data"><span class="tag">Data</span><div class="name">Our World in Data</div><div class="meta">Interactive long-run data for policy and growth questions.</div><a href="https://ourworldindata.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card" data-type="website" data-tag="math"><span class="tag">Math</span><div class="name">3Blue1Brown</div><div class="meta">Visual intuition for core mathematics and ML concepts.</div><a href="https://www.3blue1brown.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card" data-type="website" data-tag="ml"><span class="tag">ML</span><div class="name">Papers with Code</div><div class="meta">Track SOTA models, implementations, and benchmarks.</div><a href="https://paperswithcode.com/" target="_blank" rel="noreferrer">Open Site →</a></article>
-      <article class="card" data-type="website" data-tag="finance"><span class="tag">Finance</span><div class="name">FRED</div><div class="meta">Macro and financial series for time-series analysis.</div><a href="https://fred.stlouisfed.org/" target="_blank" rel="noreferrer">Open Site →</a></article>
-    </div>
-  </section>
-
-  <section class="section" id="files">
-    <div class="section-head"><h2>Files</h2><span class="count" id="fileCount">[00-04]</span></div>
-    <div class="grid" id="fileGrid">
-      <article class="card file" data-type="file" data-tag="reading"><span class="tag">PDF / Reading</span><div class="name">Political Theory Notes</div><div class="meta">Path: <code>files/political-theory-notes.pdf</code></div><a href="#">Attach File →</a></article>
-      <article class="card file" data-type="file" data-tag="data"><span class="tag">Dataset</span><div class="name">Macro Indicators</div><div class="meta">Path: <code>files/macro-indicators.csv</code></div><a href="#">Attach File →</a></article>
-      <article class="card file" data-type="file" data-tag="math"><span class="tag">Slides</span><div class="name">Statistics Review Deck</div><div class="meta">Path: <code>files/statistics-review.pdf</code></div><a href="#">Attach File →</a></article>
-      <article class="card file" data-type="file" data-tag="ml"><span class="tag">Code Snippets</span><div class="name">Modeling Templates</div><div class="meta">Path: <code>files/modeling-templates.zip</code></div><a href="#">Attach File →</a></article>
-    </div>
-  </section>
-
-  <footer>Editorial visual language, but built for practical filtering, locating and long-term maintenance.</footer>
-
-  <script>
-    const cards = Array.from(document.querySelectorAll('.card'));
-    const searchInput = document.getElementById('searchInput');
-    const typeFilter = document.getElementById('typeFilter');
-    const sortFilter = document.getElementById('sortFilter');
-    const chips = Array.from(document.querySelectorAll('.chip'));
-    const websiteGrid = document.getElementById('websiteGrid');
-    const fileGrid = document.getElementById('fileGrid');
-    const websiteCount = document.getElementById('websiteCount');
-    const fileCount = document.getElementById('fileCount');
-    let activeTag = 'all';
-
-    function cardText(card){ return (card.textContent || '').toLowerCase(); }
-
-    function applySort(grid){
-      const items = Array.from(grid.children);
-      items.sort((a,b)=>{
-        const aName = a.querySelector('.name')?.textContent.trim() || '';
-        const bName = b.querySelector('.name')?.textContent.trim() || '';
-        if(sortFilter.value==='za') return bName.localeCompare(aName);
-        if(sortFilter.value==='tag') return (a.dataset.tag||'').localeCompare(b.dataset.tag||'') || aName.localeCompare(bName);
-        return aName.localeCompare(bName);
-      });
-      items.forEach(i=>grid.appendChild(i));
-    }
-
-    function updateCounts(){
-      const webVisible = cards.filter(c=>c.dataset.type==='website' && !c.classList.contains('hidden')).length;
-      const fileVisible = cards.filter(c=>c.dataset.type==='file' && !c.classList.contains('hidden')).length;
-      websiteCount.textContent = `[00-${String(webVisible).padStart(2,'0')}]`;
-      fileCount.textContent = `[00-${String(fileVisible).padStart(2,'0')}]`;
-    }
-
-    function applyFilters(){
-      const q = searchInput.value.trim().toLowerCase();
-      cards.forEach(card=>{
-        const matchType = typeFilter.value==='all' || card.dataset.type===typeFilter.value;
-        const matchTag = activeTag==='all' || card.dataset.tag===activeTag;
-        const matchSearch = !q || cardText(card).includes(q);
-        card.classList.toggle('hidden', !(matchType && matchTag && matchSearch));
-      });
-      applySort(websiteGrid); applySort(fileGrid); updateCounts();
-    }
-
-    chips.forEach(chip=>chip.addEventListener('click',()=>{
-      chips.forEach(c=>c.classList.remove('active'));
-      chip.classList.add('active');
-      activeTag = chip.dataset.tag;
-      applyFilters();
-    }));
-
-    [searchInput,typeFilter,sortFilter].forEach(el=>el.addEventListener('input',applyFilters));
-
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
-    },{threshold:.12});
-    cards.forEach(c=>io.observe(c));
-
-    applyFilters();
-  </script>
+  <main class="library-wrap">
+    <section class="shelf" aria-label="Bookshelf">
+      <p class="label">Shelf A / Bayesian Study</p>
+      <div class="books">
+        <a class="book" href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer" aria-label="Open Bayesian Modeling and Computation in Python">
+          <div class="series">Texts in Statistical Science</div>
+          <div class="title">Bayesian Modeling and Computation in Python</div>
+          <div class="cover-art" aria-hidden="true"></div>
+          <div class="authors">Osvaldo A. Martin<br>Ravin Kumar<br>Junpeng Lao</div>
+        </a>
+      </div>
+      <div class="meta">
+        <div>Link: <a href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer">xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html</a></div>
+        <div>Status: <code>Active Reading</code></div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
