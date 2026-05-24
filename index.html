@@ -1147,251 +1147,6 @@
       100% { transform: translate3d(-1%, 2.2%, 0) rotate(-1deg) scale(1.02); }
     }
 
-    .inquiry-nav-shell {
-      position: fixed;
-      top: 16px;
-      left: 50%;
-      z-index: 42;
-      width: 100%;
-      padding: 12px 0 0;
-      opacity: 0;
-      transform: translateX(-50%) translateY(-14px);
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-      transition:
-        opacity 260ms ease,
-        transform 380ms cubic-bezier(.2,.8,.2,1);
-    }
-
-    body.inquiry-mode .inquiry-nav-shell {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-      pointer-events: auto;
-    }
-
-    .inquiry-nav {
-      position: relative;
-      display: grid;
-      gap: 0;
-      width: min(360px, calc(100vw - 32px));
-      margin: 0 auto;
-    }
-
-    .inquiry-nav-main {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 10px;
-      min-height: 56px;
-      padding: 0 14px;
-      border-radius: 15px 15px 0 0;
-      background:
-        linear-gradient(135deg, rgba(160, 111, 44, 0.9), rgba(141, 93, 34, 0.82) 68%, rgba(122, 78, 28, 0.88));
-      box-shadow:
-        0 24px 56px rgba(106, 68, 33, 0.14);
-      backdrop-filter: blur(18px) saturate(120%);
-      -webkit-backdrop-filter: blur(18px) saturate(120%);
-      color: #f8f1e4;
-    }
-
-    .inquiry-menu-wrap {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .inquiry-menu-button,
-    .inquiry-icon-link,
-    .inquiry-music-button {
-      border: 0;
-      background: transparent;
-      color: inherit;
-      padding: 0;
-      text-decoration: none;
-    }
-
-    .inquiry-menu-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      opacity: 0.94;
-      transition: transform 220ms ease, opacity 220ms ease;
-    }
-
-    .inquiry-menu-button:hover,
-    .inquiry-icon-link:hover,
-    .inquiry-music-button:hover {
-      opacity: 0.72;
-    }
-
-    .inquiry-menu-button:hover {
-      transform: translateY(-1px);
-    }
-
-    .inquiry-menu-button svg,
-    .inquiry-icon-link svg,
-    .inquiry-music-button svg {
-      display: block;
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 1.85;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .inquiry-nav-brand {
-      display: inline-flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .inquiry-nav-brand img {
-      display: block;
-      width: 66px;
-      height: auto;
-      object-fit: contain;
-      filter: brightness(0) invert(0.97);
-    }
-
-    .inquiry-nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      justify-content: flex-end;
-    }
-
-    .inquiry-icon-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
-      opacity: 0.92;
-      transition: opacity 220ms ease, transform 220ms ease;
-    }
-
-    .inquiry-icon-link:hover {
-      transform: translateY(-1px);
-    }
-
-    .inquiry-nav-subbar {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr;
-      align-items: center;
-      gap: 10px;
-      min-height: 52px;
-      padding: 0;
-      border-radius: 0 0 15px 15px;
-      background:
-        linear-gradient(180deg, rgba(248, 239, 224, 0.72), rgba(241, 230, 211, 0.68));
-      box-shadow: 0 24px 52px rgba(30, 21, 12, 0.06);
-      backdrop-filter: blur(22px) saturate(122%);
-      -webkit-backdrop-filter: blur(22px) saturate(122%);
-    }
-
-    .inquiry-nav-label {
-      display: none;
-    }
-
-    .inquiry-music-button {
-      position: absolute;
-      left: 12px;
-      bottom: 10px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0;
-      color: #9a6d3f;
-      transition: color 220ms ease, transform 220ms ease;
-    }
-
-    .inquiry-music-button:hover {
-      transform: translateX(2px);
-    }
-
-    .inquiry-music-button[aria-pressed="true"] {
-      color: #7c4a18;
-    }
-
-    .inquiry-music-copy {
-      display: none;
-    }
-
-    .inquiry-album-cover {
-      position: relative;
-      width: 28px;
-      height: 28px;
-      border-radius: 8px;
-      overflow: hidden;
-      flex: 0 0 auto;
-      background:
-        linear-gradient(180deg, rgba(28, 19, 10, 0.1), rgba(28, 19, 10, 0.28)),
-        url("assets/kid-hero-bg-studio.png") center 38% / cover no-repeat;
-      box-shadow:
-        0 10px 24px rgba(64, 38, 14, 0.16);
-    }
-
-    .inquiry-album-cover::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,0.22), transparent 36%, rgba(0,0,0,0.18));
-    }
-
-    .inquiry-nav-drawer {
-      position: absolute;
-      left: 0;
-      top: calc(100% + 10px);
-      display: grid;
-      gap: 8px;
-      min-width: 194px;
-      padding: 14px 14px 13px;
-      border-radius: 15px;
-      background: rgba(248, 241, 228, 0.78);
-      box-shadow: 0 24px 52px rgba(32, 21, 10, 0.1);
-      backdrop-filter: blur(22px) saturate(120%);
-      -webkit-backdrop-filter: blur(22px) saturate(120%);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transform: translateY(8px) scale(0.985);
-      transition:
-        opacity 220ms ease,
-        visibility 220ms ease,
-        transform 320ms cubic-bezier(.2,.8,.2,1);
-    }
-
-    .inquiry-nav-shell.drawer-open .inquiry-nav-drawer {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateY(0) scale(1);
-    }
-
-    .inquiry-nav-drawer a {
-      color: #5e4326;
-      font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: opacity 200ms ease, transform 200ms ease;
-    }
-
-    .inquiry-nav-drawer a:hover {
-      opacity: 0.76;
-      transform: translateX(4px);
-    }
-
     .inquiry-pin {
       position: relative;
       min-height: 100vh;
@@ -2161,9 +1916,9 @@
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape diamond"></span> Resources</div>
-          <a href="field.html?subject=political-science">Research</a>
-          <a href="about.html">Archive</a>
-          <a href="shop.html">Collection</a>
+          <a href="resources.html">Research</a>
+          <a href="resources.html">Archive</a>
+          <a href="resources.html">Collection</a>
         </div>
       </nav>
     </div>
@@ -2225,66 +1980,6 @@
 
   <main id="overview">
     <section class="inquiry-section" id="inquiry" aria-label="Fields of inquiry">
-      <div class="inquiry-nav-shell" id="inquiryNavShell">
-        <div class="inquiry-nav" aria-label="Fields navigation">
-          <div class="inquiry-nav-main">
-            <div class="inquiry-menu-wrap">
-              <button class="inquiry-menu-button" id="inquiryMenuButton" type="button" aria-label="Open section menu" aria-expanded="false">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 7h18"></path>
-                  <path d="M3 12h18"></path>
-                  <path d="M3 17h18"></path>
-                </svg>
-              </button>
-              <a class="inquiry-nav-brand" href="#overview" aria-label="Go to home">
-                <img src="assets/kzr-home-logo.png" alt="KZR logo">
-              </a>
-            </div>
-            <span></span>
-            <div class="inquiry-nav-actions" aria-label="Quick actions">
-              <a class="inquiry-icon-link" href="about.html" aria-label="About">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="11" cy="11" r="6.5"></circle>
-                  <path d="M20 20l-3.4-3.4"></path>
-                </svg>
-              </a>
-              <a class="inquiry-icon-link" href="shop.html" aria-label="Shop">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 20s-6-3.6-6-8.3C6 8.7 8 7 10.4 7c1.2 0 2.3.5 3 1.4.7-.9 1.8-1.4 3-1.4C18.8 7 21 8.7 21 11.7 21 16.4 15 20 15 20"></path>
-                </svg>
-              </a>
-              <a class="inquiry-icon-link" href="mailto:kongzirui2004@163.com" aria-label="Email">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M19 21a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4"></path>
-                  <circle cx="12" cy="9" r="4"></circle>
-                </svg>
-              </a>
-              <a class="inquiry-icon-link" href="shop.html" aria-label="Bag">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 8h12l-1 11H7L6 8Z"></path>
-                  <path d="M9 8a3 3 0 0 1 6 0"></path>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="inquiry-nav-subbar">
-            <div aria-hidden="true"></div>
-            <button class="inquiry-music-button" id="inquiryMusicButton" type="button" aria-pressed="false" aria-label="Play archive music">
-              <span class="inquiry-album-cover" aria-hidden="true"></span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 6l10 6-10 6V6Z"></path>
-              </svg>
-            </button>
-          </div>
-          <div class="inquiry-nav-drawer" id="inquiryNavDrawer" aria-label="Site sections">
-            <a href="#overview">Home</a>
-            <a href="#inquiry">Fields</a>
-            <a href="about.html">About</a>
-            <a href="shop.html">Shop</a>
-            <a href="mailto:kongzirui2004@163.com">Connect</a>
-          </div>
-        </div>
-      </div>
       <div class="inquiry-pin">
         <div class="inquiry-stage">
           <div class="inquiry-list">
@@ -2323,7 +2018,7 @@
           <div class="collab-link-group">
             <span>Archive</span>
             <a href="about.html">About</a>
-            <a href="field.html?subject=political-science">Research</a>
+            <a href="resources.html">Research</a>
             <a href="mailto:kongzirui2004@163.com">Connect</a>
           </div>
         </div>
@@ -2350,10 +2045,6 @@
     let inquiryTrack = null;
     let inquiryPreviewImage = null;
     let inquiryPreviewFrame = null;
-    let gravityScrollLocked = false;
-    let chapterScrollAnimation = null;
-    let chapterUnlockTimer = null;
-    let chapterLastSnapAt = 0;
     let archiveAudioContext = null;
     let archiveMasterGain = null;
     let archivePulseGain = null;
@@ -2387,106 +2078,6 @@
       splash.style.setProperty("--splash-saturate", (1 - eased * 0.16).toFixed(3));
     }
 
-    function getInquiryTop() {
-      const main = $("main");
-      return Math.max(0, main?.offsetTop || window.innerHeight);
-    }
-
-    function getConnectTop() {
-      const connect = $("#connect");
-      return Math.max(getInquiryTop(), connect?.offsetTop || getInquiryTop());
-    }
-
-    function getChapterPoints() {
-      const inquiryTop = getInquiryTop();
-      const connectTop = getConnectTop();
-      return [0, inquiryTop, connectTop];
-    }
-
-    function releaseChapterLock() {
-      gravityScrollLocked = false;
-      document.body.classList.remove("gravity-scrolling");
-      if (chapterUnlockTimer) {
-        window.clearTimeout(chapterUnlockTimer);
-        chapterUnlockTimer = null;
-      }
-    }
-
-    function snapToChapter(targetY) {
-      const startY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const finalY = Math.max(0, Math.round(targetY));
-      const distance = finalY - startY;
-      if (Math.abs(distance) < 2) return;
-
-      if (chapterScrollAnimation?.id) {
-        window.cancelAnimationFrame(chapterScrollAnimation.id);
-      }
-
-      gravityScrollLocked = true;
-      document.body.classList.add("gravity-scrolling");
-
-      const duration = Math.min(740, Math.max(440, Math.abs(distance) * 0.4));
-      const startTime = performance.now();
-      const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-      if (chapterUnlockTimer) window.clearTimeout(chapterUnlockTimer);
-      chapterUnlockTimer = window.setTimeout(() => {
-        if (!chapterScrollAnimation) releaseChapterLock();
-      }, duration + 280);
-
-      const state = { id: 0 };
-      chapterScrollAnimation = state;
-
-      const tick = (now) => {
-        const progress = Math.min(1, (now - startTime) / duration);
-        window.scrollTo(0, startY + distance * easeOutCubic(progress));
-        if (progress < 1) {
-          state.id = window.requestAnimationFrame(tick);
-          return;
-        }
-        window.scrollTo(0, finalY);
-        chapterScrollAnimation = null;
-        releaseChapterLock();
-        updateHeaderTone();
-      };
-      state.id = window.requestAnimationFrame(tick);
-    }
-
-    function handleGravityWheel(event) {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      if (document.body.classList.contains("booking-open")) return;
-
-      const points = getChapterPoints();
-      const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const delta = event.deltaY;
-      const pullThreshold = 16;
-      const now = performance.now();
-
-      if (gravityScrollLocked) {
-        event.preventDefault();
-        return;
-      }
-
-      if (Math.abs(delta) < pullThreshold) return;
-      if (now - chapterLastSnapAt < 220) return;
-
-      let nearestIndex = 0;
-      let nearestDistance = Number.POSITIVE_INFINITY;
-      for (let i = 0; i < points.length; i += 1) {
-        const d = Math.abs(y - points[i]);
-        if (d < nearestDistance) {
-          nearestDistance = d;
-          nearestIndex = i;
-        }
-      }
-
-      const direction = delta > 0 ? 1 : -1;
-      const targetIndex = Math.max(0, Math.min(points.length - 1, nearestIndex + direction));
-      if (targetIndex === nearestIndex) return;
-
-      event.preventDefault();
-      chapterLastSnapAt = now;
-      snapToChapter(points[targetIndex]);
-    }
 
     function setInquiryPointerActive(activeItem = null) {
       const nextItem = activeItem;
@@ -2604,15 +2195,6 @@
       updateMusicButton();
     }
 
-    function toggleInquiryDrawer(forceOpen) {
-      const shell = $("#inquiryNavShell");
-      const button = $("#inquiryMenuButton");
-      if (!shell || !button) return;
-      const nextOpen = typeof forceOpen === "boolean" ? forceOpen : !shell.classList.contains("drawer-open");
-      shell.classList.toggle("drawer-open", nextOpen);
-      button.setAttribute("aria-expanded", nextOpen ? "true" : "false");
-    }
-
     function openBookingPanel() {
       const panel = $("#bookingPanel");
       if (!panel) return;
@@ -2633,8 +2215,6 @@
       const bookingOpenButton = $("#bookingOpenButton");
       const bookingCloseButton = $("#bookingCloseButton");
       const bookingForm = $("#bookingForm");
-      const inquiryMenuButton = $("#inquiryMenuButton");
-      const inquiryMusicButton = $("#inquiryMusicButton");
 
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
@@ -2653,23 +2233,8 @@
         item.addEventListener("mouseenter", () => setInquiryPointerActive(item));
         item.addEventListener("focusin", () => setInquiryPointerActive(item));
       });
-      window.addEventListener("wheel", handleGravityWheel, { passive: false });
-      if (inquiryMenuButton) {
-        inquiryMenuButton.addEventListener("click", () => toggleInquiryDrawer());
-      }
-      if (inquiryMusicButton) {
-        inquiryMusicButton.addEventListener("click", toggleArchiveMusic);
-      }
-      document.addEventListener("click", (event) => {
-        const shell = $("#inquiryNavShell");
-        if (!shell || !shell.classList.contains("drawer-open")) return;
-        if (!shell.contains(event.target)) toggleInquiryDrawer(false);
-      });
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          toggleInquiryDrawer(false);
-          closeBookingPanel();
-        }
+        if (event.key === "Escape") closeBookingPanel();
       });
     }
 
