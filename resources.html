@@ -4,67 +4,48 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resources — K.I.D.</title>
-  <meta name="description" content="Bookshelf-style resource page for collected readings.">
+  <meta name="description" content="Minimal resources page with searchable bookshelf entries.">
   <style>
-    :root{--bg:#efe7d8;--ink:#141414;--wood1:#7a4d2e;--wood2:#5d3621;--shelf:#6a4027}
-    *{box-sizing:border-box} html,body{margin:0}
-    body{font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:radial-gradient(circle at 20% 0,#f7f1e6 0,#efe7d8 45%,#e8ddcb 100%);color:var(--ink)}
-    .top{position:sticky;top:0;z-index:30;background:rgba(239,231,216,.88);backdrop-filter:blur(8px);border-bottom:1px solid #0002}
-    .top-inner{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
-    .brand img{width:84px;filter:brightness(0);display:block}
-    .nav{display:flex;gap:14px;flex-wrap:wrap}
-    .nav a{text-decoration:none;color:#221c17;font-size:12px;letter-spacing:.11em;text-transform:uppercase;font-weight:700;opacity:.78}
-    .nav a:hover,.nav a.active{opacity:1}
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--accent:#111}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{max-width:1240px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+    .cta{border:1px solid #1113;padding:8px 12px;text-decoration:none;color:#1a1a1a;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
-    .hero{max-width:1280px;margin:0 auto;padding:42px 24px 16px}
-    .eyebrow{margin:0;color:#655a4c;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
-    h1{margin:10px 0 6px;font-size:clamp(40px,8vw,108px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
-    .lead{margin:0;max-width:760px;font-size:18px;line-height:1.55;color:#312920}
+    .hero{max-width:1240px;margin:0 auto;padding:44px 24px 18px}
+    .eyebrow{margin:0;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+    h1{margin:8px 0 10px;font-size:clamp(42px,8vw,108px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+    .lead{margin:0;max-width:820px;font-size:18px;line-height:1.56;color:#322c24}
 
-    .library-wrap{max-width:1280px;margin:12px auto 54px;padding:0 24px}
-    .shelf{
-      position:relative;
-      padding:34px 26px 28px;
-      border-radius:14px;
-      background:linear-gradient(180deg,var(--wood1),var(--wood2));
-      box-shadow:0 22px 50px rgba(43,24,11,.32), inset 0 1px 0 rgba(255,255,255,.15);
-      overflow:hidden;
-    }
-    .shelf::before{
-      content:"";position:absolute;left:0;right:0;bottom:0;height:22px;
-      background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.26));
-    }
-    .label{margin:0 0 18px;color:#f7ecdc;font-size:12px;letter-spacing:.16em;text-transform:uppercase}
-    .books{display:flex;gap:18px;align-items:flex-end;min-height:470px}
+    .toolbar{max-width:1240px;margin:8px auto 0;padding:0 24px;display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px}
+    .input,.select{width:100%;border:1px solid var(--line);background:#fff;padding:12px 13px;font-size:14px}
+    .select{font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+    .chips{max-width:1240px;margin:10px auto 0;padding:0 24px;display:flex;gap:8px;flex-wrap:wrap}
+    .chip{border:1px solid #1113;background:#fff;padding:7px 10px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+    .chip.active{background:#111;color:#fff}
 
-    .book{
-      position:relative;
-      width:min(86vw,320px);
-      aspect-ratio: 7 / 10;
-      border-radius:4px;
-      text-decoration:none;
-      color:#fff;
-      background:linear-gradient(180deg,#be1733 0%,#c31635 52%,#991b2f 100%);
-      box-shadow:0 20px 40px rgba(0,0,0,.38), inset 0 0 0 1px rgba(255,255,255,.24);
-      transform:translateY(8px) rotate(-1deg);
-      transition:transform .35s ease, box-shadow .35s ease;
-      display:grid;
-      grid-template-rows:auto auto 1fr auto;
-      padding:0;
-      overflow:hidden;
-    }
-    .book:hover{transform:translateY(-2px) rotate(0deg);box-shadow:0 28px 46px rgba(0,0,0,.45)}
-    .series{background:#e7c9c8;color:#1a1716;text-align:center;font-family:Georgia,serif;padding:12px 8px;font-size:clamp(20px,2vw,40px)}
-    .title{padding:20px 16px 8px;font-size:clamp(20px,2.4vw,54px);line-height:.96;font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
-    .cover-art{margin:8px 16px;border-radius:4px;background:radial-gradient(circle at 18% 76%,#40cf8a 0,#20a981 23%,transparent 32%),radial-gradient(circle at 78% 16%,#3344b7 0,#1f2872 33%,transparent 50%),linear-gradient(145deg,#0e1138,#121844 45%,#0f112f);min-height:150px;border:1px solid #ffffff3d;position:relative;overflow:hidden}
-    .cover-art::after{content:"P(θ|Y) ∝ P(Y|θ)P(θ)";position:absolute;right:10px;bottom:10px;font-family:Georgia,serif;font-size:20px;background:#fff;padding:10px 8px;border-radius:8px;color:#111;transform:rotate(-16deg)}
-    .authors{padding:12px 16px 16px;font-size:clamp(15px,1.15vw,24px);line-height:1.3;letter-spacing:.01em}
+    .section{max-width:1240px;margin:0 auto;padding:18px 24px 44px}
+    .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+    .head h2{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}
+    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
 
-    .meta{margin-top:20px;display:grid;gap:10px;color:#f2e4cf}
-    .meta a{color:#fff;font-weight:700}
-    .meta code{background:#0003;padding:2px 6px;border-radius:4px}
+    .shelf{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+    .book{grid-column:span 4;display:grid;grid-template-rows:auto 1fr auto;gap:10px;background:var(--panel);border:1px solid var(--line);padding:14px;text-decoration:none;color:inherit;transform:translateY(8px);opacity:0;transition:.45s}
+    .book.show{transform:none;opacity:1}.book:hover{box-shadow:0 14px 30px rgba(22,16,10,.12);border-color:#1115}
+    .cover{aspect-ratio:7/10;border-radius:2px;overflow:hidden;background:#bf1735}
+    .cover img{width:100%;height:100%;display:block;object-fit:cover}
+    .title{font-size:24px;line-height:1.04;text-transform:uppercase;letter-spacing:-.02em;font-weight:900}
+    .meta{font-size:14px;line-height:1.45;color:#4f473c}
+    .open{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-top:1px solid var(--line);padding-top:10px}
+    .hidden{display:none !important}
 
-    @media (max-width:760px){.books{min-height:0}.book{width:100%;max-width:340px}.hero{padding-top:30px}}
+    .empty{display:none;border:1px dashed #1114;padding:22px;color:var(--muted);background:#fff}
+    .empty.show{display:block}
+
+    @media (max-width:980px){.toolbar{grid-template-columns:1fr}.book{grid-column:span 6}}
+    @media (max-width:700px){.top-inner{grid-template-columns:auto 1fr}.cta{display:none}.book{grid-column:span 12}}
   </style>
 </head>
 <body>
@@ -74,34 +55,98 @@
       <nav class="nav" aria-label="Resources navigation">
         <a href="index.html#overview">Home</a>
         <a href="about.html">About</a>
-        <a href="resources.html" class="active">Resources</a>
+        <a class="active" href="resources.html">Resources</a>
         <a href="shop.html">Shop</a>
       </nav>
+      <a class="cta" href="mailto:kongzirui2004@163.com">Submit Resource</a>
     </div>
   </header>
 
   <section class="hero">
-    <p class="eyebrow">Bookshelf</p>
-    <h1>Selected Reading</h1>
-    <p class="lead">去除所有虚构条目后，目前书架只保留一本：<strong>Bayesian Modeling and Computation in Python</strong>。点击封面即可打开在线版本。</p>
+    <p class="eyebrow">Resource Archive</p>
+    <h1>Bookshelf</h1>
+    <p class="lead">保持简约设计，同时保留高效功能。当前只保留一本真实条目：<strong>Bayesian Modeling and Computation in Python</strong>。支持搜索、筛选与排序，后续可直接扩展更多书籍。</p>
   </section>
 
-  <main class="library-wrap">
-    <section class="shelf" aria-label="Bookshelf">
-      <p class="label">Shelf A / Bayesian Study</p>
-      <div class="books">
-        <a class="book" href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer" aria-label="Open Bayesian Modeling and Computation in Python">
-          <div class="series">Texts in Statistical Science</div>
+  <section class="toolbar" aria-label="Filters">
+    <input id="searchInput" class="input" type="search" placeholder="Search title, author, note...">
+    <select id="tagFilter" class="select"><option value="all">All Tags</option><option value="bayesian">Bayesian</option><option value="statistics">Statistics</option></select>
+    <select id="sortFilter" class="select"><option value="az">Sort A → Z</option><option value="za">Sort Z → A</option></select>
+  </section>
+
+  <div class="chips" id="chips">
+    <button class="chip active" data-tag="all">All</button>
+    <button class="chip" data-tag="bayesian">Bayesian</button>
+    <button class="chip" data-tag="statistics">Statistics</button>
+    <button class="chip" data-tag="python">Python</button>
+  </div>
+
+  <main class="section">
+    <div class="head"><h2>Selected Books</h2><span id="count" class="count">[00-01]</span></div>
+    <div class="shelf" id="shelf">
+      <a class="book" data-tag="bayesian statistics python" href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer">
+        <div class="cover"><img src="https://xishansnow.github.io/BayesianModelingandComputationInPython/_images/book_cover.jpg" alt="Bayesian Modeling and Computation in Python cover"></div>
+        <div>
           <div class="title">Bayesian Modeling and Computation in Python</div>
-          <div class="cover-art" aria-hidden="true"></div>
-          <div class="authors">Osvaldo A. Martin<br>Ravin Kumar<br>Junpeng Lao</div>
-        </a>
-      </div>
-      <div class="meta">
-        <div>Link: <a href="https://xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html" target="_blank" rel="noreferrer">xishansnow.github.io/BayesianModelingandComputationInPython/welcome.html</a></div>
-        <div>Status: <code>Active Reading</code></div>
-      </div>
-    </section>
+          <div class="meta">Authors: Osvaldo A. Martin · Ravin Kumar · Junpeng Lao<br>Series: Texts in Statistical Science</div>
+        </div>
+        <div class="open">Open Reading ↗</div>
+      </a>
+    </div>
+    <div id="empty" class="empty">No result. Try another keyword or reset filters.</div>
   </main>
+
+  <script>
+    const books = Array.from(document.querySelectorAll('.book'));
+    const searchInput = document.getElementById('searchInput');
+    const tagFilter = document.getElementById('tagFilter');
+    const sortFilter = document.getElementById('sortFilter');
+    const chips = Array.from(document.querySelectorAll('.chip'));
+    const shelf = document.getElementById('shelf');
+    const count = document.getElementById('count');
+    const empty = document.getElementById('empty');
+    let activeChip = 'all';
+
+    function sortBooks(){
+      const arr = Array.from(shelf.children);
+      arr.sort((a,b)=>{
+        const an = a.querySelector('.title').textContent.trim();
+        const bn = b.querySelector('.title').textContent.trim();
+        return sortFilter.value === 'za' ? bn.localeCompare(an) : an.localeCompare(bn);
+      });
+      arr.forEach(el=>shelf.appendChild(el));
+    }
+
+    function apply(){
+      const q = searchInput.value.trim().toLowerCase();
+      const tag = tagFilter.value;
+      books.forEach(book=>{
+        const txt = (book.textContent + ' ' + (book.dataset.tag || '')).toLowerCase();
+        const matchSearch = !q || txt.includes(q);
+        const matchSelect = tag === 'all' || (book.dataset.tag || '').includes(tag);
+        const matchChip = activeChip === 'all' || (book.dataset.tag || '').includes(activeChip);
+        book.classList.toggle('hidden', !(matchSearch && matchSelect && matchChip));
+      });
+      sortBooks();
+      const visible = books.filter(b=>!b.classList.contains('hidden')).length;
+      count.textContent = `[00-${String(visible).padStart(2,'0')}]`;
+      empty.classList.toggle('show', visible === 0);
+    }
+
+    chips.forEach(chip=>chip.addEventListener('click',()=>{
+      chips.forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      activeChip = chip.dataset.tag;
+      apply();
+    }));
+    [searchInput, tagFilter, sortFilter].forEach(el=>el.addEventListener('input', apply));
+
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('show'); });
+    },{threshold:.15});
+    books.forEach(b=>io.observe(b));
+
+    apply();
+  </script>
 </body>
 </html>
