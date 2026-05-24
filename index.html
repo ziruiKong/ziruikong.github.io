@@ -1900,25 +1900,19 @@
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape triangle"></span> Repertoire</div>
           <a href="#inquiry">Fields</a>
-          <a href="shop.html">Shop</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape circle"></span> Narrative</div>
           <a href="about.html">About</a>
           <a href="#overview">Overview</a>
-          <a href="mailto:kongzirui2004@163.com">Connect</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape square"></span> Liaison</div>
-          <a href="mailto:ray20040626@gmail.com">Global Mail</a>
-          <a href="mailto:zk2332@columbia.edu">Columbia</a>
           <a href="shop.html">Shop</a>
         </div>
         <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape diamond"></span> Resources</div>
-          <a href="resources.html">Research</a>
+          <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
           <a href="resources.html">Archive</a>
-          <a href="resources.html">Collection</a>
         </div>
       </nav>
     </div>
@@ -2019,8 +2013,7 @@
             <span>Archive</span>
             <a href="about.html">About</a>
             <a href="resources.html">Research</a>
-            <a href="mailto:kongzirui2004@163.com">Connect</a>
-          </div>
+            </div>
         </div>
         <div class="collab-meta">
           <div class="collab-socials">
@@ -2045,6 +2038,8 @@
     let inquiryTrack = null;
     let inquiryPreviewImage = null;
     let inquiryPreviewFrame = null;
+    let inquirySwitchTimer = null;
+    let inquiryRequestId = 0;
     let archiveAudioContext = null;
     let archiveMasterGain = null;
     let archivePulseGain = null;
@@ -2082,24 +2077,54 @@
     function setInquiryPointerActive(activeItem = null) {
       const nextItem = activeItem;
       inquiryItems.forEach((item) => item.classList.toggle("active", item === nextItem));
+
+      if (inquirySwitchTimer) {
+        window.clearTimeout(inquirySwitchTimer);
+        inquirySwitchTimer = null;
+      }
+
       if (!nextItem || !inquiryPreviewImage) {
         inquiryPreviewFrame?.classList.remove("has-image");
+        inquiryPreviewFrame?.classList.remove("is-switching");
         return;
       }
+
       const nextImage = nextItem.dataset.image;
       const nextLabel = nextItem.textContent.trim();
+      const requestId = ++inquiryRequestId;
+
       if (!nextImage || inquiryPreviewImage.getAttribute("src") === nextImage) {
         inquiryPreviewImage.alt = `${nextLabel} field image`;
         inquiryPreviewFrame?.classList.add("has-image");
+        inquiryPreviewFrame?.classList.remove("is-switching");
         return;
       }
+
       inquiryPreviewFrame?.classList.add("is-switching");
-      window.setTimeout(() => {
+      const preload = new Image();
+      preload.src = nextImage;
+
+      const commitSwitch = () => {
+        if (requestId !== inquiryRequestId) return;
         inquiryPreviewImage.src = nextImage;
         inquiryPreviewImage.alt = `${nextLabel} field image`;
         inquiryPreviewFrame?.classList.remove("is-switching");
         inquiryPreviewFrame?.classList.add("has-image");
-      }, 160);
+      };
+
+      preload.addEventListener("load", () => {
+        inquirySwitchTimer = window.setTimeout(() => {
+          inquirySwitchTimer = null;
+          commitSwitch();
+        }, 70);
+      }, { once: true });
+
+      preload.addEventListener("error", () => {
+        inquirySwitchTimer = window.setTimeout(() => {
+          inquirySwitchTimer = null;
+          commitSwitch();
+        }, 70);
+      }, { once: true });
     }
 
     async function setupArchiveMusic() {
@@ -2245,6 +2270,12 @@
       if (!inquiryTrack) return;
 
       inquiryItems = Array.from(inquiryTrack.querySelectorAll(".inquiry-item"));
+      inquiryItems.forEach((item) => {
+        const imageUrl = item.dataset.image;
+        if (!imageUrl) return;
+        const img = new Image();
+        img.src = imageUrl;
+      });
       setInquiryPointerActive(inquiryItems.find((item) => item.classList.contains("active")) || inquiryItems[0]);
     }
 
