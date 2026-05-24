@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KZR&mdash;ZIRUI KONG'S PERSONAL WEBSITE</title>
+  <title>ZIRUIKONG</title>
   <meta name="description" content="KZR is Zirui Kong's personal website for learning records, plans, interests, and long-term growth.">
-  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
-  <link rel="apple-touch-icon" href="assets/favicon-kzr.png">
+  <link rel="icon" type="image/png" href="/assets/favicon-kzr.png?v=2">
+  <link rel="apple-touch-icon" href="/assets/favicon-kzr.png?v=2">
   <link rel="stylesheet" href="cookie-consent.css">
   <style>
     :root {
@@ -2377,6 +2377,18 @@
       return Math.max(0, main?.offsetTop || window.innerHeight);
     }
 
+    function getConnectTop() {
+      const connectSection = $("#connect");
+      if (!connectSection) return getInquiryTop();
+      return Math.max(0, connectSection.offsetTop);
+    }
+
+    function getChapterPoints() {
+      const inquiryTop = getInquiryTop();
+      const connectTop = Math.max(inquiryTop, getConnectTop());
+      return [0, inquiryTop, connectTop];
+    }
+
     function snapToChapter(targetY) {
       gravityScrollLocked = true;
       document.body.classList.add("gravity-scrolling");
@@ -2392,24 +2404,37 @@
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (document.body.classList.contains("booking-open")) return;
 
-      const inquiryTop = getInquiryTop();
       const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const delta = event.deltaY;
       const pullThreshold = 18;
-      const nearHome = y < inquiryTop * 0.64;
-      const nearInquiry = y > inquiryTop - 80 && y < inquiryTop + window.innerHeight * 0.42;
+      const [homeTop, inquiryTop, connectTop] = getChapterPoints();
+      const rangePadding = Math.max(80, window.innerHeight * 0.08);
 
       if (gravityScrollLocked) {
         event.preventDefault();
         return;
       }
 
-      if (delta > pullThreshold && nearHome) {
-        event.preventDefault();
-        snapToChapter(inquiryTop);
-      } else if (delta < -pullThreshold && nearInquiry) {
-        event.preventDefault();
-        snapToChapter(0);
+      const inHomeRange = y >= homeTop - rangePadding && y < inquiryTop - rangePadding;
+      const inInquiryRange = y >= inquiryTop - rangePadding && y < connectTop - rangePadding;
+      const inConnectRange = y >= connectTop - rangePadding;
+
+      if (delta > pullThreshold) {
+        if (inHomeRange) {
+          event.preventDefault();
+          snapToChapter(inquiryTop);
+        } else if (inInquiryRange) {
+          event.preventDefault();
+          snapToChapter(connectTop);
+        }
+      } else if (delta < -pullThreshold) {
+        if (inConnectRange) {
+          event.preventDefault();
+          snapToChapter(inquiryTop);
+        } else if (inInquiryRange) {
+          event.preventDefault();
+          snapToChapter(homeTop);
+        }
       }
     }
 
