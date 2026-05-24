@@ -2338,6 +2338,8 @@
     let inquiryTrack = null;
     let inquiryPreviewImage = null;
     let inquiryPreviewFrame = null;
+    let inquiryPreviewSwitchTimer = null;
+    let inquiryPreviewSwitchToken = 0;
     let gravityScrollLocked = false;
     let archiveAudioContext = null;
     let archiveMasterGain = null;
@@ -2442,23 +2444,45 @@
       const nextItem = activeItem;
       inquiryItems.forEach((item) => item.classList.toggle("active", item === nextItem));
       if (!nextItem || !inquiryPreviewImage) {
+        if (inquiryPreviewSwitchTimer) {
+          window.clearTimeout(inquiryPreviewSwitchTimer);
+          inquiryPreviewSwitchTimer = null;
+        }
         inquiryPreviewFrame?.classList.remove("has-image");
+        inquiryPreviewFrame?.classList.remove("is-switching");
         return;
       }
+
       const nextImage = nextItem.dataset.image;
       const nextLabel = nextItem.textContent.trim();
-      if (!nextImage || inquiryPreviewImage.getAttribute("src") === nextImage) {
+      if (!nextImage) {
         inquiryPreviewImage.alt = `${nextLabel} field image`;
         inquiryPreviewFrame?.classList.add("has-image");
         return;
       }
+
+      const currentImage = inquiryPreviewImage.getAttribute("src") || "";
+      const normalizedCurrent = currentImage.split("?")[0].split("#")[0];
+      const normalizedNext = nextImage.split("?")[0].split("#")[0];
+      if (normalizedCurrent.endsWith(normalizedNext)) {
+        inquiryPreviewImage.alt = `${nextLabel} field image`;
+        inquiryPreviewFrame?.classList.add("has-image");
+        return;
+      }
+
+      if (inquiryPreviewSwitchTimer) {
+        window.clearTimeout(inquiryPreviewSwitchTimer);
+      }
+      const token = ++inquiryPreviewSwitchToken;
       inquiryPreviewFrame?.classList.add("is-switching");
-      window.setTimeout(() => {
+      inquiryPreviewSwitchTimer = window.setTimeout(() => {
+        if (token !== inquiryPreviewSwitchToken) return;
         inquiryPreviewImage.src = nextImage;
         inquiryPreviewImage.alt = `${nextLabel} field image`;
         inquiryPreviewFrame?.classList.remove("is-switching");
         inquiryPreviewFrame?.classList.add("has-image");
-      }, 160);
+        inquiryPreviewSwitchTimer = null;
+      }, 120);
     }
 
     async function setupArchiveMusic() {
@@ -2602,6 +2626,8 @@
       inquiryItems.forEach((item) => {
         item.addEventListener("mouseenter", () => setInquiryPointerActive(item));
         item.addEventListener("focusin", () => setInquiryPointerActive(item));
+        item.addEventListener("touchstart", () => setInquiryPointerActive(item), { passive: true });
+        item.addEventListener("click", () => setInquiryPointerActive(item));
       });
       window.addEventListener("wheel", handleGravityWheel, { passive: false });
       if (inquiryMenuButton) {
