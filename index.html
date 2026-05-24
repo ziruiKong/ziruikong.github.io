@@ -976,6 +976,19 @@
       max-width: none;
       min-height: 100vh;
       min-height: 100svh;
+      --collab-drift: 26px;
+      --collab-scale: .982;
+      --collab-opacity: .82;
+      --collab-blur: 12px;
+      opacity: var(--collab-opacity);
+      filter: blur(var(--collab-blur));
+      transform: translateY(var(--collab-drift)) scale(var(--collab-scale));
+      transform-origin: center top;
+      transition:
+        opacity 780ms cubic-bezier(.16, 1, .3, 1),
+        filter 780ms cubic-bezier(.16, 1, .3, 1),
+        transform 900ms cubic-bezier(.16, 1, .3, 1);
+      will-change: opacity, filter, transform;
       margin-left: -42px;
       margin-right: -42px;
       padding: clamp(18px, 2.2vw, 34px);
@@ -989,6 +1002,13 @@
         radial-gradient(circle at 32% 92%, rgba(191, 156, 88, 0.34), transparent 28%),
         linear-gradient(135deg, #f4ecdc 0%, #e7e0d1 47%, #c9b890 100%);
       isolation: isolate;
+    }
+
+    body.connect-mode .collab-section {
+      --collab-drift: 0px;
+      --collab-scale: 1;
+      --collab-opacity: 1;
+      --collab-blur: 0px;
     }
 
     .collab-section::before,
@@ -1405,7 +1425,7 @@
 
     .inquiry-stage {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(360px, 39vw);
+      grid-template-columns: minmax(0, 1fr);
       gap: clamp(22px, 4vw, 60px);
       align-items: center;
       min-height: calc(100vh - 80px);
@@ -2298,10 +2318,6 @@
               <article class="inquiry-item" data-subject="finance" data-image="assets/field-finance.png"><a class="inquiry-link" href="field.html?subject=finance"><span class="inquiry-name">Finance</span></a></article>
             </div>
           </div>
-          <aside class="inquiry-preview has-image" aria-label="Selected field image">
-            <img id="inquiryPreviewImage" src="assets/field-political-science.png" alt="">
-            <span class="inquiry-side-label">Disciplines as a system</span>
-          </aside>
         </div>
       </div>
     </section>
@@ -2371,6 +2387,12 @@
         const rect = inquirySection.getBoundingClientRect();
         const inquiryMode = rect.top <= Math.max(window.innerHeight * 0.34, 280) && rect.bottom > 180;
         document.body.classList.toggle("inquiry-mode", inquiryMode);
+      }
+      const connectSection = $("#connect");
+      if (connectSection) {
+        const rect = connectSection.getBoundingClientRect();
+        const connectMode = rect.top <= Math.max(window.innerHeight * 0.34, 280) && rect.bottom > 180;
+        document.body.classList.toggle("connect-mode", connectMode);
       }
       updateSplashDepth(y);
     }
