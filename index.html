@@ -934,6 +934,24 @@
       70% { transform: translateY(1px) scale(0.99); border-radius: 58% 42% 53% 47% / 47% 57% 43% 53%; }
     }
 
+
+    .smooth-reveal {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+      filter: blur(6px);
+      transition:
+        opacity 760ms cubic-bezier(.22,1,.36,1),
+        transform 760ms cubic-bezier(.22,1,.36,1),
+        filter 760ms cubic-bezier(.22,1,.36,1);
+      will-change: opacity, transform, filter;
+    }
+
+    .smooth-reveal.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .splash::before,
       .collab-section::before,
@@ -951,6 +969,7 @@
       .hero-cta,
       .liquid-cursor {
         transition: none;
+        animation: none !important;
         animation: none;
       }
     }
@@ -2481,6 +2500,29 @@
     }
 
 
+
+    function initSmoothSectionReveal() {
+      const sections = Array.from(document.querySelectorAll("main > section"));
+      if (!sections.length) return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      sections.forEach((section) => section.classList.add("smooth-reveal"));
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      }, {
+        root: null,
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.16
+      });
+
+      sections.forEach((section) => observer.observe(section));
+    }
+
     function initLiquidCursor() {
       if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const cursor = document.createElement("span");
@@ -2515,6 +2557,7 @@
       bindEvents();
       updateMusicButton();
       initLiquidCursor();
+      initSmoothSectionReveal();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
       window.addEventListener("resize", () => {
