@@ -61,9 +61,24 @@
   line-height: 1.45;
 }
 
-.cookie-media {
+
+.cookie-points {
+  margin: -4px 0 0;
+  padding: 0 0 0 16px;
+  color: rgba(0, 0, 0, 0.72);
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  font-size: 10px;
+  line-height: 1.4;
   display: grid;
-  gap: 8px;
+  gap: 4px;
+}
+
+.cookie-points li {
+  margin: 0;
+}
+
+.cookie-media {
+  display: block;
 }
 
 .cookie-media img {
@@ -79,11 +94,6 @@
   padding: 0;
 }
 
-.cookie-media-accent {
-  max-height: 70px;
-  object-fit: contain;
-  padding: 8px;
-}
 
 .cookie-links {
   display: flex;
