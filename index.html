@@ -36,6 +36,41 @@
       overscroll-behavior-y: contain;
     }
 
+
+    body.cursor-enhanced {
+      cursor: none;
+    }
+
+    body.cursor-enhanced a,
+    body.cursor-enhanced button,
+    body.cursor-enhanced input,
+    body.cursor-enhanced select,
+    body.cursor-enhanced textarea,
+    body.cursor-enhanced label {
+      cursor: none;
+    }
+
+    .liquid-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #000;
+      transform: translate3d(-50%, -50%, 0) scale(1);
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: normal;
+      opacity: 0;
+      transition: opacity 180ms ease;
+      will-change: transform;
+    }
+
+    body.cursor-enhanced .liquid-cursor {
+      opacity: 0.92;
+    }
+
     body.booking-open {
       overflow: hidden;
     }
@@ -499,37 +534,55 @@
       align-items: center;
       gap: 12px;
       min-width: 0;
-      padding: 13px 16px;
-      border: 1px solid rgba(255, 247, 237, 0.5);
-      background: rgba(0, 0, 0, 0.84);
+      padding: 14px 18px;
+      border: 1px solid rgba(255, 247, 237, 0.62);
+      background: radial-gradient(circle at 24% 22%, rgba(255,255,255,.32), rgba(255,255,255,.06) 42%, rgba(0,0,0,.86) 76%);
       color: #fff7ed;
       text-decoration: none;
       font-size: 18px;
       font-weight: 850;
       letter-spacing: -0.045em;
-      backdrop-filter: blur(6px) saturate(112%);
-      -webkit-backdrop-filter: blur(6px) saturate(112%);
+      border-radius: 999px;
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 247, 237, 0.18),
+        0 14px 30px rgba(0, 0, 0, 0.33);
+      backdrop-filter: blur(7px) saturate(122%);
+      -webkit-backdrop-filter: blur(7px) saturate(122%);
       transition:
         color 220ms ease,
-        background 220ms ease,
         border-color 220ms ease,
+        box-shadow 280ms ease,
         transform 280ms cubic-bezier(.2,.8,.2,1);
+      animation: dropletFloat 3.4s ease-in-out infinite;
+    }
+
+    .hero-cta::before {
+      content: "";
+      position: absolute;
+      inset: -16% -7%;
+      border-radius: inherit;
+      background:
+        radial-gradient(circle at 17% 30%, rgba(255,255,255,.42), transparent 38%),
+        radial-gradient(circle at 79% 72%, rgba(255,255,255,.15), transparent 44%);
+      opacity: .8;
+      pointer-events: none;
+      animation: dropletFlow 4s ease-in-out infinite;
     }
 
     .hero-cta:hover {
       color: #10151d;
-      background: rgba(255, 247, 237, 0.86);
-      border-color: rgba(255, 247, 237, 0.86);
-      transform: translateY(-3px);
+      border-color: rgba(255, 247, 237, 0.95);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 247, 237, 0.48),
+        0 20px 45px rgba(255, 247, 237, 0.22);
+      transform: translateY(-4px) scale(1.03);
     }
 
-    .hero-cta svg {
+    .hero-cta-icon {
       width: 22px;
       height: 22px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2.4;
-      stroke-linecap: round;
+      object-fit: contain;
+      display: block;
     }
 
     .collaboration-card {
@@ -906,6 +959,17 @@
       to { opacity: 1; transform: translateY(0); filter: blur(0); }
     }
 
+
+    @keyframes dropletFloat {
+      0%, 100% { transform: translateY(0) scale(1); border-radius: 54% 46% 52% 48% / 45% 54% 46% 55%; }
+      40% { transform: translateY(-4px) scale(1.03); border-radius: 46% 54% 48% 52% / 56% 45% 55% 44%; }
+      70% { transform: translateY(1px) scale(0.99); border-radius: 58% 42% 53% 47% / 47% 57% 43% 53%; }
+    }
+
+    @keyframes dropletFlow {
+      0%, 100% { transform: translate3d(-1%, -1%, 0) scale(1); }
+      50% { transform: translate3d(1.8%, 1%, 0) scale(1.04); }
+    }
     @media (prefers-reduced-motion: reduce) {
       .splash::before,
       .collab-section::before,
@@ -919,8 +983,12 @@
       }
       .nav a,
       .lang-button,
-      .splash-title {
+      .splash-title,
+      .hero-cta,
+      .hero-cta::before,
+      .liquid-cursor {
         transition: none;
+        animation: none;
       }
     }
 
@@ -2029,12 +2097,7 @@
     </aside>
     <button class="hero-cta" id="bookingOpenButton" type="button">
       <span>Get in touch</span>
-      <svg viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M7 9c6 0 8 2 8 8"></path>
-        <path d="M25 23c-6 0-8-2-8-8"></path>
-        <path d="M17 7v8h8"></path>
-        <path d="M15 25v-8H7"></path>
-      </svg>
+      <img class="hero-cta-icon" src="assets/git-icon.png" alt="" aria-hidden="true">
     </button>
     <aside class="collaboration-card" aria-label="Collaboration contact">
       <div class="collaboration-label">Available for collaboration <span class="arrow" aria-hidden="true">&searr;</span></div>
@@ -2398,10 +2461,41 @@
       setInquiryPointerActive(inquiryItems.find((item) => item.classList.contains("active")) || inquiryItems[0]);
     }
 
+
+    function initLiquidCursor() {
+      if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      const cursor = document.createElement("span");
+      cursor.className = "liquid-cursor";
+      cursor.setAttribute("aria-hidden", "true");
+      document.body.appendChild(cursor);
+      document.body.classList.add("cursor-enhanced");
+
+      let targetX = window.innerWidth / 2;
+      let targetY = window.innerHeight / 2;
+      let currentX = targetX;
+      let currentY = targetY;
+
+      const move = (event) => {
+        targetX = event.clientX;
+        targetY = event.clientY;
+      };
+
+      const animate = () => {
+        currentX += (targetX - currentX) * 0.22;
+        currentY += (targetY - currentY) * 0.22;
+        cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
+        requestAnimationFrame(animate);
+      };
+
+      document.addEventListener("mousemove", move, { passive: true });
+      requestAnimationFrame(animate);
+    }
+
     function init() {
       initInquiry();
       bindEvents();
       updateMusicButton();
+      initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
       window.addEventListener("resize", () => {
