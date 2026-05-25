@@ -946,13 +946,42 @@
       background-color: #f6efe3;
       display: flex;
       align-items: center;
-      background:
-        linear-gradient(90deg, rgba(246, 239, 227, 0.82) 0%, rgba(246, 239, 227, 0.74) 34%, rgba(246, 239, 227, 0.48) 52%, rgba(246, 239, 227, 0.12) 70%, rgba(246, 239, 227, 0.02) 100%),
-        url("assets/inquirieshero.png") 56% center / cover no-repeat;
       border-bottom: 1px solid rgba(21, 38, 63, 0.1);
     }
 
+
+    .practice-hero {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .practice-hero-media {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .practice-hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 56% center;
+      display: block;
+    }
+
+    .practice-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(90deg, rgba(246, 239, 227, 0.82) 0%, rgba(246, 239, 227, 0.74) 34%, rgba(246, 239, 227, 0.48) 52%, rgba(246, 239, 227, 0.12) 70%, rgba(246, 239, 227, 0.02) 100%);
+    }
+
     .practice-intro {
+      position: relative;
+      z-index: 2;
       width: min(620px, calc(100% - 64px));
       margin-left: clamp(24px, 5vw, 82px);
     }
@@ -2136,6 +2165,7 @@
 
     <section class="practice-section" aria-label="Areas of practice">
       <div class="practice-hero">
+        <div class="practice-hero-media" aria-hidden="true"><img src="assets/inquirieshero.png" alt=""></div>
         <div class="practice-intro">
           <p class="practice-kicker">Areas of practice</p>
           <h2 class="practice-heading">Some of our<br>areas of expertise.</h2>
