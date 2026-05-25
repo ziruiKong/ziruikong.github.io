@@ -1,5 +1,5 @@
 (function () {
-  const key = "kzrCookieConsent";
+  const key = "kzrCookieConsent_v2";
   if (localStorage.getItem(key)) return;
 
   const shell = document.createElement("section");
@@ -14,6 +14,10 @@
       <p class="cookie-copy">
         KZR uses essential cookies to keep this site working and optional analytics to understand how visitors move through the archive. You can accept all cookies, keep only essentials, or adjust preferences now.
       </p>
+      <div class="cookie-media" aria-hidden="true">
+        <img class="cookie-media-main" src="assets/kzr-shop-elephant-logo.png" alt="" loading="lazy" decoding="async">
+        <img class="cookie-media-accent" src="assets/kzr-logo-black.png" alt="" loading="lazy" decoding="async">
+      </div>
       <div class="cookie-links">
         <a href="mailto:kongzirui2004@163.com">Privacy Contact</a>
         <a href="shop.html">Terms and Concept Shop</a>
