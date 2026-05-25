@@ -12,11 +12,14 @@
         <h2 id="cookieTitle">Your choices regarding cookies</h2>
       </div>
       <p class="cookie-copy">
-        KZR uses essential cookies to keep this site working and optional analytics to understand how visitors move through the archive. You can accept all cookies, keep only essentials, or adjust preferences now.
+        Choose how KZR uses cookies.
       </p>
+      <ul class="cookie-points" aria-label="Cookie summary">
+        <li><strong>Essential</strong> keeps the site working.</li>
+        <li><strong>Analytics</strong> helps us improve the archive.</li>
+      </ul>
       <div class="cookie-media" aria-hidden="true">
-        <img class="cookie-media-main" src="assets/kzr-shop-elephant-logo.png" alt="" loading="lazy" decoding="async">
-        <img class="cookie-media-accent" src="assets/kzr-logo-black.png" alt="" loading="lazy" decoding="async">
+        <img class="cookie-media-main" src="assets/cookie.png" alt="" loading="lazy" decoding="async">
       </div>
       <div class="cookie-links">
         <a href="mailto:kongzirui2004@163.com">Privacy Contact</a>
