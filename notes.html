@@ -4,26 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ZIRUI KONG'S WEBSITE — Notes</title>
-  <meta name="description" content="Notebook hub for future markdown notes.">
+  <meta name="description" content="ScienceDirect-inspired notes hub.">
   <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
     :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22}
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif}
-    .top{position:sticky;top:0;background:rgba(247,243,234,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .top-inner{max-width:1100px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{max-width:1240px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
     .brand img{width:80px;filter:brightness(0);display:block}
     .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
-    main{max-width:1100px;margin:0 auto;padding:32px 24px 56px}
-    h1{margin:0 0 10px;font-size:clamp(36px,7vw,72px);line-height:.92;letter-spacing:-.04em;text-transform:uppercase}
-    .lead{margin:0 0 18px;color:#3a332b}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-    .btn{border:1px solid #111;padding:9px 12px;text-decoration:none;color:#111;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:#fff}
-    .btn.primary{background:#111;color:#fff}
+
+    .hero{max-width:1240px;margin:0 auto;padding:44px 24px 18px}
+    .eyebrow{margin:0;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+    h1{margin:8px 0 10px;font-size:clamp(42px,8vw,108px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+    .lead{margin:0;max-width:820px;font-size:18px;line-height:1.56;color:#322c24}
+
+    .notes-marquee{margin-top:14px;border:1px solid #cfd6dc;background:#eceae6;border-radius:14px;overflow:hidden;position:relative}
+    .notes-track{display:flex;gap:62px;width:max-content;padding:12px 0;animation:notes-scroll 52s linear infinite}
+    .notes-text{font-size:clamp(70px,13.5vw,196px);line-height:.84;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#151922;white-space:nowrap}
+    .notes-text.muted{color:#afb4b9}
+    @keyframes notes-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    .section{max-width:1240px;margin:0 auto;padding:18px 24px 44px}
     .panel{background:var(--panel);border:1px solid var(--line);padding:18px}
-    .panel h2{margin:0 0 10px;font-size:18px;text-transform:uppercase;letter-spacing:.08em}
-    .empty{padding:16px;border:1px dashed #1114;color:var(--muted);background:#fff}
-    .note-list{display:grid;gap:10px}
-    .note-link{display:block;padding:10px 12px;border:1px solid var(--line);text-decoration:none;color:#111;background:#fff}
+    .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+    .head h2{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}
+    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .empty{padding:20px;border:1px dashed #1114;color:var(--muted);background:#fff}
+
+    @media (max-width:700px){.top-inner{grid-template-columns:auto 1fr}.hero{padding-top:28px}}
   </style>
 </head>
 <body>
@@ -38,33 +47,29 @@
       </nav>
     </div>
   </header>
-  <main>
-    <h1>Notes Module</h1>
-    <p class="lead">这个模块已建立。当前笔记资源先留空；后续把 markdown 文件放到 <code>notes/</code> 文件夹即可接入阅读器。</p>
-    <div class="actions">
-      <a class="btn primary" href="https://www.sciencedirect.com/" target="_blank" rel="noreferrer">ScienceDirect</a>
-      <a class="btn" href="note-viewer.html">Open Markdown Reader</a>
+
+  <section class="hero">
+    <p class="eyebrow">Notes Archive</p>
+    <h1>Notes</h1>
+    <p class="lead">笔记模块采用 ScienceDirect 风格的信息布局。当前笔记资源保持空白，后续可逐步补充。</p>
+    <div class="notes-marquee" aria-label="Notes marquee">
+      <div class="notes-track">
+        <span class="notes-text">Notes ✶</span>
+        <span class="notes-text muted">Notes ✶</span>
+        <span class="notes-text">Notes ✶</span>
+        <span class="notes-text muted">Notes ✶</span>
+      </div>
     </div>
+  </section>
+
+  <main class="section">
     <section class="panel" aria-label="Note resources">
-      <h2>Note Resources</h2>
-      <div id="noteList" class="note-list"></div>
-      <div id="emptyState" class="empty">暂无笔记文件（空白状态）。后续将 .md 文件添加到 <code>notes/</code> 后，可在下方脚本中注册并点击阅读。</div>
+      <div class="head">
+        <h2>Resources</h2>
+        <span class="count">[00-00]</span>
+      </div>
+      <div class="empty">暂无笔记资源。</div>
     </section>
   </main>
-  <script>
-    const notes = []; // future: [{ title: 'Example', file: 'notes/example.md' }]
-    const list = document.getElementById('noteList');
-    const empty = document.getElementById('emptyState');
-    if (notes.length) {
-      empty.style.display = 'none';
-      notes.forEach(note => {
-        const a = document.createElement('a');
-        a.className = 'note-link';
-        a.href = `note-viewer.html?file=${encodeURIComponent(note.file)}`;
-        a.textContent = note.title;
-        list.appendChild(a);
-      });
-    }
-  </script>
 </body>
 </html>
