@@ -116,7 +116,7 @@
       display: grid;
       grid-template-columns: 260px minmax(0, 1fr);
       align-items: start;
-      gap: clamp(38px, 5vw, 86px);
+      gap: clamp(24px, 3.2vw, 56px);
       width: 100%;
     }
 
@@ -124,6 +124,7 @@
       position: relative;
       left: auto;
       top: -2px;
+      margin-left: 8px;
       transform: none;
       display: flex;
       align-items: center;
@@ -154,7 +155,7 @@
 
     .brand .brand-mark {
       display: block;
-      width: 145px;
+      width: 138px;
       height: auto;
       object-fit: contain;
       object-position: left center;
@@ -184,8 +185,8 @@
 
     .top-nav-groups {
       display: grid;
-      grid-template-columns: repeat(4, minmax(140px, 1fr));
-      gap: clamp(18px, 3.2vw, 48px);
+      grid-template-columns: repeat(4, minmax(124px, 1fr));
+      gap: clamp(10px, 1.8vw, 26px);
       color: #fff7ed;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
     }
@@ -367,7 +368,7 @@
       background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.2) 42%, rgba(0, 0, 0, 0.72)),
         linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(1, 7, 18, 0.04) 42%, rgba(0, 0, 0, 0.38)),
-        url("assets/hero.png") center / cover no-repeat,
+        url("assets/hero525.png") center / cover no-repeat,
         #000;
       color: #fff7ed;
       border-bottom: 0;
@@ -1102,6 +1103,24 @@
 
     .collab-email:hover {
       color: #8d6427;
+    }
+
+    .collab-figure {
+      grid-column: 2 / 3;
+      justify-self: end;
+      align-self: center;
+      width: min(100%, 520px);
+      margin-top: 8px;
+      opacity: 0.88;
+      pointer-events: none;
+    }
+
+    .collab-figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      mix-blend-mode: multiply;
     }
 
     .collab-links {
@@ -1973,6 +1992,12 @@
         justify-self: start;
         overflow-wrap: anywhere;
       }
+      .collab-figure {
+        grid-column: auto;
+        justify-self: start;
+        width: min(88vw, 420px);
+        margin-top: 2px;
+      }
       .collab-links,
       .collab-meta,
       .collab-policy {
@@ -2007,7 +2032,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#overview">
+      <a class="brand" href="#home">
         <div class="brand-text">
           <img class="brand-mark" src="assets/kzr-home-logo.png" alt="KZR logo">
         </div>
@@ -2029,6 +2054,7 @@
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
           <a href="resources.html">Archive</a>
+          <a href="notes.html">Notes</a>
         </div>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><span class="bars"><span></span></span></button>
@@ -2039,10 +2065,11 @@
       <a href="about.html">About</a>
       <a href="resources.html">Archive</a>
       <a href="shop.html">Shop</a>
+      <a href="notes.html">Notes</a>
     </div>
   </header>
 
-  <section class="splash" aria-label="K.I.D. cover">
+  <section class="splash" id="home" aria-label="K.I.D. cover">
     <aside class="quick-panel" aria-label="Quick links">
       <h2>Explore the personal development collection.</h2>
       <ul class="quick-list">
@@ -2063,8 +2090,7 @@
     <aside class="collaboration-card" aria-label="Collaboration contact">
       <div class="collaboration-label">Available for collaboration <span class="arrow" aria-hidden="true">&searr;</span></div>
       <div class="collaboration-mails">
-        <a href="mailto:ray20040626@gmail.com" aria-label="Email for non-Chinese friends"><span class="collaboration-note">for non-Chinese friends</span></a>
-        <a href="mailto:kongzirui2004@163.com" aria-label="Email for all friends"><span class="collaboration-note">for all friends</span></a>
+                <a href="mailto:kongzirui2004@163.com" aria-label="Email for all friends"><span class="collaboration-note">for all friends</span></a>
         <a href="mailto:zk2332@columbia.edu" aria-label="Email for Columbia alumni"><span class="collaboration-note">for Columbia alumni</span></a>
         <a href="mailto:kong.480@osu.edu" aria-label="Email for Ohio State alumni"><span class="collaboration-note">for Ohio State alumni</span></a>
       </div>
@@ -2096,13 +2122,13 @@
         <div class="inquiry-stage">
           <div class="inquiry-list">
             <div class="inquiry-track" id="inquiryTrack">
-              <article class="inquiry-item active" data-subject="political-science" data-image="assets/field-political-science.png"><a class="inquiry-link" href="field.html?subject=political-science"><span class="inquiry-name">Political Science</span></a></article>
-              <article class="inquiry-item" data-subject="economics" data-image="assets/field-economics.png"><a class="inquiry-link" href="field.html?subject=economics"><span class="inquiry-name">Economics</span></a></article>
-              <article class="inquiry-item" data-subject="mathematics" data-image="assets/field-mathematics.png"><a class="inquiry-link" href="field.html?subject=mathematics"><span class="inquiry-name">Mathematics</span></a></article>
-              <article class="inquiry-item" data-subject="statistics" data-image="assets/field-statistics.png"><a class="inquiry-link" href="field.html?subject=statistics"><span class="inquiry-name">Statistics</span></a></article>
-              <article class="inquiry-item" data-subject="computing" data-image="assets/field-computing.png"><a class="inquiry-link" href="field.html?subject=computing"><span class="inquiry-name">Computing</span></a></article>
-              <article class="inquiry-item" data-subject="machine-learning" data-image="assets/field-machine-learning.png"><a class="inquiry-link" href="field.html?subject=machine-learning"><span class="inquiry-name">Machine Learning</span></a></article>
-              <article class="inquiry-item" data-subject="finance" data-image="assets/field-finance.png"><a class="inquiry-link" href="field.html?subject=finance"><span class="inquiry-name">Finance</span></a></article>
+              <article class="inquiry-item active" data-subject="political-science" data-image="assets/field-political-science.png"><span class="inquiry-link"><span class="inquiry-name">Political Science</span></span></article>
+              <article class="inquiry-item" data-subject="economics" data-image="assets/field-economics.png"><span class="inquiry-link"><span class="inquiry-name">Economics</span></span></article>
+              <article class="inquiry-item" data-subject="mathematics" data-image="assets/field-mathematics.png"><span class="inquiry-link"><span class="inquiry-name">Mathematics</span></span></article>
+              <article class="inquiry-item" data-subject="statistics" data-image="assets/field-statistics.png"><span class="inquiry-link"><span class="inquiry-name">Statistics</span></span></article>
+              <article class="inquiry-item" data-subject="computing" data-image="assets/field-computing.png"><span class="inquiry-link"><span class="inquiry-name">Computing</span></span></article>
+              <article class="inquiry-item" data-subject="machine-learning" data-image="assets/field-machine-learning.png"><span class="inquiry-link"><span class="inquiry-name">Machine Learning</span></span></article>
+              <article class="inquiry-item" data-subject="finance" data-image="assets/field-finance.png"><span class="inquiry-link"><span class="inquiry-name">Finance</span></span></article>
             </div>
           </div>
           <aside class="inquiry-preview has-image" aria-label="Selected field image">
@@ -2120,10 +2146,13 @@
           <h2 class="collab-heading">Have a project in mind?<br>Ready to think, write, and build.</h2>
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
+        <div class="collab-figure" aria-hidden="true">
+          <img src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="">
+        </div>
         <div class="collab-links" aria-label="Footer navigation">
           <div class="collab-link-group">
             <span>Discover</span>
-            <a href="#overview">Home</a>
+            <a href="#home">Home</a>
             <a href="#inquiry">Fields</a>
             <a href="shop.html">Shop</a>
           </div>
@@ -2131,6 +2160,7 @@
             <span>Archive</span>
             <a href="about.html">About</a>
             <a href="resources.html">Research</a>
+            <a href="notes.html">Notes</a>
             </div>
         </div>
         <div class="collab-meta">
