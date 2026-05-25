@@ -1053,12 +1053,12 @@
     .collab-card {
       position: relative;
       width: 100%;
-      min-height: min(68vh, 640px);
-      padding: clamp(32px, 4.8vw, 72px);
+      min-height: min(60vh, 560px);
+      padding: clamp(24px, 3.8vw, 54px);
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(300px, 0.88fr);
       grid-template-rows: 1fr auto;
-      gap: clamp(28px, 5vw, 92px);
+      gap: clamp(18px, 3.2vw, 44px);
       border: 1px solid rgba(17, 24, 39, 0.07);
       border-radius: 8px;
       background: rgba(255, 255, 252, 0.88);
@@ -1082,10 +1082,11 @@
       margin: 0;
       max-width: 760px;
       color: rgba(17, 24, 39, 0.42);
-      font-size: clamp(34px, 5.2vw, 78px);
+      font-size: clamp(28px, 4.4vw, 62px);
       line-height: 0.98;
       font-weight: 720;
-      letter-spacing: -0.06em;
+      letter-spacing: -0.045em;
+      animation: collabHeadingGlow 4.8s ease-in-out infinite alternate;
     }
 
     .collab-email {
@@ -1108,8 +1109,8 @@
     .collab-figure {
       position: absolute;
       right: clamp(24px, 3vw, 42px);
-      bottom: clamp(84px, 8.4vw, 138px);
-      width: clamp(280px, 32vw, 520px);
+      bottom: clamp(44px, 4.8vw, 78px);
+      width: clamp(240px, 27vw, 420px);
       max-width: 44%;
       opacity: 0.82;
       pointer-events: none;
@@ -1197,7 +1198,20 @@
     .collab-policy {
       display: flex;
       align-items: center;
-      gap: clamp(22px, 4vw, 62px);
+      gap: clamp(14px, 2.4vw, 30px);
+    }
+
+    @keyframes collabHeadingGlow {
+      0% {
+        transform: translateY(0);
+        opacity: 0.88;
+        text-shadow: 0 0 0 rgba(141, 100, 39, 0);
+      }
+      100% {
+        transform: translateY(-4px);
+        opacity: 1;
+        text-shadow: 0 8px 24px rgba(141, 100, 39, 0.16);
+      }
     }
 
     @keyframes collabFlow {
@@ -2157,7 +2171,7 @@
       <div class="collab-card">
         <div>
           <p class="collab-kicker">KZR Collaboration</p>
-          <h2 class="collab-heading">Have a project in mind?<br>Ready to think, write, and build.</h2>
+          <h2 class="collab-heading">Open for thoughtful collaboration.<br>Let’s build something meaningful.</h2>
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
         <div class="collab-figure" aria-hidden="true">
