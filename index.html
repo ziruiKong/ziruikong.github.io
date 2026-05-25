@@ -1207,127 +1207,58 @@
     }
 
     .inquiry-pin {
-      position: relative;
+      width: 100%;
       min-height: 100vh;
       min-height: 100svh;
+      background: #f2f1ed;
+      display: block;
+      padding: 0;
+    }
+
+    .inquiry-hero {
+      min-height: clamp(380px, 56vh, 640px);
+      background:
+        linear-gradient(90deg, rgba(242,241,237,0.98) 0%, rgba(242,241,237,0.9) 33%, rgba(242,241,237,0.42) 57%, rgba(242,241,237,0.08) 72%),
+        url("assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png") center / cover no-repeat;
       display: flex;
       align-items: center;
-      padding: clamp(36px, 5svh, 58px) 0 clamp(18px, 3svh, 34px);
-      background: transparent;
-      width: 100%;
+      border-bottom: 1px solid rgba(20, 35, 58, 0.14);
     }
+
+    .inquiry-intro {
+      max-width: 660px;
+      padding: clamp(52px, 8vw, 114px) clamp(36px, 7vw, 116px);
+    }
+    .inquiry-kicker { margin: 0 0 28px; color: #1a2f4a; font-size: clamp(24px, 1.9vw, 42px); letter-spacing: -.02em; }
+    .inquiry-heading {
+      margin: 0;
+      color: #172942;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(70px, 7.1vw, 132px);
+      line-height: .98;
+      letter-spacing: -.04em;
+      font-weight: 500;
+    }
+    .inquiry-underline { width: 84px; height: 4px; background: #172942; margin-top: clamp(32px, 4vw, 58px); }
 
     .inquiry-stage {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(360px, 39vw);
-      gap: clamp(22px, 4vw, 60px);
-      align-items: center;
-      min-height: calc(100vh - 80px);
-      min-height: calc(100svh - 80px);
       width: 100%;
-    }
-
-    .inquiry-list {
-      position: relative;
-      height: auto;
-      overflow: visible;
-      background: transparent;
-    }
-
-    .inquiry-track {
       display: grid;
-      transform: none !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(44px, 5vw, 94px);
+      padding: clamp(18px, 2.4vw, 30px) clamp(36px, 6.5vw, 116px) clamp(34px, 4.6vw, 64px);
+      align-items: start;
     }
 
-    .inquiry-item {
-      position: relative;
-      min-height: clamp(42px, 6.4vh, 68px);
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid rgba(11, 24, 49, 0.05);
-    }
+    .inquiry-list { position: relative; }
+    .inquiry-track { display: grid; gap: 0; transform: none !important; }
+    .inquiry-item { position: relative; min-height: clamp(78px, 8vw, 124px); display: flex; align-items: center; border-top: 1px solid rgba(20, 35, 58, 0.22); }
+    .inquiry-link { width: 100%; display: grid; grid-template-columns: clamp(48px, 4vw, 86px) minmax(0,1fr); align-items: center; text-decoration: none; color: inherit; }
+    .inquiry-link::before { content: "→"; color: #1a2f4a; font-size: clamp(44px, 3vw, 62px); font-weight: 300; }
+    .inquiry-name { color: #182b45; font-size: clamp(42px, 2.65vw, 58px); line-height: 1.05; font-weight: 500; letter-spacing: -.02em; transition: color .25s ease, transform .25s ease; }
+    .inquiry-item:hover .inquiry-name, .inquiry-item.active .inquiry-name { color: #1a2f4a; transform: translateX(5px); }
 
-    .inquiry-link {
-      display: block;
-      width: 100%;
-      padding-left: clamp(18px, 3vw, 44px);
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .inquiry-link:hover .inquiry-name {
-      color: #5f6670;
-    }
-
-    .inquiry-item::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 0;
-      height: 1px;
-      background: linear-gradient(90deg, #b99254, rgba(185,146,84,0));
-      transform: translateY(-50%);
-      opacity: 0;
-      transition: width 420ms cubic-bezier(.2,.8,.2,1), opacity 260ms ease;
-    }
-
-    .inquiry-name {
-      display: inline-block;
-      color: rgba(113, 129, 153, 0.26);
-      font-family: "Arial Narrow", "Helvetica Neue", "Franklin Gothic Medium", sans-serif;
-      font-size: clamp(34px, 4.35vw, 72px);
-      line-height: 0.92;
-      font-weight: 900;
-      letter-spacing: -0.06em;
-      text-transform: uppercase;
-      transform-origin: left center;
-      transition:
-        color 340ms ease,
-        transform 520ms cubic-bezier(.2,.8,.2,1),
-        letter-spacing 340ms ease,
-        filter 340ms ease;
-    }
-
-    .inquiry-item.active .inquiry-name,
-    .inquiry-item:hover .inquiry-name {
-      color: #10131d;
-      transform: scale(1.018);
-      letter-spacing: -0.06em;
-      filter: drop-shadow(0 14px 28px rgba(16, 19, 29, 0.05));
-    }
-
-    .inquiry-item.active .inquiry-link:hover .inquiry-name,
-    .inquiry-item:hover .inquiry-link:hover .inquiry-name {
-      color: #10131d;
-    }
-
-    .inquiry-item.active::before,
-    .inquiry-item:hover::before {
-      width: 34px;
-      opacity: 1;
-    }
-
-    .inquiry-preview {
-      position: relative;
-      align-self: center;
-      justify-self: end;
-      width: min(100%, 560px);
-      height: min(820px, calc(100vh - 116px));
-      height: min(880px, calc(100svh - 72px));
-      overflow: hidden;
-      border-radius: 22px;
-      background: transparent;
-      box-shadow:
-        0 28px 70px rgba(33, 47, 67, 0.14),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.28);
-      opacity: 0;
-      transform: translateX(18px) scale(.985);
-      transition:
-        opacity 420ms ease,
-        transform 620ms cubic-bezier(.16, 1, .3, 1),
-        box-shadow 420ms ease;
-    }
+    .inquiry-preview { display: none; }
 
     .inquiry-preview.has-image {
       opacity: 1;
@@ -1365,16 +1296,7 @@
       filter: saturate(0.72) contrast(0.92) blur(4px);
     }
 
-    .inquiry-side-label {
-      position: absolute;
-      right: -52px;
-      top: 0;
-      writing-mode: vertical-rl;
-      text-transform: uppercase;
-      letter-spacing: 0.38em;
-      font-size: 10px;
-      color: rgba(11, 24, 49, 0.38);
-    }
+    .inquiry-side-label { display: none; }
 
     .hero {
       display: grid;
@@ -2133,6 +2055,13 @@
   <main id="overview">
     <section class="inquiry-section" id="inquiry" aria-label="Fields of inquiry">
       <div class="inquiry-pin">
+        <div class="inquiry-hero">
+          <div class="inquiry-intro">
+            <p class="inquiry-kicker">Areas of practice</p>
+            <h2 class="inquiry-heading">Some of our areas of expertise.</h2>
+            <div class="inquiry-underline" aria-hidden="true"></div>
+          </div>
+        </div>
         <div class="inquiry-stage">
           <div class="inquiry-list">
             <div class="inquiry-track" id="inquiryTrack">
@@ -2140,15 +2069,16 @@
               <article class="inquiry-item" data-subject="economics" data-image="assets/field-economics.png"><span class="inquiry-link"><span class="inquiry-name">Economics</span></span></article>
               <article class="inquiry-item" data-subject="mathematics" data-image="assets/field-mathematics.png"><span class="inquiry-link"><span class="inquiry-name">Mathematics</span></span></article>
               <article class="inquiry-item" data-subject="statistics" data-image="assets/field-statistics.png"><span class="inquiry-link"><span class="inquiry-name">Statistics</span></span></article>
+            </div>
+          </div>
+          <div class="inquiry-list">
+            <div class="inquiry-track">
               <article class="inquiry-item" data-subject="computing" data-image="assets/field-computing.png"><span class="inquiry-link"><span class="inquiry-name">Computing</span></span></article>
               <article class="inquiry-item" data-subject="machine-learning" data-image="assets/field-machine-learning.png"><span class="inquiry-link"><span class="inquiry-name">Machine Learning</span></span></article>
               <article class="inquiry-item" data-subject="finance" data-image="assets/field-finance.png"><span class="inquiry-link"><span class="inquiry-name">Finance</span></span></article>
+              <article class="inquiry-item" data-subject="decision-science-ai" data-image="assets/field-statistics.png"><span class="inquiry-link"><span class="inquiry-name">Decision Science 和 AI</span></span></article>
             </div>
           </div>
-          <aside class="inquiry-preview has-image" aria-label="Selected field image">
-            <img id="inquiryPreviewImage" src="assets/field-political-science.png" alt="">
-            <span class="inquiry-side-label">Disciplines as a system</span>
-          </aside>
         </div>
       </div>
     </section>
