@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — Notes</title>
+  <meta name="description" content="Notebook hub for future markdown notes.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22}
+    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,sans-serif}
+    .top{position:sticky;top:0;background:rgba(247,243,234,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{max-width:1100px;margin:0 auto;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+    main{max-width:1100px;margin:0 auto;padding:32px 24px 56px}
+    h1{margin:0 0 10px;font-size:clamp(36px,7vw,72px);line-height:.92;letter-spacing:-.04em;text-transform:uppercase}
+    .lead{margin:0 0 18px;color:#3a332b}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+    .btn{border:1px solid #111;padding:9px 12px;text-decoration:none;color:#111;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;background:#fff}
+    .btn.primary{background:#111;color:#fff}
+    .panel{background:var(--panel);border:1px solid var(--line);padding:18px}
+    .panel h2{margin:0 0 10px;font-size:18px;text-transform:uppercase;letter-spacing:.08em}
+    .empty{padding:16px;border:1px dashed #1114;color:var(--muted);background:#fff}
+    .note-list{display:grid;gap:10px}
+    .note-link{display:block;padding:10px 12px;border:1px solid var(--line);text-decoration:none;color:#111;background:#fff}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Notes navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">Resources</a>
+        <a class="active" href="notes.html">Notes</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <h1>Notes Module</h1>
+    <p class="lead">这个模块已建立。当前笔记资源先留空；后续把 markdown 文件放到 <code>notes/</code> 文件夹即可接入阅读器。</p>
+    <div class="actions">
+      <a class="btn primary" href="https://www.sciencedirect.com/" target="_blank" rel="noreferrer">ScienceDirect</a>
+      <a class="btn" href="note-viewer.html">Open Markdown Reader</a>
+    </div>
+    <section class="panel" aria-label="Note resources">
+      <h2>Note Resources</h2>
+      <div id="noteList" class="note-list"></div>
+      <div id="emptyState" class="empty">暂无笔记文件（空白状态）。后续将 .md 文件添加到 <code>notes/</code> 后，可在下方脚本中注册并点击阅读。</div>
+    </section>
+  </main>
+  <script>
+    const notes = []; // future: [{ title: 'Example', file: 'notes/example.md' }]
+    const list = document.getElementById('noteList');
+    const empty = document.getElementById('emptyState');
+    if (notes.length) {
+      empty.style.display = 'none';
+      notes.forEach(note => {
+        const a = document.createElement('a');
+        a.className = 'note-link';
+        a.href = `note-viewer.html?file=${encodeURIComponent(note.file)}`;
+        a.textContent = note.title;
+        list.appendChild(a);
+      });
+    }
+  </script>
+</body>
+</html>

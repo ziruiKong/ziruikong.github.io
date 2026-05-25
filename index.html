@@ -116,7 +116,7 @@
       display: grid;
       grid-template-columns: 260px minmax(0, 1fr);
       align-items: start;
-      gap: clamp(38px, 5vw, 86px);
+      gap: clamp(24px, 3.2vw, 56px);
       width: 100%;
     }
 
@@ -124,6 +124,7 @@
       position: relative;
       left: auto;
       top: -2px;
+      margin-left: 8px;
       transform: none;
       display: flex;
       align-items: center;
@@ -154,7 +155,7 @@
 
     .brand .brand-mark {
       display: block;
-      width: 145px;
+      width: 138px;
       height: auto;
       object-fit: contain;
       object-position: left center;
@@ -184,8 +185,8 @@
 
     .top-nav-groups {
       display: grid;
-      grid-template-columns: repeat(4, minmax(140px, 1fr));
-      gap: clamp(18px, 3.2vw, 48px);
+      grid-template-columns: repeat(4, minmax(124px, 1fr));
+      gap: clamp(10px, 1.8vw, 26px);
       color: #fff7ed;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
     }
@@ -367,7 +368,7 @@
       background:
         linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.2) 42%, rgba(0, 0, 0, 0.72)),
         linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(1, 7, 18, 0.04) 42%, rgba(0, 0, 0, 0.38)),
-        url("assets/hero.png") center / cover no-repeat,
+        url("assets/hero525.png") center / cover no-repeat,
         #000;
       color: #fff7ed;
       border-bottom: 0;
@@ -2007,7 +2008,7 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <a class="brand" href="#overview">
+      <a class="brand" href="#home">
         <div class="brand-text">
           <img class="brand-mark" src="assets/kzr-home-logo.png" alt="KZR logo">
         </div>
@@ -2029,6 +2030,7 @@
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
           <a href="resources.html">Archive</a>
+          <a href="notes.html">Notes</a>
         </div>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><span class="bars"><span></span></span></button>
@@ -2039,10 +2041,11 @@
       <a href="about.html">About</a>
       <a href="resources.html">Archive</a>
       <a href="shop.html">Shop</a>
+      <a href="notes.html">Notes</a>
     </div>
   </header>
 
-  <section class="splash" aria-label="K.I.D. cover">
+  <section class="splash" id="home" aria-label="K.I.D. cover">
     <aside class="quick-panel" aria-label="Quick links">
       <h2>Explore the personal development collection.</h2>
       <ul class="quick-list">
@@ -2123,7 +2126,7 @@
         <div class="collab-links" aria-label="Footer navigation">
           <div class="collab-link-group">
             <span>Discover</span>
-            <a href="#overview">Home</a>
+            <a href="#home">Home</a>
             <a href="#inquiry">Fields</a>
             <a href="shop.html">Shop</a>
           </div>
@@ -2131,6 +2134,7 @@
             <span>Archive</span>
             <a href="about.html">About</a>
             <a href="resources.html">Research</a>
+            <a href="notes.html">Notes</a>
             </div>
         </div>
         <div class="collab-meta">

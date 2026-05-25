@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Markdown Note Viewer</title>
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    body{margin:0;background:#f7f3ea;color:#161616;font-family:Inter,Arial,sans-serif}
+    .wrap{max-width:920px;margin:0 auto;padding:28px 20px 60px}
+    .bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+    .btn{border:1px solid #111;padding:8px 12px;text-decoration:none;color:#111;background:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+    .hint{font-size:13px;color:#6e665a}
+    article{background:#fffdf8;border:1px solid #201f1b22;padding:22px;line-height:1.72}
+    h1,h2,h3{line-height:1.25} code{background:#f2eee4;padding:1px 4px;border-radius:4px} pre{background:#f2eee4;padding:12px;overflow:auto}
+    blockquote{border-left:3px solid #1113;padding:2px 0 2px 12px;color:#453f34}
+    ul,ol{padding-left:22px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="bar">
+      <a class="btn" href="notes.html">Back to Notes</a>
+      <a class="btn" href="https://www.sciencedirect.com/" target="_blank" rel="noreferrer">ScienceDirect</a>
+      <span id="status" class="hint">No note selected.</span>
+    </div>
+    <article id="content">请从 Notes 页面点击具体 markdown 笔记文件来阅读。</article>
+  </div>
+  <script>
+    function escapeHtml(str){return str.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]))}
+    function renderMarkdown(md){
+      const lines = md.replace(/\r/g,'').split('\n');
+      let html = '', inCode = false;
+      for (const line of lines){
+        if (line.startsWith('```')) { html += inCode ? '</code></pre>' : '<pre><code>'; inCode = !inCode; continue; }
+        if (inCode) { html += escapeHtml(line) + '\n'; continue; }
+        if (/^###\s+/.test(line)) { html += `<h3>${escapeHtml(line.replace(/^###\s+/,''))}</h3>`; continue; }
+        if (/^##\s+/.test(line)) { html += `<h2>${escapeHtml(line.replace(/^##\s+/,''))}</h2>`; continue; }
+        if (/^#\s+/.test(line)) { html += `<h1>${escapeHtml(line.replace(/^#\s+/,''))}</h1>`; continue; }
+        if (/^>\s?/.test(line)) { html += `<blockquote>${escapeHtml(line.replace(/^>\s?/,''))}</blockquote>`; continue; }
+        if (/^[-*]\s+/.test(line)) { html += `<ul><li>${escapeHtml(line.replace(/^[-*]\s+/,''))}</li></ul>`; continue; }
+        if (/^\d+\.\s+/.test(line)) { html += `<ol><li>${escapeHtml(line.replace(/^\d+\.\s+/,''))}</li></ol>`; continue; }
+        if (!line.trim()) { html += '<p></p>'; continue; }
+        html += `<p>${escapeHtml(line).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`(.+?)`/g,'<code>$1</code>')}</p>`;
+      }
+      return html || '<p>(Empty markdown)</p>';
+    }
+
+    const params = new URLSearchParams(location.search);
+    const file = params.get('file');
+    const status = document.getElementById('status');
+    const content = document.getElementById('content');
+    if (file) {
+      status.textContent = `Reading: ${file}`;
+      fetch(file).then(r => { if(!r.ok) throw new Error('load failed'); return r.text(); }).then(md => {
+        content.innerHTML = renderMarkdown(md);
+      }).catch(() => {
+        content.textContent = '无法读取该笔记文件，请确认路径正确且文件存在。';
+      });
+    }
+  </script>
+</body>
+</html>
