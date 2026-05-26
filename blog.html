@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | KZR</title>
+  <style>
+    :root{--bg:#f7f3ea;--text:#151515;--muted:#666;--line:#ddd6c8}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+    .top{position:sticky;top:0;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .inner{max-width:980px;margin:0 auto;padding:14px 20px}
+    .brand{font-weight:700;letter-spacing:.03em;text-decoration:none;color:inherit}
+    h1{font-size:42px;line-height:1.05;margin:28px 0 10px;font-family:Georgia,"Times New Roman","Noto Serif SC",serif}
+    .desc{color:var(--muted);margin:0 0 30px}
+    .list{display:grid;gap:16px;padding:0 0 38px}
+    .post{border:1px solid var(--line);background:#fffdf8;padding:16px 18px}
+    .post h2{margin:0 0 8px;font-size:24px}
+    .meta{font-size:13px;color:var(--muted);margin-bottom:10px}
+    .post p{margin:0;line-height:1.6}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="inner"><a class="brand" href="index.html#home">KZR</a></div>
+  </header>
+  <main class="inner">
+    <h1>Blog</h1>
+    <p class="desc">Notes on study, work, and long-term growth.</p>
+    <section class="list" aria-label="Blog posts">
+      <article class="post">
+        <h2>Welcome to the Blog</h2>
+        <div class="meta">May 26, 2026 · Intro</div>
+        <p>This page is a new space for sharing reflections, project updates, and reading notes.</p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

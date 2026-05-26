@@ -8,23 +8,6 @@ window.MATERIALS_DB = {
       discipline: "Mathematics",
       section: "001",
       status: "active"
-    },
-    {
-      type: "folder",
-      title: "Analysis Reading Bundle",
-      discipline: "Mathematics",
-      section: "Folder",
-      status: "curated",
-      children: [
-        {
-          title: "Lecture Notes (Draft)",
-          url: "#"
-        },
-        {
-          title: "Problem Set Archive",
-          url: "#"
-        }
-      ]
     }
   ]
 };
