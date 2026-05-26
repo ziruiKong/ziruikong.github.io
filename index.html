@@ -1849,6 +1849,41 @@
 
 
 
+
+
+    .floating-nav {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translate(-50%, -14px);
+      width: min(1120px, calc(100% - 40px));
+      background: rgba(245, 244, 236, 0.96);
+      border: 1px solid rgba(0,0,0,.12);
+      border-radius: 999px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.14);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity .24s ease, transform .24s ease, visibility .24s ease;
+      z-index: 60;
+    }
+    .floating-nav.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translate(-50%, 0);
+    }
+    .floating-brand img { width: 110px; display:block; }
+    .floating-links { display:flex; gap: 20px; flex-wrap: wrap; justify-content:flex-end; }
+    .floating-links a { text-decoration:none; font-size:13px; letter-spacing:.06em; text-transform:uppercase; font-weight:700; color:#0f172a; opacity:.82; }
+    .floating-links a:hover { opacity:1; }
+    @media (max-width: 980px) { .floating-nav { display:none; } }
+
     .mobile-nav-toggle {
       display: none;
       justify-self: end;
@@ -1947,7 +1982,10 @@
       .brand { min-width: 0; }
       .brand-text { font-size: 16px; }
       .top-nav-groups { display: none; }
-      .mobile-nav-toggle { display: inline-flex; }
+  
+
+
+    .mobile-nav-toggle { display: inline-flex; }
       .hero-cta, .collaboration-card { display: none; }
       .practice-grid { grid-template-columns: 1fr; gap: 0; }
       .practice-link { font-size: clamp(16px, 5vw, 22px); min-height: 56px; }
@@ -2193,6 +2231,23 @@
     </div>
   </header>
 
+
+
+  <nav class="floating-nav" id="floatingNav" aria-label="Floating navigation">
+    <a class="floating-brand" href="#home" aria-label="KZR Home">
+      <img src="assets/kzr-logo-black.png" alt="KZR logo">
+    </a>
+    <div class="floating-links">
+      <a href="#connect">Contact</a>
+      <a href="about.html">About</a>
+      <a href="#overview">Overview</a>
+      <a href="shop.html">Shop</a>
+      <a href="resources.html">Archive</a>
+      <a href="notes.html">Notes</a>
+      <a href="materials.html">Materials</a>
+    </div>
+  </nav>
+
   <section class="splash" id="home" aria-label="K.I.D. cover">
     <aside class="quick-panel" aria-label="Quick links">
       <h2>Explore the personal development collection.</h2>
@@ -2353,8 +2408,10 @@
       const inquirySection = $("#inquiry");
       const practiceSection = $(".practice-section");
       const collabSection = $(".collab-section");
+      const floatingNav = $("#floatingNav");
       const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
       if (header) header.classList.toggle("scrolled", y > 24);
+      if (floatingNav) floatingNav.classList.toggle("is-visible", y > Math.max(window.innerHeight * 0.72, 520));
       if (inquirySection) {
         const rect = inquirySection.getBoundingClientRect();
         const inquiryMode = rect.top <= Math.max(window.innerHeight * 0.34, 280) && rect.bottom > 180;
