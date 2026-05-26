@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — PhD Catalog</title>
+  <meta name="description" content="Advanced PhD catalog with scalable project listing.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--bg:#f6f1e6;--ink:#151515;--muted:#5f5a50;--line:#1a1a1a;--link:#241f19;--panel:#f2ede2;--accent:#9b4d21}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    a{color:var(--link);text-decoration:none}
+    .top{position:sticky;top:0;z-index:50;background:rgba(246,241,230,.92);backdrop-filter:blur(10px);border-bottom:1px solid #201f1b22}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+
+    .hero{width:100%;padding:24px 30px 0;background:var(--panel)}
+    .hero-top{border-top:2px solid var(--line);padding-top:16px}
+    .hero h1{margin:0;font-size:64px;line-height:.9;letter-spacing:-.03em;font-weight:600}
+    .hero h1 .dot{color:var(--accent)}
+    .hero p{margin:14px 0 10px;color:var(--muted);font-size:15px;max-width:780px}
+
+    .search-wrap{background:var(--panel);padding:16px 30px 18px;border-bottom:2px solid var(--line)}
+    .search-grid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:center}
+    .search-input,.search-select{height:42px;border:1.5px solid #1f1f1f;background:#f9f5eb;padding:0 12px;font-size:14px}
+    .search-btn{height:42px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+
+    .db-shell{background:var(--panel);padding:14px 30px 30px}
+    .db-table{border:1.5px solid var(--line)}
+    .db-head{display:grid;grid-template-columns:1.2fr .8fr .65fr .65fr .55fr;gap:0;border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
+    .db-head span{padding:10px 12px;border-right:1.5px solid var(--line)}
+    .db-head span:last-child{border-right:0}
+    .db-row{display:grid;grid-template-columns:1.2fr .8fr .65fr .65fr .55fr;gap:0;align-items:stretch}
+    .db-cell{padding:12px;border-right:1.5px solid var(--line);display:flex;align-items:center}
+    .db-cell:last-child{border-right:0}
+    .project-title{margin:0;font-size:22px;line-height:1.15;letter-spacing:-.01em}
+    .project-title a{color:inherit;text-decoration:none}
+    .project-title a:hover{text-decoration:underline}
+    .meta{font-size:14px;font-weight:600}
+    .status{font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid #1a1a1a;display:inline-block;padding:3px 8px}
+    .tags{margin:7px 0 0;padding:0;list-style:none;display:flex;gap:6px;flex-wrap:wrap}
+    .tags li{font-size:11px;letter-spacing:.04em;text-transform:uppercase;border:1px solid #1f1f1f66;padding:2px 6px}
+
+    @media (max-width:980px){
+      .search-grid{grid-template-columns:1fr}
+      .db-head{display:none}
+      .db-table{border:0}
+      .db-row{grid-template-columns:1fr;border:1.5px solid var(--line);margin-bottom:12px}
+      .db-cell{border-right:0;border-bottom:1px solid var(--line)}
+      .db-cell:last-child{border-bottom:0}
+      .hero,.search-wrap,.db-shell{padding-left:20px;padding-right:20px}
+      .hero h1{font-size:42px}
+    }
+  </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="PhD catalog navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">Archive</a>
+        <a href="materials.html">Materials</a>
+        <a class="active" href="phd-catalog.html">PhD Catalog</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="PhD catalog hero">
+    <div class="hero-top">
+      <h1>PhD Catalog<span class="dot">.</span></h1>
+      <p>A growing inventory for dissertation ideas, proposal drafts, data pipelines, reading bundles, and field-building projects. Structured for scale as new items are continuously added.</p>
+    </div>
+  </section>
+
+  <section class="search-wrap" aria-label="PhD catalog search">
+    <div class="search-grid">
+      <input id="q" class="search-input" type="search" placeholder="Search title, theme, method, or keyword">
+      <select id="theme" class="search-select" aria-label="Theme filter"><option value="all">All Themes</option></select>
+      <select id="stage" class="search-select" aria-label="Stage filter"><option value="all">All Stages</option></select>
+      <button id="searchBtn" class="search-btn" type="button">Search</button>
+    </div>
+  </section>
+
+  <main class="db-shell" id="catalog">
+    <div class="db-table">
+      <div class="db-head"><span>Project</span><span>Theme</span><span>Method</span><span>Stage</span><span>Status</span></div>
+      <div id="rows"></div>
+    </div>
+  </main>
+
+  <script>
+    const DB = [
+      {title:'Democratic Institutions Under AI Governance',url:'resources.html',theme:'Political Economy',method:'Causal Inference',stage:'Proposal',status:'Active',tags:['institutions','ai policy']},
+      {title:'Text-as-Data Pipeline for Legislative Debate',url:'notes.html',theme:'Computational Social Science',method:'NLP',stage:'Design',status:'In Build',tags:['nlp','pipeline']},
+      {title:'Household Expectations and Inflation Narratives',url:'materials.html',theme:'Macro-Finance',method:'Panel Data',stage:'Pilot',status:'Active',tags:['expectations','survey']},
+      {title:'Agentic Decision Systems in Public Administration',url:'blog.html',theme:'Decision Science',method:'Field Experiment',stage:'Scoping',status:'Queued',tags:['agent systems','governance']},
+      {title:'Inequality, Mobility, and Education Technology',url:'resources.html',theme:'Development & Education',method:'Mixed Methods',stage:'Literature',status:'Reading',tags:['mobility','edtech']}
+    ];
+
+    const rows = document.getElementById('rows');
+    const q = document.getElementById('q');
+    const theme = document.getElementById('theme');
+    const stage = document.getElementById('stage');
+    const searchBtn = document.getElementById('searchBtn');
+
+    function opts(id, values){
+      id.innerHTML = '<option value="all">' + (id===theme?'All Themes':'All Stages') + '</option>' + [...new Set(values)].map(v=>`<option value="${v}">${v}</option>`).join('');
+    }
+
+    function row(item){
+      return `<article class="db-row">
+        <div class="db-cell"><div><h2 class="project-title"><a href="${item.url}">${item.title}</a></h2><ul class="tags">${item.tags.map(t=>`<li>${t}</li>`).join('')}</ul></div></div>
+        <div class="db-cell"><span class="meta">${item.theme}</span></div>
+        <div class="db-cell"><span class="meta">${item.method}</span></div>
+        <div class="db-cell"><span class="meta">${item.stage}</span></div>
+        <div class="db-cell"><span class="status">${item.status}</span></div>
+      </article>`;
+    }
+
+    function render(list){
+      rows.innerHTML = list.length ? list.map(row).join('') : '<article class="db-row"><div class="db-cell" style="grid-column:1 / -1;">No matching entries.</div></article>';
+    }
+
+    function run(){
+      const query = q.value.trim().toLowerCase();
+      const t = theme.value;
+      const s = stage.value;
+      const list = DB.filter(it => (t==='all'||it.theme===t) && (s==='all'||it.stage===s) && (!query || [it.title,it.theme,it.method,it.stage,it.status,...it.tags].join(' ').toLowerCase().includes(query)));
+      render(list);
+    }
+
+    opts(theme, DB.map(i=>i.theme));
+    opts(stage, DB.map(i=>i.stage));
+    run();
+    searchBtn.addEventListener('click', run);
+    q.addEventListener('keydown', e=>{if(e.key==='Enter') run();});
+    theme.addEventListener('change', run);
+    stage.addEventListener('change', run);
+  </script>
+  <script src="global-loader.js?v=20260526" defer></script>
+</body>
+</html>
