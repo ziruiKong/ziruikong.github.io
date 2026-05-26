@@ -1869,25 +1869,22 @@
       display: none;
       justify-self: end;
       align-self: center;
-      border: 1px solid rgba(255, 247, 237, 0.85);
-      background: rgba(255, 247, 237, 0.16);
-      color: #fff7ed;
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-weight: 750;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      border-radius: 0;
+      padding: 0;
       display: none;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 26px rgba(0,0,0,.28);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      transition: transform .22s ease, background .22s ease, border-color .22s ease;
+      justify-content: center;
+      line-height: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      transition: transform .22s ease;
     }
     .mobile-nav-toggle:hover { transform: translateY(-1px); }
-    .mobile-nav-toggle .menu-icon { width: 18px; height: 18px; object-fit: contain; display: block; }
+    .mobile-nav-toggle .menu-icon { width: 28px; height: 28px; object-fit: contain; display: block; }
     .mobile-nav-toggle .bars { width: 14px; height: 10px; position: relative; display: inline-block; }
     .mobile-nav-toggle .bars::before,
     .mobile-nav-toggle .bars::after,
@@ -2196,7 +2193,7 @@
           <a href="notes.html">Notes</a>
         </div>
       </nav>
-      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="menu.png" alt="Menu"></button>
+      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
     <div class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile navigation">
       <img class="mobile-menu-logo" src="menu.png" alt="Menu logo">
