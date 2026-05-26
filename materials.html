@@ -26,12 +26,13 @@
     .search-btn{height:42px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
     .db-shell{background:var(--panel);padding:14px 30px 30px}
-    .db-head{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;border-top:2px solid var(--line);border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
+    .db-table{border:1.5px solid var(--line)}
+    .db-head{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
     .db-head span{padding:10px 12px;border-right:1.5px solid var(--line)}
     .db-head span:last-child{border-right:0}
 
-    .db-row{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;border-bottom:1.5px solid var(--line);align-items:start}
-    .db-cell{padding:12px;border-right:1.5px solid var(--line)}
+    .db-row{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;align-items:stretch}
+    .db-cell{padding:12px;border-right:1.5px solid var(--line);display:flex;align-items:center}
     .db-cell:last-child{border-right:0}
 
     .course-title{margin:0;font-size:24px;line-height:1.15;letter-spacing:-.01em}
@@ -44,6 +45,7 @@
     @media (max-width:980px){
       .search-grid{grid-template-columns:1fr}
       .db-head{display:none}
+      .db-table{border:0}
       .db-row{grid-template-columns:1fr;border:1.5px solid var(--line);margin-bottom:12px}
       .db-cell{border-right:0;border-bottom:1px solid var(--line)}
       .db-cell:last-child{border-bottom:0}
@@ -84,18 +86,20 @@
   </section>
 
   <main class="db-shell" id="catalog">
-    <div class="db-head">
+    <div class="db-table">
+      <div class="db-head">
       <span>Course / Resource</span><span>Discipline</span><span>Section</span><span>Status</span>
-    </div>
+      </div>
 
-    <article class="db-row">
+      <article class="db-row">
       <div class="db-cell">
         <h2 class="course-title"><a href="https://mitchellfaulk.github.io/analysis/index.html" target="_blank" rel="noreferrer">MATH S4061: Intro to Modern Analysis I</a></h2>
       </div>
       <div class="db-cell"><span class="category">Mathematics</span></div>
       <div class="db-cell"><span class="section">001</span></div>
       <div class="db-cell"><span class="status">active</span></div>
-    </article>
+      </article>
+    </div>
   </main>
 
   <script src="global-loader.js?v=20260526" defer></script>
