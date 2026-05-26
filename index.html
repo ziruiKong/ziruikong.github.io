@@ -1027,7 +1027,25 @@
     }
 
     .practice-list { margin: 0; padding: 0; list-style: none; }
-    .practice-item { border-top: 1px solid rgba(21, 38, 63, 0.2); }
+    .practice-item {
+      border-top: 1px solid rgba(21, 38, 63, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .practice-item::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #132844;
+      transform: translateY(102%);
+      transition: transform .36s cubic-bezier(.22,.61,.36,1);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .practice-item:hover::before,
+    .practice-item:focus-within::before {
+      transform: translateY(0);
+    }
     .practice-link {
       min-height: clamp(56px, 5.2vw, 78px);
       font-weight: 700;
@@ -1043,13 +1061,13 @@
       padding-inline: clamp(8px, 1vw, 14px);
       border-radius: 12px;
       background: transparent;
-      transition: color .32s ease, background-color .32s ease, transform .32s ease, letter-spacing .32s ease;
-      will-change: transform, background-color, color;
+      transition: color .32s ease, transform .32s ease, letter-spacing .32s ease;
+      will-change: transform, color;
+      z-index: 1;
     }
     .practice-link:hover,
     .practice-link:focus-visible {
       color: #f5efe4;
-      background-color: #132844;
       transform: translateX(2px);
       letter-spacing: -.012em;
     }
