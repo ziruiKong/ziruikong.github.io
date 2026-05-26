@@ -938,7 +938,10 @@
     .practice-section {
       background: #f6efe3;
       color: #15263f;
-      margin: 0;
+      max-width: none;
+      width: auto;
+      margin-left: -42px;
+      margin-right: -42px;
     }
 
     .practice-hero {
@@ -958,7 +961,10 @@
 
     .practice-hero-media {
       position: absolute;
-      inset: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: clamp(46%, 56vw, 66%);
       z-index: 0;
       pointer-events: none;
     }
@@ -967,7 +973,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: 56% center;
+      object-position: right center;
       display: block;
     }
 
@@ -976,7 +982,9 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: linear-gradient(90deg, rgba(246, 239, 227, 0.97) 0%, rgba(246, 239, 227, 0.94) 28%, rgba(246, 239, 227, 0.78) 40%, rgba(246, 239, 227, 0.52) 49%, rgba(246, 239, 227, 0.22) 57%, rgba(246, 239, 227, 0.06) 65%, rgba(246, 239, 227, 0.01) 74%, rgba(246, 239, 227, 0) 100%);
+      background:
+        linear-gradient(90deg, #f6efe3 0%, #f6efe3 30%, rgba(246, 239, 227, 0.95) 42%, rgba(246, 239, 227, 0.7) 50%, rgba(246, 239, 227, 0.35) 58%, rgba(246, 239, 227, 0.1) 66%, rgba(246, 239, 227, 0) 74%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 32%);
     }
 
     .practice-intro {
@@ -1032,17 +1040,19 @@
       letter-spacing: -.02em;
       position: relative;
       overflow: hidden;
-      transition: color .35s ease, transform .35s cubic-bezier(.2,.7,.2,1), letter-spacing .35s ease;
+      transition: color .35s ease, transform .42s cubic-bezier(.2,.7,.2,1), letter-spacing .35s ease, text-shadow .35s ease;
       will-change: transform;
+      perspective: 680px;
+      transform-style: preserve-3d;
     }
     .practice-link::after {
       content: "";
       position: absolute;
       inset: 6px -4px;
       border-radius: 12px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.62) 0%, rgba(255,255,255,0.28) 55%, rgba(255,255,255,0.08) 100%);
+      background: linear-gradient(110deg, rgba(255,255,255,0.66) 0%, rgba(255,255,255,0.34) 44%, rgba(227, 206, 171, 0.28) 70%, rgba(255,255,255,0.08) 100%);
       opacity: 0;
-      transform: translateX(-10px) scale(.985);
+      transform: translateX(-16px) scale(.985);
       transition: opacity .38s ease, transform .38s cubic-bezier(.2,.7,.2,1);
       pointer-events: none;
       z-index: 0;
@@ -1061,8 +1071,9 @@
     .practice-link:hover,
     .practice-link:focus-visible {
       color: #0b1f39;
-      transform: translateX(6px);
+      transform: translateX(8px) rotateY(-5deg) translateZ(8px);
       letter-spacing: -.012em;
+      text-shadow: 0 8px 20px rgba(15, 31, 55, 0.16);
     }
     .practice-link:hover::after,
     .practice-link:focus-visible::after {
@@ -1071,8 +1082,8 @@
     }
     .practice-link:hover::before,
     .practice-link:focus-visible::before {
-      transform: translate(4px, -2px);
-      opacity: .95;
+      transform: translate(8px, -2px) scale(1.06);
+      opacity: .98;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1913,6 +1924,10 @@
 
     @media (max-width: 980px) {
       .header-inner, main { padding-left: 20px; padding-right: 20px; }
+      .practice-section {
+        margin-left: -20px;
+        margin-right: -20px;
+      }
       .header-inner {
         grid-template-columns: auto 1fr;
         align-items: center;
@@ -1926,6 +1941,12 @@
       .practice-link { font-size: clamp(16px, 5vw, 22px); min-height: 56px; }
       .practice-intro { width: min(620px, calc(100% - 38px)); margin-left: 18px; }
       .practice-heading { font-size: clamp(34px, 11vw, 52px); }
+      .practice-hero-media {
+        width: 100%;
+      }
+      .practice-hero::after {
+        background: linear-gradient(180deg, rgba(246, 239, 227, 0.98) 0%, rgba(246, 239, 227, 0.74) 48%, rgba(246, 239, 227, 0.2) 100%);
+      }
       .hero, .layout, .search-row, .inquiry-stage { grid-template-columns: 1fr; }
       .hero-card, .side-panel { border-left: 0; padding-left: 0; }
       .modules { grid-template-columns: 1fr 1fr; }
