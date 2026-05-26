@@ -163,7 +163,7 @@
 
     .brand .brand-mark {
       display: block;
-      width: 138px;
+      width: 128px;
       height: auto;
       object-fit: contain;
       object-position: left center;
@@ -1612,7 +1612,7 @@
     }
 
     .module-link:last-child { border-right: 0; }
-    .module-link:hover { background: var(--soft); }
+    .module-link:hover { background: #8b6b12; }
 
     .module-link b {
       color: var(--navy);
@@ -1907,6 +1907,8 @@
     .mobile-nav-toggle[aria-expanded="true"] .bars span { opacity: 0; }
     .mobile-nav-toggle[aria-expanded="true"] .bars::after { top: 4.2px; transform: rotate(-45deg); }
 
+    .mobile-menu-logo { display: none; }
+
     .mobile-nav-panel {
       position: fixed;
       top: 76px;
@@ -2096,6 +2098,9 @@
       .brand-text { font-size: 17px; white-space: normal; }
       .site-header { padding-top: 18px; }
       .brand { top: -8px; }
+      .brand .brand-mark { width: 120px; }
+      .mobile-menu-logo { display: block; width: 120px; height: auto; margin: 0 0 12px; }
+      .splash { background-position: 22% center, 22% center, 22% center, 22% center; }
       .modules { grid-template-columns: 1fr; }
       .module-link { border-right: 0; border-bottom: 1px solid var(--line); }
       .form-grid { grid-template-columns: 1fr; }
@@ -2193,6 +2198,7 @@
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><span class="bars"><span></span></span></button>
     </div>
     <div class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile navigation">
+      <img class="mobile-menu-logo" src="menu.png" alt="Menu logo">
       <a href="#overview">Overview</a>
       <a href="#connect">Contact</a>
       <a href="about.html">About</a>
