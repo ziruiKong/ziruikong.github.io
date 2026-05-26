@@ -1887,6 +1887,7 @@
       transition: transform .22s ease, background .22s ease, border-color .22s ease;
     }
     .mobile-nav-toggle:hover { transform: translateY(-1px); }
+    .mobile-nav-toggle .menu-icon { width: 18px; height: 18px; object-fit: contain; display: block; }
     .mobile-nav-toggle .bars { width: 14px; height: 10px; position: relative; display: inline-block; }
     .mobile-nav-toggle .bars::before,
     .mobile-nav-toggle .bars::after,
@@ -2195,7 +2196,7 @@
           <a href="notes.html">Notes</a>
         </div>
       </nav>
-      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><span class="bars"><span></span></span></button>
+      <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="menu.png" alt="Menu"></button>
     </div>
     <div class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile navigation">
       <img class="mobile-menu-logo" src="menu.png" alt="Menu logo">
