@@ -1180,22 +1180,14 @@
       align-items: flex-end;
       overflow: hidden;
       z-index: 3;
-      background:
-        radial-gradient(circle at 10% 8%, rgba(213, 190, 126, 0.56), transparent 25%),
-        radial-gradient(circle at 77% 6%, rgba(229, 219, 186, 0.64), transparent 24%),
-        radial-gradient(circle at 82% 32%, rgba(164, 170, 163, 0.44), transparent 24%),
-        radial-gradient(circle at 32% 92%, rgba(191, 156, 88, 0.34), transparent 28%),
-        linear-gradient(135deg, #f4ecdc 0%, #e7e0d1 47%, #c9b890 100%);
-      background-size: 160% 160%, 170% 170%, 180% 180%, 190% 190%, 140% 140%;
-      background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%;
+      background: #000;
       isolation: isolate;
       --collab-rise: 36px;
       --collab-opacity: .84;
       transform: translateY(var(--collab-rise));
       opacity: var(--collab-opacity);
       transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
-      will-change: transform, opacity, background-position;
-      animation: collabGradientDrift 24s ease-in-out infinite alternate;
+      will-change: transform, opacity;
     }
     .collab-section.is-revealing {
       transform: translateY(0);
@@ -1378,18 +1370,6 @@
       display: flex;
       align-items: center;
       gap: clamp(14px, 2.4vw, 30px);
-    }
-
-    @keyframes collabGradientDrift {
-      0% {
-        background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%, 50% 50%;
-      }
-      50% {
-        background-position: 18% 10%, 84% 16%, 76% 84%, 12% 88%, 56% 46%;
-      }
-      100% {
-        background-position: 8% 14%, 92% 10%, 88% 92%, 4% 82%, 48% 54%;
-      }
     }
 
     @keyframes collabFlow {
