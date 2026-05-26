@@ -35,18 +35,6 @@
       letter-spacing: 0;
       overscroll-behavior-y: contain;
     }
-    body.cursor-enhanced {
-      cursor: none;
-    }
-
-    body.cursor-enhanced a,
-    body.cursor-enhanced button,
-    body.cursor-enhanced input,
-    body.cursor-enhanced select,
-    body.cursor-enhanced textarea,
-    body.cursor-enhanced label {
-      cursor: none;
-    }
 
     .liquid-cursor {
       position: fixed;
@@ -59,7 +47,7 @@
       transform: translate3d(-50%, -50%, 0) scale(1);
       pointer-events: none;
       z-index: 9999;
-      mix-blend-mode: normal;
+      mix-blend-mode: difference;
       opacity: 0;
       transition: opacity 180ms ease;
       will-change: transform;
@@ -68,11 +56,9 @@
       width: 30px;
       height: 30px;
       background: transparent;
-      border: 2.5px solid #000;
+      border: 2.5px solid #fff;
       opacity: 0.95;
-      box-shadow:
-        0 8px 18px rgba(0, 0, 0, 0.22),
-        inset 0 0 0 0.5px rgba(0, 0, 0, 0.22);
+      box-shadow: none;
     }
 
     body.cursor-enhanced .liquid-cursor {
@@ -167,7 +153,7 @@
       height: auto;
       object-fit: contain;
       object-position: left center;
-      mix-blend-mode: normal;
+      mix-blend-mode: difference;
       filter: none;
       opacity: 1;
     }
@@ -2176,6 +2162,7 @@
           <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
           <a href="resources.html">Archive</a>
           <a href="notes.html">Notes</a>
+          <a href="materials.html">Materials</a>
         </div>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
@@ -2188,6 +2175,7 @@
       <a href="resources.html">Archive</a>
       <a href="shop.html">Shop</a>
       <a href="notes.html">Notes</a>
+      <a href="materials.html">Materials</a>
     </div>
   </header>
 
