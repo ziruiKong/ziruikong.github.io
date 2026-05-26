@@ -1042,54 +1042,16 @@
       overflow: hidden;
       padding-inline: clamp(8px, 1vw, 14px);
       border-radius: 12px;
-      transition: color .35s ease, transform .35s cubic-bezier(.22,.61,.36,1), letter-spacing .35s ease, box-shadow .35s ease;
-      will-change: transform, box-shadow;
+      background: transparent;
+      transition: color .32s ease, background-color .32s ease, transform .32s ease, letter-spacing .32s ease;
+      will-change: transform, background-color, color;
     }
-    .practice-link::after {
-      content: "";
-      position: absolute;
-      inset: 3px 0;
-      border-radius: 12px;
-      background:
-        linear-gradient(115deg, rgba(255,255,255,0.76) 0%, rgba(245, 232, 207, 0.35) 50%, rgba(255,255,255,0.12) 100%),
-        radial-gradient(120% 100% at 100% 50%, rgba(215, 189, 143, 0.24) 0%, rgba(215, 189, 143, 0) 75%);
-      opacity: 0;
-      transform: translateY(6px) scale(.985);
-      transition: opacity .38s ease, transform .38s cubic-bezier(.22,.61,.36,1);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .practice-link::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 8px;
-      width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, rgba(21,38,63,.7) 0%, rgba(21,38,63,.2) 55%, rgba(21,38,63,0) 100%);
-      transform: scaleX(.18);
-      transform-origin: left center;
-      opacity: .55;
-      transition: transform .36s cubic-bezier(.22,.61,.36,1), opacity .36s ease;
-      z-index: 1;
-    }
-    .practice-link > * { position: relative; z-index: 1; }
     .practice-link:hover,
     .practice-link:focus-visible {
-      color: #0b1f39;
-      transform: translateX(4px);
+      color: #f5efe4;
+      background-color: #132844;
+      transform: translateX(2px);
       letter-spacing: -.012em;
-      box-shadow: 0 14px 28px rgba(15, 31, 55, 0.14);
-    }
-    .practice-link:hover::after,
-    .practice-link:focus-visible::after {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    .practice-link:hover::before,
-    .practice-link:focus-visible::before {
-      transform: scaleX(1);
-      opacity: .92;
     }
 
     @media (prefers-reduced-motion: reduce) {
