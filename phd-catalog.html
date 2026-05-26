@@ -28,10 +28,10 @@
 
     .db-shell{background:var(--panel);padding:14px 30px 30px}
     .db-table{border:1.5px solid var(--line)}
-    .db-head{display:grid;grid-template-columns:1.2fr .8fr .65fr .65fr .55fr;gap:0;border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
+    .db-head{display:grid;grid-template-columns:1.05fr .4fr .8fr 1.15fr 1fr 1.2fr;gap:0;border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
     .db-head span{padding:10px 12px;border-right:1.5px solid var(--line)}
     .db-head span:last-child{border-right:0}
-    .db-row{display:grid;grid-template-columns:1.2fr .8fr .65fr .65fr .55fr;gap:0;align-items:stretch}
+    .db-row{display:grid;grid-template-columns:1.05fr .4fr .8fr 1.15fr 1fr 1.2fr;gap:0;align-items:stretch}
     .db-cell{padding:12px;border-right:1.5px solid var(--line);display:flex;align-items:center}
     .db-cell:last-child{border-right:0}
     .project-title{margin:0;font-size:22px;line-height:1.15;letter-spacing:-.01em}
@@ -78,46 +78,66 @@
 
   <section class="search-wrap" aria-label="PhD catalog search">
     <div class="search-grid">
-      <input id="q" class="search-input" type="search" placeholder="Search title, theme, method, or keyword">
-      <select id="theme" class="search-select" aria-label="Theme filter"><option value="all">All Themes</option></select>
-      <select id="stage" class="search-select" aria-label="Stage filter"><option value="all">All Stages</option></select>
+      <input id="q" class="search-input" type="search" placeholder="Search school, ranking, program, department, or keyword">
+      <select id="field" class="search-select" aria-label="Theme filter"><option value="all">All Fields</option></select>
+      <select id="prank" class="search-select" aria-label="Stage filter"><option value="all">All Program Ranks</option></select>
       <button id="searchBtn" class="search-btn" type="button">Search</button>
     </div>
   </section>
 
   <main class="db-shell" id="catalog">
     <div class="db-table">
-      <div class="db-head"><span>Project</span><span>Theme</span><span>Method</span><span>Stage</span><span>Status</span></div>
+      <div class="db-head"><span>学校</span><span>综排</span><span>专排</span><span>正式项目名称</span><span>所属院系 / Department</span><span>官网完整地址</span></div>
       <div id="rows"></div>
     </div>
   </main>
 
   <script>
     const DB = [
-      {title:'Democratic Institutions Under AI Governance',url:'resources.html',theme:'Political Economy',method:'Causal Inference',stage:'Proposal',status:'Active',tags:['institutions','ai policy']},
-      {title:'Text-as-Data Pipeline for Legislative Debate',url:'notes.html',theme:'Computational Social Science',method:'NLP',stage:'Design',status:'In Build',tags:['nlp','pipeline']},
-      {title:'Household Expectations and Inflation Narratives',url:'materials.html',theme:'Macro-Finance',method:'Panel Data',stage:'Pilot',status:'Active',tags:['expectations','survey']},
-      {title:'Agentic Decision Systems in Public Administration',url:'blog.html',theme:'Decision Science',method:'Field Experiment',stage:'Scoping',status:'Queued',tags:['agent systems','governance']},
-      {title:'Inequality, Mobility, and Education Technology',url:'resources.html',theme:'Development & Education',method:'Mixed Methods',stage:'Literature',status:'Reading',tags:['mobility','edtech']}
-    ];
-
-    const rows = document.getElementById('rows');
+      {school:"University of Michigan",overall:"21",programRank:"Survey/Data Science Top 3",program:"PhD in Survey and Data Science",department:"Institute for Social Research",url:"https://surveysampling.isr.umich.edu/graduate/phd-in-survey-and-data-science/"},
+      {school:"University of Washington",overall:"22",programRank:"Statistics #6",program:"PhD in Statistics",department:"Department of Statistics",url:"https://stat.uw.edu/academics/phd"},
+      {school:"University of California, Los Angeles",overall:"24",programRank:"Statistics Top 15",program:"PhD in Statistics",department:"Department of Statistics and Data Science",url:"https://statistics.ucla.edu/graduate/ph-d-program/"},
+      {school:"University of North Carolina at Chapel Hill",overall:"27",programRank:"Statistics/OR Top 20",program:"PhD in Statistics and Operations Research",department:"Department of Statistics and Operations Research",url:"https://stor.unc.edu/graduate/phd-program/"},
+      {school:"University of California, San Diego",overall:"29",programRank:"CSS Top",program:"PhD Specialization in Computational Social Science",department:"Halıcıoğlu Data Science Institute",url:"https://css.ucsd.edu/graduate/index.html"},
+      {school:"University of Wisconsin–Madison",overall:"30",programRank:"Statistics Top 15",program:"PhD in Statistics",department:"Department of Statistics",url:"https://stat.wisc.edu/graduate/phd-program/"},
+      {school:"University of California, Davis",overall:"33",programRank:"Statistics Top 25",program:"PhD in Statistics",department:"Department of Statistics",url:"https://statistics.ucdavis.edu/grad/phd"},
+      {school:"University of California, Irvine",overall:"35",programRank:"Statistics Top 20",program:"PhD in Statistics",department:"Department of Statistics",url:"https://www.stat.uci.edu/graduate/phd.php"},
+      {school:"Boston University",overall:"39",programRank:"Statistics Top 25",program:"PhD in Statistics",department:"Department of Mathematics & Statistics",url:"https://www.bu.edu/stat/academics/phd-program/"},
+      {school:"Boston College",overall:"39",programRank:"Quant Psych Top",program:"PhD in Measurement, Evaluation, Statistics and Assessment",department:"Lynch School of Education and Human Development",url:"https://www.bc.edu/bc-web/schools/lynch-school/academics/departments/counseling-developmental-educational-psychology/graduate-programs/measurement-evaluation-statistics-assessment.html"},
+      {school:"Ohio State University",overall:"41",programRank:"Statistics Top 25",program:"PhD in Statistics",department:"Department of Statistics",url:"https://stat.osu.edu/grad/phd-program"},
+      {school:"Ohio State University",overall:"41",programRank:"Quant Psych Top 10",program:"PhD in Quantitative Psychology",department:"Department of Psychology",url:"https://psychology.osu.edu/graduate-program/areas-study/quantitative-psychology"},
+      {school:"Rutgers University",overall:"41",programRank:"Statistics Top 25",program:"PhD in Statistics",department:"Department of Statistics",url:"https://statistics.rutgers.edu/academics/graduate-program/ph-d-program"},
+      {school:"Northeastern University",overall:"47",programRank:"Network Science Top",program:"PhD in Network Science",department:"Network Science Institute",url:"https://networkscience.northeastern.edu/academics/phd-program/"},
+      {school:"Pennsylvania State University",overall:"47",programRank:"Statistics Top 20",program:"PhD in Statistics",department:"Department of Statistics",url:"https://science.psu.edu/stat/graduate/phd-statistics"},
+      {school:"Pennsylvania State University",overall:"47",programRank:"Quant Methods Strong",program:"PhD in Educational Psychology (Quantitative Methods)",department:"College of Education",url:"https://ed.psu.edu/eps/educational-psychology/graduate-programs/quantitative-methods"},
+      {school:"Rice University",overall:"18",programRank:"Behavioral Science Strong",program:"PhD in Psychological Sciences",department:"Department of Psychological Sciences",url:"https://psychology.rice.edu/graduate-program"},
+      {school:"Georgetown University",overall:"24",programRank:"Political Methodology Strong",program:"PhD in Government",department:"Department of Government",url:"https://government.georgetown.edu/graduate/phd-program/"},
+      {school:"Georgetown University",overall:"24",programRank:"Quant Psychology Strong",program:"PhD in Psychology",department:"Department of Psychology",url:"https://psychology.georgetown.edu/graduate/phd-program/"},
+      {school:"Emory University",overall:"39",programRank:"Behavioral Research Strong",program:"PhD in Psychology",department:"Department of Psychology",url:"https://psychology.emory.edu/home/graduate/phd-program/index.html"},
+      {school:"University of Notre Dame",overall:"18",programRank:"Quant Sociology Strong",program:"PhD in Sociology",department:"Department of Sociology",url:"https://sociology.nd.edu/graduate-program/"},
+      {school:"George Mason University",overall:"109",programRank:"Computational Social Science Top",program:"PhD in Computational Social Science",department:"Department of Computational and Data Sciences",url:"https://science.gmu.edu/academics/departments-units/computational-data-sciences/computational-social-science-phd"},
+      {school:"Texas A&M University",overall:"51",programRank:"Statistics Top 20",program:"PhD in Statistics",department:"Department of Statistics",url:"https://stat.tamu.edu/graduate/phd-statistics/"},
+      {school:"Florida State University",overall:"54",programRank:"Statistics Strong",program:"PhD in Statistics",department:"Department of Statistics",url:"https://stat.fsu.edu/academics/graduate-program/phd-statistics"},
+      {school:"University of Minnesota",overall:"54",programRank:"Statistics Top 25",program:"PhD in Statistics",department:"School of Statistics",url:"https://cse.umn.edu/stat/graduate/phd-statistics"},
+      {school:"North Carolina State University",overall:"58",programRank:"Statistics Top 20",program:"PhD in Statistics",department:"Department of Statistics",url:"https://statistics.sciences.ncsu.edu/graduate/phd-statistics/"},
+          const rows = document.getElementById('rows');
     const q = document.getElementById('q');
-    const theme = document.getElementById('theme');
-    const stage = document.getElementById('stage');
+    const field = document.getElementById('field');
+    const prank = document.getElementById('prank');
     const searchBtn = document.getElementById('searchBtn');
 
     function opts(id, values){
-      id.innerHTML = '<option value="all">' + (id===theme?'All Themes':'All Stages') + '</option>' + [...new Set(values)].map(v=>`<option value="${v}">${v}</option>`).join('');
+      id.innerHTML = '<option value="all">' + (id===field?'All Fields':'All Program Ranks') + '</option>' + [...new Set(values)].map(v=>`<option value="${v}">${v}</option>`).join('');
     }
 
     function row(item){
       return `<article class="db-row">
-        <div class="db-cell"><div><h2 class="project-title"><a href="${item.url}">${item.title}</a></h2><ul class="tags">${item.tags.map(t=>`<li>${t}</li>`).join('')}</ul></div></div>
-        <div class="db-cell"><span class="meta">${item.theme}</span></div>
-        <div class="db-cell"><span class="meta">${item.method}</span></div>
-        <div class="db-cell"><span class="meta">${item.stage}</span></div>
-        <div class="db-cell"><span class="status">${item.status}</span></div>
+        <div class="db-cell"><span class="meta">${item.school}</span></div>
+        <div class="db-cell"><span class="meta">${item.overall}</span></div>
+        <div class="db-cell"><span class="meta">${item.programRank}</span></div>
+        <div class="db-cell"><h2 class="project-title">${item.program}</h2></div>
+        <div class="db-cell"><span class="meta">${item.department}</span></div>
+        <div class="db-cell"><a href="${item.url}" target="_blank" rel="noreferrer">${item.url}</a></div>
       </article>`;
     }
 
@@ -127,19 +147,19 @@
 
     function run(){
       const query = q.value.trim().toLowerCase();
-      const t = theme.value;
-      const s = stage.value;
-      const list = DB.filter(it => (t==='all'||it.theme===t) && (s==='all'||it.stage===s) && (!query || [it.title,it.theme,it.method,it.stage,it.status,...it.tags].join(' ').toLowerCase().includes(query)));
+      const t = field.value;
+      const s = prank.value;
+      const list = DB.filter(it => (t==='all'||it.programRank===t) && (s==='all'||it.overall===s) && (!query || [it.school,it.overall,it.programRank,it.program,it.department,it.url].join(' ').toLowerCase().includes(query)));
       render(list);
     }
 
-    opts(theme, DB.map(i=>i.theme));
-    opts(stage, DB.map(i=>i.stage));
+    opts(field, DB.map(i=>i.programRank));
+    opts(prank, DB.map(i=>i.overall));
     run();
     searchBtn.addEventListener('click', run);
     q.addEventListener('keydown', e=>{if(e.key==='Enter') run();});
-    theme.addEventListener('change', run);
-    stage.addEventListener('change', run);
+    field.addEventListener('change', run);
+    prank.addEventListener('change', run);
   </script>
   <script src="global-loader.js?v=20260526" defer></script>
 </body>
