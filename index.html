@@ -950,11 +950,17 @@
       top: 0;
       z-index: 1;
       overflow: hidden;
-      transition: filter .45s ease, transform .45s ease;
-      will-change: filter;
+      --practice-blur: 0px;
+      --practice-dim: 0;
+      --practice-lift: 0px;
+      --practice-scale: 1;
+      filter: blur(var(--practice-blur));
+      transform: translateY(var(--practice-lift)) scale(var(--practice-scale));
+      transition: filter .42s ease, transform .5s cubic-bezier(.22,.61,.36,1);
+      will-change: filter, transform;
     }
     .practice-section.is-transitioning {
-      filter: blur(5px);
+      box-shadow: inset 0 0 0 9999px rgba(17, 24, 39, var(--practice-dim));
     }
 
     .practice-hero {
@@ -1173,6 +1179,16 @@
         radial-gradient(circle at 32% 92%, rgba(191, 156, 88, 0.34), transparent 28%),
         linear-gradient(135deg, #f4ecdc 0%, #e7e0d1 47%, #c9b890 100%);
       isolation: isolate;
+      --collab-rise: 36px;
+      --collab-opacity: .84;
+      transform: translateY(var(--collab-rise));
+      opacity: var(--collab-opacity);
+      transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
+      will-change: transform, opacity;
+    }
+    .collab-section.is-revealing {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     .collab-section::before,
@@ -2084,6 +2100,8 @@
         margin-right: -18px;
         margin-top: 0;
         padding: 14px;
+        transform: none;
+        opacity: 1;
       }
       .collab-card {
         min-height: 78vh;
@@ -2344,9 +2362,21 @@
       }
       if (practiceSection && collabSection) {
         const collabRect = collabSection.getBoundingClientRect();
-        const blurStartLine = window.innerHeight * 0.45;
-        const transitioning = collabRect.top <= blurStartLine && collabRect.bottom > 0;
+        const revealStart = window.innerHeight * 0.92;
+        const revealEnd = window.innerHeight * 0.2;
+        const rawProgress = (revealStart - collabRect.top) / (revealStart - revealEnd);
+        const progress = Math.min(Math.max(rawProgress, 0), 1);
+        const transitioning = progress > 0 && collabRect.bottom > 0;
+        const eased = 1 - Math.pow(1 - progress, 3);
+
         practiceSection.classList.toggle("is-transitioning", transitioning);
+        collabSection.classList.toggle("is-revealing", transitioning);
+        practiceSection.style.setProperty("--practice-blur", `${(eased * 5.5).toFixed(2)}px`);
+        practiceSection.style.setProperty("--practice-dim", (eased * 0.12).toFixed(3));
+        practiceSection.style.setProperty("--practice-lift", `${(-eased * 14).toFixed(2)}px`);
+        practiceSection.style.setProperty("--practice-scale", (1 - eased * 0.02).toFixed(4));
+        collabSection.style.setProperty("--collab-rise", `${((1 - eased) * 36).toFixed(2)}px`);
+        collabSection.style.setProperty("--collab-opacity", (0.84 + eased * 0.16).toFixed(3));
       }
       updateSplashDepth(y);
     }
