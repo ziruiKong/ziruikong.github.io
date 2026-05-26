@@ -1286,7 +1286,7 @@
       position: absolute;
       right: clamp(24px, 3vw, 42px);
       bottom: clamp(44px, 4.8vw, 78px);
-      width: clamp(240px, 27vw, 420px);
+      width: calc(clamp(240px, 27vw, 420px) * 0.88);
       max-width: 44%;
       opacity: 0.82;
       pointer-events: none;
@@ -2129,7 +2129,7 @@
         right: auto;
         bottom: auto;
         justify-self: start;
-        width: min(88vw, 420px);
+        width: calc(min(88vw, 420px) * 0.88);
         max-width: 100%;
         margin-top: 6px;
         opacity: 0.86;
