@@ -949,6 +949,12 @@
       position: sticky;
       top: 0;
       z-index: 1;
+      overflow: hidden;
+      transition: filter .45s ease, transform .45s ease;
+      will-change: filter;
+    }
+    .practice-section.is-transitioning {
+      filter: blur(5px);
     }
 
     .practice-hero {
@@ -1154,7 +1160,7 @@
       min-height: 100svh;
       margin-left: -42px;
       margin-right: -42px;
-      margin-top: clamp(-36px, -2.6vw, -14px);
+      margin-top: 0;
       padding: clamp(18px, 2.2vw, 34px);
       display: flex;
       align-items: flex-end;
@@ -2327,12 +2333,20 @@
     function updateHeaderTone() {
       const header = $(".site-header");
       const inquirySection = $("#inquiry");
+      const practiceSection = $(".practice-section");
+      const collabSection = $(".collab-section");
       const y = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
       if (header) header.classList.toggle("scrolled", y > 24);
       if (inquirySection) {
         const rect = inquirySection.getBoundingClientRect();
         const inquiryMode = rect.top <= Math.max(window.innerHeight * 0.34, 280) && rect.bottom > 180;
         document.body.classList.toggle("inquiry-mode", inquiryMode);
+      }
+      if (practiceSection && collabSection) {
+        const collabRect = collabSection.getBoundingClientRect();
+        const blurStartLine = window.innerHeight * 0.45;
+        const transitioning = collabRect.top <= blurStartLine && collabRect.bottom > 0;
+        practiceSection.classList.toggle("is-transitioning", transitioning);
       }
       updateSplashDepth(y);
     }
