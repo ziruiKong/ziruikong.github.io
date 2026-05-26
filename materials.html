@@ -19,37 +19,36 @@
     .hero-top{border-top:2px solid var(--line);padding-top:16px}
     .hero h1{margin:0;font-size:64px;line-height:.9;letter-spacing:-.03em;font-weight:600}
     .hero h1 .dot{color:var(--accent)}
-    .hero .lead{margin:14px 0 18px;font-size:34px;line-height:1.05;letter-spacing:-.02em;max-width:1200px}
-    .sub{margin:0;padding:16px 0 18px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);font-size:18px;color:#282828}
 
-    .search-wrap{background:var(--panel);padding:16px 30px 22px;border-bottom:2px solid var(--line)}
+    .search-wrap{background:var(--panel);padding:16px 30px 18px;border-bottom:2px solid var(--line)}
     .search-grid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) auto;gap:10px;align-items:center}
-    .search-input,.search-select{height:44px;border:1.5px solid #1f1f1f;background:#f9f5eb;padding:0 12px;font-size:14px}
-    .search-btn{height:44px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+    .search-input,.search-select{height:42px;border:1.5px solid #1f1f1f;background:#f9f5eb;padding:0 12px;font-size:14px}
+    .search-btn{height:42px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
-    .content-shell{background:var(--panel)}
-    
-    .news-grid{display:grid;grid-template-columns:1fr;background:var(--panel)}
-    .card{padding:26px 28px 22px;min-height:430px;border-right:2px solid var(--line);display:flex;flex-direction:column}
-    .card:last-child{border-right:0}
-    .kicker{font-size:24px;font-weight:500;line-height:1;letter-spacing:-.02em;margin:0 0 18px}
-    .title{font-size:42px;line-height:.97;letter-spacing:-.03em;margin:0 0 14px;font-weight:500}
-    .meta{font-size:17px;color:#242424;margin:0 0 18px}
-    .desc{font-size:19px;line-height:1.35;max-width:95%;margin:0 0 30px;color:#1e1e1e}
-    .btn{margin-top:auto;display:inline-block;border:1.5px solid #191919;border-radius:999px;padding:9px 16px;font-size:24px;line-height:1;letter-spacing:-.01em;width:fit-content}
+    .db-shell{background:var(--panel);padding:14px 30px 30px}
+    .db-head{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;border-top:2px solid var(--line);border-bottom:2px solid var(--line);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#3d3a33}
+    .db-head span{padding:10px 12px;border-right:1.5px solid var(--line)}
+    .db-head span:last-child{border-right:0}
 
-    @media (max-width:1250px){
-      .hero h1{font-size:52px}.hero .lead{font-size:28px}.title{font-size:34px}.kicker{font-size:22px}.btn{font-size:20px}.desc,.meta{font-size:17px}
-      .news-grid{grid-template-columns:1fr}
-      .card{border-right:0;border-bottom:2px solid var(--line);min-height:auto}
-      .card:last-child{border-bottom:0}
-    }
-    @media (max-width:860px){
+    .db-row{display:grid;grid-template-columns:1.3fr 1fr .55fr .75fr;gap:0;border-bottom:1.5px solid var(--line);align-items:start}
+    .db-cell{padding:12px;border-right:1.5px solid var(--line)}
+    .db-cell:last-child{border-right:0}
+
+    .course-title{margin:0 0 5px;font-size:24px;line-height:1.15;letter-spacing:-.01em}
+    .course-link{font-size:13px;color:#1a1a1a;opacity:.8;word-break:break-all}
+    .category{font-size:15px;font-weight:600}
+    .section{font-size:15px;font-weight:600}
+    .status{font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid #1a1a1a;display:inline-block;padding:3px 8px}
+    .desc{margin:10px 0 0;font-size:14px;line-height:1.4;color:#262626;grid-column:1 / -1;padding:0 12px 12px}
+
+    @media (max-width:980px){
       .search-grid{grid-template-columns:1fr}
-      .hero,.search-wrap{padding-left:20px;padding-right:20px}
-      
+      .db-head{display:none}
+      .db-row{grid-template-columns:1fr;border:1.5px solid var(--line);margin-bottom:12px}
+      .db-cell{border-right:0;border-bottom:1px solid var(--line)}
+      .db-cell:last-child{border-bottom:0}
+      .hero,.search-wrap,.db-shell{padding-left:20px;padding-right:20px}
       .hero h1{font-size:42px}
-      .hero .lead{font-size:24px}
     }
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
@@ -84,16 +83,21 @@
     </div>
   </section>
 
-  <main class="content-shell" id="catalog">
-    <section class="news-grid">
-      <article class="card">
-        <p class="kicker">Mathematics</p>
-        <h2 class="title">MATH S4061: Intro to Modern Analysis I</h2>
-        <p class="meta">Section 001</p>
-        <p class="desc">Core analysis course materials covering rigorous foundations, limits, continuity, differentiation, integration, and proof-based reasoning.</p>
-        <a class="btn" href="https://mitchellfaulk.github.io/analysis/index.html" target="_blank" rel="noreferrer">Explore</a>
-      </article>
-    </section>
+  <main class="db-shell" id="catalog">
+    <div class="db-head">
+      <span>Course / Resource</span><span>Discipline</span><span>Section</span><span>Status</span>
+    </div>
+
+    <article class="db-row">
+      <div class="db-cell">
+        <h2 class="course-title">MATH S4061: Intro to Modern Analysis I</h2>
+        <a class="course-link" href="https://mitchellfaulk.github.io/analysis/index.html" target="_blank" rel="noreferrer">https://mitchellfaulk.github.io/analysis/index.html</a>
+      </div>
+      <div class="db-cell"><span class="category">Mathematics</span></div>
+      <div class="db-cell"><span class="section">001</span></div>
+      <div class="db-cell"><span class="status">active</span></div>
+      <p class="desc">Core analysis course materials covering rigorous foundations, limits, continuity, differentiation, integration, and proof-based reasoning.</p>
+    </article>
   </main>
 
   <script src="global-loader.js?v=20260526" defer></script>
