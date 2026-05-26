@@ -66,6 +66,13 @@
       transition: opacity 180ms ease;
       will-change: transform;
     }
+    .liquid-cursor.is-interactive {
+      width: 26px;
+      height: 26px;
+      background: transparent;
+      border: 1.5px solid #000;
+      opacity: 0.95;
+    }
 
     body.cursor-enhanced .liquid-cursor {
       opacity: 0.92;
@@ -2617,6 +2624,11 @@
         targetX = event.clientX;
         targetY = event.clientY;
       };
+      const interactiveSelector = "a, button, input, select, textarea, label, img, [role='button'], [tabindex]:not([tabindex='-1'])";
+      const syncInteractiveState = (event) => {
+        const isInteractive = !!event.target.closest(interactiveSelector);
+        cursor.classList.toggle("is-interactive", isInteractive);
+      };
 
       const animate = () => {
         currentX += (targetX - currentX) * 0.22;
@@ -2626,6 +2638,8 @@
       };
 
       document.addEventListener("mousemove", move, { passive: true });
+      document.addEventListener("mouseover", syncInteractiveState, { passive: true });
+      document.addEventListener("focusin", syncInteractiveState, { passive: true });
       requestAnimationFrame(animate);
     }
 
