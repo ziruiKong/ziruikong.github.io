@@ -7,35 +7,51 @@
   <meta name="description" content="ScienceDirect-inspired materials portal.">
   <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
-    :root{--bg:#f7f3ea;--ink:#141414;--muted:#5f5a50;--line:#151515;--link:#241f19;--panel:#efefee;--accent:#d45d39}
+    :root{--bg:#f6f1e6;--ink:#151515;--muted:#5f5a50;--line:#1a1a1a;--link:#241f19;--panel:#f2ede2;--accent:#d45d39}
     *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
     a{color:var(--link);text-decoration:none}
-    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid #201f1b22}
+    .top{position:sticky;top:0;z-index:50;background:rgba(246,241,230,.9);backdrop-filter:blur(10px);border-bottom:1px solid #201f1b22}
     .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
     .brand img{width:80px;filter:brightness(0);display:block}
     .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
 
-    .hero{width:100%;padding:26px 28px 0;background:var(--panel)}
-    .hero-top{border-top:2px solid var(--line);padding-top:18px}
+    .hero{width:100%;padding:24px 30px 0;background:var(--panel)}
+    .hero-top{border-top:2px solid var(--line);padding-top:16px}
     .hero h1{margin:0;font-size:64px;line-height:.9;letter-spacing:-.03em;font-weight:600}
     .hero h1 .dot{color:var(--accent)}
-    .hero p{margin:16px 0 20px;font-size:38px;line-height:1.04;letter-spacing:-.025em;max-width:1300px}
-    .sub{margin:0;padding:16px 0 20px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);font-size:18px;color:#282828}
+    .hero .lead{margin:14px 0 18px;font-size:34px;line-height:1.05;letter-spacing:-.02em;max-width:1200px}
+    .sub{margin:0;padding:16px 0 18px;border-top:2px solid var(--line);border-bottom:2px solid var(--line);font-size:18px;color:#282828}
 
-    .news-grid{display:grid;grid-template-columns:1.7fr .9fr .9fr;background:var(--panel)}
-    .card{padding:26px 30px 24px;min-height:460px;border-right:2px solid var(--line);display:flex;flex-direction:column}
+    .search-wrap{background:var(--panel);padding:16px 30px 22px;border-bottom:2px solid var(--line)}
+    .search-grid{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr) auto;gap:10px;align-items:center}
+    .search-input,.search-select{height:44px;border:1.5px solid #1f1f1f;background:#f9f5eb;padding:0 12px;font-size:14px}
+    .search-btn{height:44px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+
+    .content-shell{background:var(--panel)}
+    .subject-tabs{display:flex;gap:26px;padding:18px 30px 14px;border-bottom:2px solid var(--line);font-size:14px;letter-spacing:.12em;text-transform:uppercase}
+    .subject-tabs span{opacity:.65}
+    .subject-tabs .active{opacity:1;font-weight:700}
+
+    .news-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;background:var(--panel)}
+    .card{padding:26px 28px 22px;min-height:430px;border-right:2px solid var(--line);display:flex;flex-direction:column}
     .card:last-child{border-right:0}
-    .kicker{font-size:38px;font-weight:500;line-height:1;letter-spacing:-.02em;margin:0 0 22px}
-    .title{font-size:58px;line-height:.95;letter-spacing:-.03em;margin:0 0 18px;font-weight:500}
-    .meta{font-size:20px;color:#242424;margin:0 0 20px}
-    .desc{font-size:20px;line-height:1.38;max-width:95%;margin:0 0 34px;color:#1e1e1e}
-    .btn{margin-top:auto;display:inline-block;border:1.8px solid #191919;border-radius:999px;padding:10px 20px;font-size:30px;line-height:1;letter-spacing:-.01em;width:fit-content}
+    .kicker{font-size:24px;font-weight:500;line-height:1;letter-spacing:-.02em;margin:0 0 18px}
+    .title{font-size:42px;line-height:.97;letter-spacing:-.03em;margin:0 0 14px;font-weight:500}
+    .meta{font-size:17px;color:#242424;margin:0 0 18px}
+    .desc{font-size:19px;line-height:1.35;max-width:95%;margin:0 0 30px;color:#1e1e1e}
+    .btn{margin-top:auto;display:inline-block;border:1.5px solid #191919;border-radius:999px;padding:9px 16px;font-size:24px;line-height:1;letter-spacing:-.01em;width:fit-content}
 
     @media (max-width:1250px){
-      .hero h1{font-size:52px}.hero p{font-size:30px}.title{font-size:42px}.kicker{font-size:30px}.btn{font-size:24px}.desc,.meta{font-size:18px}
+      .hero h1{font-size:52px}.hero .lead{font-size:28px}.title{font-size:34px}.kicker{font-size:22px}.btn{font-size:20px}.desc,.meta{font-size:17px}
       .news-grid{grid-template-columns:1fr}
       .card{border-right:0;border-bottom:2px solid var(--line);min-height:auto}
       .card:last-child{border-bottom:0}
+    }
+    @media (max-width:860px){
+      .search-grid{grid-template-columns:1fr}
+      .hero,.search-wrap,.subject-tabs{padding-left:20px;padding-right:20px}
+      .hero h1{font-size:42px}
+      .hero .lead{font-size:24px}
     }
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
@@ -57,35 +73,51 @@
   <section class="hero" aria-label="Materials hero">
     <div class="hero-top">
       <h1>Materials<span class="dot">.</span></h1>
-      <p>Disciplinary updates, curated references, and event-grade learning pathways.</p>
-      <p class="sub">Stay current with research directions, high-value readings, and domain events across engineering, life sciences, and social science.</p>
+      <p class="lead">Disciplinary index for curated references, flagship readings, and structured learning tracks.</p>
+      <p class="sub">An elegant catalog spanning engineering, life sciences, and social science, with publication-grade selections.</p>
     </div>
   </section>
 
-  <main class="news-grid" id="catalog">
-    <article class="card">
-      <p class="kicker">Engineering</p>
-      <h2 class="title">Bayesian computation, ML systems, and optimization praxis</h2>
-      <p class="meta">Curated track · Updated weekly</p>
-      <p class="desc">Structured pathways covering probabilistic modeling, inference workflows, reproducible Python notebooks, and practical deployment references for advanced learners.</p>
-      <a class="btn" href="#">Explore</a>
-    </article>
+  <section class="search-wrap" aria-label="Materials search">
+    <div class="search-grid">
+      <input class="search-input" type="search" placeholder="Search topic, method, journal, or keyword">
+      <select class="search-select" aria-label="Discipline filter">
+        <option>All Disciplines</option><option>Engineering</option><option>Life Sciences</option><option>Social Science</option>
+      </select>
+      <button class="search-btn" type="button">Search</button>
+    </div>
+  </section>
 
-    <article class="card">
-      <p class="kicker">Life Sciences</p>
-      <h2 class="title">Biostatistics, genomics pipelines, and cohort methods</h2>
-      <p class="meta">Curated track · Updated bi-weekly</p>
-      <p class="desc">Resources on data-centric biology, experimental design, and reproducible biomedical analysis templates aligned with current literature standards.</p>
-      <a class="btn" href="#">Explore</a>
-    </article>
+  <main class="content-shell" id="catalog">
+    <div class="subject-tabs" aria-label="Subject tabs">
+      <span class="active">Engineering</span><span>Life Sciences</span><span>Social Science</span><span>Methods</span>
+    </div>
 
-    <article class="card">
-      <p class="kicker">Social Science</p>
-      <h2 class="title">Causal inference, policy analytics, and survey design</h2>
-      <p class="meta">Curated track · Updated monthly</p>
-      <p class="desc">Evidence-focused collections spanning field experiments, political economy methods, and publication-grade interpretation frameworks.</p>
-      <a class="btn" href="#">Explore</a>
-    </article>
+    <section class="news-grid">
+      <article class="card">
+        <p class="kicker">Engineering</p>
+        <h2 class="title">Bayesian computation, ML systems, and optimization praxis</h2>
+        <p class="meta">Curated track · Updated weekly</p>
+        <p class="desc">Structured pathways covering probabilistic modeling, inference workflows, reproducible Python notebooks, and practical deployment references for advanced learners.</p>
+        <a class="btn" href="#">Explore</a>
+      </article>
+
+      <article class="card">
+        <p class="kicker">Life Sciences</p>
+        <h2 class="title">Biostatistics, genomics pipelines, and cohort methods</h2>
+        <p class="meta">Curated track · Updated bi-weekly</p>
+        <p class="desc">Resources on data-centric biology, experimental design, and reproducible biomedical analysis templates aligned with current literature standards.</p>
+        <a class="btn" href="#">Explore</a>
+      </article>
+
+      <article class="card">
+        <p class="kicker">Social Science</p>
+        <h2 class="title">Causal inference, policy analytics, and survey design</h2>
+        <p class="meta">Curated track · Updated monthly</p>
+        <p class="desc">Evidence-focused collections spanning field experiments, political economy methods, and publication-grade interpretation frameworks.</p>
+        <a class="btn" href="#">Explore</a>
+      </article>
+    </section>
   </main>
 
   <script src="global-loader.js?v=20260526" defer></script>
