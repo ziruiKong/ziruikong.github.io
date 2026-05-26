@@ -1180,7 +1180,7 @@
       align-items: flex-end;
       overflow: hidden;
       z-index: 3;
-      background: #000;
+      background: #fffff0;
       isolation: isolate;
       --collab-rise: 36px;
       --collab-opacity: .84;
@@ -1204,22 +1204,11 @@
     }
 
     .collab-section::before {
-      background:
-        radial-gradient(ellipse at 16% 28%, rgba(243, 239, 224, 0.72), transparent 34%),
-        radial-gradient(ellipse at 68% 22%, rgba(180, 150, 83, 0.34), transparent 31%),
-        radial-gradient(ellipse at 54% 76%, rgba(117, 112, 105, 0.28), transparent 35%),
-        radial-gradient(ellipse at 91% 68%, rgba(245, 232, 180, 0.44), transparent 30%);
-      filter: blur(42px) saturate(1.08);
-      animation: collabFlow 18s cubic-bezier(.37, 0, .63, 1) infinite alternate;
+      content: none;
     }
 
     .collab-section::after {
-      background-image:
-        linear-gradient(rgba(17, 24, 39, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(17, 24, 39, 0.026) 1px, transparent 1px);
-      background-size: 34px 34px;
-      mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 84%, transparent 100%);
-      opacity: 0.36;
+      content: none;
     }
 
     .collab-card {
@@ -1231,7 +1220,7 @@
       grid-template-columns: minmax(0, 1fr) minmax(300px, 0.88fr);
       grid-template-rows: 1fr auto;
       gap: clamp(18px, 3.2vw, 44px);
-      border: 1px solid rgba(17, 24, 39, 0.07);
+      border: 2px solid #8b5e34;
       border-radius: 8px;
       background: rgba(255, 255, 252, 0.88);
       box-shadow:
