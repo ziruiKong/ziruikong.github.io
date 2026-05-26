@@ -28,11 +28,8 @@
     .search-btn{height:44px;border:1.5px solid #1f1f1f;background:#151515;color:#f7f3ea;padding:0 18px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 
     .content-shell{background:var(--panel)}
-    .subject-tabs{display:flex;gap:26px;padding:18px 30px 14px;border-bottom:2px solid var(--line);font-size:14px;letter-spacing:.12em;text-transform:uppercase}
-    .subject-tabs span{opacity:.65}
-    .subject-tabs .active{opacity:1;font-weight:700}
-
-    .news-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;background:var(--panel)}
+    
+    .news-grid{display:grid;grid-template-columns:1fr;background:var(--panel)}
     .card{padding:26px 28px 22px;min-height:430px;border-right:2px solid var(--line);display:flex;flex-direction:column}
     .card:last-child{border-right:0}
     .kicker{font-size:24px;font-weight:500;line-height:1;letter-spacing:-.02em;margin:0 0 18px}
@@ -49,7 +46,8 @@
     }
     @media (max-width:860px){
       .search-grid{grid-template-columns:1fr}
-      .hero,.search-wrap,.subject-tabs{padding-left:20px;padding-right:20px}
+      .hero,.search-wrap{padding-left:20px;padding-right:20px}
+      
       .hero h1{font-size:42px}
       .hero .lead{font-size:24px}
     }
@@ -80,40 +78,20 @@
     <div class="search-grid">
       <input class="search-input" type="search" placeholder="Search topic, method, journal, or keyword">
       <select class="search-select" aria-label="Discipline filter">
-        <option>All Disciplines</option><option>Engineering</option><option>Life Sciences</option><option>Social Science</option>
+        <option>All Disciplines</option><option>Mathematics</option>
       </select>
       <button class="search-btn" type="button">Search</button>
     </div>
   </section>
 
   <main class="content-shell" id="catalog">
-    <div class="subject-tabs" aria-label="Subject tabs">
-      <span class="active">Engineering</span><span>Life Sciences</span><span>Social Science</span><span>Methods</span>
-    </div>
-
     <section class="news-grid">
       <article class="card">
-        <p class="kicker">Engineering</p>
-        <h2 class="title">Bayesian computation, ML systems, and optimization praxis</h2>
-        <p class="meta">Curated track · Updated weekly</p>
-        <p class="desc">Structured pathways covering probabilistic modeling, inference workflows, reproducible Python notebooks, and practical deployment references for advanced learners.</p>
-        <a class="btn" href="#">Explore</a>
-      </article>
-
-      <article class="card">
-        <p class="kicker">Life Sciences</p>
-        <h2 class="title">Biostatistics, genomics pipelines, and cohort methods</h2>
-        <p class="meta">Curated track · Updated bi-weekly</p>
-        <p class="desc">Resources on data-centric biology, experimental design, and reproducible biomedical analysis templates aligned with current literature standards.</p>
-        <a class="btn" href="#">Explore</a>
-      </article>
-
-      <article class="card">
-        <p class="kicker">Social Science</p>
-        <h2 class="title">Causal inference, policy analytics, and survey design</h2>
-        <p class="meta">Curated track · Updated monthly</p>
-        <p class="desc">Evidence-focused collections spanning field experiments, political economy methods, and publication-grade interpretation frameworks.</p>
-        <a class="btn" href="#">Explore</a>
+        <p class="kicker">Mathematics</p>
+        <h2 class="title">MATH S4061: Intro to Modern Analysis I</h2>
+        <p class="meta">Section 001</p>
+        <p class="desc">Core analysis course materials covering rigorous foundations, limits, continuity, differentiation, integration, and proof-based reasoning.</p>
+        <a class="btn" href="https://mitchellfaulk.github.io/analysis/index.html" target="_blank" rel="noreferrer">Explore</a>
       </article>
     </section>
   </main>
