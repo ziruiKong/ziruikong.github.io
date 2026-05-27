@@ -1031,12 +1031,12 @@
 
     .practice-heading {
       margin: clamp(14px, 1.8vw, 24px) 0 0;
-      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       font-size: clamp(28px, 3.4vw, 52px);
       line-height: 1.08;
       letter-spacing: -.03em;
       max-width: 26ch;
-      font-weight: 500;
+      font-weight: 760;
     }
 
     .practice-underline {
@@ -1076,7 +1076,8 @@
     }
     .practice-link {
       min-height: clamp(56px, 5.2vw, 78px);
-      font-weight: 700;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-weight: 400;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
@@ -1103,6 +1104,8 @@
     @media (prefers-reduced-motion: reduce) {
       .splash::before,
       .collab-section::before,
+      .collab-section::after,
+      .collab-card::after,
       .splash-content {
         animation: none;
       }
@@ -1118,6 +1121,11 @@
       .liquid-cursor {
         transition: none;
         animation: none;
+      }
+      .collab-card,
+      .collab-card:hover,
+      .collab-figure img {
+        transform: none;
       }
     }
 
@@ -1181,7 +1189,10 @@
       align-items: flex-end;
       overflow: hidden;
       z-index: 3;
-      background: #fffff0;
+      background:
+        radial-gradient(90% 60% at 8% 14%, rgba(255, 255, 255, .78) 0%, rgba(255, 255, 255, 0) 62%),
+        radial-gradient(70% 55% at 92% 80%, rgba(236, 212, 165, .32) 0%, rgba(236, 212, 165, 0) 72%),
+        #fffff0;
       isolation: isolate;
       --collab-rise: 36px;
       --collab-opacity: .84;
@@ -1205,11 +1216,19 @@
     }
 
     .collab-section::before {
-      content: none;
+      background:
+        radial-gradient(42% 42% at 14% 20%, rgba(255, 255, 255, .78), rgba(255, 255, 255, 0) 70%);
+      filter: blur(10px);
+      opacity: .8;
+      animation: collabGlowFloat 11s ease-in-out infinite alternate;
     }
 
     .collab-section::after {
-      content: none;
+      background:
+        linear-gradient(110deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 76%);
+      transform: translateX(-38%);
+      opacity: .72;
+      animation: collabSheen 7.8s cubic-bezier(.2, .65, .18, .98) infinite;
     }
 
     .collab-card {
@@ -1229,10 +1248,41 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.72);
       backdrop-filter: blur(24px) saturate(128%);
       -webkit-backdrop-filter: blur(24px) saturate(128%);
+      transform-style: preserve-3d;
+      transition: transform .36s cubic-bezier(.22,.61,.36,1), box-shadow .36s cubic-bezier(.22,.61,.36,1), border-color .36s ease;
+    }
+    .collab-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      border: 1px solid rgba(255,255,255,.56);
+      background: linear-gradient(128deg, rgba(255,255,255,.34), rgba(255,255,255,.04) 52%, rgba(188, 139, 76, .14));
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+    .collab-card::after {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: conic-gradient(from 160deg at 10% 8%, rgba(255,255,255,0), rgba(255,255,255,.2), rgba(255,255,255,0) 35%);
+      filter: blur(12px);
+      opacity: .45;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .collab-card:hover {
+      transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
+      border-color: rgba(141, 100, 39, .72);
+      box-shadow:
+        0 34px 92px rgba(77, 63, 38, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
     .collab-kicker {
-      margin: 0 0 18px;
+      margin: 0;
       color: rgba(17, 24, 39, 0.38);
       font-size: calc(12px * 0.88);
       font-weight: 820;
@@ -1254,7 +1304,7 @@
       justify-self: end;
       align-self: start;
       color: #0e1117;
-      font-size: calc(clamp(22px, 3.4vw, 56px) * 0.88);
+      font-size: calc(clamp(18px, 2.6vw, 38px) * 0.88);
       line-height: 1;
       font-weight: 760;
       letter-spacing: -0.055em;
@@ -1284,6 +1334,7 @@
       height: auto;
       object-fit: contain;
       mix-blend-mode: multiply;
+      animation: collabFigureFloat 6.6s ease-in-out infinite alternate;
     }
 
     .collab-links {
@@ -1350,6 +1401,37 @@
       text-decoration: none;
       transition: color 180ms ease, opacity 180ms ease;
     }
+    .collab-socials a {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(17, 24, 39, .24);
+      background: rgba(255, 255, 255, .5);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.66), 0 8px 18px rgba(15, 23, 42, .1);
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      color: #111827;
+    }
+    .social-icon {
+      width: 19px;
+      height: 19px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.95;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .social-icon.linkedin {
+      fill: currentColor;
+      stroke: none;
+    }
+    .collab-socials a:hover {
+      transform: translateY(-2px);
+      border-color: rgba(141, 100, 39, .55);
+    }
 
     .collab-socials a:hover,
     .collab-policy a:hover {
@@ -1366,6 +1448,20 @@
       0% { transform: translate3d(-2%, -1%, 0) rotate(0deg) scale(1); }
       50% { transform: translate3d(2.4%, 1.8%, 0) rotate(1.2deg) scale(1.04); }
       100% { transform: translate3d(-1%, 2.2%, 0) rotate(-1deg) scale(1.02); }
+    }
+    @keyframes collabGlowFloat {
+      0% { transform: translate3d(-1.5%, -1.2%, 0) scale(1); opacity: .58; }
+      100% { transform: translate3d(2.4%, 1.6%, 0) scale(1.08); opacity: .86; }
+    }
+    @keyframes collabSheen {
+      0% { transform: translateX(-52%); opacity: 0; }
+      16% { opacity: .7; }
+      54% { opacity: .48; }
+      100% { transform: translateX(48%); opacity: 0; }
+    }
+    @keyframes collabFigureFloat {
+      0% { transform: translateY(0) rotate(-.35deg); }
+      100% { transform: translateY(-6px) rotate(.5deg); }
     }
 
     .inquiry-pin {
@@ -1884,7 +1980,7 @@
     .floating-brand { margin-left: 8px; }
     .floating-brand img { width: 86px; display:block; }
     .floating-links { display:flex; gap: 14px; flex-wrap: wrap; justify-content:flex-end; margin-left: auto; margin-right: 8px; }
-    .floating-links a { text-decoration:none; font-size:11px; letter-spacing:.05em; text-transform:uppercase; font-weight:700; color:#0f172a; opacity:.82; }
+    .floating-links a { text-decoration:none; font-size:14px; letter-spacing:.05em; text-transform:uppercase; font-weight:800; color:#000; opacity:.9; }
     .floating-links a:hover { opacity:1; }
     @media (max-width: 980px) { .floating-nav { display:none; } }
 
@@ -2204,11 +2300,12 @@
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape triangle"></span> Repertoire</div>
           <a href="#connect">Contact</a>
+          <a href="phd-catalog.html">PhD Catalog</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape circle"></span> Narrative</div>
           <a href="about.html">About</a>
-          <a href="#overview">Overview</a>
+          <a href="blog.html">Blog</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape square"></span> Liaison</div>
@@ -2219,20 +2316,19 @@
           <a href="resources.html">Archive</a>
           <a href="notes.html">Notes</a>
           <a href="materials.html">Materials</a>
-          <a href="blog.html">Blog</a>
         </div>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
     <div class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile navigation">
       <img class="mobile-menu-logo" src="menu.png" alt="Menu logo">
-      <a href="#overview">Overview</a>
       <a href="#connect">Contact</a>
       <a href="about.html">About</a>
       <a href="resources.html">Archive</a>
       <a href="shop.html">Shop</a>
       <a href="notes.html">Notes</a>
       <a href="materials.html">Materials</a>
+      <a href="phd-catalog.html">PhD Catalog</a>
       <a href="blog.html">Blog</a>
     </div>
   </header>
@@ -2246,11 +2342,11 @@
     <div class="floating-links">
       <a href="#connect">Contact</a>
       <a href="about.html">About</a>
-      <a href="#overview">Overview</a>
-      <a href="shop.html">Shop</a>
+            <a href="shop.html">Shop</a>
       <a href="resources.html">Archive</a>
       <a href="notes.html">Notes</a>
       <a href="materials.html">Materials</a>
+      <a href="phd-catalog.html">PhD Catalog</a>
       <a href="blog.html">Blog</a>
     </div>
   </nav>
@@ -2330,7 +2426,7 @@
     <section class="collab-section" id="connect" aria-label="Collaboration">
       <div class="collab-card">
         <div>
-          <p class="collab-kicker">KZR Collaboration</p>
+          <p class="collab-kicker" aria-hidden="true"></p>
           <h2 class="collab-heading">Have a project in mind?<br>Ready to think, write, and build.</h2>
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
@@ -2347,14 +2443,19 @@
           <div class="collab-link-group">
             <span>Archive</span>
             <a href="about.html">About</a>
+          <a href="blog.html">Blog</a>
             <a href="resources.html">Research</a>
             <a href="notes.html">Notes</a>
             </div>
         </div>
         <div class="collab-meta">
           <div class="collab-socials">
-            <a href="mailto:kongzirui2004@163.com" aria-label="Email">Email</a>
-            <a href="https://www.linkedin.com/in/raykong626" aria-label="LinkedIn">LinkedIn</a>
+            <a href="mailto:kongzirui2004@163.com" aria-label="Email">
+              <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="5.6" width="17.6" height="12.8" rx="2.2"></rect><path d="M4.8 7.2l7.2 5.6 7.2-5.6"></path></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/raykong626" aria-label="LinkedIn">
+              <svg class="social-icon linkedin" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 9h3.2v10H5.5zM7.1 4.5a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8ZM10.5 9h3.1v1.4h.1c.4-.8 1.5-1.7 3.1-1.7 3.3 0 3.9 2.2 3.9 5v5.3h-3.3v-4.7c0-1.1 0-2.5-1.5-2.5s-1.7 1.2-1.7 2.4v4.8h-3.3z"></path></svg>
+            </a>
           </div>
           <div class="collab-policy">
             <a href="#connect">Cookie Preferences</a>
