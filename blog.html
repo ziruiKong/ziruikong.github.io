@@ -5,33 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog | KZR</title>
   <style>
-    :root{--bg:#f7f3ea;--text:#151515;--muted:#666;--line:#ddd6c8}
+    :root{
+      --bg:#f5f5f4;
+      --panel:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --chip:#f8fafc;
+    }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
-    .top{position:sticky;top:0;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .inner{max-width:980px;margin:0 auto;padding:14px 20px}
-    .brand{font-weight:700;letter-spacing:.03em;text-decoration:none;color:inherit}
-    h1{font-size:42px;line-height:1.05;margin:28px 0 10px;font-family:Georgia,"Times New Roman","Noto Serif SC",serif}
-    .desc{color:var(--muted);margin:0 0 30px}
-    .list{display:grid;gap:16px;padding:0 0 38px}
-    .post{border:1px solid var(--line);background:#fffdf8;padding:16px 18px}
-    .post h2{margin:0 0 8px;font-size:24px}
-    .meta{font-size:13px;color:var(--muted);margin-bottom:10px}
-    .post p{margin:0;line-height:1.6}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
+
+    .topbar{
+      position:sticky;top:0;z-index:20;
+      background:rgba(245,245,244,.84);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner,.layout{max-width:1180px;margin:0 auto;padding:14px 22px}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-weight:800;letter-spacing:.06em;text-decoration:none;color:inherit}
+    .top-links{display:flex;gap:14px;flex-wrap:wrap}
+    .top-links a{text-decoration:none;color:var(--ink);font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.72}
+    .top-links a:hover{opacity:1}
+
+    .layout{padding-top:22px;padding-bottom:40px}
+    .toolbar{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;margin-bottom:20px}
+    .search{
+      width:100%;border:1px solid var(--line);background:#fff;padding:12px 14px;border-radius:999px;
+      font-size:14px;outline:none;
+    }
+    .chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .chip{border:1px solid var(--line);background:var(--chip);padding:8px 12px;border-radius:999px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+
+    .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px;min-height:160px}
+    .card.featured{grid-column:span 8;min-height:260px}
+    .card.tall{grid-column:span 4;min-height:260px}
+    .card.wide{grid-column:span 6}
+    .card.half{grid-column:span 6}
+    .meta{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+    .title{margin:0;font-size:clamp(20px,2.2vw,32px);line-height:1.08}
+    .title.sm{font-size:clamp(18px,1.6vw,24px)}
+    .excerpt{margin:0;color:#334155;line-height:1.5;font-size:14px}
+
+    @media (max-width: 920px){
+      .toolbar{grid-template-columns:1fr}
+      .chips{justify-content:flex-start}
+      .card.featured,.card.tall,.card.wide,.card.half{grid-column:span 12;min-height:unset}
+    }
   </style>
 </head>
 <body>
-  <header class="top">
-    <div class="inner"><a class="brand" href="index.html#home">KZR</a></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html#home">KZR BLOG</a>
+      <nav class="top-links" aria-label="Blog navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="notes.html">Notes</a>
+      </nav>
+    </div>
   </header>
-  <main class="inner">
-    <h1>Blog</h1>
-    <p class="desc">Notes on study, work, and long-term growth.</p>
-    <section class="list" aria-label="Blog posts">
-      <article class="post">
-        <h2>Welcome to the Blog</h2>
-        <div class="meta">May 26, 2026 · Intro</div>
-        <p>This page is a new space for sharing reflections, project updates, and reading notes.</p>
+
+  <main class="layout">
+    <section class="toolbar" aria-label="Blog tools">
+      <input class="search" type="search" placeholder="Search posts" aria-label="Search posts" />
+      <div class="chips" aria-label="Categories">
+        <span class="chip">All</span>
+        <span class="chip">Research</span>
+        <span class="chip">Build</span>
+        <span class="chip">Readings</span>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Blog posts">
+      <article class="card featured">
+        <div class="meta">May 2026 · Research</div>
+        <h1 class="title">Bayesian Workflow Notes</h1>
+        <p class="excerpt">Model checks, prior choices, and diagnostics used in weekly experiments.</p>
+      </article>
+
+      <article class="card tall">
+        <div class="meta">May 2026 · Build</div>
+        <h2 class="title sm">Archive System v2</h2>
+        <p class="excerpt">Structure updates for notes, materials, and cross-links.</p>
+      </article>
+
+      <article class="card wide">
+        <div class="meta">Apr 2026 · Readings</div>
+        <h2 class="title sm">Decision Theory Reading Log</h2>
+      </article>
+
+      <article class="card half">
+        <div class="meta">Apr 2026 · Build</div>
+        <h2 class="title sm">Homepage Iteration</h2>
+      </article>
+
+      <article class="card half">
+        <div class="meta">Mar 2026 · Research</div>
+        <h2 class="title sm">Causal Inference Notes</h2>
       </article>
     </section>
   </main>
