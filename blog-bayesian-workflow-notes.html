@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bayesian Workflow Notes | KZR Blog</title>
+  <meta name="description" content="A fictional long-form test article for the KZR blog reader.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--bg:#f7f3ea;--paper:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--soft:#eceae6;--accent:#8f6f2b}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    a{color:inherit}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+
+    .reader{width:100%;padding:28px 24px 54px}
+    .article-shell{display:grid;grid-template-columns:minmax(180px,240px) minmax(0,1fr);gap:18px;align-items:start}
+    .toc{position:sticky;top:78px;border:1px solid var(--line);background:var(--paper);padding:14px;min-height:220px}
+    .toc-title{margin:0 0 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
+    .toc a{display:block;text-decoration:none;font-size:13px;line-height:1.35;padding:8px 0;border-top:1px solid var(--line);color:#2b251e}
+    .article{border:1px solid var(--line);background:var(--paper)}
+    .article-head{padding:clamp(22px,4vw,48px);border-bottom:1px solid var(--line);display:grid;gap:18px}
+    .crumb{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800}
+    .crumb a{text-decoration:none}
+    h1{margin:0;max-width:1120px;font-size:clamp(44px,9vw,132px);line-height:.86;letter-spacing:-.06em;text-transform:uppercase}
+    .dek{max-width:760px;margin:0;color:#332c24;font-size:clamp(18px,2vw,25px);line-height:1.36}
+    .meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:#fff;margin-top:8px}
+    .meta-item{padding:12px;border-right:1px solid var(--line)}.meta-item:last-child{border-right:0}
+    .label{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:6px}.value{font-size:14px;font-weight:700}
+
+    .article-body{display:grid;grid-template-columns:minmax(0,760px) minmax(220px,1fr);gap:clamp(22px,4vw,56px);padding:clamp(22px,4vw,48px)}
+    .content{font-family:Georgia,"Times New Roman","Noto Serif SC",serif;font-size:20px;line-height:1.72;color:#211c17}
+    .content h2{font-family:Inter,"Helvetica Neue",Arial,sans-serif;margin:44px 0 10px;font-size:clamp(28px,4vw,48px);line-height:1;letter-spacing:-.04em;text-transform:uppercase;color:var(--ink)}
+    .content p{margin:0 0 22px}.content strong{color:#111}
+    .content blockquote{margin:34px 0;padding:20px 22px;border-left:4px solid var(--accent);background:#f0ece3;font-size:24px;line-height:1.35;color:#161616}
+    .note-card{border:1px solid var(--line);background:#fff;padding:16px;margin-bottom:14px}
+    .note-card h3{margin:0 0 10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase}.note-card p{margin:0;color:#3c342c;font-size:14px;line-height:1.5}
+    .side{position:sticky;top:78px}.tag-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.tag{border:1px solid var(--line);background:var(--soft);padding:7px 9px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+    .next{display:flex;justify-content:space-between;gap:14px;padding:18px 24px;border-top:1px solid var(--line);background:#fff;text-decoration:none}.next span{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:800}.next b{font-size:20px;letter-spacing:-.02em}
+    @media (max-width:980px){.article-shell,.article-body{grid-template-columns:1fr}.toc,.side{position:static}.meta-grid{grid-template-columns:1fr 1fr}.meta-item:nth-child(2){border-right:0}.meta-item:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+    @media (max-width:640px){.top-inner{grid-template-columns:auto 1fr}.reader{padding:18px 16px 38px}.meta-grid{grid-template-columns:1fr}.meta-item{border-right:0;border-bottom:1px solid var(--line)}.meta-item:last-child{border-bottom:0}}
+  </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Article navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">ARCHIVE</a>
+        <a href="notes.html">Notes</a>
+        <a href="materials.html">Materials</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="reader">
+    <div class="article-shell">
+      <aside class="toc" aria-label="Article table of contents">
+        <p class="toc-title">Contents</p>
+        <a href="#setup">Setup</a>
+        <a href="#prior">Prior discipline</a>
+        <a href="#checks">Checks</a>
+        <a href="#release">Release notes</a>
+      </aside>
+
+      <article class="article">
+        <header class="article-head">
+          <div class="crumb"><a href="blog.html">Blog</a><span>/</span><span>Research</span></div>
+          <h1>Bayesian Workflow Notes</h1>
+          <p class="dek">A fictional test essay for the new KZR reader: compact metadata, quiet margins, strong hierarchy, and a professional long-form reading surface.</p>
+          <div class="meta-grid" aria-label="Article metadata">
+            <div class="meta-item"><span class="label">Date</span><span class="value">May 2026</span></div>
+            <div class="meta-item"><span class="label">Type</span><span class="value">Research memo</span></div>
+            <div class="meta-item"><span class="label">Reading</span><span class="value">12 min</span></div>
+            <div class="meta-item"><span class="label">Status</span><span class="value">Test article</span></div>
+          </div>
+        </header>
+
+        <div class="article-body">
+          <div class="content">
+            <p id="setup"><strong>Workflow starts before the model.</strong> The useful part of a Bayesian project is not the final posterior chart; it is the sequence of small decisions that make the chart trustworthy.</p>
+            <p>For this fictional study, the target is a weekly learning signal. Each observation is noisy, each subgroup is partial, and the model has to stay interpretable enough for revision.</p>
+
+            <h2 id="prior">Prior discipline</h2>
+            <p>A prior is a design object. It records what would be surprising before the data arrives, and it keeps the analysis from pretending that weak information is stronger than it is.</p>
+            <blockquote>Good workflow makes uncertainty visible early, not decorative at the end.</blockquote>
+            <p>The first pass uses weakly regularizing assumptions, then tightens only when domain constraints are explicit. This keeps the system flexible while preventing impossible jumps.</p>
+
+            <h2 id="checks">Checks</h2>
+            <p>Posterior predictive checks are treated as the main reading interface. Instead of asking whether the model is elegant, the reader asks whether simulated data behaves like the world that produced the observations.</p>
+            <p>Diagnostics are grouped into three shelves: sampling health, calibration, and decision sensitivity. A model can pass one shelf and fail another, which is why the report separates them.</p>
+
+            <h2 id="release">Release notes</h2>
+            <p>The final note is intentionally conservative. It lists what changed, what remained unstable, and which assumptions should be tested next. The conclusion is a working draft, not a performance.</p>
+          </div>
+
+          <aside class="side" aria-label="Reader notes">
+            <div class="tag-row"><span class="tag">Bayes</span><span class="tag">Stats</span><span class="tag">Workflow</span></div>
+            <div class="note-card"><h3>Reader mode</h3><p>Wide article header, sticky contents, metadata grid, and margin notes for professional long-form posts.</p></div>
+            <div class="note-card"><h3>Test content</h3><p>This page is a fictional article shell and can be reused for future real posts.</p></div>
+          </aside>
+        </div>
+
+        <a class="next" href="blog.html"><span>Back</span><b>All posts</b></a>
+      </article>
+    </div>
+  </main>
+  <script src="global-loader.js?v=20260526" defer></script>
+</body>
+</html>
