@@ -15,16 +15,19 @@
 
     body.reader-mode{--bg:#fbfaf6;--paper:#fff;--line:#00000018}
     body.reader-mode .top,body.reader-mode .toc,body.reader-mode .tools{display:none}
+    body.reader-mode .reader-exit{display:block}
     body.reader-mode .reader{padding:0}
     body.reader-mode .article-shell{display:block;max-width:880px;margin:0 auto}
     body.reader-mode .article{border:0;background:transparent}
     body.reader-mode .article-head,body.reader-mode .article-body{padding:32px 24px}
     body.reader-mode .content{font-size:20px;line-height:1.85}
+    .reader-exit{display:none;position:fixed;right:20px;top:20px;z-index:70;border:1px solid #1113;background:#fff;padding:10px 12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#1a1a1a;cursor:pointer}
     .reader{width:100%;padding:24px}.article-shell{display:grid;grid-template-columns:minmax(170px,220px) minmax(0,1fr) minmax(210px,270px);gap:18px;align-items:start}
     .toc,.tools{position:sticky;top:78px;border:1px solid var(--line);background:var(--paper);padding:14px}.toc-title,.tool-title{margin:0 0 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
     .toc a{display:block;text-decoration:none;font-size:13px;line-height:1.35;padding:8px 0;border-top:1px solid var(--line);color:#2b251e}.tool-row{border-top:1px solid var(--line);padding:10px 0}.label{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-bottom:5px}.value{font-size:14px;font-weight:700;line-height:1.35}
     .tool-actions{display:grid;gap:8px;margin-top:12px}.tool-actions button,.tool-actions a{border:1px solid #1113;background:#fff;padding:9px 10px;text-align:center;text-decoration:none;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#1a1a1a;cursor:pointer}
 
+    .print-logo{display:none}
     .article{border:1px solid var(--line);background:var(--paper)}.article-head{padding:clamp(22px,3.4vw,42px);border-bottom:1px solid var(--line);display:grid;gap:16px}.crumb{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:800}.crumb a{text-decoration:none}
     h1{margin:0;max-width:900px;font-size:clamp(34px,5.6vw,76px);line-height:.96;letter-spacing:-.045em;text-transform:uppercase}.abstract{border:1px solid var(--line);background:#fff;padding:14px;max-width:860px}.abstract h2{margin:0 0 8px;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.abstract p{margin:0;color:#2b251e;font-size:16px;line-height:1.55}
     .meta-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);background:#fff}.meta-item{padding:12px;border-right:1px solid var(--line)}.meta-item:last-child{border-right:0}
@@ -39,10 +42,11 @@
       @page{margin:18mm 16mm}
       :root{--bg:#fff;--paper:#fff;--ink:#000;--muted:#333;--line:#00000033}
       body{background:#fff;color:#000}
-      .top,.toc,.tools,.next,script{display:none!important}
+      .top,.toc,.tools,.next,.reader-exit,script{display:none!important}
       .reader{padding:0!important}
       .article-shell{display:block!important}
       .article{border:0!important;background:#fff!important}
+      .print-logo{display:block!important;width:28mm!important;height:auto!important;filter:brightness(0)!important;margin:0 0 10mm!important}
       .article-head{padding:0 0 12mm!important;border-bottom:1px solid #000!important;gap:8mm!important}
       .article-body{padding:10mm 0 0!important}
       h1{font-size:26pt!important;line-height:1.08!important;letter-spacing:-.02em!important;text-transform:none!important;max-width:none!important}
@@ -69,6 +73,7 @@
     </div>
   </header>
 
+  <button class="reader-exit" id="readerModeExit" type="button">Exit reader</button>
   <main class="reader">
     <div class="article-shell">
       <aside class="toc" aria-label="Article table of contents">
@@ -82,6 +87,7 @@
 
       <article class="article">
         <header class="article-head">
+          <img class="print-logo" src="assets/kzr-logo-black.png" alt="KZR logo">
           <div class="crumb"><a href="blog.html">Blog</a><span>/</span><span>Research memo</span></div>
           <h1>Bayesian Workflow Notes</h1>
           <section class="abstract" id="abstract" aria-label="Abstract">
@@ -152,10 +158,13 @@
   </main>
   <script>
     const readerModeToggle = document.getElementById('readerModeToggle');
-    readerModeToggle?.addEventListener('click', () => {
-      document.body.classList.toggle('reader-mode');
-      readerModeToggle.textContent = document.body.classList.contains('reader-mode') ? 'Default mode' : 'Reader mode';
-    });
+    const readerModeExit = document.getElementById('readerModeExit');
+    const setReaderMode = (enabled) => {
+      document.body.classList.toggle('reader-mode', enabled);
+      if (readerModeToggle) readerModeToggle.textContent = enabled ? 'Default mode' : 'Reader mode';
+    };
+    readerModeToggle?.addEventListener('click', () => setReaderMode(!document.body.classList.contains('reader-mode')));
+    readerModeExit?.addEventListener('click', () => setReaderMode(false));
   </script>
   <script src="global-loader.js?v=20260526" defer></script>
 </body>
