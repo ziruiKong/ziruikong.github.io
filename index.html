@@ -1191,41 +1191,22 @@
       z-index: 3;
       background: #0f172a;
       isolation: isolate;
-      --collab-rise: 36px;
-      --collab-opacity: .84;
-      transform: translateY(var(--collab-rise));
-      opacity: var(--collab-opacity);
-      transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
-      will-change: transform, opacity;
+      --collab-rise: 0px;
+      --collab-opacity: 1;
+      transform: none;
+      opacity: 1;
+      transition: none;
+      will-change: auto;
     }
     .collab-section.is-revealing {
-      transform: translateY(0);
+      transform: none;
       opacity: 1;
     }
 
     .collab-section::before,
     .collab-section::after {
-      content: "";
-      position: absolute;
-      inset: -20%;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .collab-section::before {
-      background:
-        radial-gradient(42% 42% at 14% 20%, rgba(255, 255, 255, .78), rgba(255, 255, 255, 0) 70%);
-      filter: blur(10px);
-      opacity: .8;
-      animation: collabGlowFloat 11s ease-in-out infinite alternate;
-    }
-
-    .collab-section::after {
-      background:
-        linear-gradient(110deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 76%);
-      transform: translateX(-38%);
-      opacity: .72;
-      animation: collabSheen 7.8s cubic-bezier(.2, .65, .18, .98) infinite;
+      content: none;
+      display: none;
     }
 
     .collab-card {
