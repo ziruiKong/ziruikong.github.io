@@ -1,151 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog | KZR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — Blog</title>
+  <meta name="description" content="Minimal blog index.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
-    :root{
-      --bg:#eceef1;
-      --panel:#f7f8fa;
-      --paper:#ffffff;
-      --ink:#12161f;
-      --muted:#6c7383;
-      --line:#d7dce5;
-      --strong:#0f172a;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0}
-    body{font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    a{text-decoration:none;color:inherit}
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
 
-    .wrap{max-width:1240px;margin:0 auto;padding:18px}
+    .hero{width:100%;padding:44px 24px 18px}
+    .blog-marquee{margin-top:14px;border:1px solid #cfd6dc;background:#eceae6;border-radius:14px;overflow:hidden;position:relative}
+    .blog-track{display:flex;gap:62px;width:max-content;padding:12px 0;animation:blog-scroll 52s linear infinite}
+    .blog-text{font-size:clamp(70px,13.5vw,196px);line-height:.84;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#151922;white-space:nowrap}
+    .blog-text.muted{color:#afb4b9}
+    @keyframes blog-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-    .topbar{
-      position:sticky;top:0;z-index:60;
-      backdrop-filter:blur(10px);
-      background:rgba(236,238,241,.85);
-      border-bottom:1px solid var(--line);
-    }
-    .top-inner{max-width:1240px;margin:0 auto;padding:12px 18px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px}
-    .logo-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
-    .logo-chip img{width:20px;height:20px;object-fit:contain}
-    .menu{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-    .menu a{padding:8px 12px;background:#fff;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:700}
-    .actions{display:flex;gap:8px;justify-content:flex-end}
-    .actions a{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+    .section{width:100%;padding:18px 24px 44px}
+    .panel{background:var(--panel);border:1px solid var(--line);padding:18px}
+    .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+    .head h1{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}
+    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .post-list{display:grid;gap:0;border:1px solid var(--line);background:#fff}
+    .post{display:grid;grid-template-columns:1fr auto;gap:16px;padding:16px;border-bottom:1px solid var(--line);align-items:end}
+    .post:last-child{border-bottom:0}
+    .post h2{margin:0;font-size:clamp(22px,3vw,38px);line-height:1;letter-spacing:-.03em}
+    .meta{margin-top:8px;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .read{border:1px solid #1113;padding:8px 12px;text-decoration:none;color:#1a1a1a;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap}
 
-    .hero{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-    .hero-head{display:grid;grid-template-columns:1fr auto;align-items:end;padding:20px;border-bottom:1px solid var(--line)}
-    .hero-title{margin:0;font-size:clamp(54px,13vw,168px);line-height:.84;letter-spacing:-.035em;text-transform:uppercase}
-    .hero-side{display:grid;gap:8px;justify-items:end}
-    .hero-side .meta{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
-
-    .hero-body{display:grid;grid-template-columns:280px 1fr;min-height:300px}
-    .hero-aside{padding:18px;border-right:1px solid var(--line);display:grid;align-content:space-between;gap:18px}
-    .hero-aside p{margin:0;font-size:12px;line-height:1.55;color:#2d3648;max-width:28ch;text-transform:uppercase;letter-spacing:.04em}
-    .hero-aside .stack{display:grid;gap:8px}
-    .hero-aside .btn{display:inline-flex;justify-content:center;align-items:center;padding:9px 11px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:700}
-    .hero-cards{padding:14px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;background:#141820}
-    .hero-cards article{border:1px solid #2a3140;border-radius:12px;padding:14px;display:grid;align-content:end;min-height:260px;background:linear-gradient(165deg,#1c2433,#0f141f)}
-    .hero-cards .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#8fa1c6}
-    .hero-cards h2{margin:6px 0 0;color:#dbe7ff;font-size:20px;line-height:1.1}
-
-    .toolbar{margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center}
-    .search{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 12px;font-size:14px}
-    .chipset{display:flex;gap:8px;flex-wrap:wrap}
-    .chip{padding:8px 10px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
-    .view{padding:8px 10px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-
-    .feed{margin-top:14px;display:grid;gap:12px}
-    .post{display:grid;grid-template-columns:220px 1fr auto;gap:14px;align-items:stretch;background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-    .thumb{background:linear-gradient(140deg,#111827,#1f2937);color:#ccd6ea;padding:14px;display:grid;align-content:end;min-height:140px}
-    .thumb b{font-size:11px;letter-spacing:.1em;text-transform:uppercase}
-    .content{padding:14px 6px 14px 0;display:grid;gap:7px}
-    .content .row{display:flex;gap:8px;flex-wrap:wrap;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-    .content h3{margin:0;font-size:28px;line-height:1.03;letter-spacing:-.02em}
-    .content p{margin:0;color:#2f3848;font-size:14px;line-height:1.45;max-width:70ch}
-    .end{padding:14px;display:grid;align-content:space-between;justify-items:end;border-left:1px solid var(--line);min-width:150px}
-    .read{padding:9px 10px;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:#fff}
-
-    .footer{margin:14px 0 20px;background:#10131a;color:#dbe2ef;border-radius:14px;border:1px solid #2a3344;padding:28px;display:grid;gap:16px}
-    .footer .big{font-size:clamp(42px,8vw,96px);line-height:.9;letter-spacing:-.03em;text-transform:uppercase}
-    .footer-nav{display:flex;gap:8px;flex-wrap:wrap}
-    .footer-nav a{padding:8px 12px;border:1px solid #2f3b52;border-radius:999px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-
-    @media (max-width: 980px){
-      .top-inner{grid-template-columns:1fr;justify-items:start}
-      .hero-head{grid-template-columns:1fr}
-      .hero-body{grid-template-columns:1fr}
-      .hero-aside{border-right:0;border-bottom:1px solid var(--line)}
-      .hero-cards{grid-template-columns:1fr}
-      .toolbar{grid-template-columns:1fr}
-      .post{grid-template-columns:1fr}
-      .content{padding:0 14px 14px}
-      .end{border-left:0;border-top:1px solid var(--line);justify-items:start;min-width:unset}
-    }
+    @media (max-width:700px){.top-inner{grid-template-columns:auto 1fr}.hero{padding-top:28px}.post{grid-template-columns:1fr}.read{width:max-content}}
   </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
 <body>
-  <header class="topbar">
+  <header class="top">
     <div class="top-inner">
-      <a class="logo-chip" href="index.html#home"><img src="assets/kzr-shop-elephant-logo.png" alt="KZR elephant logo">KZR Blog</a>
-      <nav class="menu" aria-label="Blog sections">
-        <a href="#latest">Latest</a>
-        <a href="#archive">Archive</a>
-        <a href="#topics">Topics</a>
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Blog navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">ARCHIVE</a>
+        <a href="notes.html">Notes</a>
+        <a href="materials.html">Materials</a>
       </nav>
-      <div class="actions"><a href="index.html#home">Home</a><a href="about.html">About</a></div>
     </div>
   </header>
 
-  <main class="wrap">
-    <section class="hero" id="latest" aria-label="Featured posts">
-      <div class="hero-head">
-        <h1 class="hero-title">Digital<br>Notebook</h1>
-        <div class="hero-side"><span class="meta">Blog System · 2026</span><span class="meta">Research / Build / Writing</span></div>
+  <section class="hero">
+    <div class="blog-marquee" aria-label="Blog marquee">
+      <div class="blog-track">
+        <span class="blog-text">Blog ✶</span>
+        <span class="blog-text muted">Blog ✶</span>
+        <span class="blog-text">Blog ✶</span>
+        <span class="blog-text muted">Blog ✶</span>
       </div>
-      <div class="hero-body">
-        <aside class="hero-aside">
-          <p>High signal posts, build notes, reading logs, and experiments.</p>
-          <div class="stack"><a class="btn" href="#archive">Browse Posts</a><a class="btn" href="notes.html">Open Notes</a></div>
-        </aside>
-        <div class="hero-cards">
-          <article><span class="k">Research</span><h2>Bayesian Workflow Notes</h2></article>
-          <article><span class="k">Build</span><h2>Archive System v2</h2></article>
-          <article><span class="k">Writing</span><h2>Decision Theory Log</h2></article>
-        </div>
+    </div>
+  </section>
+
+  <main class="section">
+    <section class="panel" aria-label="Blog posts">
+      <div class="head">
+        <h1>Posts</h1>
+        <span class="count">[03]</span>
+      </div>
+      <div class="post-list">
+        <article class="post">
+          <div>
+            <h2>Bayesian Workflow Notes</h2>
+            <div class="meta">May 2026 · Research</div>
+          </div>
+          <a class="read" href="#">Read</a>
+        </article>
+        <article class="post">
+          <div>
+            <h2>Archive System v2</h2>
+            <div class="meta">May 2026 · Build</div>
+          </div>
+          <a class="read" href="#">Read</a>
+        </article>
+        <article class="post">
+          <div>
+            <h2>Decision Theory Reading Log</h2>
+            <div class="meta">Apr 2026 · Writing</div>
+          </div>
+          <a class="read" href="#">Read</a>
+        </article>
       </div>
     </section>
-
-    <section class="toolbar" id="topics" aria-label="Blog filters">
-      <input class="search" type="search" placeholder="Search posts" aria-label="Search posts" />
-      <div class="chipset"><span class="chip">All</span><span class="chip">Research</span><span class="chip">Build</span><span class="chip">Writing</span></div>
-      <button class="view" type="button">Grid View</button>
-    </section>
-
-    <section class="feed" id="archive" aria-label="Post list">
-      <article class="post">
-        <div class="thumb"><b>May 2026</b></div>
-        <div class="content"><div class="row"><span>Research</span><span>·</span><span>12 min</span></div><h3>Bayesian Workflow Notes</h3><p>Practical setup for priors, checks, diagnostics, and model comparison across weekly studies.</p></div>
-        <div class="end"><span class="row">#bayes #stats</span><a class="read" href="#">Read</a></div>
-      </article>
-      <article class="post">
-        <div class="thumb"><b>May 2026</b></div>
-        <div class="content"><div class="row"><span>Build</span><span>·</span><span>8 min</span></div><h3>Archive System v2</h3><p>Versioned structure for materials, index routing, and cross-linked notes across projects.</p></div>
-        <div class="end"><span class="row">#web #system</span><a class="read" href="#">Read</a></div>
-      </article>
-      <article class="post">
-        <div class="thumb"><b>Apr 2026</b></div>
-        <div class="content"><div class="row"><span>Writing</span><span>·</span><span>10 min</span></div><h3>Decision Theory Reading Log</h3><p>Key arguments, critiques, and reusable frameworks extracted from current readings.</p></div>
-        <div class="end"><span class="row">#decision #notes</span><a class="read" href="#">Read</a></div>
-      </article>
-    </section>
-
-    <footer class="footer">
-      <div class="big">KZR</div>
-      <nav class="footer-nav" aria-label="Footer links"><a href="materials.html">Materials</a><a href="resources.html">Archive</a><a href="shop.html">Shop</a><a href="mailto:kongzirui2004@163.com">Contact</a></nav>
-    </footer>
   </main>
+  <script src="global-loader.js?v=20260526" defer></script>
 </body>
 </html>
