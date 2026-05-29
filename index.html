@@ -949,7 +949,10 @@
       color: #15263f;
       max-width: none;
       width: auto;
-      min-height: auto;
+      height: 100vh;
+      height: 100svh;
+      min-height: 100vh;
+      min-height: 100svh;
       margin-left: -42px;
       margin-right: -42px;
       position: relative;
@@ -965,7 +968,7 @@
     }
 
     .practice-hero {
-      min-height: clamp(260px, 28vw, 360px);
+      min-height: clamp(300px, 31vw, 430px);
       background-color: #f6efe3;
       display: flex;
       align-items: center;
@@ -1043,7 +1046,7 @@
       background: #f6efe3;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(24px, 3vw, 54px);
-      padding: clamp(18px, 2vw, 28px) clamp(20px, 4.8vw, 84px) clamp(20px, 2.4vw, 30px);
+      padding: clamp(20px, 2.4vw, 34px) clamp(20px, 4.8vw, 84px) clamp(22px, 3vw, 38px);
     }
 
     .practice-list { margin: 0; padding: 0; list-style: none; }
@@ -1067,7 +1070,7 @@
       transform: translateY(0);
     }
     .practice-link {
-      min-height: clamp(48px, 4.4vw, 66px);
+      min-height: clamp(56px, 5.2vw, 78px);
       font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
       font-weight: 400;
       display: grid;
@@ -1171,7 +1174,7 @@
     .collab-section {
       position: relative;
       max-width: none;
-      min-height: auto;
+      min-height: clamp(420px, 58vh, 620px);
       margin-left: -42px;
       margin-right: -42px;
       margin-top: 0;
@@ -1179,10 +1182,9 @@
       display: block;
       overflow: hidden;
       z-index: 1;
-      background: #f6efe3;
+      background: #101827;
+      color: #f7f0e3;
       isolation: isolate;
-      --collab-rise: 0px;
-      --collab-opacity: 1;
       transform: none;
       opacity: 1;
       transition: none;
@@ -1202,17 +1204,22 @@
     .collab-card {
       position: relative;
       width: 100%;
-      min-height: auto;
-      padding: 0;
+      min-height: clamp(420px, 58vh, 620px);
+      padding: clamp(42px, 5vw, 76px) clamp(28px, 7vw, 124px) clamp(34px, 4vw, 58px);
       display: grid;
-      grid-template-rows: minmax(260px, 36vh) auto auto auto;
-      gap: 0;
+      grid-template-columns: minmax(180px, 1.05fr) minmax(360px, 1.6fr) minmax(180px, .72fr);
+      grid-template-areas:
+        "intro links figure"
+        "email links figure"
+        "meta meta meta";
+      column-gap: clamp(38px, 6vw, 96px);
+      row-gap: clamp(18px, 2.6vw, 34px);
       border: 0;
       border-radius: 0;
-      background: #f6efe3;
-      color: #15263f;
+      background: transparent;
+      color: inherit;
       box-shadow: none;
-      overflow: hidden;
+      overflow: visible;
       transform-style: flat;
       transition: none;
     }
@@ -1230,189 +1237,174 @@
     .collab-card > div:first-child {
       position: relative;
       z-index: 2;
-      width: min(620px, calc(100% - 64px));
-      align-self: center;
-      margin-left: clamp(24px, 5vw, 82px);
-      grid-row: 1;
+      grid-area: intro;
+      align-self: start;
+      width: auto;
+      margin: 0;
     }
 
-    .collab-kicker {
-      margin: 0;
-      color: rgba(21, 38, 63, .58);
-      font-size: clamp(12px, .95vw, 16px);
-      font-weight: 760;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+    .collab-kicker,
+    .collab-link-group span {
+      display: block;
+      margin: 0 0 18px;
+      padding: 0 0 12px;
+      color: #fffaf0;
+      border-bottom: 2px dotted rgba(255, 250, 240, .72);
+      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(18px, 1.8vw, 30px);
+      line-height: 1;
+      font-weight: 860;
+      letter-spacing: -0.045em;
+      text-transform: none;
     }
 
     .collab-heading {
-      margin: clamp(14px, 1.8vw, 24px) 0 0;
-      max-width: 26ch;
-      color: #15263f;
-      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      font-size: clamp(28px, 3.4vw, 52px);
-      line-height: 1.08;
-      font-weight: 760;
-      letter-spacing: -0.03em;
+      margin: 0;
+      max-width: 16ch;
+      color: rgba(255, 250, 240, .88);
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(18px, 1.45vw, 26px);
+      line-height: 1.16;
+      font-weight: 400;
+      letter-spacing: -0.02em;
       text-wrap: balance;
     }
     .collab-heading::after {
-      content: "";
-      display: block;
-      width: 56px;
-      height: 3px;
-      background: #1b2f4a;
-      margin-top: clamp(20px, 2.2vw, 30px);
+      content: none;
+      display: none;
     }
 
     .collab-email {
       position: relative;
       z-index: 2;
-      grid-row: 2;
+      grid-area: email;
       justify-self: start;
       align-self: start;
       width: auto;
-      max-width: calc(100% - clamp(40px, 9.6vw, 168px));
-      margin: clamp(20px, 2.4vw, 34px) clamp(20px, 4.8vw, 84px) 0;
-      color: #15263f;
+      max-width: 100%;
+      margin: 0;
+      color: rgba(255, 250, 240, .9);
       font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
-      font-size: clamp(22px, 3.6vw, 56px);
-      line-height: 1;
+      font-size: clamp(16px, 1.2vw, 21px);
+      line-height: 1.18;
       font-weight: 400;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.018em;
       text-decoration: none;
-      border-bottom: 1px solid rgba(21, 38, 63, .22);
-      padding: 0 0 18px;
-      transition: color .32s ease, transform .32s ease, letter-spacing .32s ease;
+      border-bottom: 1px solid rgba(255, 250, 240, .34);
+      padding: 0 0 6px;
+      transition: color .22s ease, border-color .22s ease;
     }
 
     .collab-email:hover {
-      color: #8d6427;
-      transform: translateX(2px);
-      letter-spacing: -0.032em;
+      color: #e2c178;
+      border-color: rgba(226, 193, 120, .72);
     }
 
     .collab-figure {
-      position: absolute;
-      top: 0;
-      right: 0;
+      grid-area: figure;
+      position: relative;
+      top: auto;
+      right: auto;
       bottom: auto;
-      width: clamp(46%, 56vw, 66%);
-      height: clamp(260px, 36vh, 430px);
-      min-height: 260px;
-      max-width: none;
+      justify-self: center;
+      align-self: start;
+      width: clamp(132px, 15vw, 230px);
+      height: auto;
+      min-height: 0;
+      max-width: 100%;
       opacity: 1;
       pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+      z-index: 2;
+      overflow: visible;
     }
     .collab-figure::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      background:
-        linear-gradient(90deg, #f6efe3 0%, #f6efe3 30%, rgba(246, 239, 227, 0.95) 42%, rgba(246, 239, 227, 0.7) 50%, rgba(246, 239, 227, 0.35) 58%, rgba(246, 239, 227, 0.1) 66%, rgba(246, 239, 227, 0) 74%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 32%);
-      pointer-events: none;
+      content: none;
+      display: none;
     }
 
     .collab-figure img {
       display: block;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: right center;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
       mix-blend-mode: normal;
       animation: none;
-      filter: none;
+      filter: brightness(0) invert(1) drop-shadow(0 10px 24px rgba(0,0,0,.22));
     }
 
     .collab-links {
       position: relative;
       z-index: 2;
-      grid-row: 3;
+      grid-area: links;
       align-self: start;
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(24px, 3vw, 54px);
-      padding: clamp(18px, 2vw, 28px) clamp(20px, 4.8vw, 84px) clamp(20px, 2.4vw, 30px);
-      background: #f6efe3;
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: clamp(28px, 4vw, 72px);
+      padding: 0;
+      background: transparent;
     }
 
     .collab-link-group {
       display: grid;
-      gap: 0;
+      align-content: start;
+      gap: 8px;
       font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
-      font-size: clamp(16px, 1.8vw, 24px);
-      line-height: 1.15;
+      font-size: clamp(17px, 1.5vw, 27px);
+      line-height: 1.16;
       font-weight: 400;
     }
 
-    .collab-link-group span {
-      padding: 0 0 12px;
-      color: rgba(21, 38, 63, .58);
-      font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
-      font-size: 12px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      font-weight: 760;
-    }
-
     .collab-link-group a {
-      min-height: clamp(44px, 4vw, 60px);
-      display: grid;
-      align-items: center;
-      width: 100%;
-      color: #15263f;
+      min-height: auto;
+      display: inline-block;
+      width: max-content;
+      max-width: 100%;
+      color: rgba(255, 250, 240, .9);
       text-decoration: none;
-      border-top: 1px solid rgba(21, 38, 63, 0.2);
+      border-top: 0;
       position: relative;
-      overflow: hidden;
-      padding-inline: clamp(8px, 1vw, 14px);
-      border-radius: 12px;
-      transition: color .32s ease, transform .32s ease, letter-spacing .32s ease;
+      overflow: visible;
+      padding: 0;
+      border-radius: 0;
+      transition: color .22s ease, transform .22s ease;
     }
     .collab-link-group a::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: #132844;
-      transform: translateY(102%);
-      transition: transform .36s cubic-bezier(.22,.61,.36,1);
-      z-index: -1;
-      pointer-events: none;
+      content: none;
+      display: none;
     }
 
     .collab-link-group a:hover {
-      color: #f5efe4;
-      transform: translateX(2px);
-      letter-spacing: -0.012em;
+      color: #e2c178;
+      transform: translateX(3px);
+      letter-spacing: 0;
     }
     .collab-link-group a:hover::before {
-      transform: translateY(0);
+      transform: none;
     }
 
     .collab-meta {
       position: relative;
       z-index: 2;
-      grid-row: 4;
+      grid-area: meta;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      margin: 0 clamp(20px, 4.8vw, 84px) clamp(20px, 2.4vw, 34px);
-      padding-top: 18px;
-      border-top: 1px solid rgba(21, 38, 63, .18);
-      color: rgba(21, 38, 63, .72);
-      font-size: clamp(12px, .95vw, 16px);
-      font-weight: 720;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 48px);
+      margin: clamp(20px, 3vw, 42px) 0 0;
+      padding-top: 0;
+      border-top: 0;
+      color: rgba(255, 250, 240, .82);
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(13px, 1vw, 18px);
+      font-weight: 400;
+      text-align: center;
     }
 
     .collab-socials {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 18px;
     }
 
     .collab-socials a,
@@ -1421,20 +1413,20 @@
       transition: color 180ms ease, opacity 180ms ease, transform 180ms ease, border-color 180ms ease, background 180ms ease;
     }
     .collab-socials a {
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(21, 38, 63, .24);
-      background: rgba(255, 255, 255, .36);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.54), 0 8px 18px rgba(15, 23, 42, .08);
-      color: #15263f;
+      border: 1px solid rgba(255, 250, 240, .28);
+      background: transparent;
+      box-shadow: none;
+      color: rgba(255, 250, 240, .88);
     }
     .social-icon {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.95;
@@ -1447,18 +1439,19 @@
     }
     .collab-socials a:hover {
       transform: translateY(-2px);
-      border-color: rgba(21, 38, 63, .44);
-      background: rgba(255, 255, 255, .58);
+      border-color: rgba(226, 193, 120, .72);
+      background: rgba(255, 255, 255, .06);
     }
 
     .collab-socials a:hover,
     .collab-policy a:hover {
-      color: #8d6427;
+      color: #e2c178;
     }
 
     .collab-policy {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: clamp(14px, 2.4vw, 30px);
       flex-wrap: wrap;
     }
@@ -2113,7 +2106,7 @@
     .mobile-nav-toggle { display: inline-flex; }
       .hero-cta, .collaboration-card { display: none; }
       .practice-grid { grid-template-columns: 1fr; gap: 0; }
-      .practice-link { font-size: clamp(16px, 5vw, 22px); min-height: 50px; }
+      .practice-link { font-size: clamp(16px, 5vw, 22px); min-height: 56px; }
       .practice-intro { width: min(620px, calc(100% - 38px)); margin-left: 18px; }
       .practice-heading { font-size: clamp(34px, 11vw, 52px); }
       .practice-hero-media {
@@ -2258,58 +2251,51 @@
         margin-left: -18px;
         margin-right: -18px;
         margin-top: 0;
-        padding: 14px;
+        padding: 0;
         transform: none;
         opacity: 1;
       }
       .collab-card {
         min-height: auto;
-        grid-template-rows: auto auto auto auto auto;
-        padding: 0;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "intro"
+          "email"
+          "links"
+          "figure"
+          "meta";
+        padding: 34px 22px 30px;
+        row-gap: 24px;
       }
       .collab-card > div:first-child {
         width: auto;
         margin: 0;
-        padding: 28px 20px 22px;
-        grid-row: 1;
-      }
-      .collab-figure {
-        position: relative;
-        top: auto;
-        right: auto;
-        bottom: auto;
-        grid-row: 2;
-        justify-self: stretch;
-        width: 100%;
-        height: 250px;
-        min-height: 250px;
-        max-width: 100%;
-        margin: 0;
-        opacity: 1;
-      }
-      .collab-figure::after {
-        background: linear-gradient(180deg, #f6efe3 0%, rgba(246, 239, 227, .32) 28%, rgba(246, 239, 227, 0) 58%);
+        padding: 0;
       }
       .collab-email {
-        grid-row: 3;
-        justify-self: stretch;
+        justify-self: start;
         max-width: none;
-        margin: 24px 20px 0;
+        margin: 0;
         overflow-wrap: anywhere;
       }
       .collab-links {
-        grid-row: 4;
         grid-template-columns: 1fr;
-        padding: 22px 20px 24px;
+        gap: 22px;
+        padding: 0;
+      }
+      .collab-figure {
+        justify-self: start;
+        width: 126px;
       }
       .collab-meta,
       .collab-policy {
         flex-direction: column;
         align-items: flex-start;
+        text-align: left;
       }
       .collab-meta {
-        grid-row: 5;
-        margin: 0 20px 24px;
+        justify-content: flex-start;
+        margin: 4px 0 0;
       }
       .inquiry-pin {
         min-height: 100vh;
@@ -2476,7 +2462,7 @@
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
         <div class="collab-figure" aria-hidden="true">
-          <img src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="">
+          <img src="assets/kzr-shop-elephant-logo.png" alt="">
         </div>
         <div class="collab-links" aria-label="Footer navigation">
           <div class="collab-link-group">
@@ -2492,6 +2478,11 @@
             <a href="resources.html">Research</a>
             <a href="notes.html">Notes</a>
           </div>
+          <div class="collab-link-group">
+            <span>Legal Info</span>
+            <a href="#connect">Cookie Preferences</a>
+            <a href="#overview">Credits</a>
+          </div>
         </div>
         <div class="collab-meta">
           <div class="collab-socials">
@@ -2503,9 +2494,8 @@
             </a>
           </div>
           <div class="collab-policy">
-            <a href="#connect">Cookie Preferences</a>
-            <span>2026 &copy; Zirui Kong</span>
-            <a href="#overview">Credits</a>
+            <span>Copyright &copy; 2026 by Zirui Kong.</span>
+            <span>All rights reserved.</span>
           </div>
         </div>
       </div>
