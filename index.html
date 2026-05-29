@@ -1212,153 +1212,202 @@
     .collab-card {
       position: relative;
       width: 100%;
-      min-height: min(60vh, 560px);
-      padding: clamp(24px, 3.8vw, 54px);
+      min-height: min(68vh, 620px);
+      padding: clamp(28px, 4.8vw, 68px);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.88fr);
-      grid-template-rows: 1fr auto;
-      gap: clamp(18px, 3.2vw, 44px);
-      border: 2px solid #8b5e34;
-      border-radius: 8px;
-      background: rgba(255, 255, 252, 0.88);
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.82fr);
+      grid-template-rows: auto auto 1fr auto;
+      gap: clamp(18px, 3vw, 42px);
+      border: 1px solid rgba(214, 180, 90, .2);
+      border-radius: 34px;
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, .98) 0%, rgba(17, 24, 39, .92) 48%, rgba(30, 41, 59, .86) 100%);
       box-shadow:
-        0 28px 80px rgba(77, 63, 38, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px) saturate(128%);
-      -webkit-backdrop-filter: blur(24px) saturate(128%);
+        0 34px 110px rgba(0, 0, 0, .42),
+        inset 0 1px 0 rgba(255, 255, 255, .08);
+      overflow: hidden;
+      backdrop-filter: blur(22px) saturate(128%);
+      -webkit-backdrop-filter: blur(22px) saturate(128%);
       transform-style: preserve-3d;
-      transition: transform .36s cubic-bezier(.22,.61,.36,1), box-shadow .36s cubic-bezier(.22,.61,.36,1), border-color .36s ease;
+      transition: transform .28s cubic-bezier(.22,.61,.36,1), border-color .28s ease, box-shadow .28s ease;
     }
     .collab-card::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: inherit;
-      border: 1px solid rgba(255,255,255,.56);
-      background: linear-gradient(128deg, rgba(255,255,255,.34), rgba(255,255,255,.04) 52%, rgba(188, 139, 76, .14));
+      background:
+        radial-gradient(70% 80% at 8% 0%, rgba(214, 180, 90, .22), rgba(214, 180, 90, 0) 58%),
+        linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 100%),
+        linear-gradient(0deg, rgba(255,255,255,.055) 0 1px, transparent 1px 100%);
+      background-size: auto, 76px 76px, 76px 76px;
       pointer-events: none;
-      z-index: 1;
-      mix-blend-mode: screen;
+      z-index: 0;
     }
     .collab-card::after {
       content: "";
       position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: conic-gradient(from 160deg at 10% 8%, rgba(255,255,255,0), rgba(255,255,255,.2), rgba(255,255,255,0) 35%);
-      filter: blur(12px);
-      opacity: .45;
+      inset: 14px;
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 26px;
       pointer-events: none;
-      z-index: 0;
+      z-index: 1;
     }
     .collab-card:hover {
-      transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
-      border-color: rgba(141, 100, 39, .72);
+      transform: translateY(-3px);
+      border-color: rgba(214, 180, 90, .38);
       box-shadow:
-        0 34px 92px rgba(77, 63, 38, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.86);
+        0 42px 130px rgba(0, 0, 0, .48),
+        inset 0 1px 0 rgba(255, 255, 255, .12);
     }
 
     .collab-kicker {
-      margin: 0;
-      color: rgba(17, 24, 39, 0.38);
-      font-size: calc(12px * 0.88);
+      width: max-content;
+      margin: 0 0 14px;
+      padding: 8px 12px;
+      color: rgba(250, 230, 170, .86);
+      border: 1px solid rgba(214, 180, 90, .26);
+      border-radius: 999px;
+      background: rgba(214, 180, 90, .08);
+      font-size: 11px;
       font-weight: 820;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
     .collab-heading {
       margin: 0;
-      max-width: 760px;
-      color: #d6b45a;
-      font-size: calc(clamp(28px, 4.2vw, 62px) * 0.88);
+      max-width: 780px;
+      color: #f1d27a;
+      font-size: calc(clamp(30px, 4.6vw, 70px) * 0.88);
       line-height: 0.98;
-      font-weight: 720;
-      letter-spacing: -0.06em;
+      font-weight: 760;
+      letter-spacing: -0.058em;
+      text-wrap: balance;
     }
 
     .collab-email {
-      justify-self: end;
+      grid-column: 1 / 2;
+      justify-self: start;
       align-self: start;
-      color: #0e1117;
-      font-size: calc(clamp(18px, 2.6vw, 38px) * 0.88);
+      width: max-content;
+      max-width: 100%;
+      color: rgba(255, 255, 255, .92);
+      font-size: calc(clamp(16px, 1.75vw, 28px) * 0.95);
       line-height: 1;
       font-weight: 760;
-      letter-spacing: -0.055em;
-      text-decoration-thickness: 0.07em;
-      text-underline-offset: 0.09em;
-      transition: color 180ms ease, opacity 180ms ease;
+      letter-spacing: -0.035em;
+      text-decoration: none;
+      padding: 14px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .07);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 16px 34px rgba(0,0,0,.18);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      transition: color 180ms ease, transform 220ms ease, border-color 180ms ease, background 180ms ease;
     }
 
     .collab-email:hover {
-      color: #8d6427;
+      color: #f8df94;
+      transform: translateY(-2px);
+      border-color: rgba(214, 180, 90, .4);
+      background: rgba(214, 180, 90, .1);
     }
 
     .collab-figure {
-      position: absolute;
-      right: clamp(24px, 3vw, 42px);
-      bottom: clamp(44px, 4.8vw, 78px);
-      width: calc(clamp(240px, 27vw, 420px) * 0.88);
-      max-width: 44%;
-      opacity: 0.82;
+      grid-column: 2 / 3;
+      grid-row: 1 / 5;
+      position: relative;
+      align-self: stretch;
+      justify-self: stretch;
+      width: 100%;
+      max-width: none;
+      min-height: 360px;
+      opacity: 1;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(255,255,255,.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 70px rgba(0,0,0,.24);
+    }
+
+    .collab-figure::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0) 36%, rgba(15,23,42,.72) 100%);
+      pointer-events: none;
     }
 
     .collab-figure img {
       display: block;
       width: 100%;
-      height: auto;
-      object-fit: contain;
-      mix-blend-mode: multiply;
-      animation: collabFigureFloat 6.6s ease-in-out infinite alternate;
+      height: 100%;
+      object-fit: cover;
+      mix-blend-mode: normal;
+      animation: none;
+      filter: saturate(.88) contrast(1.04);
     }
 
     .collab-links {
       grid-column: 1 / 2;
       align-self: end;
       display: grid;
-      grid-template-columns: repeat(2, minmax(150px, 220px));
-      gap: clamp(28px, 4vw, 70px);
+      grid-template-columns: repeat(2, minmax(150px, 1fr));
+      gap: 14px;
+      max-width: 560px;
     }
 
     .collab-link-group {
       display: grid;
-      gap: 8px;
-      font-size: calc(clamp(15px, 1.3vw, 22px) * 0.88);
+      gap: 9px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .055);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      font-size: calc(clamp(14px, 1.1vw, 18px) * 0.92);
       line-height: 1.15;
       font-weight: 720;
     }
 
     .collab-link-group span {
-      color: rgba(17, 24, 39, 0.36);
-      font-weight: 760;
+      color: rgba(250, 230, 170, .62);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      font-weight: 800;
     }
 
     .collab-link-group a {
       width: max-content;
+      color: rgba(255, 255, 255, .78);
       text-decoration: none;
       transition: color 180ms ease, transform 220ms cubic-bezier(.16, 1, .3, 1);
     }
 
     .collab-link-group a:hover {
-      color: #8d6427;
+      color: #f8df94;
       transform: translateX(4px);
     }
 
     .collab-meta {
-      grid-column: 1 / -1;
+      grid-column: 1 / 2;
       align-self: end;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      color: #101827;
-      font-size: calc(clamp(13px, 1vw, 18px) * 0.88);
+      color: rgba(255, 255, 255, .62);
+      font-size: calc(clamp(12px, .95vw, 16px) * 0.9);
       font-weight: 720;
       position: relative;
       z-index: 2;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, .1);
     }
 
     .collab-card > div:first-child,
@@ -1371,13 +1420,13 @@
     .collab-socials {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 12px;
     }
 
     .collab-socials a,
     .collab-policy a {
       text-decoration: none;
-      transition: color 180ms ease, opacity 180ms ease;
+      transition: color 180ms ease, opacity 180ms ease, transform 180ms ease, border-color 180ms ease, background 180ms ease;
     }
     .collab-socials a {
       width: 42px;
@@ -1386,12 +1435,12 @@
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(17, 24, 39, .24);
-      background: rgba(255, 255, 255, .5);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.66), 0 8px 18px rgba(15, 23, 42, .1);
+      border: 1px solid rgba(255, 255, 255, .14);
+      background: rgba(255, 255, 255, .07);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 12px 24px rgba(0,0,0,.16);
       backdrop-filter: blur(12px) saturate(125%);
       -webkit-backdrop-filter: blur(12px) saturate(125%);
-      color: #111827;
+      color: rgba(255, 255, 255, .78);
     }
     .social-icon {
       width: 19px;
@@ -1408,18 +1457,20 @@
     }
     .collab-socials a:hover {
       transform: translateY(-2px);
-      border-color: rgba(141, 100, 39, .55);
+      border-color: rgba(214, 180, 90, .42);
+      background: rgba(214, 180, 90, .1);
     }
 
     .collab-socials a:hover,
     .collab-policy a:hover {
-      color: #8d6427;
+      color: #f8df94;
     }
 
     .collab-policy {
       display: flex;
       align-items: center;
       gap: clamp(14px, 2.4vw, 30px);
+      flex-wrap: wrap;
     }
 
     @keyframes collabFlow {
@@ -2233,14 +2284,17 @@
         overflow-wrap: anywhere;
       }
       .collab-figure {
+        grid-column: 1 / -1;
+        grid-row: auto;
         position: relative;
         right: auto;
         bottom: auto;
-        justify-self: start;
-        width: calc(min(88vw, 420px) * 0.88);
+        justify-self: stretch;
+        width: 100%;
         max-width: 100%;
+        min-height: 300px;
         margin-top: 6px;
-        opacity: 0.86;
+        opacity: 1;
       }
       .collab-links,
       .collab-meta,
@@ -2409,7 +2463,7 @@
     <section class="collab-section" id="connect" aria-label="Collaboration">
       <div class="collab-card">
         <div>
-          <p class="collab-kicker" aria-hidden="true"></p>
+          <p class="collab-kicker">Collaboration</p>
           <h2 class="collab-heading">Have a project in mind?<br>Ready to think, write, and build.</h2>
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
