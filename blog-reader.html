@@ -39,9 +39,9 @@
 
     /* Standard markdown-reader presentation: flat, text-first, no glass/card effects. */
     body{background:#fff;color:#24292f}
-    .reader{max-width:920px;margin:0 auto;padding:36px 24px 64px}
-    .article-shell{display:block;max-width:860px;margin:0 auto}
-    .toc,.tools{display:none}
+    .reader{width:100%;max-width:1280px;margin:0 auto;padding:36px 24px 64px}
+    .article-shell{display:grid;grid-template-columns:minmax(170px,220px) minmax(0,860px) minmax(210px,270px);gap:18px;align-items:start;max-width:none;margin:0 auto}
+    .toc,.tools{display:grid;background:#fff;border:1px solid #d0d7de;border-radius:6px;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
     .article{border:0;background:transparent;border-radius:0;box-shadow:none;overflow:visible;backdrop-filter:none;-webkit-backdrop-filter:none}
     .article-head{padding:0 0 24px;border-bottom:1px solid #d0d7de;display:block;background:transparent}
     h1{margin:0 0 8px;max-width:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;font-size:2em;line-height:1.25;letter-spacing:0;text-transform:none;font-weight:600;color:#24292f}
