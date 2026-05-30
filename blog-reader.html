@@ -173,14 +173,8 @@
 
       <aside class="tools" aria-label="Article tools">
         <p class="tool-title">Article tools</p>
-        <div class="tool-row citation-tool"><span class="label">Citation</span><div class="citation-options inline-citation-options">
-              <button type="button" data-citation-style="apa">APA</button>
-              <button type="button" data-citation-style="mla">MLA</button>
-              <button type="button" data-citation-style="chicago">Chicago</button>
-              <button type="button" data-citation-style="harvard">Harvard</button>
-              <button type="button" data-citation-style="bibtex">BibTeX</button>
-            </div><div class="citation-preview" id="citationPreview">Kong, Z. (2026). <em>Bayesian Workflow Notes</em>. KZR Blog.</div></div>
         <div class="tool-actions">
+          <button type="button" id="copyCitation">Copy citation</button>
           <button type="button" id="readerModeToggle">Reader mode</button>
           <details class="print-menu">
             <summary>Print</summary>
@@ -198,15 +192,8 @@
     const readerModeToggle = document.getElementById('readerModeToggle');
     const readerModeExit = document.getElementById('readerModeExit');
     const printModeButtons = document.querySelectorAll('[data-print-mode]');
-    const citationButtons = document.querySelectorAll('[data-citation-style]');
-    const citationPreview = document.getElementById('citationPreview');
-    const citationFormats = {
-      apa: 'Kong, Z. (2026). Bayesian Workflow Notes. KZR Blog.',
-      mla: 'Kong, Zirui. “Bayesian Workflow Notes.” KZR Blog, 2026.',
-      chicago: 'Kong, Zirui. “Bayesian Workflow Notes.” KZR Blog, May 2026.',
-      harvard: 'Kong, Z. 2026, ‘Bayesian Workflow Notes’, KZR Blog, May.',
-      bibtex: '@article{kong2026bayesian,\n  author = {Kong, Zirui},\n  title = {Bayesian Workflow Notes},\n  journal = {KZR Blog},\n  year = {2026},\n  month = {May}\n}'
-    };
+    const copyCitationButton = document.getElementById('copyCitation');
+    const citationText = 'Kong, Z. (2026). Bayesian Workflow Notes. KZR Blog.';
     const setReaderMode = (enabled) => {
       document.body.classList.toggle('reader-mode', enabled);
       if (readerModeToggle) readerModeToggle.textContent = enabled ? 'Default mode' : 'Reader mode';
@@ -218,13 +205,11 @@
     readerModeToggle?.addEventListener('click', () => setReaderMode(!document.body.classList.contains('reader-mode')));
     readerModeExit?.addEventListener('click', () => setReaderMode(false));
     printModeButtons.forEach((button) => button.addEventListener('click', () => printWithMode(button.dataset.printMode)));
-    citationButtons.forEach((button) => button.addEventListener('click', async () => {
-      const citation = citationFormats[button.dataset.citationStyle] || citationFormats.apa;
-      if (citationPreview) citationPreview.textContent = citation;
-      if (navigator.clipboard) await navigator.clipboard.writeText(citation);
-      button.textContent = `${button.dataset.citationStyle.toUpperCase()} copied`;
-      setTimeout(() => { button.textContent = button.dataset.citationStyle.toUpperCase(); }, 1200);
-    }));
+    copyCitationButton?.addEventListener('click', async () => {
+      if (navigator.clipboard) await navigator.clipboard.writeText(citationText);
+      copyCitationButton.textContent = 'Citation copied';
+      setTimeout(() => { copyCitationButton.textContent = 'Copy citation'; }, 1200);
+    });
     window.addEventListener('afterprint', () => document.body.classList.remove('print-watermark'));
   </script>
   <script src="global-loader.js?v=20260526" defer></script>
