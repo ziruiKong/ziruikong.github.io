@@ -21,18 +21,11 @@
 </head>
 <body>
   <header class="top"><div class="top-inner"><a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a><nav class="nav" aria-label="Terms navigation"><a href="index.html#home">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a class="active" href="terms.html">Terms</a><a href="resources.html">Archive</a><a href="paper-library.html">Paper</a><a href="notes.html">Notes</a><a href="materials.html">Materials</a></nav></div></header>
-  <section class="hero" aria-label="Terms hero"><p class="kicker">Narrative / Terms</p><h1>Terms</h1><p class="lead">A living glossary for recurring concepts, research vocabulary, editorial labels, and site-specific language.</p><div class="terms-marquee" aria-label="Terms marquee"><div class="terms-track"><span class="terms-text">Terms ✶</span><span class="terms-text muted">Glossary ✶</span><span class="terms-text">Terms ✶</span><span class="terms-text muted">Glossary ✶</span></div></div></section>
+  <section class="hero" aria-label="Terms hero"><p class="kicker">Narrative / Terms</p><h1>Terms</h1><div class="terms-marquee" aria-label="Terms marquee"><div class="terms-track"><span class="terms-text">Terms ✶</span><span class="terms-text muted">Glossary ✶</span><span class="terms-text">Terms ✶</span><span class="terms-text muted">Glossary ✶</span></div></div></section>
   <section class="toolbar" aria-label="Term filters"><input class="input" id="termSearch" type="search" placeholder="Search terms, definitions, or categories"><select class="select" id="categoryFilter" aria-label="Category filter"><option value="all">All Categories</option></select></section>
   <main class="section"><section class="panel" aria-label="Terminology entries"><div class="head"><h2>Glossary</h2><span class="count" id="termCount">[00]</span></div><div class="glossary" id="termRows"></div><div class="empty" id="emptyState">No matching terms.</div></section></main>
   <script>
-    const terms=[
-      {term:'Archive',category:'Site language',definition:'A structured memory system for resources, notes, materials, and references that may be revisited later.'},
-      {term:'Workflow',category:'Research method',definition:'A repeatable sequence for framing a question, collecting evidence, checking assumptions, and reporting decisions.'},
-      {term:'Reader mode',category:'Interface',definition:'A reduced article view that preserves contents and tools while prioritizing long-form reading.'},
-      {term:'Posterior predictive check',category:'Bayesian method',definition:'A diagnostic that compares simulated data from a fitted model with observed data to evaluate model adequacy.'},
-      {term:'Identity system',category:'Design',definition:'The documented set of color, typography, logo, and layout rules used to keep the website visually coherent.'},
-      {term:'Catalog',category:'Site language',definition:'A curated index for programs, resources, and structured reference materials.'}
-    ];
+    const terms=[];
     const rows=document.getElementById('termRows'), search=document.getElementById('termSearch'), category=document.getElementById('categoryFilter'), count=document.getElementById('termCount'), empty=document.getElementById('emptyState');
     [...new Set(terms.map(t=>t.category))].sort().forEach(c=>category.insertAdjacentHTML('beforeend',`<option value="${c}">${c}</option>`));
     function render(){const q=search.value.trim().toLowerCase();const filtered=terms.filter(t=>(category.value==='all'||t.category===category.value)&&(!q||[t.term,t.category,t.definition].join(' ').toLowerCase().includes(q)));rows.innerHTML=filtered.map(t=>`<article class="term"><div class="term-top"><h3>${t.term}</h3><span class="tag">${t.category}</span></div><p>${t.definition}</p></article>`).join('');count.textContent=`[${String(filtered.length).padStart(2,'0')}]`;empty.classList.toggle('show',!filtered.length)}
