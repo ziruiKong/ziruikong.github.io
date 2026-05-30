@@ -22,8 +22,8 @@
         <img class="cookie-media-main" src="assets/cookie.png" alt="" loading="lazy" decoding="async">
       </div>
       <div class="cookie-links">
+        <a href="cookie-preferences.html">Cookie Preferences</a>
         <a href="mailto:kongzirui2004@163.com">Privacy Contact</a>
-        <a href="shop.html">Terms and Concept Shop</a>
       </div>
       <div class="cookie-preferences" id="cookiePreferences">
         <label class="cookie-toggle">
