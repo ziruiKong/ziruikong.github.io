@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — Paper Library</title>
+  <meta name="description" content="A curated paper library for research methods, decision science, AI, and learning systems.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--navy:#101820;--gold:#b89455}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}.brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+    .hero{width:100%;padding:44px 24px 18px}.kicker{margin:0;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}
+    h1{margin:8px 0 10px;font-size:clamp(46px,9vw,128px);line-height:.86;letter-spacing:-.055em;text-transform:uppercase}.lead{margin:0;max-width:780px;font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.55;color:#322c24}
+    .library-marquee{margin-top:18px;border:1px solid #cfd6dc;background:#eceae6;border-radius:14px;overflow:hidden}.library-track{display:flex;gap:62px;width:max-content;padding:12px 0;animation:library-scroll 56s linear infinite}.library-text{font-size:clamp(66px,12vw,176px);line-height:.84;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#151922;white-space:nowrap}.library-text.muted{color:#afb4b9}@keyframes library-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .toolbar{width:100%;padding:0 24px 14px;display:grid;grid-template-columns:minmax(0,1fr) 180px 160px;gap:10px}.input,.select{width:100%;border:1px solid var(--line);background:#fff;padding:12px 13px;font-size:14px}.select{font-size:12px;letter-spacing:.1em;text-transform:uppercase}.section{width:100%;padding:0 24px 48px}.panel{background:var(--panel);border:1px solid var(--line);padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}.head h2{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}.count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .papers{display:grid;gap:0;border:1px solid var(--line);background:#fff}.paper{display:grid;grid-template-columns:minmax(0,1.4fr) .7fr .55fr .5fr;gap:0;border-bottom:1px solid var(--line)}.paper:last-child{border-bottom:0}.paper>*{padding:15px;border-right:1px solid var(--line)}.paper>*:last-child{border-right:0}.paper h3{margin:0 0 8px;font-family:Georgia,"Times New Roman",serif;font-size:24px;line-height:1.12;font-weight:400}.paper p{margin:0;color:#433c34;font-size:14px;line-height:1.45}.tag{display:inline-flex;border:1px solid #1113;padding:4px 7px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:800}.year,.status{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#4c463d}.empty{display:none;padding:18px;border:1px dashed #1114;background:#fff;color:var(--muted)}.empty.show{display:block}
+    @media (max-width:900px){.toolbar{grid-template-columns:1fr}.paper{grid-template-columns:1fr}.paper>*{border-right:0;border-bottom:1px solid var(--line)}.paper>*:last-child{border-bottom:0}}
+  </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
+</head>
+<body>
+  <header class="top"><div class="top-inner"><a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a><nav class="nav" aria-label="Paper library navigation"><a href="index.html#home">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="terms.html">Terms</a><a href="resources.html">Archive</a><a class="active" href="paper-library.html">Paper Library</a><a href="notes.html">Notes</a><a href="materials.html">Materials</a></nav></div></header>
+  <section class="hero" aria-label="Paper library hero"><p class="kicker">Atlas / Paper Library</p><h1>Paper Library</h1><p class="lead">A compact reading index for papers, methods, datasets, and research notes that may support future writing.</p><div class="library-marquee" aria-label="Paper library marquee"><div class="library-track"><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span></div></div></section>
+  <section class="toolbar" aria-label="Paper filters"><input class="input" id="paperSearch" type="search" placeholder="Search title, author, method, or keyword"><select class="select" id="topicFilter" aria-label="Topic filter"><option value="all">All Topics</option></select><select class="select" id="statusFilter" aria-label="Status filter"><option value="all">All Status</option><option value="read">Read</option><option value="reading">Reading</option><option value="queued">Queued</option></select></section>
+  <main class="section"><section class="panel" aria-label="Paper entries"><div class="head"><h2>Index</h2><span class="count" id="paperCount">[00]</span></div><div class="papers" id="paperRows"></div><div class="empty" id="emptyState">No matching papers.</div></section></main>
+  <script>
+    const papers=[
+      {title:'Practical Bayesian Model Evaluation Using Leave-One-Out Cross-Validation',authors:'Vehtari, Gelman, Gabry',year:'2017',topic:'Bayesian workflow',status:'read',note:'Model comparison, diagnostics, and predictive evaluation for Bayesian analysis.'},
+      {title:'Attention Is All You Need',authors:'Vaswani et al.',year:'2017',topic:'Artificial intelligence',status:'reading',note:'Transformer architecture as a reusable reference for sequence modeling and modern AI systems.'},
+      {title:'The Science of Muddling Through',authors:'Charles E. Lindblom',year:'1959',topic:'Decision science',status:'queued',note:'Incremental decision-making and policy reasoning under limited information.'},
+      {title:'Statistical Rethinking',authors:'Richard McElreath',year:'2020',topic:'Bayesian workflow',status:'read',note:'Conceptual modeling workflow, causal thinking, and computation-aware statistical practice.'}
+    ];
+    const rows=document.getElementById('paperRows'), search=document.getElementById('paperSearch'), topic=document.getElementById('topicFilter'), status=document.getElementById('statusFilter'), count=document.getElementById('paperCount'), empty=document.getElementById('emptyState');
+    [...new Set(papers.map(p=>p.topic))].sort().forEach(t=>topic.insertAdjacentHTML('beforeend',`<option value="${t}">${t}</option>`));
+    function render(){const q=search.value.trim().toLowerCase();const filtered=papers.filter(p=>(topic.value==='all'||p.topic===topic.value)&&(status.value==='all'||p.status===status.value)&&(!q||[p.title,p.authors,p.year,p.topic,p.status,p.note].join(' ').toLowerCase().includes(q)));rows.innerHTML=filtered.map(p=>`<article class="paper"><div><h3>${p.title}</h3><p>${p.note}</p></div><div><span class="tag">${p.topic}</span></div><div><p>${p.authors}</p><span class="year">${p.year}</span></div><div><span class="status">${p.status}</span></div></article>`).join('');count.textContent=`[${String(filtered.length).padStart(2,'0')}]`;empty.classList.toggle('show',!filtered.length)}
+    [search,topic,status].forEach(el=>el.addEventListener(el===search?'input':'change',render));render();
+  </script>
+  <script src="global-loader.js?v=20260526" defer></script>
+</body>
+</html>
