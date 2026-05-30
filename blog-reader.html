@@ -68,11 +68,26 @@
       .article-shell{display:block!important}
       .article{border:0!important;background:#fff!important;box-shadow:none!important;border-radius:0!important}
       .print-header{display:block!important;position:fixed;top:0;left:0;right:0;height:14mm;background:#fff!important;border-bottom:1px solid #000!important;padding-bottom:3mm!important}
-      .print-header img{width:24mm!important;height:auto!important;filter:brightness(0)!important}
+      .print-header img{width:24mm!important;height:auto!important;filter:brightness(0)!important}.print-header span{display:none!important}
       body.print-watermark .print-header{display:none!important}
       body.print-watermark::before{content:""!important;display:block!important;position:fixed!important;inset:-18mm -16mm!important;z-index:0!important;pointer-events:none!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='220' viewBox='0 0 320 220'%3E%3Ctext x='160' y='112' text-anchor='middle' dominant-baseline='middle' transform='rotate(-32 160 112)' font-family='Arial, Helvetica, sans-serif' font-size='30' font-weight='700' letter-spacing='5' fill='black' fill-opacity='0.16'%3EZIRUI KONG%3C/text%3E%3C/svg%3E")!important;background-repeat:repeat!important;background-size:72mm 50mm!important;background-position:0 0!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
       body.print-watermark .reader{position:relative!important;z-index:1!important}
       body.print-watermark .article,body.print-watermark .abstract,body.print-watermark .meta-grid{background:transparent!important}
+      body.print-elegant{background:#fff!important;color:#172033!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+      body.print-elegant::after{content:""!important;position:fixed!important;inset:-10mm -8mm!important;z-index:0!important;pointer-events:none!important;border:5mm solid #10243d!important}
+      body.print-elegant .reader{position:relative!important;z-index:1!important;padding:10mm 8mm 8mm!important}
+      body.print-elegant .article{background:#fff!important;color:#172033!important}
+      body.print-elegant .print-header{display:flex!important;align-items:center!important;justify-content:space-between!important;height:18mm!important;border-bottom:1.4pt solid #10243d!important;background:#fff!important;padding:0 8mm 4mm!important}
+      body.print-elegant .print-header img{width:22mm!important;filter:none!important}
+      body.print-elegant .print-header span{display:block!important;color:#10243d!important;font-family:Georgia,"Times New Roman",serif!important;font-size:10pt!important;font-style:italic!important;letter-spacing:.02em!important}
+      body.print-elegant .article-head{padding:6mm 0 10mm!important;border-bottom:1pt solid #10243d!important}
+      body.print-elegant h1{color:#10243d!important;font-family:Georgia,"Times New Roman",serif!important;font-size:29pt!important;line-height:1.05!important;font-weight:400!important;letter-spacing:-.01em!important}
+      body.print-elegant .article-date{color:#586579!important;font-family:Georgia,"Times New Roman",serif!important;font-size:10.5pt!important;font-style:italic!important}
+      body.print-elegant .abstract{border-left:2pt solid #10243d!important;padding:0 0 0 5mm!important;margin-top:8mm!important}
+      body.print-elegant .abstract h2,body.print-elegant .content h2{color:#10243d!important;border-bottom:1px solid #10243d44!important;font-family:Georgia,"Times New Roman",serif!important;font-size:16pt!important;font-weight:400!important;letter-spacing:.02em!important;text-transform:none!important}
+      body.print-elegant .abstract p,body.print-elegant .content{color:#172033!important;font-family:Georgia,"Times New Roman",serif!important;font-size:12pt!important;line-height:1.68!important}
+      body.print-elegant .content p{text-align:justify!important;hyphens:auto!important}
+      body.print-elegant .content blockquote{border-left:2pt solid #10243d!important;color:#28364d!important;font-family:Georgia,"Times New Roman",serif!important;font-style:italic!important;background:#f7f9fb!important}
       .article-head{padding:0 0 12mm!important;border-bottom:1px solid #000!important;gap:8mm!important;background:#fff!important}
       .article-body{padding:10mm 0 0!important}
       h1{font-size:26pt!important;line-height:1.08!important;letter-spacing:-.02em!important;text-transform:none!important;max-width:none!important}
@@ -99,7 +114,7 @@
     </div>
   </header>
 
-  <div class="print-header" aria-hidden="true"><img src="assets/kzr-logo-black.png" alt=""></div>
+  <div class="print-header" aria-hidden="true"><img src="assets/kzr-logo-black.png" alt=""><span>Bayesian Workflow Notes</span></div>
   <button class="reader-exit" id="readerModeExit" type="button">Exit reader</button>
   <main class="reader">
     <div class="article-shell">
@@ -180,7 +195,7 @@
             <summary>Print</summary>
             <div class="print-options">
               <button type="button" data-print-mode="header">Header logo</button>
-              <button type="button" data-print-mode="watermark">Name watermark</button>
+              <button type="button" data-print-mode="watermark">Name watermark</button><button type="button" data-print-mode="elegant">Elegant academic</button>
             </div>
           </details>
           <a href="blog.html">Index</a>
@@ -206,6 +221,7 @@
     };
     const printWithMode = (mode) => {
       document.body.classList.toggle('print-watermark', mode === 'watermark');
+      document.body.classList.toggle('print-elegant', mode === 'elegant');
       window.print();
     };
     readerModeToggle?.addEventListener('click', () => setReaderMode(!document.body.classList.contains('reader-mode')));
@@ -217,7 +233,7 @@
       button.textContent = `${label} copied`;
       setTimeout(() => { button.textContent = label; }, 1200);
     }));
-    window.addEventListener('afterprint', () => document.body.classList.remove('print-watermark'));
+    window.addEventListener('afterprint', () => document.body.classList.remove('print-watermark','print-elegant'));
   </script>
   <script src="global-loader.js?v=20260526" defer></script>
 </body>
