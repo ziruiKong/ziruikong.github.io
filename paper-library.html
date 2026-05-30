@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZIRUI KONG'S WEBSITE — Paper Library</title>
-  <meta name="description" content="A curated paper library for research methods, decision science, AI, and learning systems.">
+  <title>ZIRUI KONG'S WEBSITE — Paper</title>
+  <meta name="description" content="A curated paper index for research methods, decision science, AI, and learning systems.">
   <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
     :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--navy:#101820;--gold:#b89455}
@@ -22,8 +22,8 @@
   <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
 <body>
-  <header class="top"><div class="top-inner"><a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a><nav class="nav" aria-label="Paper library navigation"><a href="index.html#home">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="terms.html">Terms</a><a href="resources.html">Archive</a><a class="active" href="paper-library.html">Paper Library</a><a href="notes.html">Notes</a><a href="materials.html">Materials</a></nav></div></header>
-  <section class="hero" aria-label="Paper library hero"><p class="kicker">Atlas / Paper Library</p><h1>Paper Library</h1><p class="lead">A compact reading index for papers, methods, datasets, and research notes that may support future writing.</p><div class="library-marquee" aria-label="Paper library marquee"><div class="library-track"><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span></div></div></section>
+  <header class="top"><div class="top-inner"><a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a><nav class="nav" aria-label="Paper navigation"><a href="index.html#home">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a href="terms.html">Terms</a><a href="resources.html">Archive</a><a class="active" href="paper-library.html">Paper</a><a href="notes.html">Notes</a><a href="materials.html">Materials</a></nav></div></header>
+  <section class="hero" aria-label="Paper hero"><p class="kicker">Atlas / Paper</p><h1>Paper</h1><p class="lead">A compact reading index for papers, methods, datasets, and research notes that may support future writing.</p><div class="library-marquee" aria-label="Paper marquee"><div class="library-track"><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span><span class="library-text">Papers ✶</span><span class="library-text muted">Library ✶</span></div></div></section>
   <section class="toolbar" aria-label="Paper filters"><input class="input" id="paperSearch" type="search" placeholder="Search title, author, method, or keyword"><select class="select" id="topicFilter" aria-label="Topic filter"><option value="all">All Topics</option></select><select class="select" id="statusFilter" aria-label="Status filter"><option value="all">All Status</option><option value="read">Read</option><option value="reading">Reading</option><option value="queued">Queued</option></select></section>
   <main class="section"><section class="panel" aria-label="Paper entries"><div class="head"><h2>Index</h2><span class="count" id="paperCount">[00]</span></div><div class="papers" id="paperRows"></div><div class="empty" id="emptyState">No matching papers.</div></section></main>
   <script>
