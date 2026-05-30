@@ -1,39 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Blog | KZR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — Blog</title>
+  <meta name="description" content="Minimal blog index.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <style>
-    :root{--bg:#f7f3ea;--text:#151515;--muted:#666;--line:#ddd6c8}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif}
-    .top{position:sticky;top:0;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-    .inner{max-width:980px;margin:0 auto;padding:14px 20px}
-    .brand{font-weight:700;letter-spacing:.03em;text-decoration:none;color:inherit}
-    h1{font-size:42px;line-height:1.05;margin:28px 0 10px;font-family:Georgia,"Times New Roman","Noto Serif SC",serif}
-    .desc{color:var(--muted);margin:0 0 30px}
-    .list{display:grid;gap:16px;padding:0 0 38px}
-    .post{border:1px solid var(--line);background:#fffdf8;padding:16px 18px}
-    .post h2{margin:0 0 8px;font-size:24px}
-    .meta{font-size:13px;color:var(--muted);margin-bottom:10px}
-    .post p{margin:0;line-height:1.6}
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+    .brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+
+    .hero{width:100%;padding:44px 24px 18px}
+    .blog-marquee{margin-top:14px;border:1px solid #cfd6dc;background:#eceae6;border-radius:14px;overflow:hidden;position:relative}
+    .blog-track{display:flex;gap:62px;width:max-content;padding:12px 0;animation:blog-scroll 52s linear infinite}
+    .blog-text{font-size:clamp(70px,13.5vw,196px);line-height:.84;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#151922;white-space:nowrap}
+    .blog-text.muted{color:#afb4b9}
+    @keyframes blog-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    .section{width:100%;padding:18px 24px 44px}
+    .panel{background:var(--panel);border:1px solid var(--line);padding:18px}
+    .head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}
+    .head h1{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}
+    .count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .post-list{display:grid;gap:0;border:1px solid var(--line);background:#fff}
+    .post{display:grid;grid-template-columns:1fr auto;gap:16px;padding:16px;border-bottom:1px solid var(--line);align-items:end}
+    .post:last-child{border-bottom:0}
+    .post h2{margin:0;font-size:clamp(22px,3vw,38px);line-height:1;letter-spacing:-.03em}
+    .meta{margin-top:8px;color:var(--muted);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+    .read{border:1px solid #1113;padding:8px 12px;text-decoration:none;color:#1a1a1a;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;white-space:nowrap}
+
+    @media (max-width:700px){.top-inner{grid-template-columns:auto 1fr}.hero{padding-top:28px}.post{grid-template-columns:1fr}.read{width:max-content}}
   </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
 <body>
   <header class="top">
-    <div class="inner"><a class="brand" href="index.html#home">KZR</a></div>
+    <div class="top-inner">
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Blog navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">ARCHIVE</a>
+        <a href="notes.html">Notes</a>
+        <a href="materials.html">Materials</a>
+      </nav>
+    </div>
   </header>
-  <main class="inner">
-    <h1>Blog</h1>
-    <p class="desc">Notes on study, work, and long-term growth.</p>
-    <section class="list" aria-label="Blog posts">
-      <article class="post">
-        <h2>Welcome to the Blog</h2>
-        <div class="meta">May 26, 2026 · Intro</div>
-        <p>This page is a new space for sharing reflections, project updates, and reading notes.</p>
-      </article>
+
+  <section class="hero">
+    <div class="blog-marquee" aria-label="Blog marquee">
+      <div class="blog-track">
+        <span class="blog-text">Blog ✶</span>
+        <span class="blog-text muted">Blog ✶</span>
+        <span class="blog-text">Blog ✶</span>
+        <span class="blog-text muted">Blog ✶</span>
+      </div>
+    </div>
+  </section>
+
+  <main class="section">
+    <section class="panel" aria-label="Blog posts">
+      <div class="head">
+        <h1>Posts</h1>
+        <span class="count">[03]</span>
+      </div>
+      <div class="post-list">
+        <article class="post">
+          <div>
+            <h2>Bayesian Workflow Notes</h2>
+            <div class="meta">May 2026 · Research</div>
+          </div>
+          <a class="read" href="blog-reader.html?post=bayesian-workflow-notes">Read</a>
+        </article>
+        <article class="post">
+          <div>
+            <h2>Archive System v2</h2>
+            <div class="meta">May 2026 · Build</div>
+          </div>
+          <a class="read" href="#">Read</a>
+        </article>
+        <article class="post">
+          <div>
+            <h2>Decision Theory Reading Log</h2>
+            <div class="meta">Apr 2026 · Writing</div>
+          </div>
+          <a class="read" href="#">Read</a>
+        </article>
+      </div>
     </section>
   </main>
+  <script src="global-loader.js?v=20260526" defer></script>
 </body>
 </html>

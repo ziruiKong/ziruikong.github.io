@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KZR — Cookie Preferences</title>
+  <meta name="description" content="Manage cookie preferences for KZR.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--navy:#101827;--ivory:#f6efe3;--paper:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:rgba(16,24,39,.14);--gold:#e2c178}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}.brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+    .hero{padding:48px 24px 20px}.eyebrow{margin:0 0 12px;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:850}h1{margin:0;max-width:1050px;font-size:clamp(52px,10vw,148px);line-height:.84;letter-spacing:-.065em;text-transform:uppercase;color:var(--navy)}.lead{margin:20px 0 0;max-width:780px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,2vw,30px);line-height:1.2;color:#2f291f}
+    main{padding:0 24px 64px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.65fr);gap:22px;align-items:start}.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,34px);box-shadow:0 18px 48px rgba(16,24,39,.06)}.dark{background:var(--navy);color:var(--ivory);border-color:transparent}.dark p,.dark .muted{color:rgba(246,239,227,.78)}
+    h2{margin:0 0 16px;font-size:clamp(28px,4vw,56px);line-height:.92;letter-spacing:-.045em;text-transform:uppercase;color:var(--navy)}.dark h2{color:var(--ivory)}p{margin:0;color:#342e25;line-height:1.62}.muted{color:var(--muted);font-size:14px}.status{display:grid;gap:8px;margin:18px 0 0;padding:14px;border:1px solid var(--line);border-radius:16px;background:#fff}.status strong{font-size:12px;letter-spacing:.14em;text-transform:uppercase}.status code{font-family:ui-monospace,Menlo,monospace;font-size:12px;white-space:normal;word-break:break-word;color:#352d22}
+    .choices{display:grid;gap:14px}.choice{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff}.choice h3{margin:0 0 6px;font-size:22px;line-height:1;letter-spacing:-.035em}.choice p{font-size:14px}.switch{position:relative;display:inline-flex;width:58px;height:34px}.switch input{opacity:0;width:0;height:0}.slider{position:absolute;cursor:pointer;inset:0;background:#d8d1c6;border:1px solid rgba(16,24,39,.18);border-radius:999px;transition:.2s}.slider:before{content:"";position:absolute;width:26px;height:26px;left:3px;top:3px;background:#fff;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.18);transition:.2s}.switch input:checked + .slider{background:var(--navy)}.switch input:checked + .slider:before{transform:translateX(24px)}.switch input:disabled + .slider{opacity:.62;cursor:not-allowed}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.btn{min-height:42px;border:1px solid var(--navy);border-radius:999px;background:transparent;color:var(--navy);padding:0 16px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:850;cursor:pointer}.btn.primary{background:var(--navy);color:var(--ivory)}.btn.warn{border-color:#8d6427;color:#8d6427}.btn:hover{transform:translateY(-1px)}.notice{min-height:24px;margin-top:14px;font-size:13px;color:#8d6427;font-weight:700}.list{display:grid;gap:10px;margin:0;padding:0;list-style:none}.list li{border-top:1px solid rgba(246,239,227,.22);padding-top:10px;line-height:1.5}.list strong{display:block;color:var(--ivory);margin-bottom:4px}.small-link{color:inherit;text-underline-offset:4px}
+    @media(max-width:860px){main{grid-template-columns:1fr}.top-inner{grid-template-columns:auto 1fr}.choice{grid-template-columns:1fr}.switch{justify-self:start}}
+    @media(max-width:640px){.hero{padding-top:30px}.nav a{font-size:11px}.brand img{width:68px}.actions{display:grid}.btn{width:100%}}
+  </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
+</head>
+<body>
+  <header class="top">
+    <div class="top-inner">
+      <a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a>
+      <nav class="nav" aria-label="Cookie preferences navigation">
+        <a href="index.html#home">Home</a>
+        <a href="about.html">About</a>
+        <a href="resources.html">Archive</a>
+        <a href="shop.html">Shop</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Privacy choices</p>
+    <h1>Cookie Preferences</h1>
+    <p class="lead">Control how KZR stores consent information and optional analytics preferences in this browser.</p>
+  </section>
+
+  <main>
+    <section class="panel" aria-label="Cookie preference controls">
+      <h2>Manage choices</h2>
+      <div class="choices">
+        <article class="choice">
+          <div><h3>Essential cookies</h3><p>Required for storing this consent record and keeping basic site preferences. This option is always on.</p></div>
+          <label class="switch" aria-label="Essential cookies always enabled"><input id="essentialToggle" type="checkbox" checked disabled><span class="slider"></span></label>
+        </article>
+        <article class="choice">
+          <div><h3>Analytics cookies</h3><p>Optional. Allows the site to remember that analytics are permitted if analytics tools are added later.</p></div>
+          <label class="switch" aria-label="Analytics cookies"><input id="analyticsToggle" type="checkbox"><span class="slider"></span></label>
+        </article>
+      </div>
+      <div class="actions">
+        <button class="btn primary" type="button" id="saveAll">Accept all</button>
+        <button class="btn" type="button" id="saveSelected">Save selected</button>
+        <button class="btn" type="button" id="essentialsOnly">Essentials only</button>
+        <button class="btn warn" type="button" id="resetChoice">Reset choice</button>
+      </div>
+      <div class="notice" id="notice" role="status" aria-live="polite"></div>
+      <div class="status" aria-label="Current cookie status">
+        <strong>Current saved preference</strong>
+        <code id="currentPreference">No saved preference yet.</code>
+      </div>
+    </section>
+
+    <aside class="panel dark" aria-label="Cookie summary">
+      <h2>What is stored</h2>
+      <ul class="list">
+        <li><strong>Storage key</strong><span class="muted">kzrCookieConsent_v2 in localStorage.</span></li>
+        <li><strong>Essential</strong><span class="muted">Consent choice and timestamp, stored locally in this browser.</span></li>
+        <li><strong>Analytics</strong><span class="muted">A true/false preference only. No analytics vendor is loaded by this page.</span></li>
+        <li><strong>Reset</strong><span class="muted">Clearing the choice removes the saved localStorage record and allows the cookie banner to appear again.</span></li>
+      </ul>
+      <p style="margin-top:18px"><a class="small-link" href="mailto:kongzirui2004@163.com">Privacy Contact</a></p>
+    </aside>
+  </main>
+
+  <script>
+    (function () {
+      const key = "kzrCookieConsent_v2";
+      const analyticsToggle = document.getElementById("analyticsToggle");
+      const currentPreference = document.getElementById("currentPreference");
+      const notice = document.getElementById("notice");
+
+      function readPreference() {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : null;
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function render(message = "") {
+        const saved = readPreference();
+        if (saved) {
+          analyticsToggle.checked = Boolean(saved.analytics);
+          currentPreference.textContent = JSON.stringify(saved, null, 2);
+        } else {
+          analyticsToggle.checked = false;
+          currentPreference.textContent = "No saved preference yet.";
+        }
+        notice.textContent = message;
+      }
+
+      function save(choice, analytics) {
+        const payload = { choice, analytics, savedAt: new Date().toISOString() };
+        localStorage.setItem(key, JSON.stringify(payload));
+        render("Preferences saved on this device.");
+      }
+
+      document.getElementById("saveAll").addEventListener("click", () => save("all", true));
+      document.getElementById("saveSelected").addEventListener("click", () => save("custom", analyticsToggle.checked));
+      document.getElementById("essentialsOnly").addEventListener("click", () => save("essential", false));
+      document.getElementById("resetChoice").addEventListener("click", () => {
+        localStorage.removeItem(key);
+        render("Saved cookie preference removed from this browser.");
+      });
+
+      render();
+    })();
+  </script>
+  <script src="global-loader.js?v=20260526" defer></script>
+</body>
+</html>

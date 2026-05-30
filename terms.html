@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRUI KONG'S WEBSITE — Terms</title>
+  <meta name="description" content="A concise terminology page for recurring ideas, methods, and editorial vocabulary on Zirui Kong's website.">
+  <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
+  <style>
+    :root{--bg:#f7f3ea;--panel:#fffdf8;--ink:#161616;--muted:#6e665a;--line:#201f1b22;--navy:#101820;--gold:#b89455}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:Inter,"Helvetica Neue",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .top{position:sticky;top:0;z-index:50;background:rgba(247,243,234,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}.top-inner{width:100%;padding:12px 24px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}.brand img{width:80px;filter:brightness(0);display:block}
+    .nav{display:flex;justify-content:flex-end;gap:14px;flex-wrap:wrap}.nav a{text-decoration:none;color:#241f19;opacity:.76;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700}.nav a.active,.nav a:hover{opacity:1}
+    .hero{width:100%;padding:44px 24px 18px}.kicker{margin:0;color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:800}h1{margin:8px 0 10px;font-size:clamp(52px,10vw,142px);line-height:.84;letter-spacing:-.06em;text-transform:uppercase}.lead{margin:0;max-width:760px;font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.55;color:#322c24}
+    .terms-marquee{margin-top:18px;border:1px solid #cfd6dc;background:#eceae6;border-radius:14px;overflow:hidden}.terms-track{display:flex;gap:62px;width:max-content;padding:12px 0;animation:terms-scroll 54s linear infinite}.terms-text{font-size:clamp(72px,13vw,190px);line-height:.84;font-weight:900;letter-spacing:-.04em;text-transform:uppercase;color:#151922;white-space:nowrap}.terms-text.muted{color:#afb4b9}@keyframes terms-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .toolbar{padding:0 24px 14px;display:grid;grid-template-columns:minmax(0,1fr) 180px;gap:10px}.input,.select{width:100%;border:1px solid var(--line);background:#fff;padding:12px 13px;font-size:14px}.select{font-size:12px;letter-spacing:.1em;text-transform:uppercase}.section{width:100%;padding:0 24px 48px}.panel{background:var(--panel);border:1px solid var(--line);padding:18px}.head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:16px}.head h2{margin:0;font-size:clamp(28px,4vw,52px);letter-spacing:-.03em;text-transform:uppercase}.count{font-family:ui-monospace,Menlo,monospace;color:var(--muted);font-size:12px}
+    .glossary{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}.term{grid-column:span 6;background:#fff;border:1px solid var(--line);padding:16px}.term-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}.term h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:30px;line-height:1;font-weight:400}.tag{border:1px solid #1113;padding:4px 7px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:800;white-space:nowrap}.term p{margin:0;color:#3d372f;font-size:15px;line-height:1.55}.empty{display:none;padding:18px;border:1px dashed #1114;background:#fff;color:var(--muted)}.empty.show{display:block}
+    @media (max-width:800px){.toolbar{grid-template-columns:1fr}.term{grid-column:span 12}.term-top{display:grid}.nav{justify-content:flex-start}}
+  </style>
+  <link rel="stylesheet" href="global-loader.css?v=20260526">
+</head>
+<body>
+  <header class="top"><div class="top-inner"><a class="brand" href="index.html#home" aria-label="KZR Home"><img src="assets/kzr-logo-black.png" alt="KZR logo"></a><nav class="nav" aria-label="Terms navigation"><a href="index.html#home">Home</a><a href="about.html">About</a><a href="blog.html">Blog</a><a class="active" href="terms.html">Terms</a><a href="resources.html">Archive</a><a href="paper-library.html">Paper</a><a href="notes.html">Notes</a><a href="materials.html">Materials</a></nav></div></header>
+  <section class="hero" aria-label="Terms hero"><div class="terms-marquee" aria-label="Terms marquee"><div class="terms-track"><span class="terms-text">Glossary ✶</span><span class="terms-text muted">Glossary ✶</span><span class="terms-text">Glossary ✶</span><span class="terms-text muted">Glossary ✶</span></div></div></section>
+  <section class="toolbar" aria-label="Term filters"><input class="input" id="termSearch" type="search" placeholder="Search terms, definitions, or categories"><select class="select" id="categoryFilter" aria-label="Category filter"><option value="all">All Categories</option></select></section>
+  <main class="section"><section class="panel" aria-label="Terminology entries"><div class="head"><h2>Glossary</h2><span class="count" id="termCount">[00]</span></div><div class="glossary" id="termRows"></div><div class="empty" id="emptyState">No matching terms.</div></section></main>
+  <script>
+    const terms=[];
+    const rows=document.getElementById('termRows'), search=document.getElementById('termSearch'), category=document.getElementById('categoryFilter'), count=document.getElementById('termCount'), empty=document.getElementById('emptyState');
+    [...new Set(terms.map(t=>t.category))].sort().forEach(c=>category.insertAdjacentHTML('beforeend',`<option value="${c}">${c}</option>`));
+    function render(){const q=search.value.trim().toLowerCase();const filtered=terms.filter(t=>(category.value==='all'||t.category===category.value)&&(!q||[t.term,t.category,t.definition].join(' ').toLowerCase().includes(q)));rows.innerHTML=filtered.map(t=>`<article class="term"><div class="term-top"><h3>${t.term}</h3><span class="tag">${t.category}</span></div><p>${t.definition}</p></article>`).join('');count.textContent=`[${String(filtered.length).padStart(2,'0')}]`;empty.classList.toggle('show',!filtered.length)}
+    [search,category].forEach(el=>el.addEventListener(el===search?'input':'change',render));render();
+  </script>
+  <script src="global-loader.js?v=20260526" defer></script>
+</body>
+</html>
