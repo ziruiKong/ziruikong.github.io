@@ -2718,26 +2718,73 @@
       }
     }
 
-    async function toggleArchiveMusic() {
+    async function startArchiveMusic() {
       const context = await setupArchiveMusic();
-      if (!context || !archiveMasterGain) return;
+      if (!context || !archiveMasterGain) return false;
 
       if (context.state === "suspended") {
-        await context.resume();
+        try {
+          await context.resume();
+        } catch (error) {
+          return false;
+        }
       }
+
+      if (context.state !== "running") return false;
 
       const now = context.currentTime;
       archiveMasterGain.gain.cancelScheduledValues(now);
+      archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
+      archiveMusicPlaying = true;
+      updateMusicButton();
+      return context.state === "running";
+    }
 
+    function pauseArchiveMusic() {
+      if (!archiveAudioContext || !archiveMasterGain) return;
+      const now = archiveAudioContext.currentTime;
+      archiveMasterGain.gain.cancelScheduledValues(now);
+      archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
+      archiveMusicPlaying = false;
+      updateMusicButton();
+    }
+
+    async function toggleArchiveMusic() {
       if (archiveMusicPlaying) {
-        archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
-        archiveMusicPlaying = false;
-      } else {
-        archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
-        archiveMusicPlaying = true;
+        pauseArchiveMusic();
+        return;
       }
 
-      updateMusicButton();
+      await startArchiveMusic();
+    }
+
+    function initArchiveMusicAutoplay() {
+      let unlocked = false;
+      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
+
+      const removeUnlockListeners = () => {
+        unlockEvents.forEach((eventName) => {
+          document.removeEventListener(eventName, unlockAutoplay, true);
+          window.removeEventListener(eventName, unlockAutoplay, true);
+        });
+      };
+
+      const unlockAutoplay = async () => {
+        const started = await startArchiveMusic();
+        if (started) {
+          unlocked = true;
+          removeUnlockListeners();
+        }
+      };
+
+      unlockAutoplay();
+      window.setTimeout(() => {
+        if (unlocked || archiveAudioContext?.state === "running") return;
+        unlockEvents.forEach((eventName) => {
+          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+        });
+      }, 0);
     }
 
     function openBookingPanel() {
@@ -2858,6 +2905,7 @@
       initInquiry();
       bindEvents();
       updateMusicButton();
+      initArchiveMusicAutoplay();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
