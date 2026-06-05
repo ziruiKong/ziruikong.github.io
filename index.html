@@ -122,7 +122,7 @@
       margin: 0 auto;
       padding: 0 18px 0 26px;
       display: grid;
-      grid-template-columns: 260px minmax(0, 1fr);
+      grid-template-columns: 260px minmax(0, 1fr) auto;
       align-items: start;
       gap: clamp(24px, 3.2vw, 56px);
       width: 100%;
@@ -288,6 +288,88 @@
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+    .music-toggle {
+      align-self: start;
+      justify-self: end;
+      display: inline-grid;
+      place-items: center;
+      width: 44px;
+      height: 32px;
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: #fff7ed;
+      padding: 0;
+      text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
+      mix-blend-mode: difference;
+      transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .music-toggle:hover {
+      opacity: 0.76;
+      transform: translateY(-1px);
+    }
+
+    .music-toggle:focus-visible {
+      outline: 1px solid currentColor;
+      outline-offset: 5px;
+    }
+
+    .music-toggle.is-loading {
+      opacity: 0.56;
+    }
+
+    .music-toggle.is-error {
+      opacity: 0.42;
+    }
+
+    .music-symbol {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      width: 30px;
+      height: 18px;
+    }
+
+    .music-symbol span {
+      display: block;
+      width: 5px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transform-origin: center;
+      transition: height 220ms ease, opacity 180ms ease;
+    }
+
+    .music-toggle[aria-pressed="true"] .music-symbol span {
+      height: var(--bar-height, 12px);
+      animation: musicRipple 950ms ease-in-out infinite;
+    }
+
+    .music-toggle[aria-pressed="true"] .music-symbol span:nth-child(1) { --bar-height: 7px; animation-delay: -220ms; }
+    .music-toggle[aria-pressed="true"] .music-symbol span:nth-child(2) { --bar-height: 14px; animation-delay: -120ms; }
+    .music-toggle[aria-pressed="true"] .music-symbol span:nth-child(3) { --bar-height: 10px; animation-delay: -60ms; }
+    .music-toggle[aria-pressed="true"] .music-symbol span:nth-child(4) { --bar-height: 16px; animation-delay: 0ms; }
+
+    @keyframes musicRipple {
+      0%, 100% { transform: scaleY(0.5); opacity: 0.72; }
+      45% { transform: scaleY(1); opacity: 1; }
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     .menu-wrap,
@@ -2097,12 +2179,14 @@
         margin-right: -20px;
       }
       .header-inner {
-        grid-template-columns: auto 1fr;
+        grid-template-columns: auto 1fr auto auto;
         align-items: center;
+        gap: 14px;
       }
       .brand { min-width: 0; }
       .brand-text { font-size: 16px; }
       .top-nav-groups { display: none; }
+      .music-toggle { grid-column: 3; width: 40px; height: 30px; }
   
 
 
@@ -2358,6 +2442,10 @@
           <a href="materials.html">Materials</a>
         </div>
       </nav>
+      <button class="music-toggle" id="homeMusicToggle" type="button" aria-pressed="false" aria-label="Play background music">
+        <span class="music-symbol" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+        <span class="visually-hidden">Background music</span>
+      </button>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
     <div class="mobile-nav-panel" id="mobileNavPanel" aria-label="Mobile navigation">
@@ -2527,13 +2615,8 @@
     let inquiryPreviewFrame = null;
     let inquirySwitchTimer = null;
     let inquiryRequestId = 0;
-    let archiveAudioContext = null;
-    let archiveMasterGain = null;
-    let archivePulseGain = null;
-    let archiveOscillators = [];
-    let archiveLfo = null;
-    let archiveLfoGain = null;
-    let archiveMusicPlaying = false;
+    let backgroundAudio = null;
+    let backgroundMusicPlaying = false;
 
 
     const mobileNavToggle = document.getElementById("mobileNavToggle");
@@ -2647,97 +2730,58 @@
       }, { once: true });
     }
 
-    async function setupArchiveMusic() {
-      if (archiveAudioContext) return archiveAudioContext;
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return null;
-
-      archiveAudioContext = new AudioCtx();
-      archiveMasterGain = archiveAudioContext.createGain();
-      archiveMasterGain.gain.value = 0;
-
-      const filter = archiveAudioContext.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.value = 620;
-      filter.Q.value = 0.45;
-
-      archivePulseGain = archiveAudioContext.createGain();
-      archivePulseGain.gain.value = 0.018;
-
-      archiveLfo = archiveAudioContext.createOscillator();
-      archiveLfo.type = "sine";
-      archiveLfo.frequency.value = 0.09;
-      archiveLfoGain = archiveAudioContext.createGain();
-      archiveLfoGain.gain.value = 6;
-
-      const voices = [
-        { type: "sine", frequency: 174.61, detune: -6, gain: 0.05 },
-        { type: "triangle", frequency: 220, detune: 4, gain: 0.036 },
-        { type: "sine", frequency: 261.63, detune: 1.5, gain: 0.018 }
-      ];
-
-      archiveOscillators = voices.map((voice) => {
-        const oscillator = archiveAudioContext.createOscillator();
-        const gainNode = archiveAudioContext.createGain();
-        oscillator.type = voice.type;
-        oscillator.frequency.value = voice.frequency;
-        oscillator.detune.value = voice.detune;
-        gainNode.gain.value = voice.gain;
-        oscillator.connect(gainNode);
-        gainNode.connect(filter);
-        oscillator.start();
-        return oscillator;
+    function setupBackgroundMusic() {
+      if (backgroundAudio) return backgroundAudio;
+      backgroundAudio = new Audio("bg.mp3");
+      backgroundAudio.loop = true;
+      backgroundAudio.preload = "auto";
+      backgroundAudio.volume = 0.36;
+      backgroundAudio.addEventListener("ended", () => {
+        backgroundMusicPlaying = false;
+        updateMusicButton();
       });
-
-      const pulseOsc = archiveAudioContext.createOscillator();
-      pulseOsc.type = "triangle";
-      pulseOsc.frequency.value = 329.63;
-      pulseOsc.connect(archivePulseGain);
-      archivePulseGain.connect(filter);
-      pulseOsc.start();
-      archiveOscillators.push(pulseOsc);
-
-      archiveLfo.connect(archiveLfoGain);
-      archiveLfoGain.connect(filter.frequency);
-      archiveLfo.start();
-
-      filter.connect(archiveMasterGain);
-      archiveMasterGain.connect(archiveAudioContext.destination);
-      return archiveAudioContext;
+      backgroundAudio.addEventListener("error", () => {
+        backgroundMusicPlaying = false;
+        updateMusicButton("error");
+      });
+      return backgroundAudio;
     }
 
-    function updateMusicButton() {
-      const musicButton = $("#inquiryMusicButton");
+    function updateMusicButton(state = "idle") {
+      const musicButton = $("#homeMusicToggle");
       if (!musicButton) return;
-      const iconPath = musicButton.querySelector("svg path");
+      const isLoading = state === "loading";
+      const isError = state === "error";
 
-      musicButton.setAttribute("aria-pressed", archiveMusicPlaying ? "true" : "false");
-      musicButton.setAttribute("aria-label", archiveMusicPlaying ? "Pause archive music" : "Play archive music");
-      if (iconPath) {
-        iconPath.setAttribute("d", archiveMusicPlaying ? "M8 6h3v12H8zM13 6h3v12h-3z" : "M8 6l10 6-10 6V6Z");
-      }
+      musicButton.classList.toggle("is-loading", isLoading);
+      musicButton.classList.toggle("is-error", isError);
+      musicButton.setAttribute("aria-pressed", backgroundMusicPlaying ? "true" : "false");
+      musicButton.setAttribute(
+        "aria-label",
+        isError ? "Background music file bg.mp3 is not available yet" : (backgroundMusicPlaying ? "Pause background music" : "Play background music")
+      );
+      musicButton.title = isError ? "bg.mp3 will play after the file is uploaded" : (backgroundMusicPlaying ? "Pause music" : "Play music");
     }
 
-    async function toggleArchiveMusic() {
-      const context = await setupArchiveMusic();
-      if (!context || !archiveMasterGain) return;
+    function toggleBackgroundMusic() {
+      const audio = setupBackgroundMusic();
+      if (!audio) return;
 
-      if (context.state === "suspended") {
-        await context.resume();
+      if (backgroundMusicPlaying) {
+        audio.pause();
+        backgroundMusicPlaying = false;
+        updateMusicButton();
+        return;
       }
 
-      const now = context.currentTime;
-      archiveMasterGain.gain.cancelScheduledValues(now);
-
-      if (archiveMusicPlaying) {
-        archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
-        archiveMusicPlaying = false;
-      } else {
-        archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
-        archiveMusicPlaying = true;
-      }
-
-      updateMusicButton();
+      updateMusicButton("loading");
+      audio.play().then(() => {
+        backgroundMusicPlaying = true;
+        updateMusicButton();
+      }).catch(() => {
+        backgroundMusicPlaying = false;
+        updateMusicButton("error");
+      });
     }
 
     function openBookingPanel() {
@@ -2760,7 +2804,9 @@
       const bookingOpenButton = $("#bookingOpenButton");
       const bookingCloseButton = $("#bookingCloseButton");
       const bookingForm = $("#bookingForm");
+      const musicButton = $("#homeMusicToggle");
 
+      if (musicButton) musicButton.addEventListener("click", toggleBackgroundMusic);
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
       if (bookingForm) {
