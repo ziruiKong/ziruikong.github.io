@@ -197,6 +197,7 @@
       grid-template-columns: repeat(4, minmax(124px, 1fr));
       gap: clamp(10px, 1.8vw, 26px);
       color: #fff7ed;
+      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
       text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
     }
 
@@ -212,8 +213,9 @@
       gap: 9px;
       font-size: 18px;
       line-height: 1;
-      font-weight: 900;
-      letter-spacing: -0.05em;
+      font-weight: 860;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
     .nav-shape {
@@ -246,10 +248,11 @@
     .nav-group a {
       width: fit-content;
       color: #fff7ed;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
       font-size: 17px;
       line-height: 1.05;
-      font-weight: 700;
-      letter-spacing: -0.055em;
+      font-weight: 300;
+      letter-spacing: -0.015em;
       text-decoration: underline;
       text-decoration-thickness: 1px;
       text-underline-offset: 5px;
@@ -945,8 +948,8 @@
 
 
     .practice-section {
-      background: #f6efe3;
-      color: #15263f;
+      background: #101827;
+      color: #f6efe3;
       max-width: none;
       width: auto;
       height: 100vh;
@@ -955,29 +958,24 @@
       min-height: 100svh;
       margin-left: -42px;
       margin-right: -42px;
-      position: sticky;
-      top: 0;
+      position: relative;
+      top: auto;
       z-index: 1;
       overflow: hidden;
-      --practice-blur: 0px;
-      --practice-dim: 0;
-      --practice-lift: 0px;
-      --practice-scale: 1;
-      filter: blur(var(--practice-blur));
-      transform: translateY(var(--practice-lift)) scale(var(--practice-scale));
-      transition: filter .42s ease, transform .5s cubic-bezier(.22,.61,.36,1);
-      will-change: filter, transform;
+      transform: none;
+      transition: none;
+      will-change: auto;
     }
     .practice-section.is-transitioning {
-      box-shadow: inset 0 0 0 9999px rgba(17, 24, 39, var(--practice-dim));
+      box-shadow: none;
     }
 
     .practice-hero {
       min-height: clamp(300px, 31vw, 430px);
-      background-color: #f6efe3;
+      background-color: #101827;
       display: flex;
       align-items: center;
-      border-bottom: 1px solid rgba(21, 38, 63, 0.1);
+      border-bottom: 1px solid rgba(246, 239, 227, 0.16);
     }
 
 
@@ -1011,8 +1009,8 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(90deg, #f6efe3 0%, #f6efe3 30%, rgba(246, 239, 227, 0.95) 42%, rgba(246, 239, 227, 0.7) 50%, rgba(246, 239, 227, 0.35) 58%, rgba(246, 239, 227, 0.1) 66%, rgba(246, 239, 227, 0) 74%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0) 32%);
+        linear-gradient(90deg, #101827 0%, #101827 30%, rgba(16, 24, 39, 0.95) 42%, rgba(16, 24, 39, 0.72) 50%, rgba(16, 24, 39, 0.38) 58%, rgba(16, 24, 39, 0.12) 66%, rgba(16, 24, 39, 0) 74%),
+        linear-gradient(180deg, rgba(246, 239, 227, 0.08) 0%, rgba(246, 239, 227, 0) 32%);
     }
 
     .practice-intro {
@@ -1042,7 +1040,7 @@
     .practice-underline {
       width: 56px;
       height: 3px;
-      background: #1b2f4a;
+      background: #f6efe3;
       margin-top: clamp(20px, 2.2vw, 30px);
     }
 
@@ -1056,7 +1054,7 @@
 
     .practice-list { margin: 0; padding: 0; list-style: none; }
     .practice-item {
-      border-top: 1px solid rgba(21, 38, 63, 0.2);
+      border-top: 1px solid rgba(16, 24, 39, 0.2);
       position: relative;
       overflow: hidden;
     }
@@ -1064,7 +1062,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: #132844;
+      background: #101827;
       transform: translateY(102%);
       transition: transform .36s cubic-bezier(.22,.61,.36,1);
       z-index: 0;
@@ -1082,7 +1080,7 @@
       grid-template-columns: minmax(0, 1fr);
       align-items: center;
       text-decoration: none;
-      color: #15263f;
+      color: #101827;
       font-size: clamp(16px, 1.8vw, 24px);
       letter-spacing: -.02em;
       position: relative;
@@ -1096,7 +1094,7 @@
     }
     .practice-link:hover,
     .practice-link:focus-visible {
-      color: #f5efe4;
+      color: #f6efe3;
       transform: translateX(2px);
       letter-spacing: -.012em;
     }
@@ -1179,153 +1177,152 @@
     .collab-section {
       position: relative;
       max-width: none;
-      min-height: 100vh;
-      min-height: 100svh;
+      min-height: clamp(420px, 58vh, 620px);
       margin-left: -42px;
       margin-right: -42px;
       margin-top: 0;
-      padding: clamp(18px, 2.2vw, 34px);
-      display: flex;
-      align-items: flex-end;
+      padding: 0;
+      display: block;
       overflow: hidden;
-      z-index: 3;
-      background:
-        radial-gradient(90% 60% at 8% 14%, rgba(255, 255, 255, .78) 0%, rgba(255, 255, 255, 0) 62%),
-        radial-gradient(70% 55% at 92% 80%, rgba(236, 212, 165, .32) 0%, rgba(236, 212, 165, 0) 72%),
-        #fffff0;
+      z-index: 1;
+      background: #101827;
+      color: #f7f0e3;
       isolation: isolate;
-      --collab-rise: 36px;
-      --collab-opacity: .84;
-      transform: translateY(var(--collab-rise));
-      opacity: var(--collab-opacity);
-      transition: transform .6s cubic-bezier(.22,.61,.36,1), opacity .45s ease;
-      will-change: transform, opacity;
+      transform: none;
+      opacity: 1;
+      transition: none;
+      will-change: auto;
     }
     .collab-section.is-revealing {
-      transform: translateY(0);
+      transform: none;
       opacity: 1;
     }
 
     .collab-section::before,
     .collab-section::after {
-      content: "";
-      position: absolute;
-      inset: -20%;
-      z-index: -1;
-      pointer-events: none;
-    }
-
-    .collab-section::before {
-      background:
-        radial-gradient(42% 42% at 14% 20%, rgba(255, 255, 255, .78), rgba(255, 255, 255, 0) 70%);
-      filter: blur(10px);
-      opacity: .8;
-      animation: collabGlowFloat 11s ease-in-out infinite alternate;
-    }
-
-    .collab-section::after {
-      background:
-        linear-gradient(110deg, rgba(255, 255, 255, 0) 20%, rgba(255, 255, 255, .34) 48%, rgba(255, 255, 255, 0) 76%);
-      transform: translateX(-38%);
-      opacity: .72;
-      animation: collabSheen 7.8s cubic-bezier(.2, .65, .18, .98) infinite;
+      content: none;
+      display: none;
     }
 
     .collab-card {
       position: relative;
       width: 100%;
-      min-height: min(60vh, 560px);
-      padding: clamp(24px, 3.8vw, 54px);
+      min-height: clamp(420px, 58vh, 620px);
+      padding: clamp(42px, 5vw, 76px) clamp(28px, 7vw, 124px) clamp(34px, 4vw, 58px);
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.88fr);
-      grid-template-rows: 1fr auto;
-      gap: clamp(18px, 3.2vw, 44px);
-      border: 2px solid #8b5e34;
-      border-radius: 8px;
-      background: rgba(255, 255, 252, 0.88);
-      box-shadow:
-        0 28px 80px rgba(77, 63, 38, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      backdrop-filter: blur(24px) saturate(128%);
-      -webkit-backdrop-filter: blur(24px) saturate(128%);
-      transform-style: preserve-3d;
-      transition: transform .36s cubic-bezier(.22,.61,.36,1), box-shadow .36s cubic-bezier(.22,.61,.36,1), border-color .36s ease;
+      grid-template-columns: minmax(180px, 1.05fr) minmax(360px, 1.6fr) minmax(180px, .72fr);
+      grid-template-areas:
+        "intro links figure"
+        "email links figure"
+        "meta meta meta";
+      column-gap: clamp(38px, 6vw, 96px);
+      row-gap: clamp(18px, 2.6vw, 34px);
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      color: inherit;
+      box-shadow: none;
+      overflow: visible;
+      transform-style: flat;
+      transition: none;
     }
-    .collab-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      border: 1px solid rgba(255,255,255,.56);
-      background: linear-gradient(128deg, rgba(255,255,255,.34), rgba(255,255,255,.04) 52%, rgba(188, 139, 76, .14));
-      pointer-events: none;
-      z-index: 1;
-      mix-blend-mode: screen;
-    }
+    .collab-card::before,
     .collab-card::after {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
-      background: conic-gradient(from 160deg at 10% 8%, rgba(255,255,255,0), rgba(255,255,255,.2), rgba(255,255,255,0) 35%);
-      filter: blur(12px);
-      opacity: .45;
-      pointer-events: none;
-      z-index: 0;
+      content: none;
+      display: none;
     }
     .collab-card:hover {
-      transform: translateY(-4px) rotateX(1deg) rotateY(-1deg);
-      border-color: rgba(141, 100, 39, .72);
-      box-shadow:
-        0 34px 92px rgba(77, 63, 38, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.86);
+      transform: none;
+      border-color: transparent;
+      box-shadow: none;
     }
 
-    .collab-kicker {
+    .collab-card > div:first-child {
+      position: relative;
+      z-index: 2;
+      grid-area: intro;
+      align-self: start;
+      width: auto;
       margin: 0;
-      color: rgba(17, 24, 39, 0.38);
-      font-size: calc(12px * 0.88);
-      font-weight: 820;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
+    }
+
+    .collab-kicker,
+    .collab-link-group span {
+      display: block;
+      margin: 0 0 18px;
+      padding: 0 0 12px;
+      color: #fffaf0;
+      border-bottom: 2px dotted rgba(255, 250, 240, .72);
+      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+      font-size: clamp(18px, 1.8vw, 30px);
+      line-height: 1;
+      font-weight: 860;
+      letter-spacing: -0.045em;
+      text-transform: none;
     }
 
     .collab-heading {
       margin: 0;
-      max-width: 760px;
-      color: rgba(17, 24, 39, 0.42);
-      font-size: calc(clamp(34px, 5.2vw, 78px) * 0.88);
-      line-height: 0.98;
-      font-weight: 720;
-      letter-spacing: -0.06em;
+      max-width: 16ch;
+      color: rgba(255, 250, 240, .88);
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(18px, 1.45vw, 26px);
+      line-height: 1.16;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+    }
+    .collab-heading::after {
+      content: none;
+      display: none;
     }
 
     .collab-email {
-      justify-self: end;
+      position: relative;
+      z-index: 2;
+      grid-area: email;
+      justify-self: start;
       align-self: start;
-      color: #0e1117;
-      font-size: calc(clamp(18px, 2.6vw, 38px) * 0.88);
-      line-height: 1;
-      font-weight: 760;
-      letter-spacing: -0.055em;
-      text-decoration-thickness: 0.07em;
-      text-underline-offset: 0.09em;
-      transition: color 180ms ease, opacity 180ms ease;
+      width: auto;
+      max-width: 100%;
+      margin: 0;
+      color: rgba(255, 250, 240, .9);
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(16px, 1.2vw, 21px);
+      line-height: 1.18;
+      font-weight: 400;
+      letter-spacing: -0.018em;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 250, 240, .34);
+      padding: 0 0 6px;
+      transition: color .22s ease, border-color .22s ease;
     }
 
     .collab-email:hover {
-      color: #8d6427;
+      color: #e2c178;
+      border-color: rgba(226, 193, 120, .72);
     }
 
     .collab-figure {
-      position: absolute;
-      right: clamp(24px, 3vw, 42px);
-      bottom: clamp(44px, 4.8vw, 78px);
-      width: calc(clamp(240px, 27vw, 420px) * 0.88);
-      max-width: 44%;
-      opacity: 0.82;
+      grid-area: figure;
+      position: relative;
+      top: auto;
+      right: auto;
+      bottom: auto;
+      justify-self: center;
+      align-self: start;
+      width: clamp(220px, 24vw, 390px);
+      height: auto;
+      min-height: 0;
+      max-width: 100%;
+      opacity: 1;
       pointer-events: none;
-      z-index: 0;
+      z-index: 2;
+      overflow: visible;
+    }
+    .collab-figure::after {
+      content: none;
+      display: none;
     }
 
     .collab-figure img {
@@ -1333,91 +1330,106 @@
       width: 100%;
       height: auto;
       object-fit: contain;
-      mix-blend-mode: multiply;
-      animation: collabFigureFloat 6.6s ease-in-out infinite alternate;
+      object-position: center;
+      mix-blend-mode: normal;
+      animation: none;
+      filter: drop-shadow(0 16px 30px rgba(0,0,0,.28));
     }
 
     .collab-links {
-      grid-column: 1 / 2;
-      align-self: end;
+      position: relative;
+      z-index: 2;
+      grid-area: links;
+      align-self: start;
       display: grid;
-      grid-template-columns: repeat(2, minmax(150px, 220px));
-      gap: clamp(28px, 4vw, 70px);
+      grid-template-columns: repeat(3, minmax(120px, 1fr));
+      gap: clamp(28px, 4vw, 72px);
+      padding: 0;
+      background: transparent;
     }
 
     .collab-link-group {
       display: grid;
+      align-content: start;
       gap: 8px;
-      font-size: calc(clamp(15px, 1.3vw, 22px) * 0.88);
-      line-height: 1.15;
-      font-weight: 720;
-    }
-
-    .collab-link-group span {
-      color: rgba(17, 24, 39, 0.36);
-      font-weight: 760;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(17px, 1.5vw, 27px);
+      line-height: 1.16;
+      font-weight: 400;
     }
 
     .collab-link-group a {
+      min-height: auto;
+      display: inline-block;
       width: max-content;
+      max-width: 100%;
+      color: rgba(255, 250, 240, .9);
       text-decoration: none;
-      transition: color 180ms ease, transform 220ms cubic-bezier(.16, 1, .3, 1);
+      border-top: 0;
+      position: relative;
+      overflow: visible;
+      padding: 0;
+      border-radius: 0;
+      transition: color .22s ease, transform .22s ease;
+    }
+    .collab-link-group a::before {
+      content: none;
+      display: none;
     }
 
     .collab-link-group a:hover {
-      color: #8d6427;
-      transform: translateX(4px);
+      color: #e2c178;
+      transform: translateX(3px);
+      letter-spacing: 0;
+    }
+    .collab-link-group a:hover::before {
+      transform: none;
     }
 
     .collab-meta {
-      grid-column: 1 / -1;
-      align-self: end;
+      position: relative;
+      z-index: 2;
+      grid-area: meta;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      color: #101827;
-      font-size: calc(clamp(13px, 1vw, 18px) * 0.88);
-      font-weight: 720;
-      position: relative;
-      z-index: 2;
-    }
-
-    .collab-card > div:first-child,
-    .collab-email,
-    .collab-links {
-      position: relative;
-      z-index: 2;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 48px);
+      margin: clamp(20px, 3vw, 42px) 0 0;
+      padding-top: 0;
+      border-top: 0;
+      color: rgba(255, 250, 240, .82);
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: clamp(13px, 1vw, 18px);
+      font-weight: 400;
+      text-align: center;
     }
 
     .collab-socials {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 18px;
     }
 
     .collab-socials a,
     .collab-policy a {
       text-decoration: none;
-      transition: color 180ms ease, opacity 180ms ease;
+      transition: color 180ms ease, opacity 180ms ease, transform 180ms ease, border-color 180ms ease, background 180ms ease;
     }
     .collab-socials a {
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       border-radius: 999px;
-      border: 1px solid rgba(17, 24, 39, .24);
-      background: rgba(255, 255, 255, .5);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.66), 0 8px 18px rgba(15, 23, 42, .1);
-      backdrop-filter: blur(12px) saturate(125%);
-      -webkit-backdrop-filter: blur(12px) saturate(125%);
-      color: #111827;
+      border: 1px solid rgba(255, 250, 240, .28);
+      background: transparent;
+      box-shadow: none;
+      color: rgba(255, 250, 240, .88);
     }
     .social-icon {
-      width: 19px;
-      height: 19px;
+      width: 18px;
+      height: 18px;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.95;
@@ -1430,18 +1442,21 @@
     }
     .collab-socials a:hover {
       transform: translateY(-2px);
-      border-color: rgba(141, 100, 39, .55);
+      border-color: rgba(226, 193, 120, .72);
+      background: rgba(255, 255, 255, .06);
     }
 
     .collab-socials a:hover,
     .collab-policy a:hover {
-      color: #8d6427;
+      color: #e2c178;
     }
 
     .collab-policy {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: clamp(14px, 2.4vw, 30px);
+      flex-wrap: wrap;
     }
 
     @keyframes collabFlow {
@@ -1954,7 +1969,6 @@
       left: 50%;
       transform: translate(-50%, -14px);
       width: min(900px, calc(100% - 72px));
-      background: linear-gradient(145deg, rgba(255,255,255,.34), rgba(245,248,255,.18));
       border: 0;
       border-radius: 999px;
       padding: 10px 14px;
@@ -1962,14 +1976,23 @@
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      box-shadow: 0 18px 42px rgba(10, 18, 38, .22), inset 0 1px 0 rgba(255,255,255,.45), inset 0 -1px 0 rgba(255,255,255,.12);
-      backdrop-filter: blur(18px) saturate(145%);
-      -webkit-backdrop-filter: blur(18px) saturate(145%);
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
       transition: opacity .24s ease, transform .24s ease, visibility .24s ease;
       z-index: 60;
+    }
+    .floating-nav::before {
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background: #f6efe3;
+      box-shadow: 0 18px 42px rgba(10, 18, 38, .18), inset 0 1px 0 rgba(255,255,255,.52), inset 0 -1px 0 rgba(16,24,39,.08);
+      backdrop-filter: blur(14px) saturate(125%);
+      -webkit-backdrop-filter: blur(14px) saturate(125%);
+      z-index:0;
+      pointer-events:none;
     }
     .floating-nav.is-visible {
       opacity: 1;
@@ -1977,10 +2000,10 @@
       pointer-events: auto;
       transform: translate(-50%, 0);
     }
-    .floating-brand { margin-left: 8px; }
-    .floating-brand img { width: 86px; display:block; }
-    .floating-links { display:flex; gap: 14px; flex-wrap: wrap; justify-content:flex-end; margin-left: auto; margin-right: 8px; }
-    .floating-links a { text-decoration:none; font-size:14px; letter-spacing:.05em; text-transform:uppercase; font-weight:800; color:#000; opacity:.9; }
+    .floating-brand { margin-left: 8px; position:relative; z-index:1; }
+    .floating-brand img { width: 86px; display:block; mix-blend-mode:normal; filter:none; }
+    .floating-links { display:flex; gap: 14px; flex-wrap: wrap; justify-content:flex-end; margin-left: auto; margin-right: 8px; position:relative; z-index:1; }
+    .floating-links a { text-decoration:none; font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif; font-size:14px; letter-spacing:-.045em; text-transform:none; font-weight:860; color:#101827; text-shadow:none; opacity:.9; }
     .floating-links a:hover { opacity:1; }
     @media (max-width: 980px) { .floating-nav { display:none; } }
 
@@ -2072,8 +2095,6 @@
       .practice-section {
         margin-left: -20px;
         margin-right: -20px;
-        position: relative;
-        top: auto;
       }
       .header-inner {
         grid-template-columns: auto 1fr;
@@ -2095,7 +2116,7 @@
         width: 100%;
       }
       .practice-hero::after {
-        background: linear-gradient(180deg, rgba(246, 239, 227, 0.98) 0%, rgba(246, 239, 227, 0.74) 48%, rgba(246, 239, 227, 0.2) 100%);
+        background: linear-gradient(180deg, rgba(16, 24, 39, 0.98) 0%, rgba(16, 24, 39, 0.74) 48%, rgba(16, 24, 39, 0.2) 100%);
       }
       .hero, .layout, .search-row, .inquiry-stage { grid-template-columns: 1fr; }
       .hero-card, .side-panel { border-left: 0; padding-left: 0; }
@@ -2233,35 +2254,51 @@
         margin-left: -18px;
         margin-right: -18px;
         margin-top: 0;
-        padding: 14px;
+        padding: 0;
         transform: none;
         opacity: 1;
       }
       .collab-card {
-        min-height: 78vh;
+        min-height: auto;
         grid-template-columns: 1fr;
-        padding: 28px;
+        grid-template-areas:
+          "intro"
+          "email"
+          "links"
+          "figure"
+          "meta";
+        padding: 34px 22px 30px;
+        row-gap: 24px;
+      }
+      .collab-card > div:first-child {
+        width: auto;
+        margin: 0;
+        padding: 0;
       }
       .collab-email {
         justify-self: start;
+        max-width: none;
+        margin: 0;
         overflow-wrap: anywhere;
       }
-      .collab-figure {
-        position: relative;
-        right: auto;
-        bottom: auto;
-        justify-self: start;
-        width: calc(min(88vw, 420px) * 0.88);
-        max-width: 100%;
-        margin-top: 6px;
-        opacity: 0.86;
+      .collab-links {
+        grid-template-columns: 1fr;
+        gap: 22px;
+        padding: 0;
       }
-      .collab-links,
+      .collab-figure {
+        justify-self: start;
+        width: min(78vw, 260px);
+      }
       .collab-meta,
       .collab-policy {
-        grid-template-columns: 1fr;
         flex-direction: column;
         align-items: flex-start;
+        text-align: left;
+      }
+      .collab-meta {
+        justify-content: flex-start;
+        margin: 4px 0 0;
       }
       .inquiry-pin {
         min-height: 100vh;
@@ -2299,21 +2336,24 @@
       <nav class="top-nav-groups" aria-label="Homepage navigation">
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape triangle"></span> Repertoire</div>
-          <a href="#connect">Contact</a>
-          <a href="phd-catalog.html">PhD Catalog</a>
+          <a href="phd-catalog.html">Catalog</a>
+          <a href="video.html">Video</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape circle"></span> Narrative</div>
           <a href="about.html">About</a>
           <a href="blog.html">Blog</a>
+          <a href="terms.html">Terms</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape square"></span> Liaison</div>
+          <a href="#connect">Contact</a>
           <a href="shop.html">Shop</a>
         </div>
         <div class="nav-group">
           <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
           <a href="resources.html">Archive</a>
+          <a href="paper-library.html">Paper</a>
           <a href="notes.html">Notes</a>
           <a href="materials.html">Materials</a>
         </div>
@@ -2324,11 +2364,14 @@
       <img class="mobile-menu-logo" src="menu.png" alt="Menu logo">
       <a href="#connect">Contact</a>
       <a href="about.html">About</a>
+      <a href="terms.html">Terms</a>
       <a href="resources.html">Archive</a>
       <a href="shop.html">Shop</a>
+      <a href="paper-library.html">Paper</a>
       <a href="notes.html">Notes</a>
       <a href="materials.html">Materials</a>
-      <a href="phd-catalog.html">PhD Catalog</a>
+      <a href="phd-catalog.html">Catalog</a>
+      <a href="video.html">Video</a>
       <a href="blog.html">Blog</a>
     </div>
   </header>
@@ -2340,13 +2383,13 @@
       <img src="assets/kzr-logo-black.png" alt="KZR logo">
     </a>
     <div class="floating-links">
-      <a href="#connect">Contact</a>
       <a href="about.html">About</a>
             <a href="shop.html">Shop</a>
       <a href="resources.html">Archive</a>
+      <a href="paper-library.html">Paper</a>
       <a href="notes.html">Notes</a>
       <a href="materials.html">Materials</a>
-      <a href="phd-catalog.html">PhD Catalog</a>
+      <a href="video.html">Video</a>
       <a href="blog.html">Blog</a>
     </div>
   </nav>
@@ -2418,7 +2461,6 @@
           <li class="practice-item"><a class="practice-link" href="resources.html">Computing</a></li>
           <li class="practice-item"><a class="practice-link" href="resources.html">Machine Learning</a></li>
           <li class="practice-item"><a class="practice-link" href="resources.html">Finance</a></li>
-          <li class="practice-item"><a class="practice-link" href="resources.html">Decision Science and Artificial Intelligence</a></li>
         </ul>
       </div>
     </section>
@@ -2426,7 +2468,7 @@
     <section class="collab-section" id="connect" aria-label="Collaboration">
       <div class="collab-card">
         <div>
-          <p class="collab-kicker" aria-hidden="true"></p>
+          <p class="collab-kicker">Collaboration</p>
           <h2 class="collab-heading">Have a project in mind?<br>Ready to think, write, and build.</h2>
         </div>
         <a class="collab-email" href="mailto:kongzirui2004@163.com">kongzirui2004@163.com</a>
@@ -2439,14 +2481,23 @@
             <a href="#home">Home</a>
             <a href="#connect">Contact</a>
             <a href="shop.html">Shop</a>
+            <a href="video.html">Video</a>
           </div>
           <div class="collab-link-group">
             <span>Archive</span>
             <a href="about.html">About</a>
-          <a href="blog.html">Blog</a>
+            <a href="blog.html">Blog</a>
+            <a href="terms.html">Terms</a>
             <a href="resources.html">Research</a>
+            <a href="paper-library.html">Paper</a>
             <a href="notes.html">Notes</a>
-            </div>
+          </div>
+          <div class="collab-link-group">
+            <span>Legal Info</span>
+            <a href="cookie-preferences.html">Cookie Preferences</a>
+            <a href="credits.html">Credits</a>
+            <a href="identity.html">Identity</a>
+          </div>
         </div>
         <div class="collab-meta">
           <div class="collab-socials">
@@ -2458,9 +2509,8 @@
             </a>
           </div>
           <div class="collab-policy">
-            <a href="#connect">Cookie Preferences</a>
-            <span>2026 &copy; Zirui Kong</span>
-            <a href="#overview">Credits</a>
+            <span>Copyright &copy; 2026 by Zirui Kong.</span>
+            <span>All rights reserved.</span>
           </div>
         </div>
       </div>
@@ -2525,22 +2575,8 @@
         document.body.classList.toggle("inquiry-mode", inquiryMode);
       }
       if (practiceSection && collabSection) {
-        const collabRect = collabSection.getBoundingClientRect();
-        const revealStart = window.innerHeight * 0.92;
-        const revealEnd = window.innerHeight * 0.2;
-        const rawProgress = (revealStart - collabRect.top) / (revealStart - revealEnd);
-        const progress = Math.min(Math.max(rawProgress, 0), 1);
-        const transitioning = progress > 0 && collabRect.bottom > 0;
-        const eased = 1 - Math.pow(1 - progress, 3);
-
-        practiceSection.classList.toggle("is-transitioning", transitioning);
-        collabSection.classList.toggle("is-revealing", transitioning);
-        practiceSection.style.setProperty("--practice-blur", `${(eased * 5.5).toFixed(2)}px`);
-        practiceSection.style.setProperty("--practice-dim", (eased * 0.12).toFixed(3));
-        practiceSection.style.setProperty("--practice-lift", `${(-eased * 14).toFixed(2)}px`);
-        practiceSection.style.setProperty("--practice-scale", (1 - eased * 0.02).toFixed(4));
-        collabSection.style.setProperty("--collab-rise", `${((1 - eased) * 36).toFixed(2)}px`);
-        collabSection.style.setProperty("--collab-opacity", (0.84 + eased * 0.16).toFixed(3));
+        practiceSection.classList.remove("is-transitioning");
+        collabSection.classList.remove("is-revealing");
       }
       updateSplashDepth(y);
     }
@@ -2682,26 +2718,73 @@
       }
     }
 
-    async function toggleArchiveMusic() {
+    async function startArchiveMusic() {
       const context = await setupArchiveMusic();
-      if (!context || !archiveMasterGain) return;
+      if (!context || !archiveMasterGain) return false;
 
       if (context.state === "suspended") {
-        await context.resume();
+        try {
+          await context.resume();
+        } catch (error) {
+          return false;
+        }
       }
+
+      if (context.state !== "running") return false;
 
       const now = context.currentTime;
       archiveMasterGain.gain.cancelScheduledValues(now);
+      archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
+      archiveMusicPlaying = true;
+      updateMusicButton();
+      return context.state === "running";
+    }
 
+    function pauseArchiveMusic() {
+      if (!archiveAudioContext || !archiveMasterGain) return;
+      const now = archiveAudioContext.currentTime;
+      archiveMasterGain.gain.cancelScheduledValues(now);
+      archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
+      archiveMusicPlaying = false;
+      updateMusicButton();
+    }
+
+    async function toggleArchiveMusic() {
       if (archiveMusicPlaying) {
-        archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
-        archiveMusicPlaying = false;
-      } else {
-        archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
-        archiveMusicPlaying = true;
+        pauseArchiveMusic();
+        return;
       }
 
-      updateMusicButton();
+      await startArchiveMusic();
+    }
+
+    function initArchiveMusicAutoplay() {
+      let unlocked = false;
+      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
+
+      const removeUnlockListeners = () => {
+        unlockEvents.forEach((eventName) => {
+          document.removeEventListener(eventName, unlockAutoplay, true);
+          window.removeEventListener(eventName, unlockAutoplay, true);
+        });
+      };
+
+      const unlockAutoplay = async () => {
+        const started = await startArchiveMusic();
+        if (started) {
+          unlocked = true;
+          removeUnlockListeners();
+        }
+      };
+
+      unlockAutoplay();
+      window.setTimeout(() => {
+        if (unlocked || archiveAudioContext?.state === "running") return;
+        unlockEvents.forEach((eventName) => {
+          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+        });
+      }, 0);
     }
 
     function openBookingPanel() {
@@ -2822,6 +2905,7 @@
       initInquiry();
       bindEvents();
       updateMusicButton();
+      initArchiveMusicAutoplay();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
