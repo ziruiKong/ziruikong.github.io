@@ -242,11 +242,16 @@
     }
 
     .top-floating-dock-link svg,
+    .top-floating-dock-file-icon,
     .top-floating-dock-logo-mark {
       width: var(--dock-icon-size);
       height: var(--dock-icon-size);
       display: block;
       pointer-events: none;
+    }
+
+    .top-floating-dock-file-icon {
+      object-fit: contain;
     }
 
     .top-floating-dock-logo-mark {
@@ -2591,7 +2596,7 @@
           <span class="top-floating-dock-title">Shop</span>
         </a>
         <a class="top-floating-dock-link" href="resources.html" aria-label="Archive">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M4 7.5 6 4.5h12l2 3M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <img class="top-floating-dock-file-icon" src="assets/archive-folder-search.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Archive</span>
         </a>
         <a class="top-floating-dock-link" href="paper-library.html" aria-label="Paper">
