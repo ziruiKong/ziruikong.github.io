@@ -135,9 +135,9 @@
 
     .mac-status-datetime {
       color: rgba(255, 255, 255, 0.96);
-      font-size: 20px;
+      font-size: inherit;
       font-weight: 400;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.01em;
       line-height: 1;
     }
 
@@ -3254,11 +3254,10 @@
       const target = $("#macStatusDateTime");
       if (!target) return;
       const now = new Date();
-      const date = new Intl.DateTimeFormat("en-US", {
-        weekday: "short",
-        month: "short",
-        day: "numeric"
-      }).format(now);
+      const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(now);
+      const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(now);
+      const day = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(now);
+      const date = `${weekday} ${month} ${day}`;
       const time = new Intl.DateTimeFormat("en-US", {
         hour: "numeric",
         minute: "2-digit"
