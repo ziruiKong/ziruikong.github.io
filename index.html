@@ -3327,7 +3327,13 @@
 
     function setShopDockMinimized(isMinimized) {
       document.querySelectorAll("[data-shop-window-open]").forEach((link) => {
-        link.classList.toggle("is-minimized", isMinimized);
+        if (!isMinimized) {
+          link.classList.remove("is-minimized");
+          return;
+        }
+        link.classList.remove("is-minimized");
+        void link.offsetWidth;
+        link.classList.add("is-minimized");
       });
     }
 
@@ -3481,10 +3487,22 @@
           openShopWindow();
         });
       });
-      if (shopCloseButton) shopCloseButton.addEventListener("click", closeShopWindow);
-      if (shopMinimizeButton) shopMinimizeButton.addEventListener("click", minimizeShopWindow);
-      if (shopFullscreenButton) shopFullscreenButton.addEventListener("click", toggleShopWindowFullscreen);
-      if (shopWindowTitlebar) shopWindowTitlebar.addEventListener("click", restoreShopWindow);
+      if (shopCloseButton) shopCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeShopWindow();
+      });
+      if (shopMinimizeButton) shopMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeShopWindow();
+      });
+      if (shopFullscreenButton) shopFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleShopWindowFullscreen();
+      });
+      if (shopWindowTitlebar) shopWindowTitlebar.addEventListener("click", (event) => {
+        if (event.target?.closest?.("button")) return;
+        restoreShopWindow();
+      });
       bindShopWindowDrag();
       bindShopWindowResize();
 
