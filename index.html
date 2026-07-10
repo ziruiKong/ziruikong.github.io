@@ -2286,8 +2286,10 @@
       position: absolute;
       top: clamp(74px, 10vh, 116px);
       right: 132px;
-      width: min(680px, calc(100vw - 80px));
-      height: min(520px, calc(100vh - 150px));
+      width: min(760px, calc(100vw - 80px));
+      height: min(560px, calc(100vh - 150px));
+      min-width: min(520px, calc(100vw - 28px));
+      min-height: 390px;
       display: grid;
       grid-template-rows: 40px 1fr;
       overflow: hidden;
@@ -2297,6 +2299,8 @@
       background: rgba(250, 246, 236, 0.96);
       box-shadow: 0 28px 86px rgba(13, 32, 64, 0.24), 0 8px 26px rgba(13, 32, 64, 0.16);
     }
+
+    .folder-window.is-dragging .folder-window-titlebar { cursor: grabbing; }
 
     .folder-window-overlay.fullscreen .folder-window {
       inset: 0 !important;
@@ -2316,6 +2320,9 @@
       border-bottom: 1px solid rgba(17, 24, 39, 0.08);
       background: rgba(250, 246, 236, 0.96);
       color: #1f2937;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
     }
 
     .folder-window-controls {
@@ -2355,21 +2362,53 @@
     .folder-window-body {
       min-height: 0;
       display: grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: auto 1fr;
       background: rgba(255, 255, 255, 0.78);
     }
 
     .folder-window-sidebar {
-      padding: 18px 14px;
+      width: 62px;
+      padding: 18px 12px;
       border-right: 1px solid rgba(17, 24, 39, 0.08);
       background: rgba(246, 243, 236, 0.72);
       color: rgba(31, 41, 55, 0.72);
       font-size: 12px;
       font-weight: 700;
+      overflow: hidden;
+      transition: width 260ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .folder-window-sidebar:hover,
+    .folder-window-sidebar:focus-within {
+      width: 178px;
+    }
+
+    .folder-sidebar-logo {
+      width: 34px;
+      height: 26px;
+      margin-bottom: 14px;
+      border-radius: 8px;
+      background: #111827;
+    }
+
+    .folder-window-sidebar strong,
+    .folder-window-sidebar span {
+      display: block;
+      min-width: 142px;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .folder-window-sidebar:hover strong,
+    .folder-window-sidebar:focus-within strong,
+    .folder-window-sidebar:hover span,
+    .folder-window-sidebar:focus-within span {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .folder-window-sidebar strong {
-      display: block;
       margin-bottom: 12px;
       color: #1f2937;
       font-size: 13px;
@@ -2380,6 +2419,9 @@
       min-height: 0;
       padding: 18px;
       overflow: auto;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 16px;
     }
 
     .folder-file-grid {
@@ -2396,6 +2438,8 @@
       border: 1px solid transparent;
       border-radius: 14px;
       color: #1f2937;
+      background: transparent;
+      font: inherit;
       text-decoration: none;
       transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
     }
@@ -2434,6 +2478,64 @@
       text-align: center;
       word-break: break-word;
     }
+
+    .folder-file-preview-panel {
+      min-height: 116px;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 18px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr);
+      gap: 14px;
+      background: rgba(255, 255, 255, 0.68);
+    }
+
+    .folder-file-preview-panel.is-empty {
+      display: none;
+    }
+
+    .folder-file-preview-media {
+      overflow: hidden;
+      border-radius: 12px;
+      background: #eef2f7;
+    }
+
+    .folder-file-preview-media img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .folder-file-preview-copy {
+      min-width: 0;
+      color: #1f2937;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .folder-file-preview-copy strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .folder-window-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%),
+        linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
+    }
+
+    .folder-window-overlay.fullscreen .folder-window-resize-handle,
+    .folder-window-overlay.minimized .folder-window-resize-handle { display: none; }
 
     @media (max-width: 760px) {
       .desktop-folder-stack { top: 84px; right: 12px; transform: scale(.88); transform-origin: top right; }
@@ -3355,14 +3457,20 @@
         <span class="folder-window-count" id="folderWindowCount">0 items</span>
       </div>
       <div class="folder-window-body">
-        <aside class="folder-window-sidebar">
+        <aside class="folder-window-sidebar" tabindex="0">
+          <div class="folder-sidebar-logo" aria-hidden="true"></div>
           <strong id="folderWindowSidebarTitle">Desktop</strong>
           <span id="folderWindowSidebarMeta">Preview files from this desktop folder.</span>
         </aside>
         <div class="folder-window-content">
           <div class="folder-file-grid" id="folderFileGrid"></div>
+          <div class="folder-file-preview-panel is-empty" id="folderFilePreviewPanel" aria-live="polite">
+            <div class="folder-file-preview-media" id="folderFilePreviewMedia"></div>
+            <div class="folder-file-preview-copy" id="folderFilePreviewCopy"></div>
+          </div>
         </div>
       </div>
+      <div class="folder-window-resize-handle" id="folderWindowResizeHandle" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -3767,30 +3875,30 @@
         title: "Shop",
         meta: "Shop folder · product files and capsule assets",
         files: [
-          { title: "2026 Capsule", href: "shop.html", image: "assets/2026capsule.png" },
-          { title: "Knit Hoodie", href: "shop.html", image: "assets/kid-knit-hoodie.png" },
-          { title: "Archive Tee", href: "shop.html", image: "assets/kzr-archive-tee.png" },
-          { title: "Gallery", href: "shop.html", image: "assets/shop-hero-gallery.png" },
+          { title: "2026 Capsule.jpg", type: "image", image: "assets/2026capsule.png", description: "Capsule preview image stored in the Shop folder." },
+          { title: "Knit Hoodie.png", type: "image", image: "assets/kid-knit-hoodie.png", description: "Product image preview; opens inside this folder window." },
+          { title: "Archive Tee.png", type: "image", image: "assets/kzr-archive-tee.png", description: "Archive tee image file." },
+          { title: "shop.html", type: "html", href: "shop.html", image: "assets/shop-hero-gallery.png", description: "HTML entry that opens the full Shop page." },
         ],
       },
       notes: {
         title: "Notes",
         meta: "Notes folder · study fields and working notes",
         files: [
-          { title: "Statistics", href: "notes.html", image: "assets/field-statistics.png" },
-          { title: "Mathematics", href: "notes.html", image: "assets/field-mathematics.png" },
-          { title: "Machine Learning", href: "notes.html", image: "assets/field-machine-learning.png" },
-          { title: "Computing", href: "notes.html", image: "assets/field-computing.png" },
+          { title: "Statistics.doc", type: "doc", image: "assets/field-statistics.png", description: "Document preview for statistics notes." },
+          { title: "Mathematics.pdf", type: "pdf", image: "assets/field-mathematics.png", description: "PDF-style reading note preview." },
+          { title: "ML Slides.ppt", type: "ppt", image: "assets/field-machine-learning.png", description: "Presentation preview for machine learning notes." },
+          { title: "notes.html", type: "html", href: "notes.html", image: "assets/field-computing.png", description: "HTML entry that opens the Notes page." },
         ],
       },
       paper: {
         title: "Paper",
         meta: "Paper folder · reading library and references",
         files: [
-          { title: "Bayesian Modeling", href: "paper-library.html", image: "assets/bayesian-modeling-cover.svg" },
-          { title: "Bayesian Analysis", href: "paper-library.html", image: "assets/bayesian-analysis-python2-cover.svg" },
-          { title: "Economics", href: "paper-library.html", image: "assets/field-economics.png" },
-          { title: "Finance", href: "paper-library.html", image: "assets/field-finance.png" },
+          { title: "Bayesian Modeling.pdf", type: "pdf", image: "assets/bayesian-modeling-cover.svg", description: "Paper cover preview." },
+          { title: "Bayesian Analysis.pdf", type: "pdf", image: "assets/bayesian-analysis-python2-cover.svg", description: "Paper cover preview." },
+          { title: "Economics.xlsx", type: "sheet", image: "assets/field-economics.png", description: "Spreadsheet-style economics reading tracker." },
+          { title: "paper-library.html", type: "html", href: "paper-library.html", image: "assets/field-finance.png", description: "HTML entry that opens the Paper library." },
         ],
       },
     };
@@ -3826,6 +3934,24 @@
       renderDockFolderApps();
     }
 
+    function fileTypeLabel(type) {
+      return ({ image: "Image", doc: "Document", pdf: "PDF", sheet: "Spreadsheet", ppt: "Slides", html: "HTML" })[type] || "File";
+    }
+
+    function openFolderFilePreview(file) {
+      if (file.type === "html" && file.href) {
+        window.location.href = file.href;
+        return;
+      }
+      const panel = $("#folderFilePreviewPanel");
+      const media = $("#folderFilePreviewMedia");
+      const copy = $("#folderFilePreviewCopy");
+      if (!panel || !media || !copy) return;
+      panel.classList.remove("is-empty");
+      media.innerHTML = `<img src="${file.image}" alt="">`;
+      copy.innerHTML = `<strong>${file.title}</strong><span>${fileTypeLabel(file.type)} · ${file.description || "Preview available in this folder."}</span>`;
+    }
+
     function renderFolderFiles(key) {
       const folder = desktopFolderData[key];
       const title = $("#folderWindowTitle");
@@ -3833,17 +3959,30 @@
       const sidebarMeta = $("#folderWindowSidebarMeta");
       const count = $("#folderWindowCount");
       const grid = $("#folderFileGrid");
+      const previewPanel = $("#folderFilePreviewPanel");
       if (!folder || !grid) return;
       if (title) title.textContent = folder.title;
       if (sidebarTitle) sidebarTitle.textContent = `${folder.title} Folder`;
       if (sidebarMeta) sidebarMeta.textContent = folder.meta;
       if (count) count.textContent = `${folder.files.length} items`;
-      grid.innerHTML = folder.files.map((file) => `
-        <a class="folder-file" href="${file.href}">
+      if (previewPanel) previewPanel.classList.add("is-empty");
+      grid.innerHTML = "";
+      folder.files.forEach((file, index) => {
+        const node = document.createElement(file.type === "html" ? "a" : "button");
+        node.className = "folder-file";
+        if (file.type === "html") node.href = file.href;
+        else node.type = "button";
+        node.innerHTML = `
           <span class="folder-file-thumb"><img src="${file.image}" alt=""></span>
           <span class="folder-file-title">${file.title}</span>
-        </a>
-      `).join("");
+        `;
+        node.addEventListener("click", (event) => {
+          if (file.type !== "html") event.preventDefault();
+          openFolderFilePreview(file);
+        });
+        grid.appendChild(node);
+        if (index === 0) openFolderFilePreview(file);
+      });
     }
 
     function openFolderWindow(key) {
@@ -4032,6 +4171,83 @@
       });
     }
 
+    function clampFolderWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindFolderWindowDrag() {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      const titlebar = $(".folder-window-titlebar");
+      if (!overlay || !win || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        win.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampFolderWindowToViewport(win, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+          win.style.right = "auto";
+        };
+        const stop = () => {
+          win.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindFolderWindowResize() {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      const handle = $("#folderWindowResizeHandle");
+      if (!overlay || !win || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(520, window.innerWidth - 20);
+          const minHeight = 390;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampFolderWindowToViewport(win, rect.left, rect.top, nextWidth, nextHeight);
+          win.style.width = `${clamped.width}px`;
+          win.style.height = `${clamped.height}px`;
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+          win.style.right = "auto";
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
     function bindEvents() {
       const bookingOpenButton = $("#bookingOpenButton");
       const bookingCloseButton = $("#bookingCloseButton");
@@ -4052,9 +4268,20 @@
           openFolderWindow(button.dataset.folderOpen);
         });
       });
-      if (folderCloseButton) folderCloseButton.addEventListener("click", closeFolderWindow);
-      if (folderMinimizeButton) folderMinimizeButton.addEventListener("click", minimizeFolderWindow);
-      if (folderFullscreenButton) folderFullscreenButton.addEventListener("click", toggleFolderWindowFullscreen);
+      if (folderCloseButton) folderCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeFolderWindow();
+      });
+      if (folderMinimizeButton) folderMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeFolderWindow();
+      });
+      if (folderFullscreenButton) folderFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleFolderWindowFullscreen();
+      });
+      bindFolderWindowDrag();
+      bindFolderWindowResize();
 
       shopOpenLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
