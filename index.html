@@ -2466,7 +2466,7 @@
     </div>
   </nav>
 
-  <audio id="homepageMusic" src="bg.mp3" preload="auto" autoplay loop></audio>
+  <audio id="homepageMusic" src="bg.mp3" preload="metadata" loop></audio>
   <div class="music-dock" aria-label="Background music controls">
     <span class="music-dock-label">BG MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
@@ -2800,35 +2800,13 @@
       const audio = getHomepageMusic();
       if (!audio) return;
 
-      let unlocked = false;
-      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
-
-      const removeUnlockListeners = () => {
-        unlockEvents.forEach((eventName) => {
-          document.removeEventListener(eventName, unlockAutoplay, true);
-          window.removeEventListener(eventName, unlockAutoplay, true);
-        });
-      };
-
-      const unlockAutoplay = async () => {
-        const started = await startArchiveMusic();
-        if (started) {
-          unlocked = true;
-          removeUnlockListeners();
-        }
-      };
-
+      audio.volume = 0.42;
       audio.addEventListener("play", updateMusicButton);
       audio.addEventListener("pause", updateMusicButton);
+      audio.addEventListener("ended", updateMusicButton);
       audio.addEventListener("volumechange", updateMusicButton);
-      unlockAutoplay();
-      window.setTimeout(() => {
-        if (unlocked || !audio.paused) return;
-        unlockEvents.forEach((eventName) => {
-          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
-          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
-        });
-      }, 0);
+      audio.addEventListener("loadedmetadata", updateMusicButton);
+      updateMusicButton();
     }
 
     function openBookingPanel() {
