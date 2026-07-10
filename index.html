@@ -208,8 +208,8 @@
       padding: 0 16px 12px;
       border: 0;
       border-radius: 16px;
-      background: rgba(249, 250, 251, 0.96);
-      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.1);
+      background: rgba(255, 252, 244, 0.96);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.12);
       color: #737373;
       text-shadow: none;
     }
@@ -558,8 +558,8 @@
 
     .hero-cta {
       position: absolute;
-      left: clamp(28px, 3.6vw, 64px);
-      bottom: 14.5%;
+      right: clamp(26px, 3.2vw, 56px);
+      bottom: 26px;
       z-index: 3;
       display: inline-flex;
       align-items: center;
@@ -577,7 +577,7 @@
     }
 
     .hero-cta-icon {
-      width: clamp(184px, 17.2vw, 264px);
+      width: clamp(132px, 11vw, 178px);
       height: auto;
       object-fit: contain;
       display: block;
@@ -2274,12 +2274,13 @@
         padding: 24px 22px 22px;
       }
       .hero-cta {
-        left: 22px;
-        right: 22px;
-        bottom: 96px;
+        left: auto;
+        right: 18px;
+        bottom: 86px;
         min-width: 0;
-        justify-content: space-between;
+        justify-content: center;
       }
+      .hero-cta-icon { width: 128px; }
       .collaboration-card {
         left: 22px;
         right: 22px;
