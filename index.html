@@ -199,21 +199,21 @@
       z-index: 90;
       transform: translateX(-50%);
       display: flex;
-      height: 82px;
+      height: 66px;
       align-items: flex-end;
       justify-content: center;
-      gap: 18px;
+      gap: 12px;
       width: fit-content;
       max-width: calc(100vw - 40px);
-      padding: 10px 18px 16px;
-      border: 1px solid rgba(255, 255, 255, 0.34);
-      border-radius: 26px;
+      padding: 6px 12px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0.18)),
-        rgba(255, 255, 255, 0.16);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.07)),
+        rgba(255, 255, 255, 0.08);
       box-shadow:
-        0 22px 64px rgba(15, 23, 42, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.55);
+        0 16px 46px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
       backdrop-filter: blur(22px) saturate(170%);
       -webkit-backdrop-filter: blur(22px) saturate(170%);
       color: #737373;
@@ -221,30 +221,31 @@
     }
 
     .top-floating-dock-link {
-      --dock-size: 54px;
-      --dock-icon-size: 34px;
+      --dock-size: 48px;
+      --dock-icon-size: 32px;
       position: relative;
       width: var(--dock-size);
       height: var(--dock-size);
       display: inline-grid;
       place-items: center;
       flex: 0 0 auto;
-      border-radius: 999px;
+      border-radius: 16px;
       color: #737373;
-      background: rgba(255, 255, 255, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.28);
+      background: transparent;
+      border: 0;
       text-decoration: none;
-      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.08);
+      box-shadow: none;
       transform: translateY(0);
-      transition: background 160ms ease, color 160ms ease, box-shadow 160ms ease;
+      transition: opacity 160ms ease, transform 160ms ease;
       will-change: width, height;
     }
 
     .top-floating-dock-link:hover,
     .top-floating-dock-link:focus-visible {
-      background: rgba(255, 255, 255, 0.44);
+      background: transparent;
       color: #525252;
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
+      box-shadow: none;
+      opacity: 0.92;
       outline: none;
     }
 
@@ -272,8 +273,8 @@
     }
 
     .top-floating-dock-link--file .top-floating-dock-file-icon {
-      width: calc(var(--dock-icon-size) * 1.45);
-      height: calc(var(--dock-icon-size) * 1.45);
+      width: calc(var(--dock-icon-size) * 1.35);
+      height: calc(var(--dock-icon-size) * 1.35);
     }
 
     .top-floating-dock-logo-mark {
@@ -2373,8 +2374,8 @@
         border-radius: 999px;
       }
       .top-floating-dock-link {
-        --dock-size: 54px !important;
-        --dock-icon-size: 34px !important;
+        --dock-size: 48px !important;
+        --dock-icon-size: 32px !important;
       }
       .top-floating-dock-title { display: none; }
   
@@ -3189,7 +3190,7 @@
       };
 
       const resetDock = () => {
-        dockItems.forEach((item) => setDockItemSize(item, 54, 34));
+        dockItems.forEach((item) => setDockItemSize(item, 48, 32));
       };
 
       const magnifyDock = (clientX) => {
@@ -3198,7 +3199,7 @@
           const center = rect.left + rect.width / 2;
           const distance = Math.max(-maxDistance, Math.min(clientX - center, maxDistance));
           const closeness = 1 - Math.abs(distance) / maxDistance;
-          setDockItemSize(item, 54 + closeness * 46, 34 + closeness * 26);
+          setDockItemSize(item, 48 + closeness * 38, 32 + closeness * 22);
         });
       };
 
