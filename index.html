@@ -395,6 +395,32 @@
       transform: translate(-50%, 0);
     }
 
+    .top-floating-dock-link[data-shop-window-open].is-minimized::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -11px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.88);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .top-floating-dock-link[data-shop-window-open].is-minimized .top-floating-dock-file-icon {
+      animation: shopDockMinimize 520ms cubic-bezier(.18, .89, .32, 1.28);
+      transform-origin: 50% 100%;
+    }
+
+    @keyframes shopDockMinimize {
+      0% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(8px) scale(0.78); }
+      72% { transform: translateY(-3px) scale(1.08); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
     .site-header.scrolled .discover-panel,
     .site-header.scrolled .top-floating-dock {
       color: #fff7ed !important;
@@ -3299,6 +3325,12 @@
       document.body.classList.remove("booking-open");
     }
 
+    function setShopDockMinimized(isMinimized) {
+      document.querySelectorAll("[data-shop-window-open]").forEach((link) => {
+        link.classList.toggle("is-minimized", isMinimized);
+      });
+    }
+
     function openShopWindow() {
       const overlay = $("#shopWindowOverlay");
       const win = $("#shopWindow");
@@ -3306,6 +3338,7 @@
       overlay.classList.add("open");
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
+      setShopDockMinimized(false);
       window.setTimeout(() => win?.focus(), 0);
     }
 
@@ -3315,6 +3348,7 @@
       if (!overlay) return;
       overlay.classList.remove("open", "minimized", "fullscreen");
       overlay.setAttribute("aria-hidden", "true");
+      setShopDockMinimized(false);
       fullscreenButton?.setAttribute("aria-pressed", "false");
       fullscreenButton?.setAttribute("aria-label", "Enter full screen shop window");
     }
@@ -3324,6 +3358,7 @@
       if (!overlay) return;
       overlay.classList.add("minimized");
       overlay.classList.remove("fullscreen");
+      setShopDockMinimized(true);
     }
 
     function restoreShopWindow() {
@@ -3331,6 +3366,7 @@
       const win = $("#shopWindow");
       if (!overlay?.classList.contains("minimized")) return;
       overlay.classList.remove("minimized");
+      setShopDockMinimized(false);
       window.setTimeout(() => win?.focus(), 0);
     }
 
@@ -3340,6 +3376,7 @@
       if (!overlay) return;
       const isFullscreen = overlay.classList.toggle("fullscreen");
       overlay.classList.remove("minimized");
+      setShopDockMinimized(false);
       fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen shop window" : "Enter full screen shop window");
     }
