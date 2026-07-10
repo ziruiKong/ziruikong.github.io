@@ -193,15 +193,17 @@
     }
 
     .top-floating-dock {
-      justify-self: center;
-      align-self: start;
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      z-index: 90;
+      transform: translateX(-50%);
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(16px, 3vw, 44px);
-      width: min(760px, calc(100vw - 120px));
-      margin: -2px auto 0;
-      padding: 24px clamp(28px, 4vw, 44px);
+      gap: clamp(14px, 2.7vw, 40px);
+      width: min(760px, calc(100vw - 40px));
+      padding: 22px clamp(24px, 4vw, 42px);
       border: 0;
       border-radius: 42px;
       background: rgba(248, 249, 251, 0.94);
@@ -1976,84 +1978,74 @@
 
     .music-dock {
       position: fixed;
-      left: 18px;
-      bottom: 18px;
+      top: 22px;
+      right: 22px;
       z-index: 120;
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      padding: 8px 10px 8px 14px;
-      border: 1px solid rgba(185, 146, 84, 0.38);
+      gap: 0;
+      padding: 6px 8px;
+      border: 0;
       border-radius: 999px;
-      background: linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(246, 239, 227, 0.9));
-      color: #18223a;
-      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      opacity: 0.96;
+      background: rgba(246, 239, 227, 0.38);
+      color: #fff7ed;
+      box-shadow: none;
+      opacity: 0.9;
       transform: translateY(0);
-      transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
-      backdrop-filter: blur(14px) saturate(130%);
-      -webkit-backdrop-filter: blur(14px) saturate(130%);
+      transition: opacity 180ms ease, background 180ms ease;
+      backdrop-filter: blur(12px) saturate(120%);
+      -webkit-backdrop-filter: blur(12px) saturate(120%);
     }
 
     .music-dock:hover,
     .music-dock:focus-within,
     .music-dock.needs-interaction {
       opacity: 1;
-      transform: translateY(-2px);
-      border-color: rgba(185, 146, 84, 0.62);
-      box-shadow: 0 22px 54px rgba(10, 18, 38, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.86);
+      background: rgba(246, 239, 227, 0.58);
     }
 
     .music-dock-label {
-      min-width: 54px;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
       white-space: nowrap;
-      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
-      font-size: 13px;
-      font-style: italic;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #7f5d2c;
-      opacity: 0.96;
-      transition: color 180ms ease, opacity 180ms ease;
-    }
-
-    .music-dock.needs-interaction .music-dock-label {
-      color: #a72d2d;
     }
 
     .music-button {
-      width: 36px;
-      height: 36px;
-      border: 1px solid rgba(24, 34, 58, 0.12);
+      width: 42px;
+      height: 28px;
+      border: 0;
       border-radius: 999px;
       display: inline-grid;
       place-items: center;
-      background: rgba(255, 255, 255, 0.62);
-      color: #0b1831;
+      background: transparent;
+      color: #fff7ed;
       padding: 0;
-      box-shadow: inset 0 -1px 0 rgba(11, 24, 49, 0.08);
-      transition: background 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease;
+      box-shadow: none;
+      transition: color 180ms ease, opacity 180ms ease, transform 180ms ease;
     }
 
     .music-button:hover,
     .music-button:focus-visible {
-      background: #fffaf0;
-      border-color: rgba(185, 146, 84, 0.5);
-      color: #7f5d2c;
+      color: #ffffff;
+      opacity: 0.74;
       outline: none;
       transform: translateY(-1px);
     }
 
     .music-button svg {
-      width: 18px;
+      width: 30px;
       height: 18px;
       display: block;
-      fill: currentColor;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-
-
-
 
     .floating-nav {
       position: fixed;
@@ -2064,7 +2056,7 @@
       border: 0;
       border-radius: 999px;
       padding: 10px 14px;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: space-between;
       gap: 14px;
@@ -2194,7 +2186,16 @@
       }
       .brand { min-width: 0; }
       .brand-text { font-size: 16px; }
-      .top-floating-dock { display: none; }
+      .top-floating-dock {
+        bottom: 14px;
+        gap: 10px;
+        width: min(94vw, 520px);
+        padding: 14px 16px;
+        border-radius: 30px;
+      }
+      .top-floating-dock-link { width: 46px; height: 46px; }
+      .top-floating-dock-link svg, .top-floating-dock-logo-mark { width: 24px; height: 24px; }
+      .top-floating-dock-logo-mark { font-size: 19px; border-radius: 7px; }
   
 
 
@@ -2495,10 +2496,7 @@
   <div class="music-dock" aria-label="Background music controls">
     <span class="music-dock-label" id="homepageMusicLabel">MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
-    </button>
-    <button class="music-button" id="homepageMusicMuteButton" type="button" aria-label="Mute background music" aria-pressed="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a3.5 3.5 0 0 0-2-3.16v6.32a3.5 3.5 0 0 0 2-3.16Z"></path></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12H20"></path></svg>
     </button>
   </div>
 
@@ -2770,7 +2768,7 @@
       musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
       musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
       if (playIconPath) {
-        playIconPath.setAttribute("d", isPlaying ? "M8 6h3v12H8zM13 6h3v12h-3z" : "M8 6l10 6-10 6V6Z");
+        playIconPath.setAttribute("d", isPlaying ? "M3 12C5.5 6 8.5 18 11 12S16.5 6 21 12" : "M4 12H20");
       }
 
       if (muteButton) {
@@ -2779,8 +2777,8 @@
       }
       if (muteIconPath) {
         muteIconPath.setAttribute("d", audio.muted
-          ? "M4 9v6h4l5 4V5L8 9H4Zm12.5 3 2.5 2.5 1.4-1.4L17.9 10.6l2.5-2.5L19 6.7l-2.5 2.5L14 6.7l-1.4 1.4 2.5 2.5-2.5 2.5L14 14.5l2.5-2.5Z"
-          : "M4 9v6h4l5 4V5L8 9H4Zm12.5 3a3.5 3.5 0 0 0-2-3.16v6.32a3.5 3.5 0 0 0 2-3.16Z");
+          ? "M6 7L18 17"
+          : "M5 12H19");
       }
     }
 
