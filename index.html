@@ -558,7 +558,7 @@
 
     .hero-cta {
       position: absolute;
-      right: clamp(26px, 3.2vw, 56px);
+      left: clamp(26px, 3.2vw, 56px);
       bottom: 26px;
       z-index: 3;
       display: inline-flex;
@@ -567,13 +567,12 @@
       padding: 0;
       border: 0;
       background: transparent;
-      transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 220ms ease;
-      animation: dropletFloat 3.4s ease-in-out infinite;
+      transition: opacity 220ms ease;
+      animation: none;
     }
 
     .hero-cta:hover {
       opacity: 0.9;
-      transform: translateY(-3px) scale(1.02);
     }
 
     .hero-cta-icon {
@@ -584,6 +583,7 @@
     }
 
     .collaboration-card {
+      display: none;
       position: absolute;
       right: clamp(28px, 3.6vw, 64px);
       bottom: 9.8%;
@@ -2274,8 +2274,8 @@
         padding: 24px 22px 22px;
       }
       .hero-cta {
-        left: auto;
-        right: 18px;
+        left: 18px;
+        right: auto;
         bottom: 86px;
         min-width: 0;
         justify-content: center;
