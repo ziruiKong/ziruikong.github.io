@@ -2196,7 +2196,7 @@
       display: none;
     }
 
-    .dock-folder-separator.is-visible { display: block; }
+    .dock-folder-separator.is-visible { display: none; }
 
     .dock-folder-apps {
       display: none;
@@ -2212,6 +2212,7 @@
       position: relative;
       width: var(--dock-size);
       height: var(--dock-size);
+      flex: 0 0 auto;
       border: 0;
       border-radius: 16px;
       display: inline-grid;
@@ -2225,24 +2226,44 @@
     .dock-folder-button::after {
       content: "";
       position: absolute;
-      width: calc(var(--dock-icon-size) * 1.32);
-      height: calc(var(--dock-icon-size) * .92);
-      border-radius: 7px;
+      pointer-events: none;
+    }
+
+    .dock-folder-button::before {
+      width: calc(var(--dock-icon-size) * 1.34);
+      height: calc(var(--dock-icon-size) * 1.02);
+      border-radius: 9px;
       background: linear-gradient(180deg, #ffd560 0%, #efad31 100%);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.36);
     }
 
-    .dock-folder-button::before {
-      transform: translateY(-2px);
-    }
-
     .dock-folder-button::after {
-      height: calc(var(--dock-icon-size) * .74);
-      bottom: 6px;
-      background: linear-gradient(180deg, #ffcf55 0%, #eaa632 100%);
+      top: calc(50% - var(--dock-icon-size) * .54);
+      left: calc(50% - var(--dock-icon-size) * .67);
+      width: calc(var(--dock-icon-size) * .52);
+      height: calc(var(--dock-icon-size) * .22);
+      border-radius: 5px 5px 2px 2px;
+      background: linear-gradient(180deg, #ffe07a 0%, #f5bd42 100%);
+      transform: translateY(-1px);
     }
 
-    .dock-folder-button span {
+    .dock-folder-running-dot {
+      position: absolute;
+      left: 50%;
+      bottom: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.88);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
+      opacity: 0;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .dock-folder-button.is-minimized .dock-folder-running-dot { opacity: 1; }
+
+    .dock-folder-button span:not(.dock-folder-running-dot) {
       position: absolute;
       left: 50%;
       top: -32px;
@@ -2260,8 +2281,8 @@
       transition: opacity 140ms ease, transform 140ms ease;
     }
 
-    .dock-folder-button:hover span,
-    .dock-folder-button:focus-visible span {
+    .dock-folder-button:hover span:not(.dock-folder-running-dot),
+    .dock-folder-button:focus-visible span:not(.dock-folder-running-dot) {
       opacity: 1;
       transform: translate(-50%, 0);
     }
@@ -2377,30 +2398,10 @@
       overflow: hidden;
     }
 
-    .folder-sidebar-logo {
-      width: 34px;
-      height: 26px;
-      margin-bottom: 14px;
-      border-radius: 8px;
-      background: #111827;
-    }
-
-    .folder-window-sidebar strong,
-    .folder-window-sidebar span {
-      display: block;
-      min-width: 142px;
-    }
-
-    .folder-window-sidebar strong {
-      margin-bottom: 12px;
-      color: #1f2937;
-      font-size: 13px;
-    }
-
     .folder-sidebar-list {
       display: grid;
       gap: 6px;
-      margin-top: 18px;
+      margin-top: 0;
     }
 
     .folder-sidebar-button {
@@ -3486,9 +3487,6 @@
       </div>
       <div class="folder-window-body">
         <aside class="folder-window-sidebar" tabindex="0">
-          <div class="folder-sidebar-logo" aria-hidden="true"></div>
-          <strong id="folderWindowSidebarTitle">Desktop</strong>
-          <span id="folderWindowSidebarMeta">Preview files from this desktop folder.</span>
           <div class="folder-sidebar-list" id="folderSidebarList" aria-label="Folder list"></div>
         </aside>
         <div class="folder-window-content">
@@ -3933,33 +3931,39 @@
     };
 
     let activeFolderKey = null;
-    const dockFolderKeys = new Set();
+    let dockFolderKey = null;
+    let dockFolderMinimized = false;
 
     function renderDockFolderApps() {
       const container = $("#dockFolderApps");
       const separator = $("#dockFolderSeparator");
       if (!container || !separator) return;
       container.innerHTML = "";
-      dockFolderKeys.forEach((key) => {
-        const folder = desktopFolderData[key];
-        if (!folder) return;
+      const folder = desktopFolderData[dockFolderKey];
+      if (folder) {
         const button = document.createElement("button");
         button.className = "dock-folder-button";
+        button.classList.toggle("is-minimized", dockFolderMinimized);
         button.type = "button";
-        button.dataset.folderOpen = key;
+        button.dataset.folderOpen = dockFolderKey;
         button.setAttribute("aria-label", `Open ${folder.title} folder`);
-        button.innerHTML = `<span>${folder.title}</span>`;
-        button.addEventListener("click", () => openFolderWindow(key));
+        button.innerHTML = `<span>${folder.title}</span><span class="dock-folder-running-dot" aria-hidden="true"></span>`;
+        button.addEventListener("click", () => openFolderWindow(dockFolderKey));
         container.appendChild(button);
-      });
-      const hasFolders = dockFolderKeys.size > 0;
-      container.classList.toggle("has-items", hasFolders);
-      separator.classList.toggle("is-visible", hasFolders);
+      }
+      const hasFolder = Boolean(folder);
+      container.classList.toggle("has-items", hasFolder);
+      separator.classList.toggle("is-visible", false);
     }
 
     function addFolderToDock(key) {
-      if (!desktopFolderData[key] || dockFolderKeys.has(key)) return;
-      dockFolderKeys.add(key);
+      if (!desktopFolderData[key]) return;
+      dockFolderKey = key;
+      renderDockFolderApps();
+    }
+
+    function setDockFolderMinimized(isMinimized) {
+      dockFolderMinimized = isMinimized;
       renderDockFolderApps();
     }
 
@@ -4004,16 +4008,12 @@
     function renderFolderFiles(key) {
       const folder = desktopFolderData[key];
       const title = $("#folderWindowTitle");
-      const sidebarTitle = $("#folderWindowSidebarTitle");
-      const sidebarMeta = $("#folderWindowSidebarMeta");
       const count = $("#folderWindowCount");
       const grid = $("#folderFileGrid");
       const previewPanel = $("#folderFilePreviewPanel");
       if (!folder || !grid) return;
       renderFolderSidebar(key);
       if (title) title.textContent = folder.title;
-      if (sidebarTitle) sidebarTitle.textContent = `${folder.title} Folder`;
-      if (sidebarMeta) sidebarMeta.textContent = folder.meta;
       if (count) count.textContent = `${folder.files.length} items`;
       if (previewPanel) previewPanel.classList.add("is-empty");
       grid.innerHTML = "";
@@ -4042,6 +4042,7 @@
       activeFolderKey = key;
       renderFolderFiles(key);
       addFolderToDock(key);
+      setDockFolderMinimized(false);
       overlay.classList.add("open");
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
@@ -4063,6 +4064,7 @@
       if (!overlay) return;
       overlay.classList.add("minimized");
       overlay.classList.remove("fullscreen");
+      setDockFolderMinimized(true);
     }
 
     function toggleFolderWindowFullscreen() {
@@ -4071,6 +4073,7 @@
       if (!overlay) return;
       const isFullscreen = overlay.classList.toggle("fullscreen");
       overlay.classList.remove("minimized");
+      setDockFolderMinimized(false);
       fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen folder window" : "Enter full screen folder window");
     }
