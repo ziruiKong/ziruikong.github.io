@@ -192,86 +192,88 @@
       transition: opacity 180ms ease, transform 240ms cubic-bezier(.2,.8,.2,1);
     }
 
-    .top-nav-groups {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(124px, 1fr));
-      gap: clamp(10px, 1.8vw, 26px);
-      color: #fff7ed;
-      font-family: "Inter", "Segoe UI", "PingFang SC", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      text-shadow: 0 10px 34px rgba(0, 0, 0, 0.36);
-    }
-
-    .nav-group {
-      display: grid;
-      align-content: start;
-      gap: 8px;
-    }
-
-    .nav-group-title {
-      display: flex;
+    .top-floating-dock {
+      justify-self: center;
+      align-self: start;
+      display: inline-flex;
       align-items: center;
-      gap: 9px;
-      font-size: 18px;
-      line-height: 1;
-      font-weight: 860;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .nav-shape {
-      width: 19px;
-      height: 19px;
-      display: inline-block;
-      background: #fff7ed;
-      flex: 0 0 auto;
-    }
-
-    .nav-shape.triangle {
-      clip-path: polygon(0 0, 100% 100%, 0 100%);
-    }
-
-    .nav-shape.circle {
-      border-radius: 999px;
-    }
-
-    .nav-shape.square {
-      width: 18px;
-      height: 18px;
-    }
-
-    .nav-shape.diamond {
-      width: 17px;
-      height: 17px;
-      transform: rotate(45deg);
-    }
-
-    .nav-group a {
+      justify-content: center;
+      gap: 8px;
       width: fit-content;
+      max-width: min(760px, 100%);
+      margin: -2px auto 0;
+      padding: 10px;
+      border: 1px solid rgba(255, 247, 237, 0.2);
+      border-radius: 999px;
+      background: rgba(255, 247, 237, 0.16);
+      box-shadow: 0 20px 54px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px) saturate(135%);
+      -webkit-backdrop-filter: blur(16px) saturate(135%);
       color: #fff7ed;
-      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
-      font-size: 17px;
-      line-height: 1.05;
-      font-weight: 300;
-      letter-spacing: -0.015em;
-      text-decoration: underline;
-      text-decoration-thickness: 1px;
-      text-underline-offset: 5px;
-      transition: opacity 180ms ease, transform 200ms ease;
+      text-shadow: none;
     }
 
-    .nav-group a:hover {
-      opacity: 0.68;
-      transform: translateX(4px);
+    .top-floating-dock-link {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff7ed;
+      background: rgba(255, 247, 237, 0.12);
+      border: 1px solid rgba(255, 247, 237, 0.14);
+      text-decoration: none;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+    }
+
+    .top-floating-dock-link:hover,
+    .top-floating-dock-link:focus-visible {
+      transform: translateY(-7px) scale(1.12);
+      background: rgba(255, 247, 237, 0.92);
+      border-color: rgba(255, 247, 237, 0.7);
+      color: #0b1831;
+      outline: none;
+    }
+
+    .top-floating-dock-link svg,
+    .top-floating-dock-logo {
+      width: 22px;
+      height: 22px;
+      display: block;
+    }
+
+    .top-floating-dock-logo {
+      object-fit: contain;
+    }
+
+    .top-floating-dock-title {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 10px);
+      transform: translate(-50%, 6px);
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(11, 24, 49, 0.92);
+      color: #fff7ed;
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    .top-floating-dock-link:hover .top-floating-dock-title,
+    .top-floating-dock-link:focus-visible .top-floating-dock-title {
+      opacity: 1;
+      transform: translate(-50%, 0);
     }
 
     .site-header.scrolled .discover-panel,
-    .site-header.scrolled .top-nav-groups,
-    .site-header.scrolled .nav-group a {
+    .site-header.scrolled .top-floating-dock {
       color: #fff7ed !important;
-    }
-
-    .site-header.scrolled .nav-shape {
-      background: #fff7ed;
     }
 
     .menu-trigger:hover {
@@ -1965,64 +1967,71 @@
       position: fixed;
       left: 18px;
       bottom: 18px;
-      z-index: 70;
+      z-index: 120;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px;
-      border: 1px solid rgba(255, 247, 237, 0.3);
+      gap: 9px;
+      padding: 8px 10px 8px 14px;
+      border: 1px solid rgba(185, 146, 84, 0.38);
       border-radius: 999px;
-      background: rgba(11, 24, 49, 0.42);
-      color: #fff7ed;
-      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.22);
-      opacity: 0.16;
-      transform: translateY(6px);
-      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
-      backdrop-filter: blur(12px) saturate(125%);
-      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      background: linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(246, 239, 227, 0.9));
+      color: #18223a;
+      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      opacity: 0.96;
+      transform: translateY(0);
+      transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
     }
 
     .music-dock:hover,
-    .music-dock:focus-within {
+    .music-dock:focus-within,
+    .music-dock.needs-interaction {
       opacity: 1;
-      transform: translateY(0);
-      background: rgba(11, 24, 49, 0.72);
+      transform: translateY(-2px);
+      border-color: rgba(185, 146, 84, 0.62);
+      box-shadow: 0 22px 54px rgba(10, 18, 38, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
     .music-dock-label {
-      max-width: 0;
-      overflow: hidden;
+      min-width: 54px;
       white-space: nowrap;
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 0.12em;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      opacity: 0;
-      transition: max-width 180ms ease, opacity 180ms ease;
+      color: #7f5d2c;
+      opacity: 0.96;
+      transition: color 180ms ease, opacity 180ms ease;
     }
 
-    .music-dock:hover .music-dock-label,
-    .music-dock:focus-within .music-dock-label {
-      max-width: 140px;
-      opacity: 0.9;
+    .music-dock.needs-interaction .music-dock-label {
+      color: #a72d2d;
     }
 
     .music-button {
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(255, 247, 237, 0.36);
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(24, 34, 58, 0.12);
       border-radius: 999px;
       display: inline-grid;
       place-items: center;
-      background: rgba(255, 247, 237, 0.08);
-      color: inherit;
+      background: rgba(255, 255, 255, 0.62);
+      color: #0b1831;
       padding: 0;
+      box-shadow: inset 0 -1px 0 rgba(11, 24, 49, 0.08);
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease;
     }
 
     .music-button:hover,
     .music-button:focus-visible {
-      background: rgba(255, 247, 237, 0.18);
+      background: #fffaf0;
+      border-color: rgba(185, 146, 84, 0.5);
+      color: #7f5d2c;
       outline: none;
+      transform: translateY(-1px);
     }
 
     .music-button svg {
@@ -2174,7 +2183,7 @@
       }
       .brand { min-width: 0; }
       .brand-text { font-size: 16px; }
-      .top-nav-groups { display: none; }
+      .top-floating-dock { display: none; }
   
 
 
@@ -2405,30 +2414,35 @@
           <img class="brand-mark" src="assets/kzr-home-logo.png" alt="KZR logo">
         </div>
       </a>
-      <nav class="top-nav-groups" aria-label="Homepage navigation">
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape triangle"></span> Repertoire</div>
-          <a href="phd-catalog.html">Catalog</a>
-          <a href="video.html">Video</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape circle"></span> Narrative</div>
-          <a href="about.html">About</a>
-          <a href="blog.html">Blog</a>
-          <a href="terms.html">Terms</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape square"></span> Liaison</div>
-          <a href="#connect">Contact</a>
-          <a href="shop.html">Shop</a>
-        </div>
-        <div class="nav-group">
-          <div class="nav-group-title"><span class="nav-shape diamond"></span> Atlas</div>
-          <a href="resources.html">Archive</a>
-          <a href="paper-library.html">Paper</a>
-          <a href="notes.html">Notes</a>
-          <a href="materials.html">Materials</a>
-        </div>
+      <nav class="top-floating-dock" aria-label="Homepage navigation">
+        <a class="top-floating-dock-link" href="#home" aria-label="Home">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5v8a1 1 0 0 1-1 1h-5.5v-6h-5v6H4a1 1 0 0 1-1-1v-8Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path></svg>
+          <span class="top-floating-dock-title">Home</span>
+        </a>
+        <a class="top-floating-dock-link" href="shop.html" aria-label="Shop">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 9h11l-.8 10H7.3L6.5 9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M9 9a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <span class="top-floating-dock-title">Shop</span>
+        </a>
+        <a class="top-floating-dock-link" href="resources.html" aria-label="Archive">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h16v12H4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M4 7.5 6 4.5h12l2 3M8 12h8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span class="top-floating-dock-title">Archive</span>
+        </a>
+        <a class="top-floating-dock-link" href="paper-library.html" aria-label="Paper">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.8h7l3 3v13.4H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M14 3.8v3h3M9.5 11h5M9.5 14.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span class="top-floating-dock-title">Paper</span>
+        </a>
+        <a class="top-floating-dock-link" href="notes.html" aria-label="Notes">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5h12v15H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M9 8h6M9 12h6M9 16h3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <span class="top-floating-dock-title">Notes</span>
+        </a>
+        <a class="top-floating-dock-link" href="video.html" aria-label="Video">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14v11H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="m10 9.5 5 2.5-5 2.5v-5Z" fill="currentColor"></path></svg>
+          <span class="top-floating-dock-title">Video</span>
+        </a>
+        <a class="top-floating-dock-link" href="blog.html" aria-label="Blog">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M8 9h8M8 12h8M8 15h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path></svg>
+          <span class="top-floating-dock-title">Blog</span>
+        </a>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
@@ -2468,7 +2482,7 @@
 
   <audio id="homepageMusic" src="bg.mp3" preload="auto" autoplay loop></audio>
   <div class="music-dock" aria-label="Background music controls">
-    <span class="music-dock-label">BG MUSIC</span>
+    <span class="music-dock-label" id="homepageMusicLabel">MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
     </button>
@@ -2731,12 +2745,17 @@
       const audio = getHomepageMusic();
       const musicButton = $("#homepageMusicButton");
       const muteButton = $("#homepageMusicMuteButton");
+      const musicDock = $(".music-dock");
+      const musicLabel = $("#homepageMusicLabel");
       if (!audio || !musicButton) return;
 
       const isPlaying = !audio.paused && !audio.ended;
+      const needsInteraction = !isPlaying && audio.dataset.autoplayBlocked === "true";
       const playIconPath = musicButton.querySelector("svg path");
       const muteIconPath = muteButton?.querySelector("svg path");
 
+      musicDock?.classList.toggle("needs-interaction", needsInteraction);
+      if (musicLabel) musicLabel.textContent = needsInteraction ? "PLAY" : "MUSIC";
       musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
       musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
       if (playIconPath) {
@@ -2762,10 +2781,12 @@
       try {
         await audio.play();
       } catch (error) {
+        audio.dataset.autoplayBlocked = "true";
         updateMusicButton();
         return false;
       }
 
+      audio.dataset.autoplayBlocked = "false";
       updateMusicButton();
       return true;
     }
@@ -2800,35 +2821,31 @@
       const audio = getHomepageMusic();
       if (!audio) return;
 
-      let unlocked = false;
-      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
-
+      const unlockEvents = ["pointerdown", "keydown", "touchstart"];
       const removeUnlockListeners = () => {
         unlockEvents.forEach((eventName) => {
-          document.removeEventListener(eventName, unlockAutoplay, true);
-          window.removeEventListener(eventName, unlockAutoplay, true);
+          document.removeEventListener(eventName, unlockOnFirstInteraction, true);
         });
       };
-
-      const unlockAutoplay = async () => {
+      const unlockOnFirstInteraction = async (event) => {
+        if (event.target?.closest?.(".music-dock")) return;
         const started = await startArchiveMusic();
-        if (started) {
-          unlocked = true;
-          removeUnlockListeners();
-        }
+        if (started) removeUnlockListeners();
       };
 
+      audio.volume = 0.42;
       audio.addEventListener("play", updateMusicButton);
       audio.addEventListener("pause", updateMusicButton);
+      audio.addEventListener("ended", updateMusicButton);
       audio.addEventListener("volumechange", updateMusicButton);
-      unlockAutoplay();
-      window.setTimeout(() => {
-        if (unlocked || !audio.paused) return;
+      audio.addEventListener("loadedmetadata", updateMusicButton);
+      startArchiveMusic().then((started) => {
+        if (started) return;
         unlockEvents.forEach((eventName) => {
-          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
-          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+          document.addEventListener(eventName, unlockOnFirstInteraction, { capture: true, passive: true });
         });
-      }, 0);
+      });
+      updateMusicButton();
     }
 
     function openBookingPanel() {
