@@ -399,7 +399,7 @@
       content: "";
       position: absolute;
       left: 50%;
-      bottom: -11px;
+      bottom: -3px;
       width: 6px;
       height: 6px;
       border-radius: 999px;
@@ -2082,18 +2082,7 @@
     }
 
     .shop-window-overlay.minimized .shop-window {
-      top: auto !important;
-      right: 24px;
-      bottom: 108px;
-      left: auto !important;
-      width: 210px !important;
-      height: 36px !important;
-      min-width: 0;
-      min-height: 0;
-      grid-template-rows: 36px 0;
-      border-radius: 16px;
-      opacity: 0.96;
-      cursor: pointer;
+      display: none;
     }
 
     .shop-window-titlebar {
@@ -2180,22 +2169,6 @@
       display: none;
     }
 
-    .shop-window-overlay.minimized .shop-window-main,
-    .shop-window-overlay.minimized .shop-window-titlebar {
-      overflow: hidden;
-    }
-
-    .shop-window-overlay.minimized .shop-window-titlebar {
-      grid-template-columns: auto 1fr;
-      gap: 8px;
-      padding: 0 12px;
-      cursor: pointer;
-    }
-
-    .shop-window-overlay.minimized .shop-window-title {
-      justify-self: start;
-      font-size: 13px;
-    }
 
     @media (max-width: 900px) {
       .shop-window { top: 10px; left: 10px; width: calc(100vw - 20px); height: calc(100vh - 120px); border-radius: 18px; }
