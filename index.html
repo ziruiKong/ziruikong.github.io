@@ -130,7 +130,15 @@
 
     .mac-status-bar-right {
       justify-self: end;
-      gap: 16px;
+      gap: 14px;
+    }
+
+    .mac-status-datetime {
+      color: rgba(255, 255, 255, 0.96);
+      font-size: 20px;
+      font-weight: 400;
+      letter-spacing: -0.03em;
+      line-height: 1;
     }
 
     .mac-status-logo {
@@ -2632,19 +2640,16 @@
   <div class="mac-status-bar" aria-hidden="true">
     <div class="mac-status-bar-left">
       <img class="mac-status-logo" src="assets/favicon-kzr.png" alt="">
-      <span>Music</span>
       <span>File</span>
       <span>Edit</span>
-      <span>Song</span>
       <span>View</span>
-      <span>Controls</span>
-      <span>Account</span>
+      <span>Go</span>
       <span>Window</span>
       <span>Help</span>
     </div>
     <div class="mac-status-bar-right">
       <span class="mac-status-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="5.5"></circle><path d="m15 15 4 4"></path></svg></span>
-      <span id="macStatusDateTime">Tue Apr 1&nbsp;&nbsp;9:41 AM</span>
+      <span class="mac-status-datetime" id="macStatusDateTime">Tue Apr 1&nbsp;&nbsp;9:41 AM</span>
     </div>
   </div>
 
@@ -3258,7 +3263,7 @@
         hour: "numeric",
         minute: "2-digit"
       }).format(now);
-      target.textContent = `${date}  ${time}`;
+      target.textContent = `${date}  ${time}`;
     }
 
     function init() {
