@@ -2367,7 +2367,7 @@
     }
 
     .folder-window-sidebar {
-      width: 62px;
+      width: 178px;
       padding: 18px 12px;
       border-right: 1px solid rgba(17, 24, 39, 0.08);
       background: rgba(246, 243, 236, 0.72);
@@ -2375,12 +2375,6 @@
       font-size: 12px;
       font-weight: 700;
       overflow: hidden;
-      transition: width 260ms cubic-bezier(.2,.8,.2,1);
-    }
-
-    .folder-window-sidebar:hover,
-    .folder-window-sidebar:focus-within {
-      width: 178px;
     }
 
     .folder-sidebar-logo {
@@ -2395,23 +2389,57 @@
     .folder-window-sidebar span {
       display: block;
       min-width: 142px;
-      opacity: 0;
-      transform: translateX(-6px);
-      transition: opacity 180ms ease, transform 180ms ease;
-    }
-
-    .folder-window-sidebar:hover strong,
-    .folder-window-sidebar:focus-within strong,
-    .folder-window-sidebar:hover span,
-    .folder-window-sidebar:focus-within span {
-      opacity: 1;
-      transform: translateX(0);
     }
 
     .folder-window-sidebar strong {
       margin-bottom: 12px;
       color: #1f2937;
       font-size: 13px;
+    }
+
+    .folder-sidebar-list {
+      display: grid;
+      gap: 6px;
+      margin-top: 18px;
+    }
+
+    .folder-sidebar-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 9px 10px;
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: rgba(31, 41, 55, 0.76);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      text-align: left;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .folder-sidebar-button::before {
+      content: "";
+      width: 20px;
+      height: 15px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #ffd560 0%, #efad31 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    }
+
+    .folder-sidebar-button:hover,
+    .folder-sidebar-button:focus-visible {
+      outline: none;
+      background: rgba(17, 24, 39, 0.07);
+      transform: translateX(2px);
+    }
+
+    .folder-sidebar-button.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.92);
     }
 
     .folder-window-content {
@@ -3461,6 +3489,7 @@
           <div class="folder-sidebar-logo" aria-hidden="true"></div>
           <strong id="folderWindowSidebarTitle">Desktop</strong>
           <span id="folderWindowSidebarMeta">Preview files from this desktop folder.</span>
+          <div class="folder-sidebar-list" id="folderSidebarList" aria-label="Folder list"></div>
         </aside>
         <div class="folder-window-content">
           <div class="folder-file-grid" id="folderFileGrid"></div>
@@ -3952,6 +3981,26 @@
       copy.innerHTML = `<strong>${file.title}</strong><span>${fileTypeLabel(file.type)} · ${file.description || "Preview available in this folder."}</span>`;
     }
 
+    function renderFolderSidebar(activeKey) {
+      const list = $("#folderSidebarList");
+      if (!list) return;
+      list.innerHTML = "";
+      Object.entries(desktopFolderData).forEach(([key, folder]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "folder-sidebar-button";
+        button.classList.toggle("active", key === activeKey);
+        button.textContent = folder.title;
+        button.setAttribute("aria-pressed", key === activeKey ? "true" : "false");
+        button.addEventListener("click", () => {
+          activeFolderKey = key;
+          renderFolderFiles(key);
+          addFolderToDock(key);
+        });
+        list.appendChild(button);
+      });
+    }
+
     function renderFolderFiles(key) {
       const folder = desktopFolderData[key];
       const title = $("#folderWindowTitle");
@@ -3961,6 +4010,7 @@
       const grid = $("#folderFileGrid");
       const previewPanel = $("#folderFilePreviewPanel");
       if (!folder || !grid) return;
+      renderFolderSidebar(key);
       if (title) title.textContent = folder.title;
       if (sidebarTitle) sidebarTitle.textContent = `${folder.title} Folder`;
       if (sidebarMeta) sidebarMeta.textContent = folder.meta;
