@@ -2179,6 +2179,269 @@
       background: rgba(0, 105, 255, 0.78);
     }
 
+    button.desktop-folder {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      font: inherit;
+    }
+
+    .dock-folder-separator {
+      width: 1px;
+      height: 44px;
+      align-self: center;
+      margin: 0 2px;
+      background: rgba(255, 255, 255, 0.24);
+      box-shadow: 1px 0 0 rgba(17, 24, 39, 0.08);
+      display: none;
+    }
+
+    .dock-folder-separator.is-visible { display: block; }
+
+    .dock-folder-apps {
+      display: none;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .dock-folder-apps.has-items { display: flex; }
+
+    .dock-folder-button {
+      --dock-size: 48px;
+      --dock-icon-size: 32px;
+      position: relative;
+      width: var(--dock-size);
+      height: var(--dock-size);
+      border: 0;
+      border-radius: 16px;
+      display: inline-grid;
+      place-items: center;
+      background: transparent;
+      transform-origin: 50% 100%;
+      animation: dockFolderAppear 460ms cubic-bezier(.18,.89,.32,1.28);
+    }
+
+    .dock-folder-button::before,
+    .dock-folder-button::after {
+      content: "";
+      position: absolute;
+      width: calc(var(--dock-icon-size) * 1.32);
+      height: calc(var(--dock-icon-size) * .92);
+      border-radius: 7px;
+      background: linear-gradient(180deg, #ffd560 0%, #efad31 100%);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    }
+
+    .dock-folder-button::before {
+      transform: translateY(-2px);
+    }
+
+    .dock-folder-button::after {
+      height: calc(var(--dock-icon-size) * .74);
+      bottom: 6px;
+      background: linear-gradient(180deg, #ffcf55 0%, #eaa632 100%);
+    }
+
+    .dock-folder-button span {
+      position: absolute;
+      left: 50%;
+      top: -32px;
+      transform: translate(-50%, 10px);
+      padding: 2px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: #f3f4f6;
+      color: #404040;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 140ms ease, transform 140ms ease;
+    }
+
+    .dock-folder-button:hover span,
+    .dock-folder-button:focus-visible span {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @keyframes dockFolderAppear {
+      0% { opacity: 0; transform: translateY(22px) scale(.55); }
+      70% { opacity: 1; transform: translateY(-5px) scale(1.08); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .folder-window-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 155;
+      display: none;
+      pointer-events: none;
+    }
+
+    .folder-window-overlay.open { display: block; }
+
+    .folder-window {
+      position: absolute;
+      top: clamp(74px, 10vh, 116px);
+      right: 132px;
+      width: min(680px, calc(100vw - 80px));
+      height: min(520px, calc(100vh - 150px));
+      display: grid;
+      grid-template-rows: 40px 1fr;
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 22px;
+      background: rgba(250, 246, 236, 0.96);
+      box-shadow: 0 28px 86px rgba(13, 32, 64, 0.24), 0 8px 26px rgba(13, 32, 64, 0.16);
+    }
+
+    .folder-window-overlay.fullscreen .folder-window {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+    }
+
+    .folder-window-overlay.minimized .folder-window { display: none; }
+
+    .folder-window-titlebar {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr) 110px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(250, 246, 236, 0.96);
+      color: #1f2937;
+    }
+
+    .folder-window-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .folder-window-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+    }
+
+    .folder-window-dot--close { background: #ff453a; }
+    .folder-window-dot--minimize { background: #ffbd2e; }
+    .folder-window-dot--fullscreen { background: #28c840; }
+
+    .folder-window-title {
+      justify-self: center;
+      font-size: 14px;
+      font-weight: 720;
+    }
+
+    .folder-window-count {
+      justify-self: end;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.07);
+      color: rgba(31, 41, 55, 0.72);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .folder-window-body {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .folder-window-sidebar {
+      padding: 18px 14px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(246, 243, 236, 0.72);
+      color: rgba(31, 41, 55, 0.72);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .folder-window-sidebar strong {
+      display: block;
+      margin-bottom: 12px;
+      color: #1f2937;
+      font-size: 13px;
+    }
+
+    .folder-window-content {
+      min-width: 0;
+      min-height: 0;
+      padding: 18px;
+      overflow: auto;
+    }
+
+    .folder-file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+      gap: 18px;
+    }
+
+    .folder-file {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      padding: 12px 8px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      color: #1f2937;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
+    }
+
+    .folder-file:hover,
+    .folder-file:focus-visible {
+      background: rgba(59, 130, 246, 0.10);
+      border-color: rgba(59, 130, 246, 0.18);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    .folder-file-thumb {
+      width: 72px;
+      height: 54px;
+      border-radius: 10px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #fff 0%, #edf2f7 100%);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+    }
+
+    .folder-file-thumb img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .folder-file-title {
+      max-width: 112px;
+      font-size: 12px;
+      font-weight: 680;
+      line-height: 1.2;
+      text-align: center;
+      word-break: break-word;
+    }
+
+    @media (max-width: 760px) {
+      .desktop-folder-stack { top: 84px; right: 12px; transform: scale(.88); transform-origin: top right; }
+      .folder-window { left: 10px; right: auto; width: calc(100vw - 20px); height: calc(100vh - 128px); }
+      .folder-window-body { grid-template-columns: 1fr; }
+      .folder-window-sidebar { display: none; }
+    }
+
     .shop-window-overlay {
       position: fixed;
       inset: 0;
@@ -3008,6 +3271,8 @@
           <img class="top-floating-dock-file-icon" src="assets/dock-shop.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Shop</span>
         </a>
+        <span class="dock-folder-separator" id="dockFolderSeparator" aria-hidden="true"></span>
+        <span class="dock-folder-apps" id="dockFolderApps" aria-label="Open folders"></span>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
@@ -3046,7 +3311,7 @@
   </nav>
 
   <aside class="desktop-folder-stack" aria-label="Desktop folders">
-    <a class="desktop-folder" href="shop.html" data-shop-window-open aria-label="Open Shop folder">
+    <button class="desktop-folder" type="button" data-folder-open="shop" aria-label="Open Shop folder">
       <span class="desktop-folder-art" aria-hidden="true">
         <span class="desktop-folder-back"></span>
         <span class="desktop-folder-preview"><img src="assets/shop-hero-gallery.png" alt=""></span>
@@ -3055,8 +3320,8 @@
         <span class="desktop-folder-front"></span>
       </span>
       <span class="desktop-folder-label">Shop</span>
-    </a>
-    <a class="desktop-folder" href="notes.html" aria-label="Open Notes folder">
+    </button>
+    <button class="desktop-folder" type="button" data-folder-open="notes" aria-label="Open Notes folder">
       <span class="desktop-folder-art" aria-hidden="true">
         <span class="desktop-folder-back"></span>
         <span class="desktop-folder-preview"><img src="assets/field-statistics.png" alt=""></span>
@@ -3065,8 +3330,8 @@
         <span class="desktop-folder-front"></span>
       </span>
       <span class="desktop-folder-label">Notes</span>
-    </a>
-    <a class="desktop-folder" href="paper-library.html" aria-label="Open Paper folder">
+    </button>
+    <button class="desktop-folder" type="button" data-folder-open="paper" aria-label="Open Paper folder">
       <span class="desktop-folder-art" aria-hidden="true">
         <span class="desktop-folder-back"></span>
         <span class="desktop-folder-preview"><img src="assets/bayesian-modeling-cover.svg" alt=""></span>
@@ -3075,8 +3340,31 @@
         <span class="desktop-folder-front"></span>
       </span>
       <span class="desktop-folder-label">Paper</span>
-    </a>
+    </button>
   </aside>
+
+  <section class="folder-window-overlay" id="folderWindowOverlay" aria-hidden="true" aria-label="Folder window">
+    <div class="folder-window" id="folderWindow" role="dialog" aria-modal="true" aria-label="Folder window" tabindex="-1">
+      <div class="folder-window-titlebar">
+        <div class="folder-window-controls" aria-label="Folder window controls">
+          <button class="folder-window-dot folder-window-dot--close" id="folderWindowClose" type="button" aria-label="Close folder window"></button>
+          <button class="folder-window-dot folder-window-dot--minimize" id="folderWindowMinimize" type="button" aria-label="Minimize folder window"></button>
+          <button class="folder-window-dot folder-window-dot--fullscreen" id="folderWindowFullscreen" type="button" aria-label="Enter full screen folder window" aria-pressed="false"></button>
+        </div>
+        <span class="folder-window-title" id="folderWindowTitle">Folder</span>
+        <span class="folder-window-count" id="folderWindowCount">0 items</span>
+      </div>
+      <div class="folder-window-body">
+        <aside class="folder-window-sidebar">
+          <strong id="folderWindowSidebarTitle">Desktop</strong>
+          <span id="folderWindowSidebarMeta">Preview files from this desktop folder.</span>
+        </aside>
+        <div class="folder-window-content">
+          <div class="folder-file-grid" id="folderFileGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="shop-window-overlay" id="shopWindowOverlay" aria-hidden="true" aria-label="Shop window">
     <div class="shop-window" id="shopWindow" role="dialog" aria-modal="true" aria-label="Shop window" tabindex="-1">
@@ -3474,6 +3762,130 @@
       document.body.classList.remove("booking-open");
     }
 
+    const desktopFolderData = {
+      shop: {
+        title: "Shop",
+        meta: "Shop folder · product files and capsule assets",
+        files: [
+          { title: "2026 Capsule", href: "shop.html", image: "assets/2026capsule.png" },
+          { title: "Knit Hoodie", href: "shop.html", image: "assets/kid-knit-hoodie.png" },
+          { title: "Archive Tee", href: "shop.html", image: "assets/kzr-archive-tee.png" },
+          { title: "Gallery", href: "shop.html", image: "assets/shop-hero-gallery.png" },
+        ],
+      },
+      notes: {
+        title: "Notes",
+        meta: "Notes folder · study fields and working notes",
+        files: [
+          { title: "Statistics", href: "notes.html", image: "assets/field-statistics.png" },
+          { title: "Mathematics", href: "notes.html", image: "assets/field-mathematics.png" },
+          { title: "Machine Learning", href: "notes.html", image: "assets/field-machine-learning.png" },
+          { title: "Computing", href: "notes.html", image: "assets/field-computing.png" },
+        ],
+      },
+      paper: {
+        title: "Paper",
+        meta: "Paper folder · reading library and references",
+        files: [
+          { title: "Bayesian Modeling", href: "paper-library.html", image: "assets/bayesian-modeling-cover.svg" },
+          { title: "Bayesian Analysis", href: "paper-library.html", image: "assets/bayesian-analysis-python2-cover.svg" },
+          { title: "Economics", href: "paper-library.html", image: "assets/field-economics.png" },
+          { title: "Finance", href: "paper-library.html", image: "assets/field-finance.png" },
+        ],
+      },
+    };
+
+    let activeFolderKey = null;
+    const dockFolderKeys = new Set();
+
+    function renderDockFolderApps() {
+      const container = $("#dockFolderApps");
+      const separator = $("#dockFolderSeparator");
+      if (!container || !separator) return;
+      container.innerHTML = "";
+      dockFolderKeys.forEach((key) => {
+        const folder = desktopFolderData[key];
+        if (!folder) return;
+        const button = document.createElement("button");
+        button.className = "dock-folder-button";
+        button.type = "button";
+        button.dataset.folderOpen = key;
+        button.setAttribute("aria-label", `Open ${folder.title} folder`);
+        button.innerHTML = `<span>${folder.title}</span>`;
+        button.addEventListener("click", () => openFolderWindow(key));
+        container.appendChild(button);
+      });
+      const hasFolders = dockFolderKeys.size > 0;
+      container.classList.toggle("has-items", hasFolders);
+      separator.classList.toggle("is-visible", hasFolders);
+    }
+
+    function addFolderToDock(key) {
+      if (!desktopFolderData[key] || dockFolderKeys.has(key)) return;
+      dockFolderKeys.add(key);
+      renderDockFolderApps();
+    }
+
+    function renderFolderFiles(key) {
+      const folder = desktopFolderData[key];
+      const title = $("#folderWindowTitle");
+      const sidebarTitle = $("#folderWindowSidebarTitle");
+      const sidebarMeta = $("#folderWindowSidebarMeta");
+      const count = $("#folderWindowCount");
+      const grid = $("#folderFileGrid");
+      if (!folder || !grid) return;
+      if (title) title.textContent = folder.title;
+      if (sidebarTitle) sidebarTitle.textContent = `${folder.title} Folder`;
+      if (sidebarMeta) sidebarMeta.textContent = folder.meta;
+      if (count) count.textContent = `${folder.files.length} items`;
+      grid.innerHTML = folder.files.map((file) => `
+        <a class="folder-file" href="${file.href}">
+          <span class="folder-file-thumb"><img src="${file.image}" alt=""></span>
+          <span class="folder-file-title">${file.title}</span>
+        </a>
+      `).join("");
+    }
+
+    function openFolderWindow(key) {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      if (!overlay || !desktopFolderData[key]) return;
+      activeFolderKey = key;
+      renderFolderFiles(key);
+      addFolderToDock(key);
+      overlay.classList.add("open");
+      overlay.classList.remove("minimized");
+      overlay.setAttribute("aria-hidden", "false");
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function closeFolderWindow() {
+      const overlay = $("#folderWindowOverlay");
+      const fullscreenButton = $("#folderWindowFullscreen");
+      if (!overlay) return;
+      overlay.classList.remove("open", "minimized", "fullscreen");
+      overlay.setAttribute("aria-hidden", "true");
+      fullscreenButton?.setAttribute("aria-pressed", "false");
+      fullscreenButton?.setAttribute("aria-label", "Enter full screen folder window");
+    }
+
+    function minimizeFolderWindow() {
+      const overlay = $("#folderWindowOverlay");
+      if (!overlay) return;
+      overlay.classList.add("minimized");
+      overlay.classList.remove("fullscreen");
+    }
+
+    function toggleFolderWindowFullscreen() {
+      const overlay = $("#folderWindowOverlay");
+      const fullscreenButton = $("#folderWindowFullscreen");
+      if (!overlay) return;
+      const isFullscreen = overlay.classList.toggle("fullscreen");
+      overlay.classList.remove("minimized");
+      fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+      fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen folder window" : "Enter full screen folder window");
+    }
+
     function setShopDockMinimized(isMinimized) {
       document.querySelectorAll("[data-shop-window-open]").forEach((link) => {
         if (!isMinimized) {
@@ -3629,6 +4041,20 @@
       const shopMinimizeButton = $("#shopWindowMinimize");
       const shopFullscreenButton = $("#shopWindowFullscreen");
       const shopWindowTitlebar = $(".shop-window-titlebar");
+      const folderOpenButtons = Array.from(document.querySelectorAll("[data-folder-open]"));
+      const folderCloseButton = $("#folderWindowClose");
+      const folderMinimizeButton = $("#folderWindowMinimize");
+      const folderFullscreenButton = $("#folderWindowFullscreen");
+
+      folderOpenButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          openFolderWindow(button.dataset.folderOpen);
+        });
+      });
+      if (folderCloseButton) folderCloseButton.addEventListener("click", closeFolderWindow);
+      if (folderMinimizeButton) folderMinimizeButton.addEventListener("click", minimizeFolderWindow);
+      if (folderFullscreenButton) folderFullscreenButton.addEventListener("click", toggleFolderWindowFullscreen);
 
       shopOpenLinks.forEach((link) => {
         link.addEventListener("click", (event) => {
@@ -3685,6 +4111,7 @@
         if (event.key === "Escape") {
           closeBookingPanel();
           closeShopWindow();
+          closeFolderWindow();
         }
       });
     }
