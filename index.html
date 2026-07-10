@@ -2029,7 +2029,7 @@
       min-width: min(520px, calc(100vw - 28px));
       min-height: 390px;
       display: grid;
-      grid-template-rows: 78px 1fr;
+      grid-template-rows: 52px 1fr;
       overflow: hidden;
       pointer-events: auto;
       border: 1px solid rgba(255, 255, 255, 0.74);
@@ -2061,10 +2061,10 @@
       bottom: 108px;
       left: auto !important;
       width: 210px !important;
-      height: 54px !important;
+      height: 42px !important;
       min-width: 0;
       min-height: 0;
-      grid-template-rows: 54px 0;
+      grid-template-rows: 42px 0;
       border-radius: 16px;
       opacity: 0.96;
       cursor: pointer;
@@ -2072,10 +2072,10 @@
 
     .shop-window-titlebar {
       display: grid;
-      grid-template-columns: 280px 1fr 280px;
+      grid-template-columns: 96px minmax(0, 1fr) 96px;
       align-items: center;
-      gap: 16px;
-      padding: 0 24px;
+      gap: 10px;
+      padding: 0 16px;
       border-bottom: 1px solid rgba(17, 24, 39, 0.08);
       background: rgba(244, 245, 248, 0.92);
       backdrop-filter: blur(24px) saturate(160%);
@@ -2091,12 +2091,12 @@
     .shop-window-controls {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
 
     .shop-window-dot {
-      width: 18px;
-      height: 18px;
+      width: 12px;
+      height: 12px;
       border: 0;
       border-radius: 999px;
       padding: 0;
@@ -2110,56 +2110,9 @@
     .shop-window-title {
       justify-self: center;
       margin: 0;
-      font-size: 24px;
-      font-weight: 760;
-      letter-spacing: -0.02em;
-    }
-
-    .shop-window-tools {
-      justify-self: end;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .shop-window-view-toggle {
-      display: inline-flex;
-      padding: 4px;
-      border: 1px solid rgba(17, 24, 39, 0.08);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.74);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
-    }
-
-    .shop-window-tool-button {
-      width: 34px;
-      height: 34px;
-      border: 0;
-      border-radius: 8px;
-      display: inline-grid;
-      place-items: center;
-      color: #4b5563;
-      background: transparent;
-    }
-
-    .shop-window-tool-button.active {
-      background: rgba(17, 24, 39, 0.08);
-      color: #1f2937;
-    }
-
-    .shop-window-search {
-      width: min(215px, 18vw);
-      height: 46px;
-      border: 1px solid rgba(17, 24, 39, 0.08);
-      border-radius: 9px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 0 14px;
-      background: rgba(255, 255, 255, 0.82);
-      color: #667085;
       font-size: 18px;
+      font-weight: 740;
+      letter-spacing: -0.02em;
     }
 
     .shop-window-main {
@@ -2202,30 +2155,26 @@
     }
 
     .shop-window-overlay.minimized .shop-window-main,
-    .shop-window-overlay.minimized .shop-window-tools,
     .shop-window-overlay.minimized .shop-window-titlebar {
       overflow: hidden;
     }
 
     .shop-window-overlay.minimized .shop-window-titlebar {
       grid-template-columns: auto 1fr;
-      gap: 10px;
-      padding: 0 16px;
+      gap: 8px;
+      padding: 0 12px;
       cursor: pointer;
     }
 
     .shop-window-overlay.minimized .shop-window-title {
       justify-self: start;
-      font-size: 14px;
+      font-size: 13px;
     }
-
-    .shop-window-overlay.minimized .shop-window-tools { display: none; }
 
     @media (max-width: 900px) {
       .shop-window { top: 10px; left: 10px; width: calc(100vw - 20px); height: calc(100vh - 120px); border-radius: 18px; }
-      .shop-window-titlebar { grid-template-columns: auto 1fr auto; padding: 0 14px; }
-      .shop-window-title { font-size: 18px; }
-      .shop-window-search { display: none; }
+      .shop-window-titlebar { grid-template-columns: auto 1fr auto; padding: 0 12px; }
+      .shop-window-title { font-size: 16px; }
     }
 
     .modal {
@@ -2963,26 +2912,6 @@
           <button class="shop-window-dot shop-window-dot--fullscreen" id="shopWindowFullscreen" type="button" aria-label="Enter full screen shop window" aria-pressed="false"></button>
         </div>
         <h2 class="shop-window-title" id="shopWindowTitle">Shop</h2>
-        <div class="shop-window-tools" aria-hidden="true">
-          <div class="shop-window-view-toggle">
-            <span class="shop-window-tool-button active">
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="6" height="6" rx="1"></rect><rect x="14" y="4" width="6" height="6" rx="1"></rect><rect x="4" y="14" width="6" height="6" rx="1"></rect><rect x="14" y="14" width="6" height="6" rx="1"></rect></svg>
-            </span>
-            <span class="shop-window-tool-button">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h14M5 12h14M5 17h14"></path></svg>
-            </span>
-          </div>
-          <span class="shop-window-tool-button">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12"></path><path d="m7 8 5-5 5 5"></path><path d="M5 13v7h14v-7"></path></svg>
-          </span>
-          <span class="shop-window-tool-button">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg>
-          </span>
-          <div class="shop-window-search">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.4-3.4"></path></svg>
-            <span>Search</span>
-          </div>
-        </div>
       </div>
       <div class="shop-window-main">
         <div class="shop-window-frame-wrap">
