@@ -196,99 +196,77 @@
       justify-self: center;
       align-self: start;
       display: inline-flex;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
-      gap: 10px;
-      width: fit-content;
-      max-width: min(780px, 100%);
-      margin: -4px auto 0;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      border-radius: 28px;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 247, 237, 0.18)),
-        rgba(246, 239, 227, 0.2);
-      box-shadow:
-        0 28px 80px rgba(0, 0, 0, 0.22),
-        inset 0 1px 0 rgba(255, 255, 255, 0.42),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(24px) saturate(165%);
-      -webkit-backdrop-filter: blur(24px) saturate(165%);
-      color: #fff7ed;
+      gap: clamp(16px, 3vw, 44px);
+      width: min(760px, calc(100vw - 120px));
+      margin: -2px auto 0;
+      padding: 24px clamp(28px, 4vw, 44px);
+      border: 0;
+      border-radius: 42px;
+      background: rgba(248, 249, 251, 0.94);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.08);
+      color: #747474;
       text-shadow: none;
-      isolation: isolate;
     }
 
     .top-floating-dock-link {
-      --dock-scale: 1;
-      --dock-y: 0px;
       position: relative;
-      width: 46px;
-      height: 46px;
+      width: 62px;
+      height: 62px;
       display: inline-grid;
       place-items: center;
-      border-radius: 16px;
-      color: #f8fafc;
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.34), transparent 42%),
-        rgba(15, 23, 42, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-decoration: none;
-      box-shadow:
-        0 10px 24px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.22);
-      transform: translateY(var(--dock-y)) scale(var(--dock-scale));
-      transform-origin: 50% 100%;
-      transition: transform 120ms ease-out, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
-      will-change: transform;
-    }
-
-    .top-floating-dock-link::after {
-      content: "";
-      position: absolute;
-      inset: auto 9px 5px;
-      height: 1px;
+      flex: 0 0 auto;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.26);
-      opacity: 0.7;
+      color: #747474;
+      background: #e5e7eb;
+      border: 0;
+      text-decoration: none;
+      box-shadow: none;
+      transform: translateY(0) scale(1);
+      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
     }
 
     .top-floating-dock-link:hover,
     .top-floating-dock-link:focus-visible {
-      background:
-        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.78), transparent 44%),
-        rgba(255, 250, 240, 0.94);
-      border-color: rgba(255, 255, 255, 0.78);
-      color: #0b1831;
+      transform: translateY(-2px) scale(1.03);
+      background: #dde1e7;
+      color: #5f5f5f;
       outline: none;
-      box-shadow:
-        0 18px 38px rgba(0, 0, 0, 0.26),
-        inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
     .top-floating-dock-link svg,
-    .top-floating-dock-logo {
-      width: 22px;
-      height: 22px;
+    .top-floating-dock-logo-mark {
+      width: 30px;
+      height: 30px;
       display: block;
       pointer-events: none;
     }
 
-    .top-floating-dock-logo {
-      object-fit: contain;
+    .top-floating-dock-logo-mark {
+      width: 32px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #050505;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 950;
+      letter-spacing: -0.12em;
     }
 
     .top-floating-dock-title {
       position: absolute;
       left: 50%;
       top: calc(100% + 12px);
-      transform: translate(-50%, -4px) scale(0.96);
+      transform: translate(-50%, -4px);
       padding: 6px 9px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 999px;
-      background: rgba(11, 24, 49, 0.88);
-      color: #fff7ed;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
+      background: rgba(17, 24, 39, 0.9);
+      color: #ffffff;
       font-size: 12px;
       font-weight: 760;
       letter-spacing: 0.01em;
@@ -301,15 +279,7 @@
     .top-floating-dock-link:hover .top-floating-dock-title,
     .top-floating-dock-link:focus-visible .top-floating-dock-title {
       opacity: 1;
-      transform: translate(-50%, 0) scale(1);
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .top-floating-dock-link {
-        --dock-scale: 1 !important;
-        --dock-y: 0px !important;
-        transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
-      }
+      transform: translate(-50%, 0);
     }
 
     .site-header.scrolled .discover-panel,
@@ -2469,7 +2439,7 @@
           <span class="top-floating-dock-title">Archive</span>
         </a>
         <a class="top-floating-dock-link" href="paper-library.html" aria-label="Paper">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.8h7l3 3v13.4H7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path><path d="M14 3.8v3h3M9.5 11h5M9.5 14.5h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+          <span class="top-floating-dock-logo-mark" aria-hidden="true">A</span>
           <span class="top-floating-dock-title">Paper</span>
         </a>
         <a class="top-floating-dock-link" href="notes.html" aria-label="Notes">
@@ -2954,40 +2924,6 @@
     }
 
 
-    function initTopFloatingDock() {
-      const dock = $(".top-floating-dock");
-      if (!dock || window.matchMedia("(pointer: coarse)").matches) return;
-      const dockItems = Array.from(dock.querySelectorAll(".top-floating-dock-link"));
-      const maxDistance = 130;
-
-      const resetDock = () => {
-        dockItems.forEach((item) => {
-          item.style.setProperty("--dock-scale", "1");
-          item.style.setProperty("--dock-y", "0px");
-        });
-      };
-
-      const magnifyDock = (clientX) => {
-        dockItems.forEach((item) => {
-          const rect = item.getBoundingClientRect();
-          const center = rect.left + rect.width / 2;
-          const distance = Math.min(Math.abs(clientX - center), maxDistance);
-          const strength = 1 - distance / maxDistance;
-          const scale = 1 + strength * 0.62;
-          const lift = -strength * 12;
-          item.style.setProperty("--dock-scale", scale.toFixed(3));
-          item.style.setProperty("--dock-y", `${lift.toFixed(2)}px`);
-        });
-      };
-
-      dock.addEventListener("mousemove", (event) => magnifyDock(event.clientX), { passive: true });
-      dock.addEventListener("mouseleave", resetDock, { passive: true });
-      dock.addEventListener("focusout", resetDock);
-      dockItems.forEach((item) => {
-        item.addEventListener("focus", () => magnifyDock(item.getBoundingClientRect().left + item.offsetWidth / 2));
-      });
-    }
-
     function initLiquidCursor() {
       if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const cursor = document.createElement("span");
@@ -3047,7 +2983,6 @@
       bindEvents();
       updateMusicButton();
       initArchiveMusicAutoplay();
-      initTopFloatingDock();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
