@@ -1968,63 +1968,68 @@
       z-index: 120;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px;
-      border: 1px solid rgba(255, 247, 237, 0.3);
+      gap: 9px;
+      padding: 8px 10px 8px 14px;
+      border: 1px solid rgba(185, 146, 84, 0.38);
       border-radius: 999px;
-      background: rgba(11, 24, 49, 0.42);
-      color: #fff7ed;
-      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.22);
-      opacity: 0.92;
+      background: linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(246, 239, 227, 0.9));
+      color: #18223a;
+      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      opacity: 0.96;
       transform: translateY(0);
-      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
-      backdrop-filter: blur(12px) saturate(125%);
-      -webkit-backdrop-filter: blur(12px) saturate(125%);
+      transition: opacity 180ms ease, transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+      backdrop-filter: blur(14px) saturate(130%);
+      -webkit-backdrop-filter: blur(14px) saturate(130%);
     }
 
     .music-dock:hover,
     .music-dock:focus-within,
     .music-dock.needs-interaction {
       opacity: 1;
-      transform: translateY(0);
-      background: rgba(11, 24, 49, 0.72);
+      transform: translateY(-2px);
+      border-color: rgba(185, 146, 84, 0.62);
+      box-shadow: 0 22px 54px rgba(10, 18, 38, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
     .music-dock-label {
-      max-width: 0;
-      overflow: hidden;
+      min-width: 54px;
       white-space: nowrap;
-      font-size: 11px;
-      font-weight: 850;
-      letter-spacing: 0.12em;
+      font-family: Georgia, "Times New Roman", "Noto Serif SC", serif;
+      font-size: 13px;
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      opacity: 0;
-      transition: max-width 180ms ease, opacity 180ms ease;
+      color: #7f5d2c;
+      opacity: 0.96;
+      transition: color 180ms ease, opacity 180ms ease;
     }
 
-    .music-dock:hover .music-dock-label,
-    .music-dock:focus-within .music-dock-label,
     .music-dock.needs-interaction .music-dock-label {
-      max-width: 140px;
-      opacity: 0.9;
+      color: #a72d2d;
     }
 
     .music-button {
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(255, 247, 237, 0.36);
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(24, 34, 58, 0.12);
       border-radius: 999px;
       display: inline-grid;
       place-items: center;
-      background: rgba(255, 247, 237, 0.08);
-      color: inherit;
+      background: rgba(255, 255, 255, 0.62);
+      color: #0b1831;
       padding: 0;
+      box-shadow: inset 0 -1px 0 rgba(11, 24, 49, 0.08);
+      transition: background 180ms ease, color 180ms ease, transform 180ms ease, border-color 180ms ease;
     }
 
     .music-button:hover,
     .music-button:focus-visible {
-      background: rgba(255, 247, 237, 0.18);
+      background: #fffaf0;
+      border-color: rgba(185, 146, 84, 0.5);
+      color: #7f5d2c;
       outline: none;
+      transform: translateY(-1px);
     }
 
     .music-button svg {
@@ -2470,7 +2475,7 @@
 
   <audio id="homepageMusic" src="bg.mp3" preload="auto" autoplay loop></audio>
   <div class="music-dock" aria-label="Background music controls">
-    <span class="music-dock-label" id="homepageMusicLabel">BG MUSIC</span>
+    <span class="music-dock-label" id="homepageMusicLabel">MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
     </button>
@@ -2743,7 +2748,7 @@
       const muteIconPath = muteButton?.querySelector("svg path");
 
       musicDock?.classList.toggle("needs-interaction", needsInteraction);
-      if (musicLabel) musicLabel.textContent = needsInteraction ? "CLICK TO PLAY" : "BG MUSIC";
+      if (musicLabel) musicLabel.textContent = needsInteraction ? "PLAY" : "MUSIC";
       musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
       musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
       if (playIconPath) {
