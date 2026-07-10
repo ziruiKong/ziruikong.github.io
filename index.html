@@ -196,44 +196,74 @@
       justify-self: center;
       align-self: start;
       display: inline-flex;
-      align-items: center;
+      align-items: flex-end;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       width: fit-content;
-      max-width: min(760px, 100%);
-      margin: -2px auto 0;
-      padding: 10px;
-      border: 1px solid rgba(255, 247, 237, 0.2);
-      border-radius: 999px;
-      background: rgba(255, 247, 237, 0.16);
-      box-shadow: 0 20px 54px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(16px) saturate(135%);
-      -webkit-backdrop-filter: blur(16px) saturate(135%);
+      max-width: min(780px, 100%);
+      margin: -4px auto 0;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 247, 237, 0.18)),
+        rgba(246, 239, 227, 0.2);
+      box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(24px) saturate(165%);
+      -webkit-backdrop-filter: blur(24px) saturate(165%);
       color: #fff7ed;
       text-shadow: none;
+      isolation: isolate;
     }
 
     .top-floating-dock-link {
+      --dock-scale: 1;
+      --dock-y: 0px;
       position: relative;
       width: 46px;
       height: 46px;
       display: inline-grid;
       place-items: center;
-      border-radius: 999px;
-      color: #fff7ed;
-      background: rgba(255, 247, 237, 0.12);
-      border: 1px solid rgba(255, 247, 237, 0.14);
+      border-radius: 16px;
+      color: #f8fafc;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.34), transparent 42%),
+        rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       text-decoration: none;
-      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+      box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      transform: translateY(var(--dock-y)) scale(var(--dock-scale));
+      transform-origin: 50% 100%;
+      transition: transform 120ms ease-out, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
+      will-change: transform;
+    }
+
+    .top-floating-dock-link::after {
+      content: "";
+      position: absolute;
+      inset: auto 9px 5px;
+      height: 1px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.26);
+      opacity: 0.7;
     }
 
     .top-floating-dock-link:hover,
     .top-floating-dock-link:focus-visible {
-      transform: translateY(-7px) scale(1.12);
-      background: rgba(255, 247, 237, 0.92);
-      border-color: rgba(255, 247, 237, 0.7);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.78), transparent 44%),
+        rgba(255, 250, 240, 0.94);
+      border-color: rgba(255, 255, 255, 0.78);
       color: #0b1831;
       outline: none;
+      box-shadow:
+        0 18px 38px rgba(0, 0, 0, 0.26),
+        inset 0 1px 0 rgba(255, 255, 255, 0.86);
     }
 
     .top-floating-dock-link svg,
@@ -241,6 +271,7 @@
       width: 22px;
       height: 22px;
       display: block;
+      pointer-events: none;
     }
 
     .top-floating-dock-logo {
@@ -250,25 +281,35 @@
     .top-floating-dock-title {
       position: absolute;
       left: 50%;
-      bottom: calc(100% + 10px);
-      transform: translate(-50%, 6px);
+      top: calc(100% + 12px);
+      transform: translate(-50%, -4px) scale(0.96);
       padding: 6px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
       border-radius: 999px;
-      background: rgba(11, 24, 49, 0.92);
+      background: rgba(11, 24, 49, 0.88);
       color: #fff7ed;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.22);
       font-size: 12px;
       font-weight: 760;
       letter-spacing: 0.01em;
       white-space: nowrap;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 160ms ease, transform 160ms ease;
+      transition: opacity 140ms ease, transform 140ms ease;
     }
 
     .top-floating-dock-link:hover .top-floating-dock-title,
     .top-floating-dock-link:focus-visible .top-floating-dock-title {
       opacity: 1;
-      transform: translate(-50%, 0);
+      transform: translate(-50%, 0) scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .top-floating-dock-link {
+        --dock-scale: 1 !important;
+        --dock-y: 0px !important;
+        transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+      }
     }
 
     .site-header.scrolled .discover-panel,
@@ -2913,6 +2954,40 @@
     }
 
 
+    function initTopFloatingDock() {
+      const dock = $(".top-floating-dock");
+      if (!dock || window.matchMedia("(pointer: coarse)").matches) return;
+      const dockItems = Array.from(dock.querySelectorAll(".top-floating-dock-link"));
+      const maxDistance = 130;
+
+      const resetDock = () => {
+        dockItems.forEach((item) => {
+          item.style.setProperty("--dock-scale", "1");
+          item.style.setProperty("--dock-y", "0px");
+        });
+      };
+
+      const magnifyDock = (clientX) => {
+        dockItems.forEach((item) => {
+          const rect = item.getBoundingClientRect();
+          const center = rect.left + rect.width / 2;
+          const distance = Math.min(Math.abs(clientX - center), maxDistance);
+          const strength = 1 - distance / maxDistance;
+          const scale = 1 + strength * 0.62;
+          const lift = -strength * 12;
+          item.style.setProperty("--dock-scale", scale.toFixed(3));
+          item.style.setProperty("--dock-y", `${lift.toFixed(2)}px`);
+        });
+      };
+
+      dock.addEventListener("mousemove", (event) => magnifyDock(event.clientX), { passive: true });
+      dock.addEventListener("mouseleave", resetDock, { passive: true });
+      dock.addEventListener("focusout", resetDock);
+      dockItems.forEach((item) => {
+        item.addEventListener("focus", () => magnifyDock(item.getBoundingClientRect().left + item.offsetWidth / 2));
+      });
+    }
+
     function initLiquidCursor() {
       if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const cursor = document.createElement("span");
@@ -2972,6 +3047,7 @@
       bindEvents();
       updateMusicButton();
       initArchiveMusicAutoplay();
+      initTopFloatingDock();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
