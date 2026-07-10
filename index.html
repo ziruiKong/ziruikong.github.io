@@ -1965,7 +1965,7 @@
       position: fixed;
       left: 18px;
       bottom: 18px;
-      z-index: 70;
+      z-index: 120;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -1975,15 +1975,16 @@
       background: rgba(11, 24, 49, 0.42);
       color: #fff7ed;
       box-shadow: 0 18px 42px rgba(10, 18, 38, 0.22);
-      opacity: 0.16;
-      transform: translateY(6px);
+      opacity: 0.92;
+      transform: translateY(0);
       transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
       backdrop-filter: blur(12px) saturate(125%);
       -webkit-backdrop-filter: blur(12px) saturate(125%);
     }
 
     .music-dock:hover,
-    .music-dock:focus-within {
+    .music-dock:focus-within,
+    .music-dock.needs-interaction {
       opacity: 1;
       transform: translateY(0);
       background: rgba(11, 24, 49, 0.72);
@@ -2002,7 +2003,8 @@
     }
 
     .music-dock:hover .music-dock-label,
-    .music-dock:focus-within .music-dock-label {
+    .music-dock:focus-within .music-dock-label,
+    .music-dock.needs-interaction .music-dock-label {
       max-width: 140px;
       opacity: 0.9;
     }
@@ -2468,7 +2470,7 @@
 
   <audio id="homepageMusic" src="bg.mp3" preload="auto" autoplay loop></audio>
   <div class="music-dock" aria-label="Background music controls">
-    <span class="music-dock-label">BG MUSIC</span>
+    <span class="music-dock-label" id="homepageMusicLabel">BG MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
     </button>
@@ -2731,12 +2733,17 @@
       const audio = getHomepageMusic();
       const musicButton = $("#homepageMusicButton");
       const muteButton = $("#homepageMusicMuteButton");
+      const musicDock = $(".music-dock");
+      const musicLabel = $("#homepageMusicLabel");
       if (!audio || !musicButton) return;
 
       const isPlaying = !audio.paused && !audio.ended;
+      const needsInteraction = !isPlaying && audio.dataset.autoplayBlocked === "true";
       const playIconPath = musicButton.querySelector("svg path");
       const muteIconPath = muteButton?.querySelector("svg path");
 
+      musicDock?.classList.toggle("needs-interaction", needsInteraction);
+      if (musicLabel) musicLabel.textContent = needsInteraction ? "CLICK TO PLAY" : "BG MUSIC";
       musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
       musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
       if (playIconPath) {
@@ -2762,10 +2769,12 @@
       try {
         await audio.play();
       } catch (error) {
+        audio.dataset.autoplayBlocked = "true";
         updateMusicButton();
         return false;
       }
 
+      audio.dataset.autoplayBlocked = "false";
       updateMusicButton();
       return true;
     }
@@ -2800,35 +2809,31 @@
       const audio = getHomepageMusic();
       if (!audio) return;
 
-      let unlocked = false;
-      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
-
+      const unlockEvents = ["pointerdown", "keydown", "touchstart"];
       const removeUnlockListeners = () => {
         unlockEvents.forEach((eventName) => {
-          document.removeEventListener(eventName, unlockAutoplay, true);
-          window.removeEventListener(eventName, unlockAutoplay, true);
+          document.removeEventListener(eventName, unlockOnFirstInteraction, true);
         });
       };
-
-      const unlockAutoplay = async () => {
+      const unlockOnFirstInteraction = async (event) => {
+        if (event.target?.closest?.(".music-dock")) return;
         const started = await startArchiveMusic();
-        if (started) {
-          unlocked = true;
-          removeUnlockListeners();
-        }
+        if (started) removeUnlockListeners();
       };
 
+      audio.volume = 0.42;
       audio.addEventListener("play", updateMusicButton);
       audio.addEventListener("pause", updateMusicButton);
+      audio.addEventListener("ended", updateMusicButton);
       audio.addEventListener("volumechange", updateMusicButton);
-      unlockAutoplay();
-      window.setTimeout(() => {
-        if (unlocked || !audio.paused) return;
+      audio.addEventListener("loadedmetadata", updateMusicButton);
+      startArchiveMusic().then((started) => {
+        if (started) return;
         unlockEvents.forEach((eventName) => {
-          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
-          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+          document.addEventListener(eventName, unlockOnFirstInteraction, { capture: true, passive: true });
         });
-      }, 0);
+      });
+      updateMusicButton();
     }
 
     function openBookingPanel() {
