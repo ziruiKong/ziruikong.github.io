@@ -277,6 +277,11 @@
       height: calc(var(--dock-icon-size) * 1.35);
     }
 
+    .top-floating-dock-link--file .top-floating-dock-file-icon--settings {
+      width: var(--dock-icon-size);
+      height: var(--dock-icon-size);
+    }
+
     .top-floating-dock-logo-mark {
       display: inline-grid;
       place-items: center;
@@ -2570,7 +2575,7 @@
           <span class="top-floating-dock-title">Home</span>
         </a>
         <a class="top-floating-dock-link top-floating-dock-link--file" href="cookie-preferences.html" aria-label="Settings">
-          <img class="top-floating-dock-file-icon" src="assets/set.png" alt="" aria-hidden="true">
+          <img class="top-floating-dock-file-icon top-floating-dock-file-icon--settings" src="assets/set.png" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Settings</span>
         </a>
         <a class="top-floating-dock-link top-floating-dock-link--file" href="paper-library.html" aria-label="Paper">
