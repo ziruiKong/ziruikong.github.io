@@ -1,0 +1,25 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="128" y1="24" x2="128" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFC447"/>
+      <stop offset="0.55" stop-color="#FF931F"/>
+      <stop offset="1" stop-color="#FF6A00"/>
+    </linearGradient>
+    <linearGradient id="house" x1="128" y1="50" x2="128" y2="190" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#FFE8D7"/>
+    </linearGradient>
+    <filter id="shadow" x="19" y="21" width="218" height="218" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#7A2B00" flood-opacity="0.24"/>
+      <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+    <filter id="houseShadow" x="45" y="47" width="166" height="154" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="9" stdDeviation="8" flood-color="#B54500" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect x="27" y="25" width="202" height="204" rx="42" fill="url(#bg)" filter="url(#shadow)"/>
+  <g filter="url(#houseShadow)">
+    <path d="M52 111.5L124 52.5C126.3 50.6 129.7 50.6 132 52.5L204 111.5C207.7 114.5 205.6 120.5 200.8 120.5H184V164C184 176.2 176.2 184 164 184H92C79.8 184 72 176.2 72 164V120.5H55.2C50.4 120.5 48.3 114.5 52 111.5Z" fill="url(#house)"/>
+    <path d="M170 71C170 68.2 172.2 66 175 66H188C190.8 66 193 68.2 193 71V105L170 86.2V71Z" fill="#FFF7F0"/>
+  </g>
+</svg>
