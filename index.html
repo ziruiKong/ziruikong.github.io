@@ -1961,6 +1961,78 @@
 
 
 
+    .music-dock {
+      position: fixed;
+      left: 18px;
+      bottom: 18px;
+      z-index: 70;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid rgba(255, 247, 237, 0.3);
+      border-radius: 999px;
+      background: rgba(11, 24, 49, 0.42);
+      color: #fff7ed;
+      box-shadow: 0 18px 42px rgba(10, 18, 38, 0.22);
+      opacity: 0.16;
+      transform: translateY(6px);
+      transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
+      backdrop-filter: blur(12px) saturate(125%);
+      -webkit-backdrop-filter: blur(12px) saturate(125%);
+    }
+
+    .music-dock:hover,
+    .music-dock:focus-within {
+      opacity: 1;
+      transform: translateY(0);
+      background: rgba(11, 24, 49, 0.72);
+    }
+
+    .music-dock-label {
+      max-width: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: max-width 180ms ease, opacity 180ms ease;
+    }
+
+    .music-dock:hover .music-dock-label,
+    .music-dock:focus-within .music-dock-label {
+      max-width: 140px;
+      opacity: 0.9;
+    }
+
+    .music-button {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(255, 247, 237, 0.36);
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: rgba(255, 247, 237, 0.08);
+      color: inherit;
+      padding: 0;
+    }
+
+    .music-button:hover,
+    .music-button:focus-visible {
+      background: rgba(255, 247, 237, 0.18);
+      outline: none;
+    }
+
+    .music-button svg {
+      width: 18px;
+      height: 18px;
+      display: block;
+      fill: currentColor;
+    }
+
+
 
 
     .floating-nav {
@@ -2394,6 +2466,17 @@
     </div>
   </nav>
 
+  <audio id="homepageMusic" src="bg.mp3" preload="auto" autoplay loop></audio>
+  <div class="music-dock" aria-label="Background music controls">
+    <span class="music-dock-label">BG MUSIC</span>
+    <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6l10 6-10 6V6Z"></path></svg>
+    </button>
+    <button class="music-button" id="homepageMusicMuteButton" type="button" aria-label="Mute background music" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Zm12.5 3a3.5 3.5 0 0 0-2-3.16v6.32a3.5 3.5 0 0 0 2-3.16Z"></path></svg>
+    </button>
+  </div>
+
   <section class="splash" id="home" aria-label="K.I.D. cover">
     <aside class="quick-panel" aria-label="Quick links">
       <h2>Explore the personal development collection.</h2>
@@ -2527,13 +2610,6 @@
     let inquiryPreviewFrame = null;
     let inquirySwitchTimer = null;
     let inquiryRequestId = 0;
-    let archiveAudioContext = null;
-    let archiveMasterGain = null;
-    let archivePulseGain = null;
-    let archiveOscillators = [];
-    let archiveLfo = null;
-    let archiveLfoGain = null;
-    let archiveMusicPlaying = false;
 
 
     const mobileNavToggle = document.getElementById("mobileNavToggle");
@@ -2647,97 +2723,112 @@
       }, { once: true });
     }
 
-    async function setupArchiveMusic() {
-      if (archiveAudioContext) return archiveAudioContext;
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return null;
-
-      archiveAudioContext = new AudioCtx();
-      archiveMasterGain = archiveAudioContext.createGain();
-      archiveMasterGain.gain.value = 0;
-
-      const filter = archiveAudioContext.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.value = 620;
-      filter.Q.value = 0.45;
-
-      archivePulseGain = archiveAudioContext.createGain();
-      archivePulseGain.gain.value = 0.018;
-
-      archiveLfo = archiveAudioContext.createOscillator();
-      archiveLfo.type = "sine";
-      archiveLfo.frequency.value = 0.09;
-      archiveLfoGain = archiveAudioContext.createGain();
-      archiveLfoGain.gain.value = 6;
-
-      const voices = [
-        { type: "sine", frequency: 174.61, detune: -6, gain: 0.05 },
-        { type: "triangle", frequency: 220, detune: 4, gain: 0.036 },
-        { type: "sine", frequency: 261.63, detune: 1.5, gain: 0.018 }
-      ];
-
-      archiveOscillators = voices.map((voice) => {
-        const oscillator = archiveAudioContext.createOscillator();
-        const gainNode = archiveAudioContext.createGain();
-        oscillator.type = voice.type;
-        oscillator.frequency.value = voice.frequency;
-        oscillator.detune.value = voice.detune;
-        gainNode.gain.value = voice.gain;
-        oscillator.connect(gainNode);
-        gainNode.connect(filter);
-        oscillator.start();
-        return oscillator;
-      });
-
-      const pulseOsc = archiveAudioContext.createOscillator();
-      pulseOsc.type = "triangle";
-      pulseOsc.frequency.value = 329.63;
-      pulseOsc.connect(archivePulseGain);
-      archivePulseGain.connect(filter);
-      pulseOsc.start();
-      archiveOscillators.push(pulseOsc);
-
-      archiveLfo.connect(archiveLfoGain);
-      archiveLfoGain.connect(filter.frequency);
-      archiveLfo.start();
-
-      filter.connect(archiveMasterGain);
-      archiveMasterGain.connect(archiveAudioContext.destination);
-      return archiveAudioContext;
+    function getHomepageMusic() {
+      return $("#homepageMusic");
     }
 
     function updateMusicButton() {
-      const musicButton = $("#inquiryMusicButton");
-      if (!musicButton) return;
-      const iconPath = musicButton.querySelector("svg path");
+      const audio = getHomepageMusic();
+      const musicButton = $("#homepageMusicButton");
+      const muteButton = $("#homepageMusicMuteButton");
+      if (!audio || !musicButton) return;
 
-      musicButton.setAttribute("aria-pressed", archiveMusicPlaying ? "true" : "false");
-      musicButton.setAttribute("aria-label", archiveMusicPlaying ? "Pause archive music" : "Play archive music");
-      if (iconPath) {
-        iconPath.setAttribute("d", archiveMusicPlaying ? "M8 6h3v12H8zM13 6h3v12h-3z" : "M8 6l10 6-10 6V6Z");
+      const isPlaying = !audio.paused && !audio.ended;
+      const playIconPath = musicButton.querySelector("svg path");
+      const muteIconPath = muteButton?.querySelector("svg path");
+
+      musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
+      musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
+      if (playIconPath) {
+        playIconPath.setAttribute("d", isPlaying ? "M8 6h3v12H8zM13 6h3v12h-3z" : "M8 6l10 6-10 6V6Z");
+      }
+
+      if (muteButton) {
+        muteButton.setAttribute("aria-pressed", audio.muted ? "true" : "false");
+        muteButton.setAttribute("aria-label", audio.muted ? "Unmute background music" : "Mute background music");
+      }
+      if (muteIconPath) {
+        muteIconPath.setAttribute("d", audio.muted
+          ? "M4 9v6h4l5 4V5L8 9H4Zm12.5 3 2.5 2.5 1.4-1.4L17.9 10.6l2.5-2.5L19 6.7l-2.5 2.5L14 6.7l-1.4 1.4 2.5 2.5-2.5 2.5L14 14.5l2.5-2.5Z"
+          : "M4 9v6h4l5 4V5L8 9H4Zm12.5 3a3.5 3.5 0 0 0-2-3.16v6.32a3.5 3.5 0 0 0 2-3.16Z");
       }
     }
 
-    async function toggleArchiveMusic() {
-      const context = await setupArchiveMusic();
-      if (!context || !archiveMasterGain) return;
+    async function startArchiveMusic() {
+      const audio = getHomepageMusic();
+      if (!audio) return false;
 
-      if (context.state === "suspended") {
-        await context.resume();
-      }
-
-      const now = context.currentTime;
-      archiveMasterGain.gain.cancelScheduledValues(now);
-
-      if (archiveMusicPlaying) {
-        archiveMasterGain.gain.setTargetAtTime(0, now, 0.18);
-        archiveMusicPlaying = false;
-      } else {
-        archiveMasterGain.gain.setTargetAtTime(0.085, now, 0.4);
-        archiveMusicPlaying = true;
+      audio.volume = 0.42;
+      try {
+        await audio.play();
+      } catch (error) {
+        updateMusicButton();
+        return false;
       }
 
       updateMusicButton();
+      return true;
+    }
+
+    function pauseArchiveMusic() {
+      const audio = getHomepageMusic();
+      if (!audio) return;
+      audio.pause();
+      updateMusicButton();
+    }
+
+    async function toggleArchiveMusic() {
+      const audio = getHomepageMusic();
+      if (!audio) return;
+
+      if (!audio.paused && !audio.ended) {
+        pauseArchiveMusic();
+        return;
+      }
+
+      await startArchiveMusic();
+    }
+
+    function toggleArchiveMusicMute() {
+      const audio = getHomepageMusic();
+      if (!audio) return;
+      audio.muted = !audio.muted;
+      updateMusicButton();
+    }
+
+    function initArchiveMusicAutoplay() {
+      const audio = getHomepageMusic();
+      if (!audio) return;
+
+      let unlocked = false;
+      const unlockEvents = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
+
+      const removeUnlockListeners = () => {
+        unlockEvents.forEach((eventName) => {
+          document.removeEventListener(eventName, unlockAutoplay, true);
+          window.removeEventListener(eventName, unlockAutoplay, true);
+        });
+      };
+
+      const unlockAutoplay = async () => {
+        const started = await startArchiveMusic();
+        if (started) {
+          unlocked = true;
+          removeUnlockListeners();
+        }
+      };
+
+      audio.addEventListener("play", updateMusicButton);
+      audio.addEventListener("pause", updateMusicButton);
+      audio.addEventListener("volumechange", updateMusicButton);
+      unlockAutoplay();
+      window.setTimeout(() => {
+        if (unlocked || !audio.paused) return;
+        unlockEvents.forEach((eventName) => {
+          document.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+          window.addEventListener(eventName, unlockAutoplay, { capture: true, once: false, passive: true });
+        });
+      }, 0);
     }
 
     function openBookingPanel() {
@@ -2763,6 +2854,11 @@
 
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
+      const musicButton = $("#homepageMusicButton");
+      const muteButton = $("#homepageMusicMuteButton");
+
+      if (musicButton) musicButton.addEventListener("click", toggleArchiveMusic);
+      if (muteButton) muteButton.addEventListener("click", toggleArchiveMusicMute);
       if (bookingForm) {
         bookingForm.addEventListener("submit", (event) => {
           event.preventDefault();
@@ -2858,6 +2954,7 @@
       initInquiry();
       bindEvents();
       updateMusicButton();
+      initArchiveMusicAutoplay();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
