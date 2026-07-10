@@ -198,63 +198,65 @@
       bottom: 26px;
       z-index: 90;
       transform: translateX(-50%);
-      display: inline-flex;
-      align-items: center;
+      display: flex;
+      height: 64px;
+      align-items: flex-end;
       justify-content: center;
-      gap: clamp(14px, 2.7vw, 40px);
-      width: min(760px, calc(100vw - 40px));
-      padding: 22px clamp(24px, 4vw, 42px);
+      gap: 16px;
+      width: fit-content;
+      max-width: calc(100vw - 40px);
+      padding: 0 16px 12px;
       border: 0;
-      border-radius: 42px;
-      background: rgba(248, 249, 251, 0.94);
-      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.08);
-      color: #747474;
+      border-radius: 16px;
+      background: rgba(249, 250, 251, 0.96);
+      box-shadow: 0 18px 46px rgba(15, 23, 42, 0.1);
+      color: #737373;
       text-shadow: none;
     }
 
     .top-floating-dock-link {
+      --dock-size: 40px;
+      --dock-icon-size: 20px;
       position: relative;
-      width: 62px;
-      height: 62px;
+      width: var(--dock-size);
+      height: var(--dock-size);
       display: inline-grid;
       place-items: center;
       flex: 0 0 auto;
       border-radius: 999px;
-      color: #747474;
+      color: #737373;
       background: #e5e7eb;
       border: 0;
       text-decoration: none;
       box-shadow: none;
-      transform: translateY(0) scale(1);
-      transition: transform 160ms ease, background 160ms ease, color 160ms ease;
+      transform: translateY(0);
+      transition: background 160ms ease, color 160ms ease;
+      will-change: width, height;
     }
 
     .top-floating-dock-link:hover,
     .top-floating-dock-link:focus-visible {
-      transform: translateY(-2px) scale(1.03);
-      background: #dde1e7;
-      color: #5f5f5f;
+      background: #dfe3e9;
+      color: #525252;
       outline: none;
     }
 
     .top-floating-dock-link svg,
     .top-floating-dock-logo-mark {
-      width: 30px;
-      height: 30px;
+      width: var(--dock-icon-size);
+      height: var(--dock-icon-size);
       display: block;
       pointer-events: none;
     }
 
     .top-floating-dock-logo-mark {
-      width: 32px;
-      height: 32px;
       display: inline-grid;
       place-items: center;
-      border-radius: 8px;
+      border-radius: 7px;
       background: #ffffff;
       color: #050505;
       font-family: Inter, "Segoe UI", Arial, sans-serif;
-      font-size: 24px;
+      font-size: calc(var(--dock-icon-size) * 0.76);
       line-height: 1;
       font-weight: 950;
       letter-spacing: -0.12em;
@@ -263,14 +265,15 @@
     .top-floating-dock-title {
       position: absolute;
       left: 50%;
-      top: calc(100% + 12px);
-      transform: translate(-50%, -4px);
-      padding: 6px 9px;
-      border-radius: 999px;
-      background: rgba(17, 24, 39, 0.9);
-      color: #ffffff;
+      top: -32px;
+      transform: translate(-50%, 10px);
+      padding: 2px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: #f3f4f6;
+      color: #404040;
       font-size: 12px;
-      font-weight: 760;
+      font-weight: 650;
       letter-spacing: 0.01em;
       white-space: nowrap;
       opacity: 0;
@@ -1978,30 +1981,27 @@
 
     .music-dock {
       position: fixed;
-      top: 22px;
-      right: 22px;
+      top: 24px;
+      right: 26px;
       z-index: 120;
       display: inline-flex;
       align-items: center;
       gap: 0;
-      padding: 6px 8px;
+      padding: 0;
       border: 0;
-      border-radius: 999px;
-      background: rgba(246, 239, 227, 0.38);
+      border-radius: 0;
+      background: transparent;
       color: #fff7ed;
       box-shadow: none;
-      opacity: 0.9;
+      opacity: 0.96;
       transform: translateY(0);
-      transition: opacity 180ms ease, background 180ms ease;
-      backdrop-filter: blur(12px) saturate(120%);
-      -webkit-backdrop-filter: blur(12px) saturate(120%);
+      transition: opacity 180ms ease;
     }
 
     .music-dock:hover,
     .music-dock:focus-within,
     .music-dock.needs-interaction {
       opacity: 1;
-      background: rgba(246, 239, 227, 0.58);
     }
 
     .music-dock-label {
@@ -2015,8 +2015,8 @@
     }
 
     .music-button {
-      width: 42px;
-      height: 28px;
+      width: 72px;
+      height: 30px;
       border: 0;
       border-radius: 999px;
       display: inline-grid;
@@ -2037,14 +2037,25 @@
     }
 
     .music-button svg {
-      width: 30px;
-      height: 18px;
+      width: 66px;
+      height: 24px;
       display: block;
       fill: none;
       stroke: currentColor;
-      stroke-width: 2;
+      stroke-width: 2.6;
       stroke-linecap: round;
       stroke-linejoin: round;
+    }
+
+
+    .music-button.is-playing svg path {
+      stroke-dasharray: 22 12;
+      animation: musicWaveFlow 900ms linear infinite;
+    }
+
+    @keyframes musicWaveFlow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -34; }
     }
 
     .floating-nav {
@@ -2187,15 +2198,21 @@
       .brand { min-width: 0; }
       .brand-text { font-size: 16px; }
       .top-floating-dock {
-        bottom: 14px;
+        right: 18px;
+        left: auto;
+        bottom: 18px;
+        transform: none;
+        height: auto;
+        display: grid;
         gap: 10px;
-        width: min(94vw, 520px);
-        padding: 14px 16px;
-        border-radius: 30px;
+        padding: 10px;
+        border-radius: 999px;
       }
-      .top-floating-dock-link { width: 46px; height: 46px; }
-      .top-floating-dock-link svg, .top-floating-dock-logo-mark { width: 24px; height: 24px; }
-      .top-floating-dock-logo-mark { font-size: 19px; border-radius: 7px; }
+      .top-floating-dock-link {
+        --dock-size: 40px !important;
+        --dock-icon-size: 20px !important;
+      }
+      .top-floating-dock-title { display: none; }
   
 
 
@@ -2496,7 +2513,7 @@
   <div class="music-dock" aria-label="Background music controls">
     <span class="music-dock-label" id="homepageMusicLabel">MUSIC</span>
     <button class="music-button" id="homepageMusicButton" type="button" aria-label="Play background music" aria-pressed="false">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12H20"></path></svg>
+      <svg viewBox="0 0 64 24" aria-hidden="true"><path d="M4 12H60"></path></svg>
     </button>
   </div>
 
@@ -2767,8 +2784,9 @@
       if (musicLabel) musicLabel.textContent = needsInteraction ? "PLAY" : "MUSIC";
       musicButton.setAttribute("aria-pressed", isPlaying ? "true" : "false");
       musicButton.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
+      musicButton.classList.toggle("is-playing", isPlaying);
       if (playIconPath) {
-        playIconPath.setAttribute("d", isPlaying ? "M3 12C5.5 6 8.5 18 11 12S16.5 6 21 12" : "M4 12H20");
+        playIconPath.setAttribute("d", isPlaying ? "M2 12C7 2 12 22 17 12S27 2 32 12 42 22 47 12 57 2 62 12" : "M4 12H60");
       }
 
       if (muteButton) {
@@ -2922,6 +2940,42 @@
     }
 
 
+    function initTopFloatingDock() {
+      const dock = $(".top-floating-dock");
+      if (!dock || window.matchMedia("(pointer: coarse)").matches) return;
+      const dockItems = Array.from(dock.querySelectorAll(".top-floating-dock-link"));
+      const maxDistance = 150;
+
+      const setDockItemSize = (item, size, iconSize) => {
+        item.style.setProperty("--dock-size", `${size.toFixed(2)}px`);
+        item.style.setProperty("--dock-icon-size", `${iconSize.toFixed(2)}px`);
+      };
+
+      const resetDock = () => {
+        dockItems.forEach((item) => setDockItemSize(item, 40, 20));
+      };
+
+      const magnifyDock = (clientX) => {
+        dockItems.forEach((item) => {
+          const rect = item.getBoundingClientRect();
+          const center = rect.left + rect.width / 2;
+          const distance = Math.max(-maxDistance, Math.min(clientX - center, maxDistance));
+          const closeness = 1 - Math.abs(distance) / maxDistance;
+          setDockItemSize(item, 40 + closeness * 40, 20 + closeness * 20);
+        });
+      };
+
+      dock.addEventListener("mousemove", (event) => magnifyDock(event.clientX), { passive: true });
+      dock.addEventListener("mouseleave", resetDock, { passive: true });
+      dock.addEventListener("focusout", resetDock);
+      dockItems.forEach((item) => {
+        item.addEventListener("focus", () => {
+          const rect = item.getBoundingClientRect();
+          magnifyDock(rect.left + rect.width / 2);
+        });
+      });
+    }
+
     function initLiquidCursor() {
       if (window.matchMedia("(pointer: coarse)").matches || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const cursor = document.createElement("span");
@@ -2981,6 +3035,7 @@
       bindEvents();
       updateMusicButton();
       initArchiveMusicAutoplay();
+      initTopFloatingDock();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
