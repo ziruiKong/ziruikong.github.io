@@ -2749,18 +2749,18 @@
 
     .image-viewer-body {
       min-height: 0;
-      padding: 18px;
       display: grid;
       place-items: center;
-      background: #111827;
+      background: #fff;
     }
 
     .image-viewer-body img {
       display: block;
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
-      border-radius: 12px;
+      object-position: center center;
+      border-radius: 0;
     }
 
     .image-viewer-resize-handle {
@@ -4265,11 +4265,31 @@
       if (!overlay || !body) return;
       const viewer = $(".image-viewer");
       if (title) title.textContent = file.title;
-      body.innerHTML = `<img src="${file.image}" alt="${file.title}">`;
+      const image = new Image();
+      image.src = file.image;
+      image.alt = file.title;
+      body.replaceChildren(image);
       if (viewer) {
         viewer.style.position = "";
         viewer.style.left = "";
         viewer.style.top = "";
+        viewer.style.width = "";
+        viewer.style.height = "";
+        const fitViewerToImage = () => {
+          const titlebarHeight = 38;
+          const maxWidth = Math.min(1100, window.innerWidth - 64);
+          const maxHeight = Math.min(860, window.innerHeight - 64);
+          const imageWidth = image.naturalWidth || 860;
+          const imageHeight = image.naturalHeight || 620;
+          const imageMaxHeight = Math.max(260, maxHeight - titlebarHeight);
+          const scale = Math.min(maxWidth / imageWidth, imageMaxHeight / imageHeight);
+          const contentWidth = Math.round(imageWidth * scale);
+          const contentHeight = Math.round(imageHeight * scale);
+          viewer.style.width = `${Math.max(360, contentWidth)}px`;
+          viewer.style.height = `${Math.max(300, contentHeight + titlebarHeight)}px`;
+        };
+        if (image.complete) fitViewerToImage();
+        else image.addEventListener("load", fitViewerToImage, { once: true });
       }
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden", "false");
