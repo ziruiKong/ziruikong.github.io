@@ -2134,7 +2134,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .desktop-folder-preview:nth-child(2) { --peek-rotate: -4deg; }
@@ -2502,7 +2502,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
     }
 
     .folder-file[data-file-type="html"] .folder-file-thumb {
@@ -2596,8 +2596,11 @@
     .image-viewer-overlay.open { display: grid; }
 
     .image-viewer {
+      position: relative;
       width: min(860px, calc(100vw - 64px));
-      max-height: calc(100vh - 64px);
+      height: min(620px, calc(100vh - 64px));
+      min-width: min(420px, calc(100vw - 32px));
+      min-height: 320px;
       display: grid;
       grid-template-rows: 38px minmax(0, 1fr);
       overflow: hidden;
@@ -2606,6 +2609,8 @@
       box-shadow: 0 30px 90px rgba(0, 0, 0, 0.32);
     }
 
+    .image-viewer.is-dragging .image-viewer-titlebar { cursor: grabbing; }
+
     .image-viewer-titlebar {
       display: grid;
       grid-template-columns: 76px minmax(0, 1fr);
@@ -2613,6 +2618,9 @@
       gap: 8px;
       padding: 0 14px;
       border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
     }
 
     .image-viewer-close {
@@ -2642,9 +2650,23 @@
     .image-viewer-body img {
       display: block;
       max-width: 100%;
-      max-height: calc(100vh - 150px);
+      max-height: 100%;
       object-fit: contain;
       border-radius: 12px;
+    }
+
+    .image-viewer-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%),
+        linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
     }
 
     .folder-window-resize-handle {
@@ -3606,6 +3628,7 @@
         <span class="image-viewer-title" id="imageViewerTitle">Image</span>
       </div>
       <div class="image-viewer-body" id="imageViewerBody"></div>
+      <div class="image-viewer-resize-handle" id="imageViewerResizeHandle" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -4088,15 +4111,13 @@
       media.innerHTML = "";
       copy.innerHTML = `
         <strong>${file.title}</strong>
-        <span>${fileTypeLabel(file.type)} · Choose how to open this file.</span>
+        <span>Open this HTML file with the default browser?</span>
         <div class="folder-open-actions">
-          <a href="${file.href}">Open in Browser</a>
-          <button type="button" data-folder-preview-html>Preview Info</button>
+          <a href="${file.href}">Confirm Open</a>
+          <button type="button" data-folder-cancel-open>Cancel</button>
         </div>
       `;
-      copy.querySelector("[data-folder-preview-html]")?.addEventListener("click", () => {
-        copy.innerHTML = `<strong>${file.title}</strong><span>${file.description || "HTML file in this folder."}</span>`;
-      });
+      copy.querySelector("[data-folder-cancel-open]")?.addEventListener("click", hideFolderOpenWith);
     }
 
     function hideFolderOpenWith() {
@@ -4109,8 +4130,14 @@
       const title = $("#imageViewerTitle");
       const body = $("#imageViewerBody");
       if (!overlay || !body) return;
+      const viewer = $(".image-viewer");
       if (title) title.textContent = file.title;
       body.innerHTML = `<img src="${file.image}" alt="${file.title}">`;
+      if (viewer) {
+        viewer.style.position = "";
+        viewer.style.left = "";
+        viewer.style.top = "";
+      }
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden", "false");
     }
@@ -4447,6 +4474,79 @@
       });
     }
 
+    function clampImageViewerToViewport(viewer, nextLeft, nextTop, nextWidth = viewer.offsetWidth, nextHeight = viewer.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindImageViewerDrag() {
+      const viewer = $(".image-viewer");
+      const titlebar = $(".image-viewer-titlebar");
+      if (!viewer || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        event.preventDefault();
+        const rect = viewer.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        viewer.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampImageViewerToViewport(viewer, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          viewer.style.position = "fixed";
+          viewer.style.left = `${clamped.left}px`;
+          viewer.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          viewer.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindImageViewerResize() {
+      const viewer = $(".image-viewer");
+      const handle = $("#imageViewerResizeHandle");
+      if (!viewer || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        const rect = viewer.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(420, window.innerWidth - 20);
+          const minHeight = 320;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampImageViewerToViewport(viewer, rect.left, rect.top, nextWidth, nextHeight);
+          viewer.style.position = "fixed";
+          viewer.style.width = `${clamped.width}px`;
+          viewer.style.height = `${clamped.height}px`;
+          viewer.style.left = `${clamped.left}px`;
+          viewer.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
     function bindEvents() {
       const bookingOpenButton = $("#bookingOpenButton");
       const bookingCloseButton = $("#bookingCloseButton");
@@ -4463,6 +4563,8 @@
       const imageViewerClose = $("#imageViewerClose");
 
       if (imageViewerClose) imageViewerClose.addEventListener("click", closeImageViewer);
+      bindImageViewerDrag();
+      bindImageViewerResize();
 
       folderOpenButtons.forEach((button) => {
         button.addEventListener("click", (event) => {
