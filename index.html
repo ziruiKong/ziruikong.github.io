@@ -603,7 +603,8 @@
       transform: translate(-50%, 0);
     }
 
-    .top-floating-dock-link[data-shop-window-open].is-minimized::after {
+    .top-floating-dock-link[data-shop-window-open].is-minimized::after,
+    .top-floating-dock-link[data-settings-window-open].is-minimized::after {
       content: "";
       position: absolute;
       left: 50%;
@@ -617,7 +618,8 @@
       pointer-events: none;
     }
 
-    .top-floating-dock-link[data-shop-window-open].is-minimized .top-floating-dock-file-icon {
+    .top-floating-dock-link[data-shop-window-open].is-minimized .top-floating-dock-file-icon,
+    .top-floating-dock-link[data-settings-window-open].is-minimized .top-floating-dock-file-icon {
       animation: shopDockMinimize 520ms cubic-bezier(.18, .89, .32, 1.28);
       transform-origin: 50% 100%;
     }
@@ -4961,6 +4963,18 @@
       });
     }
 
+    function setSettingsDockMinimized(isMinimized) {
+      document.querySelectorAll("[data-settings-window-open]").forEach((link) => {
+        if (!isMinimized) {
+          link.classList.remove("is-minimized");
+          return;
+        }
+        link.classList.remove("is-minimized");
+        void link.offsetWidth;
+        link.classList.add("is-minimized");
+      });
+    }
+
     function openShopWindow() {
       const overlay = $("#shopWindowOverlay");
       const win = $("#shopWindow");
@@ -5022,6 +5036,7 @@
       overlay.classList.add("open");
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
+      setSettingsDockMinimized(false);
       bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
@@ -5032,6 +5047,7 @@
       if (!overlay) return;
       overlay.classList.remove("open", "minimized", "fullscreen");
       overlay.setAttribute("aria-hidden", "true");
+      setSettingsDockMinimized(false);
       fullscreenButton?.setAttribute("aria-pressed", "false");
       fullscreenButton?.setAttribute("aria-label", "Enter full screen settings window");
     }
@@ -5041,6 +5057,7 @@
       if (!overlay) return;
       overlay.classList.add("minimized");
       overlay.classList.remove("fullscreen");
+      setSettingsDockMinimized(true);
     }
 
     function toggleSettingsWindowFullscreen() {
@@ -5049,6 +5066,7 @@
       if (!overlay) return;
       const isFullscreen = overlay.classList.toggle("fullscreen");
       overlay.classList.remove("minimized");
+      setSettingsDockMinimized(false);
       bringWindowToFront(overlay);
       fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen settings window" : "Enter full screen settings window");
