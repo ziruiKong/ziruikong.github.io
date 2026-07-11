@@ -3346,45 +3346,45 @@
     .settings-window-main {
       min-height: 0;
       display: grid;
-      grid-template-columns: 274px minmax(0, 1fr);
+      grid-template-columns: 360px minmax(0, 1fr);
       background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(246, 243, 237, 0.92));
     }
 
     .settings-sidebar {
       min-width: 0;
-      padding: 26px 18px 22px;
+      padding: 38px 26px 28px;
       border-right: 1px solid rgba(17, 24, 39, 0.08);
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: 22px;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 30px;
       background: rgba(247, 243, 235, 0.74);
     }
 
     .settings-profile { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .settings-profile img { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
-    .settings-profile strong { display: block; font-size: 14px; color: #1f2937; letter-spacing: -0.045em; }
-    .settings-profile span { display: block; margin-top: 3px; font-size: 12px; color: #6b7280; }
+    .settings-profile img { width: 66px; height: 66px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
+    .settings-profile strong { display: block; font-size: 18px; color: #1f2937; letter-spacing: -0.045em; }
+    .settings-profile span { display: block; margin-top: 5px; font-size: 16px; color: #6b7280; }
 
-    .settings-sidebar-list { display: grid; align-content: start; gap: 8px; overflow: auto; }
+    .settings-sidebar-list { display: grid; align-content: start; gap: 16px; overflow: auto; }
     .settings-sidebar-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 18px;
       width: 100%;
       border: 0;
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 16px;
+      padding: 18px 24px;
       background: transparent;
       color: #4b5563;
       text-align: left;
       font: inherit;
-      font-size: 14px;
-      font-weight: 720;
+      font-size: 19px;
+      font-weight: 780;
       letter-spacing: -0.035em;
       cursor: default;
     }
     .settings-sidebar-item.is-active { color: #1f2937; background: rgba(59, 130, 246, 0.14); }
-    .settings-sidebar-icon { width: 22px; text-align: center; font-size: 17px; filter: grayscale(.18); }
+    .settings-sidebar-icon { width: 30px; text-align: center; font-size: 21px; filter: grayscale(.18); }
 
     .settings-quote {
       margin: 0;
@@ -3444,6 +3444,12 @@
     .settings-card p { margin: 0; color: #4b5563; font-size: 13px; line-height: 1.5; font-weight: 600; }
     .settings-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
     .settings-chip { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
+
+    .settings-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .settings-tags span { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
+    .settings-tags--green span { background: rgba(34,197,94,.12); color: #15803d; }
+    .settings-tags--purple span { background: rgba(124,58,237,.12); color: #6d28d9; }
+    .settings-tags--orange span { background: rgba(249,115,22,.12); color: #c2410c; }
 
 
     .settings-sidebar-item { transition: background 180ms ease, color 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
@@ -4290,7 +4296,6 @@
             <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
             <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
           </div>
-          <blockquote class="settings-quote">“Curiosity drives me, and data helps me understand the world.”</blockquote>
         </aside>
         <main class="settings-content">
           <h2>About Me</h2>
@@ -5057,19 +5062,19 @@
         title: "About Me",
         subtitle: "A quick overview of my academic journey and interests.",
         body: `
-          <div class="settings-profile-card">
-            <img class="settings-profile-large" src="profile.jpg" alt="Zirui Kong portrait">
-            <div class="settings-profile-facts">
-              <div><span>👤</span><strong>Name:</strong><p>Zirui Kong / 子睿</p></div>
-              <div><span>🎯</span><strong>Current focus:</strong><p>Economics, research, data, and policy</p></div>
-              <div><span>📍</span><strong>Hometown:</strong><p>Hefei, Anhui, China</p></div>
-              <div><span>🎓</span><strong>Undergraduate:</strong><p>The Ohio State University, Economics</p></div>
-              <div><span>🌐</span><strong>Exchange:</strong><p>Peking University Guanghua School</p></div>
-              <div><span>♡</span><strong>Interests:</strong><p>Public policy, finance, quantitative analysis, design</p></div>
-              <div><span>💼</span><strong>Experience:</strong><p>Internships in banking, data analysis, and research</p></div>
-              <div><span>⚑</span><strong>Goal:</strong><p>Explore economics through research and data-driven thinking</p></div>
+          <section class="settings-about-card" aria-label="About Zirui Kong">
+            <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div class="settings-facts">
+              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
+              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
+              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
+              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
+              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
+              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
+              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
+              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
             </div>
-          </div>
+          </section>
           <div class="settings-bio-card">
             <h3>Short Bio</h3>
             <p>I’m Zirui Kong, an economics student with interests in research, public policy, and data analysis. My academic journey has taken me from Hefei to Columbus and Beijing, and I’m especially interested in using research and data-driven thinking to better understand institutions, society, and real-world decision making.</p>
