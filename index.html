@@ -2534,32 +2534,21 @@
     }
 
     .folder-file-preview-panel {
-      min-height: 116px;
+      min-height: 96px;
       border: 1px solid rgba(17, 24, 39, 0.08);
       border-radius: 18px;
-      padding: 12px;
+      padding: 14px 16px;
       display: grid;
-      grid-template-columns: 132px minmax(0, 1fr);
-      gap: 14px;
-      background: rgba(255, 255, 255, 0.68);
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.10);
     }
 
     .folder-file-preview-panel.is-empty {
       display: none;
     }
 
-    .folder-file-preview-media {
-      overflow: hidden;
-      border-radius: 12px;
-      background: #eef2f7;
-    }
-
-    .folder-file-preview-media img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
+    .folder-file-preview-media { display: none; }
 
     .folder-file-preview-copy {
       min-width: 0;
@@ -2572,6 +2561,90 @@
       display: block;
       margin-bottom: 6px;
       font-size: 15px;
+    }
+
+    .folder-open-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .folder-open-actions a,
+    .folder-open-actions button {
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(250, 246, 236, 0.92);
+      color: #1f2937;
+      font-size: 12px;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .image-viewer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 170;
+      display: none;
+      place-items: center;
+      padding: 32px;
+      background: rgba(8, 13, 24, 0.48);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .image-viewer-overlay.open { display: grid; }
+
+    .image-viewer {
+      width: min(860px, calc(100vw - 64px));
+      max-height: calc(100vh - 64px);
+      display: grid;
+      grid-template-rows: 38px minmax(0, 1fr);
+      overflow: hidden;
+      border-radius: 22px;
+      background: rgba(250, 246, 236, 0.96);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.32);
+    }
+
+    .image-viewer-titlebar {
+      display: grid;
+      grid-template-columns: 76px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+    }
+
+    .image-viewer-close {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      background: #ff453a;
+      padding: 0;
+    }
+
+    .image-viewer-title {
+      justify-self: center;
+      font-size: 13px;
+      font-weight: 760;
+      color: #1f2937;
+    }
+
+    .image-viewer-body {
+      min-height: 0;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      background: #111827;
+    }
+
+    .image-viewer-body img {
+      display: block;
+      max-width: 100%;
+      max-height: calc(100vh - 150px);
+      object-fit: contain;
+      border-radius: 12px;
     }
 
     .folder-window-resize-handle {
@@ -3507,7 +3580,7 @@
           <button class="folder-window-dot folder-window-dot--minimize" id="folderWindowMinimize" type="button" aria-label="Minimize folder window"></button>
           <button class="folder-window-dot folder-window-dot--fullscreen" id="folderWindowFullscreen" type="button" aria-label="Enter full screen folder window" aria-pressed="false"></button>
         </div>
-        <span class="folder-window-title" id="folderWindowTitle">Folder</span>
+        <span class="folder-window-title" id="folderWindowTitle" aria-hidden="true"></span>
         <span class="folder-window-count" id="folderWindowCount">0 items</span>
       </div>
       <div class="folder-window-body">
@@ -3523,6 +3596,16 @@
         </div>
       </div>
       <div class="folder-window-resize-handle" id="folderWindowResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="image-viewer-overlay" id="imageViewerOverlay" aria-hidden="true" aria-label="Image viewer">
+    <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <div class="image-viewer-titlebar">
+        <button class="image-viewer-close" id="imageViewerClose" type="button" aria-label="Close image viewer"></button>
+        <span class="image-viewer-title" id="imageViewerTitle">Image</span>
+      </div>
+      <div class="image-viewer-body" id="imageViewerBody"></div>
     </div>
   </section>
 
@@ -3996,18 +4079,47 @@
       return ({ image: "Image", doc: "Document", pdf: "PDF", sheet: "Spreadsheet", ppt: "Slides", html: "HTML" })[type] || "File";
     }
 
-    function openFolderFilePreview(file) {
-      if (file.type === "html" && file.href) {
-        window.location.href = file.href;
-        return;
-      }
+    function showFolderOpenWith(file) {
       const panel = $("#folderFilePreviewPanel");
       const media = $("#folderFilePreviewMedia");
       const copy = $("#folderFilePreviewCopy");
       if (!panel || !media || !copy) return;
       panel.classList.remove("is-empty");
-      media.innerHTML = `<img src="${file.image}" alt="">`;
-      copy.innerHTML = `<strong>${file.title}</strong><span>${fileTypeLabel(file.type)} · ${file.description || "Preview available in this folder."}</span>`;
+      media.innerHTML = "";
+      copy.innerHTML = `
+        <strong>${file.title}</strong>
+        <span>${fileTypeLabel(file.type)} · Choose how to open this file.</span>
+        <div class="folder-open-actions">
+          <a href="${file.href}">Open in Browser</a>
+          <button type="button" data-folder-preview-html>Preview Info</button>
+        </div>
+      `;
+      copy.querySelector("[data-folder-preview-html]")?.addEventListener("click", () => {
+        copy.innerHTML = `<strong>${file.title}</strong><span>${file.description || "HTML file in this folder."}</span>`;
+      });
+    }
+
+    function hideFolderOpenWith() {
+      const panel = $("#folderFilePreviewPanel");
+      if (panel) panel.classList.add("is-empty");
+    }
+
+    function openImageViewer(file) {
+      const overlay = $("#imageViewerOverlay");
+      const title = $("#imageViewerTitle");
+      const body = $("#imageViewerBody");
+      if (!overlay || !body) return;
+      if (title) title.textContent = file.title;
+      body.innerHTML = `<img src="${file.image}" alt="${file.title}">`;
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closeImageViewer() {
+      const overlay = $("#imageViewerOverlay");
+      if (!overlay) return;
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
     }
 
     function renderFolderSidebar(activeKey) {
@@ -4038,7 +4150,7 @@
       const previewPanel = $("#folderFilePreviewPanel");
       if (!folder || !grid) return;
       renderFolderSidebar(key);
-      if (title) title.textContent = folder.title;
+      if (title) title.textContent = "";
       if (count) count.textContent = `${folder.files.length} items`;
       if (previewPanel) previewPanel.classList.add("is-empty");
       grid.innerHTML = "";
@@ -4054,12 +4166,16 @@
           <span class="folder-file-title">${file.title}</span>
         `;
         node.addEventListener("click", (event) => {
-          if (file.type !== "html") {
-            event.preventDefault();
-            grid.querySelectorAll(".folder-file.selected").forEach((item) => item.classList.remove("selected"));
-            node.classList.add("selected");
-          }
-          openFolderFilePreview(file);
+          event.preventDefault();
+          grid.querySelectorAll(".folder-file.selected").forEach((item) => item.classList.remove("selected"));
+          node.classList.add("selected");
+          if (file.type === "html") showFolderOpenWith(file);
+          else hideFolderOpenWith();
+        });
+        node.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          if (file.type === "image") openImageViewer(file);
+          else if (file.type === "html") showFolderOpenWith(file);
         });
         grid.appendChild(node);
       });
@@ -4344,6 +4460,9 @@
       const folderCloseButton = $("#folderWindowClose");
       const folderMinimizeButton = $("#folderWindowMinimize");
       const folderFullscreenButton = $("#folderWindowFullscreen");
+      const imageViewerClose = $("#imageViewerClose");
+
+      if (imageViewerClose) imageViewerClose.addEventListener("click", closeImageViewer);
 
       folderOpenButtons.forEach((button) => {
         button.addEventListener("click", (event) => {
@@ -4422,6 +4541,7 @@
           closeBookingPanel();
           closeShopWindow();
           closeFolderWindow();
+          closeImageViewer();
         }
       });
     }
