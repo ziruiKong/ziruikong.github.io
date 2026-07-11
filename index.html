@@ -3261,6 +3261,211 @@
 
 
 
+
+    .settings-window-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 165;
+      display: none;
+      pointer-events: none;
+    }
+
+    .settings-window-overlay.open { display: block; }
+
+    .settings-window {
+      position: absolute;
+      top: clamp(46px, 6vh, 78px);
+      left: clamp(38px, 7vw, 112px);
+      width: min(1060px, calc(100vw - 72px));
+      height: min(720px, calc(100vh - 112px));
+      min-width: min(560px, calc(100vw - 28px));
+      min-height: 430px;
+      display: grid;
+      grid-template-rows: 40px minmax(0, 1fr);
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      border-radius: 24px;
+      background: rgba(249, 247, 242, 0.96);
+      box-shadow: 0 30px 90px rgba(13, 32, 64, 0.26), 0 10px 28px rgba(13, 32, 64, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .settings-window-overlay.fullscreen .settings-window {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+    }
+
+    .settings-window-overlay.minimized .settings-window { display: none; }
+
+    .settings-window-titlebar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr) 96px;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(250, 247, 241, 0.92);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .settings-window.is-dragging .settings-window-titlebar { cursor: grabbing; }
+
+    .settings-window-controls { display: flex; align-items: center; gap: 9px; z-index: 2; }
+
+    .settings-window-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+      cursor: pointer;
+    }
+
+    .settings-window-dot--close { background: #ff5f57; }
+    .settings-window-dot--minimize { background: #ffbd2e; }
+    .settings-window-dot--fullscreen { background: #28c840; }
+
+    .settings-window-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 15px;
+      font-weight: 820;
+      letter-spacing: -0.04em;
+      color: #1f2937;
+    }
+
+    .settings-window-main {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 274px minmax(0, 1fr);
+      background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(246, 243, 237, 0.92));
+    }
+
+    .settings-sidebar {
+      min-width: 0;
+      padding: 26px 18px 22px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 22px;
+      background: rgba(247, 243, 235, 0.74);
+    }
+
+    .settings-profile { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .settings-profile img { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
+    .settings-profile strong { display: block; font-size: 14px; color: #1f2937; letter-spacing: -0.045em; }
+    .settings-profile span { display: block; margin-top: 3px; font-size: 12px; color: #6b7280; }
+
+    .settings-sidebar-list { display: grid; align-content: start; gap: 8px; overflow: auto; }
+    .settings-sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: transparent;
+      color: #4b5563;
+      text-align: left;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 720;
+      letter-spacing: -0.035em;
+      cursor: default;
+    }
+    .settings-sidebar-item.is-active { color: #1f2937; background: rgba(59, 130, 246, 0.14); }
+    .settings-sidebar-icon { width: 22px; text-align: center; font-size: 17px; filter: grayscale(.18); }
+
+    .settings-quote {
+      margin: 0;
+      border-radius: 18px;
+      padding: 22px 20px;
+      color: rgba(75, 85, 99, 0.74);
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+      font: 600 13px/1.55 Inter, sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .settings-content {
+      min-width: 0;
+      min-height: 0;
+      padding: 26px 28px;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .settings-content h2 { margin: 0; color: #1f2937; font-size: 25px; line-height: 1.05; letter-spacing: -0.06em; }
+    .settings-content > p { margin: -8px 0 0; color: #6b7280; font-size: 14px; font-weight: 650; }
+
+    .settings-about-card {
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      gap: 26px;
+      align-items: center;
+      border: 1px solid rgba(17,24,39,.09);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255,255,255,.68);
+      box-shadow: 0 12px 32px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
+    .settings-about-photo { width: 150px; height: 150px; border-radius: 999px; object-fit: cover; justify-self: center; background: #e5e7eb; }
+    .settings-facts { display: grid; gap: 10px; }
+    .settings-fact { display: grid; grid-template-columns: 30px 132px minmax(0,1fr); align-items: center; gap: 10px; color: #374151; font-size: 13px; }
+    .settings-fact span:first-child { text-align: center; font-size: 16px; opacity: .82; }
+    .settings-fact b { color: #1f2937; font-weight: 820; }
+
+    .settings-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .settings-card {
+      min-height: 138px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,.62);
+      box-shadow: 0 10px 26px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.8);
+      display: grid;
+      gap: 10px;
+    }
+    .settings-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #1f2937; font-size: 15px; font-weight: 820; letter-spacing: -0.045em; }
+    .settings-card-icon { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: rgba(59,130,246,.14); font-size: 20px; }
+    .settings-card p { margin: 0; color: #4b5563; font-size: 13px; line-height: 1.5; font-weight: 600; }
+    .settings-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .settings-chip { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
+
+    .settings-window-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%), linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
+    }
+
+    .settings-window-overlay.fullscreen .settings-window-resize-handle,
+    .settings-window-overlay.minimized .settings-window-resize-handle { display: none; }
+
+    @media (max-width: 760px) {
+      .settings-window { left: 10px; right: auto; width: calc(100vw - 20px); height: calc(100vh - 128px); min-width: 0; }
+      .settings-window-main { grid-template-columns: 1fr; }
+      .settings-sidebar { display: none; }
+      .settings-about-card { grid-template-columns: 1fr; }
+      .settings-card-grid { grid-template-columns: 1fr; }
+    }
+
     .music-dock {
       position: fixed;
       top: 78px;
@@ -3874,7 +4079,7 @@
           <img class="top-floating-dock-file-icon" src="assets/dock-home-app.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Home</span>
         </a>
-        <a class="top-floating-dock-link top-floating-dock-link--file" href="cookie-preferences.html" aria-label="Settings">
+        <a class="top-floating-dock-link top-floating-dock-link--file" href="cookie-preferences.html" aria-label="Settings" data-settings-window-open>
           <img class="top-floating-dock-file-icon top-floating-dock-file-icon--settings" src="assets/set.png" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Settings</span>
         </a>
@@ -4029,6 +4234,64 @@
       </div>
       <div class="image-viewer-body" id="imageViewerBody"></div>
       <div class="image-viewer-resize-handle" id="imageViewerResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
+
+  <section class="settings-window-overlay" id="settingsWindowOverlay" aria-hidden="true" aria-label="Settings window">
+    <div class="settings-window" id="settingsWindow" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1">
+      <div class="settings-window-titlebar">
+        <div class="settings-window-controls" aria-label="Settings window controls">
+          <button class="settings-window-dot settings-window-dot--close" id="settingsWindowClose" type="button" aria-label="Close settings window"></button>
+          <button class="settings-window-dot settings-window-dot--minimize" id="settingsWindowMinimize" type="button" aria-label="Minimize settings window"></button>
+          <button class="settings-window-dot settings-window-dot--fullscreen" id="settingsWindowFullscreen" type="button" aria-label="Enter full screen settings window" aria-pressed="false"></button>
+        </div>
+        <span class="settings-window-title">Settings</span>
+      </div>
+      <div class="settings-window-main">
+        <aside class="settings-sidebar" aria-label="Settings sections">
+          <div class="settings-profile">
+            <img src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
+          </div>
+          <div class="settings-sidebar-list">
+            <button class="settings-sidebar-item is-active" type="button"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
+            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
+          </div>
+          <blockquote class="settings-quote">“Curiosity drives me, and data helps me understand the world.”</blockquote>
+        </aside>
+        <main class="settings-content">
+          <h2>About Me</h2>
+          <p>A quick overview of my academic journey and interests.</p>
+          <section class="settings-about-card" aria-label="About Zirui Kong">
+            <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div class="settings-facts">
+              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
+              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
+              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
+              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
+              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
+              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
+              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
+              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
+            </div>
+          </section>
+          <section class="settings-card-grid" aria-label="Settings overview cards">
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🏠</span> Background</span><span>›</span></div><p>I'm from Hefei, Anhui, China. I'm curious about how economics work and how data can inform better decisions.</p><div class="settings-chip-row"><span class="settings-chip">Hefei, China</span><span class="settings-chip">Curious & Analytical</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎓</span> Education</span><span>›</span></div><p>Economics major at The Ohio State University. Exchange student at Peking University Guanghua School of Management.</p><div class="settings-chip-row"><span class="settings-chip">OSU Economics</span><span class="settings-chip">PKU Guanghua</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">💼</span> Experience & Skills</span><span>›</span></div><p>Internship experience in banking, data analysis, and research. Skilled in Python, R, Excel, and Stata.</p><div class="settings-chip-row"><span class="settings-chip">Python</span><span class="settings-chip">R</span><span class="settings-chip">Excel</span><span class="settings-chip">Stata</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎯</span> Future Goals</span><span>›</span></div><p>Pursue graduate studies in economics or public policy. Use research and data to create real-world impact.</p><div class="settings-chip-row"><span class="settings-chip">Research</span><span class="settings-chip">Policy</span><span class="settings-chip">Impact</span></div></article>
+          </section>
+        </main>
+      </div>
+      <div class="settings-window-resize-handle" id="settingsWindowResizeHandle" aria-hidden="true"></div>
     </div>
   </section>
 
@@ -4751,6 +5014,123 @@
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen shop window" : "Enter full screen shop window");
     }
 
+
+    function openSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      if (!overlay) return;
+      overlay.classList.add("open");
+      overlay.classList.remove("minimized");
+      overlay.setAttribute("aria-hidden", "false");
+      bringWindowToFront(overlay);
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function closeSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      const fullscreenButton = $("#settingsWindowFullscreen");
+      if (!overlay) return;
+      overlay.classList.remove("open", "minimized", "fullscreen");
+      overlay.setAttribute("aria-hidden", "true");
+      fullscreenButton?.setAttribute("aria-pressed", "false");
+      fullscreenButton?.setAttribute("aria-label", "Enter full screen settings window");
+    }
+
+    function minimizeSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      if (!overlay) return;
+      overlay.classList.add("minimized");
+      overlay.classList.remove("fullscreen");
+    }
+
+    function toggleSettingsWindowFullscreen() {
+      const overlay = $("#settingsWindowOverlay");
+      const fullscreenButton = $("#settingsWindowFullscreen");
+      if (!overlay) return;
+      const isFullscreen = overlay.classList.toggle("fullscreen");
+      overlay.classList.remove("minimized");
+      bringWindowToFront(overlay);
+      fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+      fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen settings window" : "Enter full screen settings window");
+    }
+
+    function clampSettingsWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindSettingsWindowDrag() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      const titlebar = $(".settings-window-titlebar");
+      if (!overlay || !win || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        win.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampSettingsWindowToViewport(win, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          win.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindSettingsWindowResize() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      const handle = $("#settingsWindowResizeHandle");
+      if (!overlay || !win || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(560, window.innerWidth - 20);
+          const minHeight = 430;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampSettingsWindowToViewport(win, rect.left, rect.top, nextWidth, nextHeight);
+          win.style.width = `${clamped.width}px`;
+          win.style.height = `${clamped.height}px`;
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
     function clampShopWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
       const margin = 10;
       const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
@@ -5000,6 +5380,10 @@
       const shopMinimizeButton = $("#shopWindowMinimize");
       const shopFullscreenButton = $("#shopWindowFullscreen");
       const shopWindowTitlebar = $(".shop-window-titlebar");
+      const settingsOpenLinks = Array.from(document.querySelectorAll("[data-settings-window-open]"));
+      const settingsCloseButton = $("#settingsWindowClose");
+      const settingsMinimizeButton = $("#settingsWindowMinimize");
+      const settingsFullscreenButton = $("#settingsWindowFullscreen");
       const folderOpenButtons = Array.from(document.querySelectorAll("[data-folder-open]"));
       const folderCloseButton = $("#folderWindowClose");
       const folderMinimizeButton = $("#folderWindowMinimize");
@@ -5010,6 +5394,7 @@
       const floatingWindows = [
         ["#folderWindow", "#folderWindowOverlay"],
         ["#shopWindow", "#shopWindowOverlay"],
+        ["#settingsWindow", "#settingsWindowOverlay"],
         [".image-viewer", "#imageViewerOverlay"],
       ];
 
@@ -5071,6 +5456,27 @@
       bindShopWindowDrag();
       bindShopWindowResize();
 
+      settingsOpenLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          openSettingsWindow();
+        });
+      });
+      if (settingsCloseButton) settingsCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeSettingsWindow();
+      });
+      if (settingsMinimizeButton) settingsMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeSettingsWindow();
+      });
+      if (settingsFullscreenButton) settingsFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleSettingsWindowFullscreen();
+      });
+      bindSettingsWindowDrag();
+      bindSettingsWindowResize();
+
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
       const musicButton = $("#homepageMusicButton");
@@ -5101,6 +5507,7 @@
         if (event.key === "Escape") {
           closeBookingPanel();
           closeShopWindow();
+          closeSettingsWindow();
           closeFolderWindow();
           closeImageViewer();
           closeHtmlOpenDialog();
