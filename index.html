@@ -2581,6 +2581,99 @@
       text-decoration: none;
     }
 
+    .html-open-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 175;
+      display: none;
+      place-items: center;
+      background: rgba(17, 24, 39, 0.18);
+    }
+
+    .html-open-overlay.open { display: grid; }
+
+    .html-open-card {
+      width: 300px;
+      height: fit-content;
+      background: rgb(255, 255, 255);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.068);
+    }
+
+    .html-open-card-content {
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .html-open-card-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgb(27, 27, 27);
+    }
+
+    .html-open-card-description {
+      font-weight: 100;
+      color: rgb(102, 102, 102);
+    }
+
+    .html-open-card-button-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .html-open-card-button {
+      width: 50%;
+      height: 35px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .html-open-primary {
+      background-color: rgb(255, 114, 109);
+      color: white;
+    }
+
+    .html-open-primary:hover { background-color: rgb(255, 73, 66); }
+
+    .html-open-secondary { background-color: #ddd; color: rgb(27, 27, 27); }
+
+    .html-open-secondary:hover { background-color: rgb(197, 197, 197); }
+
+    .html-open-exit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .html-open-exit-button:hover svg { fill: black; }
+
+    .html-open-exit-button svg { fill: rgb(175, 175, 175); }
+
     .image-viewer-overlay {
       position: fixed;
       inset: 0;
@@ -2588,9 +2681,9 @@
       display: none;
       place-items: center;
       padding: 32px;
-      background: rgba(8, 13, 24, 0.48);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .image-viewer-overlay.open { display: grid; }
@@ -3621,6 +3714,22 @@
     </div>
   </section>
 
+  <section class="html-open-overlay" id="htmlOpenOverlay" aria-hidden="true" aria-label="Open HTML file confirmation">
+    <div class="html-open-card" role="dialog" aria-modal="true" aria-labelledby="htmlOpenTitle">
+      <button class="html-open-exit-button" id="htmlOpenClose" type="button" aria-label="Close open confirmation">
+        <svg height="20px" viewBox="0 0 384 512" aria-hidden="true"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3l105.4 105.3c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256l105.3-105.4z"></path></svg>
+      </button>
+      <div class="html-open-card-content">
+        <p class="html-open-card-heading" id="htmlOpenTitle">Open HTML file?</p>
+        <p class="html-open-card-description" id="htmlOpenDescription">This file will open with the default browser.</p>
+      </div>
+      <div class="html-open-card-button-wrapper">
+        <button class="html-open-card-button html-open-secondary" id="htmlOpenCancel" type="button">Cancel</button>
+        <a class="html-open-card-button html-open-primary" id="htmlOpenConfirm" href="#">Open</a>
+      </div>
+    </div>
+  </section>
+
   <section class="image-viewer-overlay" id="imageViewerOverlay" aria-hidden="true" aria-label="Image viewer">
     <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
       <div class="image-viewer-titlebar">
@@ -4103,21 +4212,23 @@
     }
 
     function showFolderOpenWith(file) {
-      const panel = $("#folderFilePreviewPanel");
-      const media = $("#folderFilePreviewMedia");
-      const copy = $("#folderFilePreviewCopy");
-      if (!panel || !media || !copy) return;
-      panel.classList.remove("is-empty");
-      media.innerHTML = "";
-      copy.innerHTML = `
-        <strong>${file.title}</strong>
-        <span>Open this HTML file with the default browser?</span>
-        <div class="folder-open-actions">
-          <a href="${file.href}">Confirm Open</a>
-          <button type="button" data-folder-cancel-open>Cancel</button>
-        </div>
-      `;
-      copy.querySelector("[data-folder-cancel-open]")?.addEventListener("click", hideFolderOpenWith);
+      const overlay = $("#htmlOpenOverlay");
+      const title = $("#htmlOpenTitle");
+      const description = $("#htmlOpenDescription");
+      const confirm = $("#htmlOpenConfirm");
+      if (!overlay || !confirm) return;
+      if (title) title.textContent = `Open ${file.title}?`;
+      if (description) description.textContent = "This HTML file will open with the default browser.";
+      confirm.setAttribute("href", file.href || "#");
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closeHtmlOpenDialog() {
+      const overlay = $("#htmlOpenOverlay");
+      if (!overlay) return;
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
     }
 
     function hideFolderOpenWith() {
@@ -4561,7 +4672,11 @@
       const folderMinimizeButton = $("#folderWindowMinimize");
       const folderFullscreenButton = $("#folderWindowFullscreen");
       const imageViewerClose = $("#imageViewerClose");
+      const htmlOpenClose = $("#htmlOpenClose");
+      const htmlOpenCancel = $("#htmlOpenCancel");
 
+      if (htmlOpenClose) htmlOpenClose.addEventListener("click", closeHtmlOpenDialog);
+      if (htmlOpenCancel) htmlOpenCancel.addEventListener("click", closeHtmlOpenDialog);
       if (imageViewerClose) imageViewerClose.addEventListener("click", closeImageViewer);
       bindImageViewerDrag();
       bindImageViewerResize();
@@ -4644,6 +4759,7 @@
           closeShopWindow();
           closeFolderWindow();
           closeImageViewer();
+          closeHtmlOpenDialog();
         }
       });
     }
