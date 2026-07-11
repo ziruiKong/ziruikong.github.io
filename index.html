@@ -63,8 +63,10 @@
       mix-blend-mode: difference;
       border: 1px solid rgba(255, 255, 255, 0.7);
       opacity: 0;
-      transition: opacity 180ms ease;
-      will-change: transform;
+      transition: opacity 180ms ease, width 180ms cubic-bezier(.22,1,.36,1), height 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease;
+      will-change: transform, opacity;
+      contain: layout paint;
+      backface-visibility: hidden;
     }
     .liquid-cursor.is-interactive {
       width: 30px;
@@ -513,8 +515,12 @@
       text-decoration: none;
       box-shadow: none;
       transform: translateY(0);
-      transition: opacity 160ms ease, transform 160ms ease;
-      will-change: width, height;
+      transition:
+        opacity 160ms ease,
+        transform 180ms cubic-bezier(.22,1,.36,1),
+        width 140ms cubic-bezier(.22,1,.36,1),
+        height 140ms cubic-bezier(.22,1,.36,1);
+      will-change: width, height, transform;
     }
 
     .top-floating-dock-link:hover,
@@ -2272,7 +2278,8 @@
       height: var(--folder-h);
       perspective: 800px;
       transform-style: preserve-3d;
-      transition: transform 220ms cubic-bezier(.2,.8,.2,1);
+      transition: transform 260ms cubic-bezier(.22,1,.36,1);
+      will-change: transform;
     }
 
     .desktop-folder:hover .desktop-folder-art,
@@ -2307,7 +2314,8 @@
       transform-origin: bottom;
       transform: rotateX(-24deg);
       background: linear-gradient(180deg, #ffd25b 0%, #edb23b 100%);
-      transition: transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+      transition: transform 300ms cubic-bezier(.22,1,.36,1), filter 260ms ease;
+      will-change: transform;
     }
 
     .desktop-folder:hover .desktop-folder-front,
@@ -2329,7 +2337,11 @@
       box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
       transform: translate(-50%, -5px) rotate(var(--peek-rotate, 0deg));
       transform-origin: bottom;
-      transition: transform 320ms cubic-bezier(.18,.89,.32,1.18), width 320ms ease, height 320ms ease;
+      transition:
+        transform 360ms cubic-bezier(.22,1,.36,1),
+        width 320ms cubic-bezier(.22,1,.36,1),
+        height 320ms cubic-bezier(.22,1,.36,1);
+      will-change: transform, width, height;
     }
 
     .desktop-folder-preview img {
@@ -5118,6 +5130,8 @@
       if (!dock || window.matchMedia("(pointer: coarse)").matches) return;
       const dockItems = Array.from(dock.querySelectorAll(".top-floating-dock-link"));
       const maxDistance = 150;
+      let latestClientX = 0;
+      let dockFrame = 0;
 
       const setDockItemSize = (item, size, iconSize) => {
         item.style.setProperty("--dock-size", `${size.toFixed(2)}px`);
@@ -5133,13 +5147,29 @@
           const rect = item.getBoundingClientRect();
           const center = rect.left + rect.width / 2;
           const distance = Math.max(-maxDistance, Math.min(clientX - center, maxDistance));
-          const closeness = 1 - Math.abs(distance) / maxDistance;
+          const rawCloseness = 1 - Math.abs(distance) / maxDistance;
+          const closeness = rawCloseness * rawCloseness * (3 - 2 * rawCloseness);
           setDockItemSize(item, 48 + closeness * 38, 32 + closeness * 22);
         });
       };
 
-      dock.addEventListener("mousemove", (event) => magnifyDock(event.clientX), { passive: true });
-      dock.addEventListener("mouseleave", resetDock, { passive: true });
+      const scheduleMagnifyDock = (clientX) => {
+        latestClientX = clientX;
+        if (dockFrame) return;
+        dockFrame = requestAnimationFrame(() => {
+          dockFrame = 0;
+          magnifyDock(latestClientX);
+        });
+      };
+
+      dock.addEventListener("pointermove", (event) => scheduleMagnifyDock(event.clientX), { passive: true });
+      dock.addEventListener("mouseleave", () => {
+        if (dockFrame) {
+          cancelAnimationFrame(dockFrame);
+          dockFrame = 0;
+        }
+        resetDock();
+      }, { passive: true });
       dock.addEventListener("focusout", resetDock);
       dockItems.forEach((item) => {
         item.addEventListener("focus", () => {
@@ -5165,6 +5195,7 @@
       let currentScale = 1;
       let rafId = 0;
       let running = true;
+      let lastFrameTime = 0;
 
       const move = (event) => {
         targetX = event.clientX;
@@ -5177,11 +5208,15 @@
         targetScale = isInteractive ? 1.22 : 1;
       };
 
-      const animate = () => {
+      const animate = (time = performance.now()) => {
         if (!running) return;
-        currentX += (targetX - currentX) * 0.22;
-        currentY += (targetY - currentY) * 0.22;
-        currentScale += (targetScale - currentScale) * 0.18;
+        const delta = lastFrameTime ? Math.min(34, time - lastFrameTime) : 16.7;
+        lastFrameTime = time;
+        const positionEase = 1 - Math.pow(0.0018, delta / 180);
+        const scaleEase = 1 - Math.pow(0.0025, delta / 150);
+        currentX += (targetX - currentX) * positionEase;
+        currentY += (targetY - currentY) * positionEase;
+        currentScale += (targetScale - currentScale) * scaleEase;
         cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
         rafId = requestAnimationFrame(animate);
       };
@@ -5189,6 +5224,7 @@
       const toggleCursorAnimation = () => {
         running = document.visibilityState === "visible";
         if (running && !rafId) {
+          lastFrameTime = 0;
           rafId = requestAnimationFrame(animate);
         } else if (!running && rafId) {
           cancelAnimationFrame(rafId);
