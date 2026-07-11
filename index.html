@@ -353,8 +353,8 @@
     }
 
     .top-floating-dock-link--file .top-floating-dock-file-icon--settings {
-      width: calc(var(--dock-icon-size) * 1.16);
-      height: calc(var(--dock-icon-size) * 1.16);
+      width: calc(var(--dock-icon-size) * 1.35);
+      height: calc(var(--dock-icon-size) * 1.35);
     }
 
     .top-floating-dock-logo-mark {
@@ -4419,6 +4419,9 @@
       overlay.setAttribute("aria-hidden", "true");
       fullscreenButton?.setAttribute("aria-pressed", "false");
       fullscreenButton?.setAttribute("aria-label", "Enter full screen folder window");
+      dockFolderKey = null;
+      dockFolderMinimized = false;
+      renderDockFolderApps();
     }
 
     function minimizeFolderWindow() {
