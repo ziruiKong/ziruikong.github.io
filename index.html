@@ -63,8 +63,10 @@
       mix-blend-mode: difference;
       border: 1px solid rgba(255, 255, 255, 0.7);
       opacity: 0;
-      transition: opacity 180ms ease;
-      will-change: transform;
+      transition: opacity 180ms ease, width 180ms cubic-bezier(.22,1,.36,1), height 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease;
+      will-change: transform, opacity;
+      contain: layout paint;
+      backface-visibility: hidden;
     }
     .liquid-cursor.is-interactive {
       width: 30px;
@@ -140,6 +142,208 @@
       letter-spacing: -0.01em;
       line-height: 1;
     }
+
+    body.lock-screen-active {
+      overflow: hidden;
+    }
+
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 12000;
+      display: grid;
+      grid-template-rows: minmax(150px, 30vh) 1fr;
+      justify-items: center;
+      color: rgba(255, 255, 255, 0.92);
+      background:
+        linear-gradient(180deg, rgba(8, 19, 45, 0.08), rgba(8, 19, 45, 0.32)),
+        url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
+      overflow: hidden;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 560ms ease, visibility 560ms ease, transform 560ms cubic-bezier(.2,.8,.2,1);
+      cursor: auto;
+    }
+
+    .lock-screen * {
+      cursor: auto;
+    }
+
+    .lock-screen.is-unlocked {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.02);
+      pointer-events: none;
+    }
+
+    .lock-screen-clock {
+      align-self: start;
+      margin-top: clamp(34px, 5vh, 56px);
+      text-align: center;
+      text-shadow: 0 3px 18px rgba(11, 24, 49, 0.28);
+      user-select: none;
+    }
+
+    .lock-screen-date {
+      font-size: clamp(15px, 1.55vw, 22px);
+      font-weight: 760;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      opacity: 0.9;
+    }
+
+    .lock-screen-time {
+      margin-top: 4px;
+      font-size: clamp(54px, 8.4vw, 108px);
+      font-weight: 820;
+      letter-spacing: -0.085em;
+      line-height: 0.9;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .lock-screen-profile {
+      align-self: end;
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      margin-bottom: clamp(34px, 6vh, 64px);
+      text-align: center;
+      text-shadow: 0 2px 12px rgba(11, 24, 49, 0.42);
+    }
+
+    .lock-screen-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 30px rgba(9, 20, 43, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      overflow: hidden;
+    }
+
+    .lock-screen-avatar img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lock-screen-name {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -0.035em;
+    }
+
+    .lock-screen-welcome {
+      margin: -2px 0 0;
+      max-width: min(520px, calc(100vw - 42px));
+      font-size: clamp(10px, 1vw, 12px);
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      color: rgba(255, 255, 255, 0.82);
+    }
+
+    .lock-screen-enter {
+      margin-top: 8px;
+      min-width: 132px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 999px;
+      padding: 9px 18px;
+      color: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 14px 30px rgba(4, 15, 32, 0.16);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: -0.02em;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .lock-screen .lock-screen-enter {
+      cursor: pointer;
+    }
+
+    .lock-screen-enter:hover,
+    .lock-screen-enter:focus-visible {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.36);
+      outline: none;
+    }
+
+
+    body.page-loading {
+      overflow: hidden;
+    }
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 13000;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 50% 42%, rgba(16, 32, 64, 0.62), rgba(3, 10, 24, 0.94));
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 420ms ease, visibility 420ms ease;
+    }
+
+    .page-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .page-loader-inner {
+      position: relative;
+      width: 160px;
+      height: 126px;
+      display: grid;
+      place-items: center;
+    }
+
+    .page-loader-text {
+      position: absolute;
+      left: 50%;
+      top: calc(50% + 56px);
+      transform: translateX(-50%);
+      white-space: nowrap;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: -0.02em;
+    }
+
+    .banter-loader { position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin-left: -36px; margin-top: -36px; }
+    .banter-loader__box { float: left; position: relative; width: 20px; height: 20px; margin-right: 6px; }
+    .banter-loader__box:before { content: ""; position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: #fff; border-radius: 4px; box-shadow: 0 8px 20px rgba(255,255,255,.16); }
+    .banter-loader__box:nth-child(3n) { margin-right: 0; margin-bottom: 6px; }
+    .banter-loader__box:nth-child(1):before, .banter-loader__box:nth-child(4):before { margin-left: 26px; }
+    .banter-loader__box:nth-child(3):before { margin-top: 52px; }
+    .banter-loader__box:last-child { margin-bottom: 0; }
+
+    @keyframes moveBox-1 { 9.0909090909% { transform: translate(-26px,0); } 18.1818181818%,27.2727272727% { transform: translate(0,0); } 36.3636363636% { transform: translate(26px,0); } 45.4545454545%,54.5454545455%,63.6363636364% { transform: translate(26px,26px); } 72.7272727273% { transform: translate(26px,0); } 81.8181818182% { transform: translate(0,0); } 90.9090909091% { transform: translate(-26px,0); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-2 { 9.0909090909% { transform: translate(0,0); } 18.1818181818% { transform: translate(26px,0); } 27.2727272727% { transform: translate(0,0); } 36.3636363636% { transform: translate(26px,0); } 45.4545454545%,54.5454545455%,63.6363636364%,72.7272727273% { transform: translate(26px,26px); } 81.8181818182%,90.9090909091% { transform: translate(0,26px); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-3 { 9.0909090909%,18.1818181818% { transform: translate(-26px,0); } 27.2727272727% { transform: translate(0,0); } 36.3636363636%,45.4545454545%,54.5454545455%,63.6363636364%,72.7272727273% { transform: translate(-26px,0); } 81.8181818182% { transform: translate(-26px,-26px); } 90.9090909091%,100% { transform: translate(0,0); } }
+    @keyframes moveBox-4 { 9.0909090909%,18.1818181818% { transform: translate(-26px,0); } 27.2727272727% { transform: translate(-26px,-26px); } 36.3636363636% { transform: translate(0,-26px); } 45.4545454545% { transform: translate(0,0); } 54.5454545455%,63.6363636364%,72.7272727273% { transform: translate(0,-26px); } 81.8181818182% { transform: translate(-26px,-26px); } 90.9090909091% { transform: translate(-26px,0); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-5 { 9.0909090909%,18.1818181818%,27.2727272727% { transform: translate(0,0); } 36.3636363636%,45.4545454545%,54.5454545455%,63.6363636364%,72.7272727273% { transform: translate(26px,0); } 81.8181818182% { transform: translate(26px,-26px); } 90.9090909091%,100% { transform: translate(0,0); } }
+    @keyframes moveBox-6 { 9.0909090909% { transform: translate(0,0); } 18.1818181818%,27.2727272727% { transform: translate(-26px,0); } 36.3636363636%,45.4545454545%,54.5454545455%,63.6363636364% { transform: translate(0,0); } 72.7272727273% { transform: translate(0,26px); } 81.8181818182% { transform: translate(-26px,26px); } 90.9090909091% { transform: translate(-26px,0); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-7 { 9.0909090909%,18.1818181818%,27.2727272727% { transform: translate(26px,0); } 36.3636363636% { transform: translate(0,0); } 45.4545454545% { transform: translate(0,-26px); } 54.5454545455% { transform: translate(26px,-26px); } 63.6363636364%,72.7272727273% { transform: translate(0,-26px); } 81.8181818182% { transform: translate(0,0); } 90.9090909091% { transform: translate(26px,0); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-8 { 9.0909090909% { transform: translate(0,0); } 18.1818181818% { transform: translate(-26px,0); } 27.2727272727% { transform: translate(-26px,-26px); } 36.3636363636%,45.4545454545%,54.5454545455%,63.6363636364%,72.7272727273% { transform: translate(0,-26px); } 81.8181818182% { transform: translate(26px,-26px); } 90.9090909091% { transform: translate(26px,0); } 100% { transform: translate(0,0); } }
+    @keyframes moveBox-9 { 9.0909090909%,18.1818181818% { transform: translate(-26px,0); } 27.2727272727% { transform: translate(0,0); } 36.3636363636% { transform: translate(-26px,0); } 45.4545454545%,54.5454545455% { transform: translate(0,0); } 63.6363636364%,72.7272727273% { transform: translate(-26px,0); } 81.8181818182% { transform: translate(-52px,0); } 90.9090909091% { transform: translate(-26px,0); } 100% { transform: translate(0,0); } }
+    .banter-loader__box:nth-child(1) { animation: moveBox-1 4s infinite; }
+    .banter-loader__box:nth-child(2) { animation: moveBox-2 4s infinite; }
+    .banter-loader__box:nth-child(3) { animation: moveBox-3 4s infinite; }
+    .banter-loader__box:nth-child(4) { animation: moveBox-4 4s infinite; }
+    .banter-loader__box:nth-child(5) { animation: moveBox-5 4s infinite; }
+    .banter-loader__box:nth-child(6) { animation: moveBox-6 4s infinite; }
+    .banter-loader__box:nth-child(7) { animation: moveBox-7 4s infinite; }
+    .banter-loader__box:nth-child(8) { animation: moveBox-8 4s infinite; }
+    .banter-loader__box:nth-child(9) { animation: moveBox-9 4s infinite; }
 
     .mac-status-logo {
       width: 16px;
@@ -311,8 +515,12 @@
       text-decoration: none;
       box-shadow: none;
       transform: translateY(0);
-      transition: opacity 160ms ease, transform 160ms ease;
-      will-change: width, height;
+      transition:
+        opacity 160ms ease,
+        transform 180ms cubic-bezier(.22,1,.36,1),
+        width 140ms cubic-bezier(.22,1,.36,1),
+        height 140ms cubic-bezier(.22,1,.36,1);
+      will-change: width, height, transform;
     }
 
     .top-floating-dock-link:hover,
@@ -353,8 +561,8 @@
     }
 
     .top-floating-dock-link--file .top-floating-dock-file-icon--settings {
-      width: calc(var(--dock-icon-size) * 1.16);
-      height: calc(var(--dock-icon-size) * 1.16);
+      width: calc(var(--dock-icon-size) * 1.35);
+      height: calc(var(--dock-icon-size) * 1.35);
     }
 
     .top-floating-dock-logo-mark {
@@ -393,6 +601,34 @@
     .top-floating-dock-link:focus-visible .top-floating-dock-title {
       opacity: 1;
       transform: translate(-50%, 0);
+    }
+
+    .top-floating-dock-link[data-shop-window-open].is-minimized::after,
+    .top-floating-dock-link[data-settings-window-open].is-minimized::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.88);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .top-floating-dock-link[data-shop-window-open].is-minimized .top-floating-dock-file-icon,
+    .top-floating-dock-link[data-settings-window-open].is-minimized .top-floating-dock-file-icon {
+      animation: shopDockMinimize 520ms cubic-bezier(.18, .89, .32, 1.28);
+      transform-origin: 50% 100%;
+    }
+
+    @keyframes shopDockMinimize {
+      0% { transform: translateY(0) scale(1); }
+      45% { transform: translateY(8px) scale(0.78); }
+      72% { transform: translateY(-3px) scale(1.08); }
+      100% { transform: translateY(0) scale(1); }
     }
 
     .site-header.scrolled .discover-panel,
@@ -2010,6 +2246,947 @@
       font-size: 13px;
     }
 
+    .desktop-folder-stack {
+      position: fixed;
+      top: 92px;
+      right: 28px;
+      z-index: 70;
+      display: grid;
+      gap: 22px;
+      justify-items: center;
+      pointer-events: none;
+    }
+
+    .desktop-folder {
+      --folder-w: 58px;
+      --folder-h: 42px;
+      position: relative;
+      width: 92px;
+      min-height: 82px;
+      display: grid;
+      justify-items: center;
+      align-content: start;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.94);
+      text-decoration: none;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.42);
+      pointer-events: auto;
+      outline: none;
+    }
+
+    .desktop-folder-art {
+      position: relative;
+      width: var(--folder-w);
+      height: var(--folder-h);
+      perspective: 800px;
+      transform-style: preserve-3d;
+      transition: transform 260ms cubic-bezier(.22,1,.36,1);
+      will-change: transform;
+    }
+
+    .desktop-folder:hover .desktop-folder-art,
+    .desktop-folder:focus-visible .desktop-folder-art {
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .desktop-folder-back,
+    .desktop-folder-front {
+      position: absolute;
+      inset: 0;
+      border-radius: 7px;
+      background: linear-gradient(180deg, #f9c64b 0%, #e7a82b 100%);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    }
+
+    .desktop-folder-back::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 4px;
+      width: 24px;
+      height: 12px;
+      border-radius: 5px 5px 2px 2px;
+      background: linear-gradient(180deg, #ffd76a 0%, #f1b83c 100%);
+    }
+
+    .desktop-folder-front {
+      inset: auto 0 0;
+      height: 85%;
+      z-index: 20;
+      transform-origin: bottom;
+      transform: rotateX(-24deg);
+      background: linear-gradient(180deg, #ffd25b 0%, #edb23b 100%);
+      transition: transform 300ms cubic-bezier(.22,1,.36,1), filter 260ms ease;
+      will-change: transform;
+    }
+
+    .desktop-folder:hover .desktop-folder-front,
+    .desktop-folder:focus-visible .desktop-folder-front {
+      transform: rotateX(-46deg) scaleY(.82);
+      filter: brightness(1.06);
+    }
+
+    .desktop-folder-preview {
+      position: absolute;
+      top: 4px;
+      left: 50%;
+      z-index: 10;
+      width: 34px;
+      height: 24px;
+      overflow: hidden;
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.2);
+      transform: translate(-50%, -5px) rotate(var(--peek-rotate, 0deg));
+      transform-origin: bottom;
+      transition:
+        transform 360ms cubic-bezier(.22,1,.36,1),
+        width 320ms cubic-bezier(.22,1,.36,1),
+        height 320ms cubic-bezier(.22,1,.36,1);
+      will-change: transform, width, height;
+    }
+
+    .desktop-folder-preview img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .desktop-folder-preview:nth-child(2) { --peek-rotate: -4deg; }
+    .desktop-folder-preview:nth-child(3) { --peek-rotate: 2deg; }
+    .desktop-folder-preview:nth-child(4) { --peek-rotate: 5deg; }
+
+    .desktop-folder:hover .desktop-folder-preview,
+    .desktop-folder:focus-visible .desktop-folder-preview {
+      width: 118px;
+      height: 82px;
+    }
+
+    .desktop-folder:hover .desktop-folder-preview:nth-child(2),
+    .desktop-folder:focus-visible .desktop-folder-preview:nth-child(2) {
+      transform: translate(calc(-50% - 44px), -86px) rotate(-13deg);
+    }
+
+    .desktop-folder:hover .desktop-folder-preview:nth-child(3),
+    .desktop-folder:focus-visible .desktop-folder-preview:nth-child(3) {
+      transform: translate(-50%, -92px) rotate(0deg);
+    }
+
+    .desktop-folder:hover .desktop-folder-preview:nth-child(4),
+    .desktop-folder:focus-visible .desktop-folder-preview:nth-child(4) {
+      transform: translate(calc(-50% + 44px), -86px) rotate(13deg);
+    }
+
+    .desktop-folder-label {
+      max-width: 92px;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 650;
+      line-height: 1.15;
+      text-align: center;
+      word-break: break-word;
+      transition: background 180ms ease;
+    }
+
+    .desktop-folder:hover .desktop-folder-label,
+    .desktop-folder:focus-visible .desktop-folder-label {
+      background: rgba(0, 105, 255, 0.78);
+    }
+
+    button.desktop-folder {
+      border: 0;
+      padding: 0;
+      background: transparent;
+      font: inherit;
+    }
+
+    .dock-folder-separator {
+      width: 1px;
+      height: 44px;
+      align-self: center;
+      margin: 0 2px;
+      background: rgba(255, 255, 255, 0.24);
+      box-shadow: 1px 0 0 rgba(17, 24, 39, 0.08);
+      display: none;
+    }
+
+    .dock-folder-separator.is-visible { display: none; }
+
+    .dock-folder-apps {
+      display: none;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .dock-folder-apps.has-items { display: flex; }
+
+    .dock-folder-button {
+      --dock-size: 48px;
+      --dock-icon-size: 32px;
+      position: relative;
+      width: var(--dock-size);
+      height: var(--dock-size);
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 16px;
+      display: inline-grid;
+      place-items: center;
+      background: transparent;
+      transform-origin: 50% 100%;
+      animation: dockFolderAppear 460ms cubic-bezier(.18,.89,.32,1.28);
+    }
+
+    .dock-folder-button::before,
+    .dock-folder-button::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .dock-folder-button::before {
+      width: calc(var(--dock-icon-size) * 1.34);
+      height: calc(var(--dock-icon-size) * 1.02);
+      border-radius: 9px;
+      background: linear-gradient(180deg, #ffd560 0%, #efad31 100%);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    }
+
+    .dock-folder-button::after {
+      top: calc(50% - var(--dock-icon-size) * .54);
+      left: calc(50% - var(--dock-icon-size) * .67);
+      width: calc(var(--dock-icon-size) * .52);
+      height: calc(var(--dock-icon-size) * .22);
+      border-radius: 5px 5px 2px 2px;
+      background: linear-gradient(180deg, #ffe07a 0%, #f5bd42 100%);
+      transform: translateY(-1px);
+    }
+
+    .dock-folder-running-dot {
+      position: absolute;
+      left: 50%;
+      bottom: -3px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.88);
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.24);
+      opacity: 0;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .dock-folder-button.is-minimized .dock-folder-running-dot { opacity: 1; }
+
+    .dock-folder-button span:not(.dock-folder-running-dot) {
+      position: absolute;
+      left: 50%;
+      top: -32px;
+      transform: translate(-50%, 10px);
+      padding: 2px 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      background: #f3f4f6;
+      color: #404040;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 140ms ease, transform 140ms ease;
+    }
+
+    .dock-folder-button:hover span:not(.dock-folder-running-dot),
+    .dock-folder-button:focus-visible span:not(.dock-folder-running-dot) {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @keyframes dockFolderAppear {
+      0% { opacity: 0; transform: translateY(22px) scale(.55); }
+      70% { opacity: 1; transform: translateY(-5px) scale(1.08); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .folder-window-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 155;
+      display: none;
+      pointer-events: none;
+    }
+
+    .folder-window-overlay.open { display: block; }
+
+    .folder-window {
+      position: absolute;
+      top: clamp(74px, 10vh, 116px);
+      right: 132px;
+      width: min(760px, calc(100vw - 80px));
+      height: min(560px, calc(100vh - 150px));
+      min-width: min(520px, calc(100vw - 28px));
+      min-height: 390px;
+      display: grid;
+      grid-template-rows: 40px 1fr;
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 22px;
+      background: rgba(250, 246, 236, 0.96);
+      box-shadow: 0 28px 86px rgba(13, 32, 64, 0.24), 0 8px 26px rgba(13, 32, 64, 0.16);
+    }
+
+    .folder-window.is-dragging .folder-window-titlebar { cursor: grabbing; }
+
+    .folder-window-overlay.fullscreen .folder-window {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+    }
+
+    .folder-window-overlay.minimized .folder-window { display: none; }
+
+    .folder-window-titlebar {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr) 110px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(250, 246, 236, 0.96);
+      color: #1f2937;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .folder-window-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .folder-window-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+    }
+
+    .folder-window-dot--close { background: #ff453a; }
+    .folder-window-dot--minimize { background: #ffbd2e; }
+    .folder-window-dot--fullscreen { background: #28c840; }
+
+    .folder-window-title {
+      justify-self: center;
+      font-size: 14px;
+      font-weight: 720;
+    }
+
+    .folder-window-count {
+      justify-self: end;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(17, 24, 39, 0.07);
+      color: rgba(31, 41, 55, 0.72);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .folder-window-body {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      background: rgba(255, 255, 255, 0.78);
+    }
+
+    .folder-window-sidebar {
+      width: 178px;
+      padding: 18px 12px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(246, 243, 236, 0.72);
+      color: rgba(31, 41, 55, 0.72);
+      font-size: 12px;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .folder-sidebar-list {
+      display: grid;
+      gap: 6px;
+      margin-top: 0;
+    }
+
+    .folder-sidebar-button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 9px 10px;
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr);
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: rgba(31, 41, 55, 0.76);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      text-align: left;
+      transition: background 160ms ease, color 160ms ease, transform 160ms ease;
+    }
+
+    .folder-sidebar-button::before {
+      content: "";
+      width: 20px;
+      height: 15px;
+      border-radius: 4px;
+      background: linear-gradient(180deg, #ffd560 0%, #efad31 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42);
+    }
+
+    .folder-sidebar-button:hover,
+    .folder-sidebar-button:focus-visible {
+      outline: none;
+      background: rgba(17, 24, 39, 0.07);
+      transform: translateX(2px);
+    }
+
+    .folder-sidebar-button.active {
+      color: #fff;
+      background: rgba(59, 130, 246, 0.92);
+    }
+
+    .folder-window-content {
+      min-width: 0;
+      min-height: 0;
+      padding: 26px 28px;
+      overflow: auto;
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) auto;
+      gap: 16px;
+      background: linear-gradient(180deg, rgba(255, 252, 246, 0.96), rgba(255, 255, 255, 0.9));
+    }
+
+    .folder-file-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      align-content: start;
+      gap: 32px 34px;
+    }
+
+    .folder-file {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      gap: 14px;
+      padding: 10px 10px 16px;
+      border: 1px solid transparent;
+      border-radius: 18px;
+      color: #1f2937;
+      background: transparent;
+      font: inherit;
+      text-decoration: none;
+      transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    }
+
+    .folder-file:hover,
+    .folder-file:focus-visible {
+      background: rgba(245, 238, 222, 0.74);
+      border-color: rgba(206, 190, 158, 0.42);
+      box-shadow: 0 10px 28px rgba(50, 38, 20, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.68);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    .folder-file.selected {
+      background: rgba(229, 241, 255, 0.58);
+      border-color: rgba(96, 165, 250, 0.38);
+      box-shadow: 0 8px 18px rgba(59, 130, 246, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      outline: none;
+      transform: none;
+    }
+
+    .folder-file-thumb {
+      width: 136px;
+      height: 170px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      display: grid;
+      place-items: center;
+      background: #f4f1eb;
+      border: 1px solid rgba(17, 24, 39, 0.06);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .folder-file-thumb img {
+      width: 100%;
+      height: 100%;
+      margin: auto;
+      display: block;
+      object-fit: contain;
+      object-position: center center;
+    }
+
+    .folder-file[data-file-type="html"] .folder-file-thumb {
+      background: #070a0f;
+      color: #f8fafc;
+    }
+
+    .folder-file[data-file-type="html"] .folder-file-thumb::after {
+      content: "</>";
+      position: absolute;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.08em;
+      text-shadow: 0 2px 12px rgba(0,0,0,.4);
+    }
+
+    .folder-file[data-file-type="html"] .folder-file-thumb img {
+      width: 100%;
+      height: 100%;
+      opacity: .48;
+      object-fit: cover;
+    }
+
+    .folder-file-title {
+      max-width: 150px;
+      font-size: 14px;
+      font-weight: 760;
+      line-height: 1.2;
+      text-align: center;
+      word-break: break-word;
+      text-shadow: 0 1px 0 rgba(255,255,255,.72);
+    }
+
+    .folder-file-preview-panel {
+      min-height: 96px;
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.10);
+    }
+
+    .folder-file-preview-panel.is-empty {
+      display: none;
+    }
+
+    .folder-file-preview-media { display: none; }
+
+    .folder-file-preview-copy {
+      min-width: 0;
+      color: #1f2937;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .folder-file-preview-copy strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .folder-open-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .folder-open-actions a,
+    .folder-open-actions button {
+      border: 1px solid rgba(17, 24, 39, 0.08);
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(250, 246, 236, 0.92);
+      color: #1f2937;
+      font-size: 12px;
+      font-weight: 760;
+      text-decoration: none;
+    }
+
+    .html-open-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 175;
+      display: none;
+      place-items: center;
+      background: rgba(17, 24, 39, 0.18);
+    }
+
+    .html-open-overlay.open { display: grid; }
+
+    .html-open-card {
+      width: 300px;
+      height: fit-content;
+      background: rgb(255, 255, 255);
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.068);
+    }
+
+    .html-open-card-content {
+      width: 100%;
+      height: fit-content;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .html-open-card-heading {
+      font-size: 20px;
+      font-weight: 700;
+      color: rgb(27, 27, 27);
+    }
+
+    .html-open-card-description {
+      font-weight: 100;
+      color: rgb(102, 102, 102);
+    }
+
+    .html-open-card-button-wrapper {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .html-open-card-button {
+      width: 50%;
+      height: 35px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .html-open-primary {
+      background-color: rgb(255, 114, 109);
+      color: white;
+    }
+
+    .html-open-primary:hover { background-color: rgb(255, 73, 66); }
+
+    .html-open-secondary { background-color: #ddd; color: rgb(27, 27, 27); }
+
+    .html-open-secondary:hover { background-color: rgb(197, 197, 197); }
+
+    .html-open-exit-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+    }
+
+    .html-open-exit-button:hover svg { fill: black; }
+
+    .html-open-exit-button svg { fill: rgb(175, 175, 175); }
+
+    .image-viewer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 170;
+      display: none;
+      place-items: center;
+      padding: 32px;
+      background: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      pointer-events: none;
+    }
+
+    .image-viewer-overlay.open { display: grid; }
+
+    .image-viewer {
+      position: relative;
+      width: min(860px, calc(100vw - 64px));
+      height: min(620px, calc(100vh - 64px));
+      min-width: min(420px, calc(100vw - 32px));
+      min-height: 320px;
+      display: grid;
+      grid-template-rows: 38px minmax(0, 1fr);
+      overflow: hidden;
+      border-radius: 22px;
+      background: rgba(250, 246, 236, 0.96);
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.32);
+      pointer-events: auto;
+    }
+
+    .image-viewer.is-dragging .image-viewer-titlebar { cursor: grabbing; }
+
+    .image-viewer-titlebar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr) 86px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .image-viewer-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .image-viewer-close,
+    .image-viewer-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+      display: block;
+    }
+
+    .image-viewer-close {
+      background: #ff453a;
+    }
+
+    .image-viewer-dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .image-viewer-dot.green {
+      background: #28c840;
+    }
+
+    .image-viewer-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(56%, calc(100% - 190px));
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 760;
+      color: #1f2937;
+    }
+
+    .image-viewer-body {
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      background: #fff;
+    }
+
+    .image-viewer-body img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      border-radius: 0;
+    }
+
+    .image-viewer-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%),
+        linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
+    }
+
+    .folder-window-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%),
+        linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
+    }
+
+    .folder-window-overlay.fullscreen .folder-window-resize-handle,
+    .folder-window-overlay.minimized .folder-window-resize-handle { display: none; }
+
+    @media (max-width: 760px) {
+      .desktop-folder-stack { top: 84px; right: 12px; transform: scale(.88); transform-origin: top right; }
+      .folder-window { left: 10px; right: auto; width: calc(100vw - 20px); height: calc(100vh - 128px); }
+      .folder-window-body { grid-template-columns: 1fr; }
+      .folder-window-sidebar { display: none; }
+    }
+
+    .shop-window-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 160;
+      display: none;
+      pointer-events: none;
+    }
+
+    .shop-window-overlay.open { display: block; }
+
+    .shop-window {
+      position: absolute;
+      top: clamp(48px, 7vh, 86px);
+      left: clamp(32px, 7vw, 118px);
+      width: min(1120px, calc(100vw - 72px));
+      height: min(760px, calc(100vh - 136px));
+      min-width: min(520px, calc(100vw - 28px));
+      min-height: 390px;
+      display: grid;
+      grid-template-rows: 40px 1fr;
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.74);
+      border-radius: 24px;
+      background: rgba(248, 249, 252, 0.96);
+      box-shadow:
+        0 30px 90px rgba(13, 32, 64, 0.28),
+        0 10px 28px rgba(13, 32, 64, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74);
+      transform-origin: bottom right;
+      transition:
+        border-radius 260ms ease,
+        transform 260ms cubic-bezier(.2,.8,.2,1),
+        opacity 220ms ease;
+    }
+
+    .shop-window-overlay.fullscreen .shop-window {
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+      border-color: rgba(255, 255, 255, 0.36);
+    }
+
+    .shop-window-overlay.minimized .shop-window {
+      display: none;
+    }
+
+    .shop-window-titlebar {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr) 96px;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(250, 246, 236, 0.96);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      color: #1f2937;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .shop-window.is-dragging .shop-window-titlebar { cursor: grabbing; }
+
+    .shop-window-controls {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shop-window-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    }
+
+    .shop-window-dot--close { background: #ff453a; }
+    .shop-window-dot--minimize { background: #ffbd2e; }
+    .shop-window-dot--fullscreen { background: #28c840; }
+
+    .shop-window-title {
+      justify-self: center;
+      margin: 0;
+      font-size: 18px;
+      font-weight: 740;
+      letter-spacing: -0.02em;
+    }
+
+    .shop-window-main {
+      min-height: 0;
+      background: #050608;
+    }
+
+    .shop-window-frame-wrap {
+      min-height: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #050608;
+    }
+
+    .shop-window-frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #050608;
+    }
+
+    .shop-window-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background:
+        linear-gradient(135deg, transparent 50%, rgba(255, 255, 255, 0.46) 50%, rgba(255, 255, 255, 0.46) 56%, transparent 56%),
+        linear-gradient(135deg, transparent 66%, rgba(17, 24, 39, 0.28) 66%, rgba(17, 24, 39, 0.28) 72%, transparent 72%);
+    }
+
+    .shop-window-overlay.fullscreen .shop-window-resize-handle,
+    .shop-window-overlay.minimized .shop-window-resize-handle {
+      display: none;
+    }
+
+
+    @media (max-width: 900px) {
+      .shop-window { top: 10px; left: 10px; width: calc(100vw - 20px); height: calc(100vh - 120px); border-radius: 18px; }
+      .shop-window-titlebar { grid-template-columns: auto 1fr auto; padding: 0 12px; }
+      .shop-window-title { font-size: 16px; }
+    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -2086,27 +3263,254 @@
 
 
 
+
+    .settings-window-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 165;
+      display: none;
+      pointer-events: none;
+    }
+
+    .settings-window-overlay.open { display: block; }
+
+    .settings-window {
+      position: absolute;
+      top: clamp(46px, 6vh, 78px);
+      left: clamp(38px, 7vw, 112px);
+      width: min(1060px, calc(100vw - 72px));
+      height: min(720px, calc(100vh - 112px));
+      min-width: min(560px, calc(100vw - 28px));
+      min-height: 430px;
+      display: grid;
+      grid-template-rows: 40px minmax(0, 1fr);
+      overflow: hidden;
+      pointer-events: auto;
+      border: 1px solid rgba(255, 255, 255, 0.76);
+      border-radius: 24px;
+      background: rgba(249, 247, 242, 0.96);
+      box-shadow: 0 30px 90px rgba(13, 32, 64, 0.26), 0 10px 28px rgba(13, 32, 64, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    }
+
+    .settings-window-overlay.fullscreen .settings-window {
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      border-radius: 0;
+    }
+
+    .settings-window-overlay.minimized .settings-window { display: none; }
+
+    .settings-window-titlebar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr) 96px;
+      align-items: center;
+      padding: 0 16px;
+      border-bottom: 1px solid rgba(17, 24, 39, 0.08);
+      background: rgba(250, 247, 241, 0.92);
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+    }
+
+    .settings-window.is-dragging .settings-window-titlebar { cursor: grabbing; }
+
+    .settings-window-controls { display: flex; align-items: center; gap: 9px; z-index: 2; }
+
+    .settings-window-dot {
+      width: 12px;
+      height: 12px;
+      border: 0;
+      border-radius: 999px;
+      padding: 0;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+      cursor: pointer;
+    }
+
+    .settings-window-dot--close { background: #ff5f57; }
+    .settings-window-dot--minimize { background: #ffbd2e; }
+    .settings-window-dot--fullscreen { background: #28c840; }
+
+    .settings-window-title {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 15px;
+      font-weight: 820;
+      letter-spacing: -0.04em;
+      color: #1f2937;
+    }
+
+    .settings-window-main {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 274px minmax(0, 1fr);
+      background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(246, 243, 237, 0.92));
+    }
+
+    .settings-sidebar {
+      min-width: 0;
+      padding: 26px 18px 22px;
+      border-right: 1px solid rgba(17, 24, 39, 0.08);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 22px;
+      background: rgba(247, 243, 235, 0.74);
+    }
+
+    .settings-profile { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .settings-profile img { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
+    .settings-profile strong { display: block; font-size: 14px; color: #1f2937; letter-spacing: -0.045em; }
+    .settings-profile span { display: block; margin-top: 3px; font-size: 12px; color: #6b7280; }
+
+    .settings-sidebar-list { display: grid; align-content: start; gap: 8px; overflow: auto; }
+    .settings-sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: transparent;
+      color: #4b5563;
+      text-align: left;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 720;
+      letter-spacing: -0.035em;
+      cursor: default;
+    }
+    .settings-sidebar-item.is-active { color: #1f2937; background: rgba(59, 130, 246, 0.14); }
+    .settings-sidebar-icon { width: 22px; text-align: center; font-size: 17px; filter: grayscale(.18); }
+
+    .settings-quote {
+      margin: 0;
+      border-radius: 18px;
+      padding: 22px 20px;
+      color: rgba(75, 85, 99, 0.74);
+      background: rgba(255, 255, 255, 0.58);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+      font: 600 13px/1.55 Inter, sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .settings-content {
+      min-width: 0;
+      min-height: 0;
+      padding: 26px 28px;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 18px;
+    }
+
+    .settings-content h2 { margin: 0; color: #1f2937; font-size: 25px; line-height: 1.05; letter-spacing: -0.06em; }
+    .settings-content > p { margin: -8px 0 0; color: #6b7280; font-size: 14px; font-weight: 650; }
+
+    .settings-about-card {
+      display: grid;
+      grid-template-columns: 172px minmax(0, 1fr);
+      gap: 26px;
+      align-items: center;
+      border: 1px solid rgba(17,24,39,.09);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255,255,255,.68);
+      box-shadow: 0 12px 32px rgba(15,23,42,.07), inset 0 1px 0 rgba(255,255,255,.8);
+    }
+
+    .settings-about-photo { width: 150px; height: 150px; border-radius: 999px; object-fit: cover; justify-self: center; background: #e5e7eb; }
+    .settings-facts { display: grid; gap: 10px; }
+    .settings-fact { display: grid; grid-template-columns: 30px 132px minmax(0,1fr); align-items: center; gap: 10px; color: #374151; font-size: 13px; }
+    .settings-fact span:first-child { text-align: center; font-size: 16px; opacity: .82; }
+    .settings-fact b { color: #1f2937; font-weight: 820; }
+
+    .settings-card-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .settings-card {
+      min-height: 138px;
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 18px;
+      padding: 18px;
+      background: rgba(255,255,255,.62);
+      box-shadow: 0 10px 26px rgba(15,23,42,.06), inset 0 1px 0 rgba(255,255,255,.8);
+      display: grid;
+      gap: 10px;
+    }
+    .settings-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #1f2937; font-size: 15px; font-weight: 820; letter-spacing: -0.045em; }
+    .settings-card-icon { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: rgba(59,130,246,.14); font-size: 20px; }
+    .settings-card p { margin: 0; color: #4b5563; font-size: 13px; line-height: 1.5; font-weight: 600; }
+    .settings-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .settings-chip { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
+
+
+    .settings-sidebar-item { transition: background 180ms ease, color 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
+    .settings-sidebar-item:hover, .settings-sidebar-item:focus-visible { background: rgba(255, 255, 255, 0.62); color: #1f2937; outline: none; transform: translateX(2px); }
+    .settings-sidebar-item.is-active:hover { background: rgba(59, 130, 246, 0.16); transform: none; }
+    .settings-content { transition: opacity 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
+    .settings-content.is-switching { opacity: 0; transform: translateY(6px); }
+    .settings-bio-card, .settings-detail-card {
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255,255,255,.64);
+      box-shadow: 0 10px 26px rgba(15,23,42,.055), inset 0 1px 0 rgba(255,255,255,.82);
+    }
+    .settings-bio-card p, .settings-detail-card p { margin: 0; color: #4b5563; font-size: 14px; line-height: 1.62; font-weight: 600; }
+    .settings-section-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .settings-detail-card { display: grid; gap: 10px; align-content: start; }
+    .settings-detail-card h3 { margin: 0; color: #1f2937; font-size: 17px; letter-spacing: -0.045em; }
+    .settings-detail-card ul { margin: 0; padding-left: 18px; color: #4b5563; font-size: 13px; line-height: 1.62; font-weight: 600; }
+    .settings-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .settings-link-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid rgba(17,24,39,.08); border-radius: 16px; padding: 16px 18px; background: rgba(255,255,255,.66); color: #1f2937; text-decoration: none; font-weight: 780; transition: transform 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, background 180ms ease; }
+    .settings-link-card:hover, .settings-link-card:focus-visible { transform: translateY(-2px); border-color: rgba(59,130,246,.28); background: rgba(255,255,255,.86); outline: none; }
+    @media (max-width: 760px) { .settings-section-grid, .settings-link-grid { grid-template-columns: 1fr; } }
+
+    .settings-window-resize-handle {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 26px;
+      height: 26px;
+      z-index: 4;
+      cursor: nwse-resize;
+      touch-action: none;
+      background: linear-gradient(135deg, transparent 50%, rgba(255,255,255,.5) 50%, rgba(255,255,255,.5) 56%, transparent 56%), linear-gradient(135deg, transparent 66%, rgba(17,24,39,.26) 66%, rgba(17,24,39,.26) 72%, transparent 72%);
+    }
+
+    .settings-window-overlay.fullscreen .settings-window-resize-handle,
+    .settings-window-overlay.minimized .settings-window-resize-handle { display: none; }
+
+    @media (max-width: 760px) {
+      .settings-window { left: 10px; right: auto; width: calc(100vw - 20px); height: calc(100vh - 128px); min-width: 0; }
+      .settings-window-main { grid-template-columns: 1fr; }
+      .settings-sidebar { display: none; }
+      .settings-about-card { grid-template-columns: 1fr; }
+      .settings-card-grid { grid-template-columns: 1fr; }
+    }
+
     .music-dock {
       position: fixed;
       top: 78px;
       left: 10px;
       z-index: 120;
-      width: 214px;
-      min-height: 210px;
-      padding: 20px 20px 18px;
-      border-radius: 42px;
+      width: 176px;
+      min-height: 164px;
+      padding: 14px 14px 13px;
+      border-radius: 28px;
       color: rgba(255, 255, 255, 0.94);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, sans-serif;
       background:
-        linear-gradient(145deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.06)),
-        rgba(91, 172, 184, 0.28);
-      border: 1px solid rgba(255, 255, 255, 0.28);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.055)),
+        rgba(255, 255, 255, 0.075);
+      border: 1px solid rgba(255, 255, 255, 0.18);
       box-shadow:
-        0 14px 32px rgba(11, 24, 49, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.34),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.16);
-      backdrop-filter: blur(24px) saturate(150%);
-      -webkit-backdrop-filter: blur(24px) saturate(150%);
+        0 16px 46px rgba(15, 23, 42, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(22px) saturate(170%);
+      -webkit-backdrop-filter: blur(22px) saturate(170%);
     }
 
     .music-dock-label {
@@ -2123,16 +3527,16 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      min-height: 172px;
+      min-height: 136px;
     }
 
     .album-art {
-      width: 58px;
-      height: 58px;
-      border-radius: 13px;
+      width: 48px;
+      height: 48px;
+      border-radius: 11px;
       object-fit: cover;
       display: block;
-      margin: 0 0 16px;
+      margin: 0 0 12px;
       box-shadow: 0 7px 16px rgba(0, 0, 0, 0.18);
       background: rgba(255, 255, 255, 0.16);
     }
@@ -2144,7 +3548,7 @@
       flex: 1;
       flex-direction: column;
       justify-content: space-between;
-      gap: 14px;
+      gap: 10px;
       text-align: left;
     }
 
@@ -2154,7 +3558,7 @@
     }
 
     .track-title {
-      font-size: 20px;
+      font-size: 16px;
       line-height: 1.08;
       font-weight: 700;
       letter-spacing: -0.03em;
@@ -2167,7 +3571,7 @@
     .artist-name {
       margin-top: 6px;
       max-width: 100%;
-      font-size: 18px;
+      font-size: 14px;
       line-height: 1.08;
       font-weight: 500;
       color: rgba(255, 255, 255, 0.66);
@@ -2181,15 +3585,15 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 24px;
+      gap: 18px;
       color: #ffffff;
       margin-top: 2px;
     }
 
     .control-button,
     .music-trigger {
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       border: 0;
       padding: 0;
       display: inline-grid;
@@ -2201,8 +3605,8 @@
     }
 
     .music-trigger {
-      width: 38px;
-      height: 38px;
+      width: 31px;
+      height: 31px;
     }
 
     .control-button:hover,
@@ -2648,7 +4052,35 @@
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
-<body>
+<body class="page-loading lock-screen-active">
+  <section class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading page">
+    <div class="page-loader-inner">
+      <div class="banter-loader" aria-hidden="true">
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+        <div class="banter-loader__box"></div>
+      </div>
+      <span class="page-loader-text">Loading website</span>
+    </div>
+  </section>
+  <section class="lock-screen" id="lockScreen" aria-label="Welcome lock screen">
+    <div class="lock-screen-clock" aria-live="polite">
+      <div class="lock-screen-date" id="lockScreenDate">Tue Apr 1</div>
+      <div class="lock-screen-time" id="lockScreenTime">9:41</div>
+    </div>
+    <div class="lock-screen-profile">
+      <span class="lock-screen-avatar" aria-hidden="true"><img src="assets/favicon-kzr.png" alt=""></span>
+      <div class="lock-screen-name">Zirui Kong</div>
+      <p class="lock-screen-welcome">Welcome to Zirui Kong's personal website</p>
+      <button class="lock-screen-enter" id="lockScreenEnter" type="button">Enter Website</button>
+    </div>
+  </section>
   <div class="mac-status-bar" aria-hidden="true">
     <div class="mac-status-bar-left">
       <img class="mac-status-logo" src="assets/favicon-kzr.png" alt="">
@@ -2672,7 +4104,7 @@
           <img class="top-floating-dock-file-icon" src="assets/dock-home-app.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Home</span>
         </a>
-        <a class="top-floating-dock-link top-floating-dock-link--file" href="cookie-preferences.html" aria-label="Settings">
+        <a class="top-floating-dock-link top-floating-dock-link--file" href="cookie-preferences.html" aria-label="Settings" data-settings-window-open>
           <img class="top-floating-dock-file-icon top-floating-dock-file-icon--settings" src="assets/set.png" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Settings</span>
         </a>
@@ -2696,10 +4128,12 @@
           <img class="top-floating-dock-file-icon" src="assets/dock-video.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Video</span>
         </a>
-        <a class="top-floating-dock-link top-floating-dock-link--file" href="shop.html" aria-label="Shop">
+        <a class="top-floating-dock-link top-floating-dock-link--file" href="shop.html" aria-label="Shop" data-shop-window-open>
           <img class="top-floating-dock-file-icon" src="assets/dock-shop.svg" alt="" aria-hidden="true">
           <span class="top-floating-dock-title">Shop</span>
         </a>
+        <span class="dock-folder-separator" id="dockFolderSeparator" aria-hidden="true"></span>
+        <span class="dock-folder-apps" id="dockFolderApps" aria-label="Open folders"></span>
       </nav>
       <button class="mobile-nav-toggle" id="mobileNavToggle" type="button" aria-expanded="false" aria-controls="mobileNavPanel" aria-label="Open menu"><img class="menu-icon" src="assets/menu.png" alt="Menu"></button>
     </div>
@@ -2737,6 +4171,174 @@
     </div>
   </nav>
 
+  <aside class="desktop-folder-stack" aria-label="Desktop folders">
+    <button class="desktop-folder" type="button" data-folder-open="shop" aria-label="Open Shop folder">
+      <span class="desktop-folder-art" aria-hidden="true">
+        <span class="desktop-folder-back"></span>
+        <span class="desktop-folder-preview"><img src="assets/shop-hero-gallery.png" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/2026capsule.png" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/kid-knit-hoodie.png" alt=""></span>
+        <span class="desktop-folder-front"></span>
+      </span>
+      <span class="desktop-folder-label">Shop</span>
+    </button>
+    <button class="desktop-folder" type="button" data-folder-open="notes" aria-label="Open Notes folder">
+      <span class="desktop-folder-art" aria-hidden="true">
+        <span class="desktop-folder-back"></span>
+        <span class="desktop-folder-preview"><img src="assets/field-statistics.png" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/field-mathematics.png" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/field-machine-learning.png" alt=""></span>
+        <span class="desktop-folder-front"></span>
+      </span>
+      <span class="desktop-folder-label">Notes</span>
+    </button>
+    <button class="desktop-folder" type="button" data-folder-open="paper" aria-label="Open Paper folder">
+      <span class="desktop-folder-art" aria-hidden="true">
+        <span class="desktop-folder-back"></span>
+        <span class="desktop-folder-preview"><img src="assets/bayesian-modeling-cover.svg" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/bayesian-analysis-python2-cover.svg" alt=""></span>
+        <span class="desktop-folder-preview"><img src="assets/field-computing.png" alt=""></span>
+        <span class="desktop-folder-front"></span>
+      </span>
+      <span class="desktop-folder-label">Paper</span>
+    </button>
+  </aside>
+
+  <section class="folder-window-overlay" id="folderWindowOverlay" aria-hidden="true" aria-label="Folder window">
+    <div class="folder-window" id="folderWindow" role="dialog" aria-modal="true" aria-label="Folder window" tabindex="-1">
+      <div class="folder-window-titlebar">
+        <div class="folder-window-controls" aria-label="Folder window controls">
+          <button class="folder-window-dot folder-window-dot--close" id="folderWindowClose" type="button" aria-label="Close folder window"></button>
+          <button class="folder-window-dot folder-window-dot--minimize" id="folderWindowMinimize" type="button" aria-label="Minimize folder window"></button>
+          <button class="folder-window-dot folder-window-dot--fullscreen" id="folderWindowFullscreen" type="button" aria-label="Enter full screen folder window" aria-pressed="false"></button>
+        </div>
+        <span class="folder-window-title" id="folderWindowTitle" aria-hidden="true"></span>
+        <span class="folder-window-count" id="folderWindowCount">0 items</span>
+      </div>
+      <div class="folder-window-body">
+        <aside class="folder-window-sidebar" tabindex="0">
+          <div class="folder-sidebar-list" id="folderSidebarList" aria-label="Folder list"></div>
+        </aside>
+        <div class="folder-window-content">
+          <div class="folder-file-grid" id="folderFileGrid"></div>
+          <div class="folder-file-preview-panel is-empty" id="folderFilePreviewPanel" aria-live="polite">
+            <div class="folder-file-preview-media" id="folderFilePreviewMedia"></div>
+            <div class="folder-file-preview-copy" id="folderFilePreviewCopy"></div>
+          </div>
+        </div>
+      </div>
+      <div class="folder-window-resize-handle" id="folderWindowResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="html-open-overlay" id="htmlOpenOverlay" aria-hidden="true" aria-label="Open HTML file confirmation">
+    <div class="html-open-card" role="dialog" aria-modal="true" aria-labelledby="htmlOpenTitle">
+      <button class="html-open-exit-button" id="htmlOpenClose" type="button" aria-label="Close open confirmation">
+        <svg height="20px" viewBox="0 0 384 512" aria-hidden="true"><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3l105.4 105.3c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256l105.3-105.4z"></path></svg>
+      </button>
+      <div class="html-open-card-content">
+        <p class="html-open-card-heading" id="htmlOpenTitle">Open HTML file?</p>
+        <p class="html-open-card-description" id="htmlOpenDescription">This file will open with the default browser.</p>
+      </div>
+      <div class="html-open-card-button-wrapper">
+        <button class="html-open-card-button html-open-secondary" id="htmlOpenCancel" type="button">Cancel</button>
+        <a class="html-open-card-button html-open-primary" id="htmlOpenConfirm" href="#">Open</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="image-viewer-overlay" id="imageViewerOverlay" aria-hidden="true" aria-label="Image viewer">
+    <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
+      <div class="image-viewer-titlebar">
+        <div class="image-viewer-controls" aria-label="Window controls">
+          <button class="image-viewer-close" id="imageViewerClose" type="button" aria-label="Close image viewer"></button>
+          <span class="image-viewer-dot yellow" aria-hidden="true"></span>
+          <span class="image-viewer-dot green" aria-hidden="true"></span>
+        </div>
+        <span class="image-viewer-title" id="imageViewerTitle">Image</span>
+      </div>
+      <div class="image-viewer-body" id="imageViewerBody"></div>
+      <div class="image-viewer-resize-handle" id="imageViewerResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
+
+  <section class="settings-window-overlay" id="settingsWindowOverlay" aria-hidden="true" aria-label="Settings window">
+    <div class="settings-window" id="settingsWindow" role="dialog" aria-modal="true" aria-label="Settings" tabindex="-1">
+      <div class="settings-window-titlebar">
+        <div class="settings-window-controls" aria-label="Settings window controls">
+          <button class="settings-window-dot settings-window-dot--close" id="settingsWindowClose" type="button" aria-label="Close settings window"></button>
+          <button class="settings-window-dot settings-window-dot--minimize" id="settingsWindowMinimize" type="button" aria-label="Minimize settings window"></button>
+          <button class="settings-window-dot settings-window-dot--fullscreen" id="settingsWindowFullscreen" type="button" aria-label="Enter full screen settings window" aria-pressed="false"></button>
+        </div>
+        <span class="settings-window-title">Settings</span>
+      </div>
+      <div class="settings-window-main">
+        <aside class="settings-sidebar" aria-label="Settings sections">
+          <div class="settings-profile">
+            <img src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
+          </div>
+          <div class="settings-sidebar-list">
+            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="experience" aria-pressed="false"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
+          </div>
+          <blockquote class="settings-quote">“Curiosity drives me, and data helps me understand the world.”</blockquote>
+        </aside>
+        <main class="settings-content">
+          <h2>About Me</h2>
+          <p>A quick overview of my academic journey and interests.</p>
+          <section class="settings-about-card" aria-label="About Zirui Kong">
+            <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div class="settings-facts">
+              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
+              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
+              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
+              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
+              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
+              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
+              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
+              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
+            </div>
+          </section>
+          <section class="settings-card-grid" aria-label="Settings overview cards">
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🏠</span> Background</span><span>›</span></div><p>I'm from Hefei, Anhui, China. I'm curious about how economics work and how data can inform better decisions.</p><div class="settings-chip-row"><span class="settings-chip">Hefei, China</span><span class="settings-chip">Curious & Analytical</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎓</span> Education</span><span>›</span></div><p>Economics major at The Ohio State University. Exchange student at Peking University Guanghua School of Management.</p><div class="settings-chip-row"><span class="settings-chip">OSU Economics</span><span class="settings-chip">PKU Guanghua</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">💼</span> Experience & Skills</span><span>›</span></div><p>Internship experience in banking, data analysis, and research. Skilled in Python, R, Excel, and Stata.</p><div class="settings-chip-row"><span class="settings-chip">Python</span><span class="settings-chip">R</span><span class="settings-chip">Excel</span><span class="settings-chip">Stata</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎯</span> Future Goals</span><span>›</span></div><p>Pursue graduate studies in economics or public policy. Use research and data to create real-world impact.</p><div class="settings-chip-row"><span class="settings-chip">Research</span><span class="settings-chip">Policy</span><span class="settings-chip">Impact</span></div></article>
+          </section>
+        </main>
+      </div>
+      <div class="settings-window-resize-handle" id="settingsWindowResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="shop-window-overlay" id="shopWindowOverlay" aria-hidden="true" aria-label="Shop window">
+    <div class="shop-window" id="shopWindow" role="dialog" aria-modal="true" aria-label="Shop window" tabindex="-1">
+      <div class="shop-window-titlebar" data-shop-window-restore>
+        <div class="shop-window-controls" aria-label="Window controls">
+          <button class="shop-window-dot shop-window-dot--close" id="shopWindowClose" type="button" aria-label="Close shop window"></button>
+          <button class="shop-window-dot shop-window-dot--minimize" id="shopWindowMinimize" type="button" aria-label="Minimize shop window"></button>
+          <button class="shop-window-dot shop-window-dot--fullscreen" id="shopWindowFullscreen" type="button" aria-label="Enter full screen shop window" aria-pressed="false"></button>
+        </div>
+        <span class="shop-window-title" aria-hidden="true"></span>
+      </div>
+      <div class="shop-window-main">
+        <div class="shop-window-frame-wrap">
+          <iframe class="shop-window-frame" title="KZR Shop" src="shop.html" loading="lazy"></iframe>
+        </div>
+      </div>
+      <div class="shop-window-resize-handle" id="shopWindowResizeHandle" aria-hidden="true"></div>
+    </div>
+  </section>
+
   <audio id="homepageMusic" src="bg.mp3" preload="metadata" loop></audio>
   <section class="music-dock" aria-label="Never See Me Again music player">
     <span class="music-dock-label" id="homepageMusicLabel">MUSIC</span>
@@ -2744,8 +4346,8 @@
       <img class="album-art" src="data:image/webp;base64,UklGRpYNAABXRUJQVlA4IIoNAADwWQCdASrSAOoAPp1InUsluyKlKHM602ATiWdtecnWbjDSe74aluTZ2+JCqB+n/893fw4dmDD9tk1XEw+4NaRj7lIBs1c+BXRq6civS9MGWe2oi6qn3bhlm3lWaoPiFUjqpP9cS+qp96nPvRLVCfcdR51zg2DnwYP738I/i79bKhPk1uPb1GGSq5L3+OqyTUc+J/tLiaCbWoBzhAfXNeKUeAooRvpHdrbnH0XbvjbF8xmIZugV6ZJwWz/jiZWKpBfrtPupqHUtP3QS7FfuP4qUFAM/Dnckv9jDQJ03g9JMOP8YWKXykYebrwFSD0b2IeohPa145oqXmCyCFt72lNHNLdrJL/ASm5Ni6T4+vf7n+GDf42nYglWkHvrzoJhq6Z6OR7UIJZHXPAe80vdOdVekWSRg+Pxd06CqeR9IQd7RWoDSzhiTjOQIxARGpkLXMUCPiIT7qq94vSB9jUv4NTcViGrupAKb9eidPT+l32QtDJOUdW0f1UePqcKMDmLBdI5h23z67MxgLsJhJDdcSLpDMjc26b5mlqgDH/ZuVgHeTtGqtzlh7z1ofO4HzKM2zLGMMEuEXTo8PA26LddwInmKRMz/6sedQthmhfpjD9/3xVMHcaxY3bIUm0b40167Q7gYkEly/jBn3bp/YZZtO7siPTke7EDrzFS1SoZASTIjxRlZa5uUzsoFZTwW7pdFUuPvcDxTKnxX++goRrzxTl4n+pjHQ5cfl2MTDt4qF+BW8saJ8zhvGr4MHH7jtnA3+Pstqp88XS6qZxG/dJnosiRlEaEAQ6/vq6PixJC1pySQBN7bOSMAraQqXZ6+gQ9GHOdHeEB39Kry35VK1aqFcsge5G8O75Z6ImaPfxFIaA+J6Bbp0t+CyEfS0J40dMi7umDePYd2zQd4syragp/qOr3iAmYASEDTnnkjBAtiqitpv1xDbBx7S6UZICHoDrXwt2M9x9M3wP+sAAD+9N8z/Xq+2ROXlWBk72CbDdEyXITLHGFqK97Df8eg2wMcRxh4y4HCTD2WZRuw58eIWWmrejDiJqsIrBl6i7mkBlETMkrIMgl5tJ8nEIOQhL/N2sDaaiV1ivD2KN4T+7jgGLf98hmZB8n0FPP3IRlj3Ymo8+P8jz6MG6dPtu3TlFGQCsTHp10/AYz14S8N47Obm1p2LfZfIppCbi4rcKQiF8TLl/ZGLoAQPMffiFNeZ/tS7NpvygbZzP7G8CrfudKhj0TtqP3khgMZ7FHREp4RcrxcNDRIs+bXfbnVOOLWXYEHVz2ofqrIh+VixIjg3t4BaaRMEWHmtFPNin9dOAlKsuQZeEDI8y0d6KGUX/4leJA6t7AWe9WB7GUiYDgJHlAyPh002urtBvYrI6qExvjpCvlBQ7jBtAoxNyMvIvjBqYJ+dGhii6cuCK/tIX79B3xxG0knVnyj+QskRNEWDptLRu/DnTSmWhS/1ycGCVlzGLlh2XBw9sy81mfdy+HkravW830sZNo4g/eoBB071HSiZuinE4EyqzY5WWcOGCBrISGrqwMPxRg8+TKnjtvQTYgKkxeLnttpWxvv1FYlLoUqVyjvzhp2GOgttXJZg4sz0i6xUtYy7nM1fm5XYot+bMYWm12X6BknlS2Bk/uUOt8a2HHikB3ptF5r9+0yC0+OzU3uCVGiYe+NPLFCkCK+eYPBaEVuPrWw7jotw4hYW8gw2QvjDiwRvmuwgsNrAE1A+frI9dxSxtxCwQ5mBBuh6DWsvoZ5wcXK0+uwivgWLafBcUx9NqATAEzHF10KgV5DWvgjSZf+2raVHdvjwuoTw6FlUR0NZDj/uB8jdrJIx7aY+lpktHbZrIs2eEX7Bi9iv6v8ToBK0i6fnXf4EUmjAiJ0eNVCzPGN1JTcdx0TgnR2mKu89jiagLaQ0QS2V1gRbW2MrrgBoMcTfi4iRIMAMvI2CiGiPvuav4bvT7cGbwe0RjfmrgA6U4c/2NL2xK0UsZlSBZyJNa+xiT3yjlywZM1lpox3GyE8RuG6LHM6O3x637/bOu+PrKzjP1wZS9CcEGmxzMSx3PrxBSoNSY+F48GaApvtnkMU6RVvNSfyCsuBwrJCqKs7hZUtDTz2IgzGfmYwvGF5odwORZr288AXhG9kRyTvirkmrJcYM4CViAkOouJ9gxi3gpBbzR6VSaUnBmhm5AkIDfKxSI9lRRt7jpeCYWMMBJQnlGEj37N0TOVsvbnp7K4trHcgik+eCnJeCZcrVkFf6Py++rnFxQuN2bI965xuK+sMegJiKYyYekJW4w8xTZXaxsM7VJOwKuYVoGmmbp4AkYZ9egp3Vv4dyWQVKS7M7o8Wz2GXK5VOilVZ6orQvSF8qyO01FW2b8i4AsRGxUx+ygWhFd8tGd6imnAjMUGZxFRhsy5T6rftXWZCQBgAnW7VyxgOSB1UhrzvkP97OyLjncMde8bd2H9/9jnH+/O6wwp5B3DECtrcF3dfgnyUDSmo92geN62djHgHHfYV6CRGT6fx0ROR+W7dtXCjA2L+PSDLvzVuVfTVlF+ekt4rlDYumyMAD3Uut8UbPsOqE65rzx1UXmk94Iku8vW7XnCtLymRmUQw23It79jAZ6uW0ocNWtA/KIFG94t/B/DUi+hIZthbTVnYRsN4cIQ/2zek6K2ly7Of9KuXEk8PcubJ0RTLRhVlGWVoBcOR1FW0zYEQBi4XBlyy0ySgOD8G/zYOfrOuwR8hlDluxmB94ljcrcEONI94+QrO6Lct+fgQRVDk26FwoaJfPODuHBJidwrE9nq0S0GaSi9d7FQcdfr8rsbAJtSojAp3bzAYe+zs+BIEYt1UxCACPSyzQCrR86Ja9IZQoryRx7BX3fG9XVn+EeZWPAZq2+WbwfY/8x3nNeBKF4VLi+Wdg6tGMTLrX/iVj8TJCYIfRX9cY9wEnY3xN1vy43Cpaje2FdnYJquNPXiQ6H8x3j4Y7Lb/ynPIgjttDRafEd+d88pUC55xWp0Qj1fzs0x0yOrwRZgS+piyu9hD57ykDTYUKYAXPNCpVnwcxRCt38Ggpbd4rlRoQX/4cGORTta/7c8DMLzH1EaK7QGyhgCuqdQa5cu+Il4hnuYUxkGqNgtoMnqvoeZ/MKAOgL6zFEYwCg8WljcngTCYJMMbtc5WLBSnrf1RN4emZYWUyzxWzB/V9cbrFTWZDQ+GGq4/f/Mx2G4n/OHm9p3efdLIb5SAmNMoFxRfoywB5LIrle01QCfmFEA3tqhQfW2m1QxpCuHpMom4hTpO5TbuAuFdxczEAo/xFpMrZ4DmixVeK5kD+sFDaOcXa/7DRdX1hCrMQShjyHTLWIw7tLH/qysbmb01/7QsI2gbROIPpmgW+fhlQk3hZYCVwiBzhbY1BcU2tLleHIc6UPAoP94axueHJw56SYtu//lxuzilMB3xM+Sf8LtHaW1igEOPR2bfCWoGNenFzZxWihKjyN+/K/m96Piyg7ZP4N/u8gfilw0dcC5Cqkl7EwxfhDRP1IFTWZDK4hQLaInLnOrCgs9wbS/Mh5NikdRyUPXn/4AJ3I/2bk6GqtXEniUyL/sZHJEKineC8D8pg+XSkvLNhvKMm1oSwRQxAFZ7ahFWlbs2qEcYcQSROxG6/hbHEj56lHX6lUHd97kd8YqtxXtnotjw+DHDbI4/hSV92tQ4uLVIFoPM2E31b3LdEuxfU3ozleMbHNCtbnt+CZMwYOtQ47l3o5Vt9jE+cTqKRbh13t6SWauZYtZ+UkDV7VUeQQk+aYcLzwdS2VA8QL637NLiunl4hQbiD+CxU9S92NjEHZxUPsMYUMqmKNnMy1avvHwTi76pXKxx3eqOtoiinF5kO3BNtcTNIMoHBSKumqXK5QHHvJuYKunkfO45mTU0vtaf7eVuRs2tfKnZ3K9X3SVKUe8nOfKC+XQCj42PS/Y25URwpHP3VTkVbpWXBYBu0LmTPD6JGwdb/V1WvibyzPU0Sosf2sOh9RI0dckwypmq34zvzhG21MS0xQjdtqB3acS2dONwlB+RnEBj3X7m6VzIAWuaDH52cvj0kyx614+67APB7bKSk+CxXKlLs8jEdGnNg76Ru6GTJYCxxNsMdYSPo+B1BQ4ewH8phrn3nUv8VHyMr72HHiyxxOYlDHO8HLNQym3kcnBMQwjOmi6Hw3k47t19puV4TWwTnlq7QGZ/jPNGjDLjzUBkmh2k+GmAp9Hz+fLlS72wByhHQ0ioDMvMfpC/XVikFX8FsVo6JdgjGwms6UHP+a0e/hHxONTb3Bzb6aAO0hF9FVog9SC1eLCmXLvziH3N4xzOO2+DVnRnp3unKDpxoSAR5STATKWVRTjR/rN6N9kwpgLHcwpYMRlejVxYa+ejr+pQqdrBu2a4ylNT5OSfpBMo7tqC/vZ4G+t8P0CdixdyCWmoBUsvoeWo/sGr89ruh+zJATFcTe88qRsH61rbuHQwzvHtAosjs9n3BzykKMMTB5beQ9LXDQbNsZwxTNkSQ4prN5HNQtKKLhLgKFFZO6f+R8C8rxGgY5Frem58Zq2BJjMLHH7Kv1q4c56/vG/zh6ptekl+vWDoloM8IAta1fBqkzIDvdsmR+opA1nPLOAHhC4KlskhZrvsBBG8eBKQAt/4b/hk5iIAAAAA" alt="Never See Me Again album cover">
       <div class="track-details">
         <div class="track-meta">
-          <div class="track-title">Besties</div>
-          <div class="artist-name">Black Country, New Road</div>
+          <div class="track-title">Never See Me Again</div>
+          <div class="artist-name">Kanye West</div>
         </div>
         <div class="button-row" aria-label="Playback controls">
           <button class="control-button skip-button" id="homepageMusicBackButton" type="button" aria-label="Restart track">
@@ -3114,10 +4716,908 @@
       document.body.classList.remove("booking-open");
     }
 
+    const desktopFolderData = {
+      shop: {
+        title: "Shop",
+        meta: "Shop folder · product files and capsule assets",
+        files: [
+          { title: "2026 Capsule.jpg", type: "image", image: "assets/2026capsule.png", description: "Capsule preview image stored in the Shop folder." },
+          { title: "Knit Hoodie.png", type: "image", image: "assets/kid-knit-hoodie.png", description: "Product image preview; opens inside this folder window." },
+          { title: "Archive Tee.png", type: "image", image: "assets/kzr-archive-tee.png", description: "Archive tee image file." },
+          { title: "shop.html", type: "html", href: "shop.html", image: "assets/shop-hero-gallery.png", description: "HTML entry that opens the full Shop page." },
+        ],
+      },
+      notes: {
+        title: "Notes",
+        meta: "Notes folder · study fields and working notes",
+        files: [
+          { title: "Statistics.doc", type: "doc", image: "assets/field-statistics.png", description: "Document preview for statistics notes." },
+          { title: "Mathematics.pdf", type: "pdf", image: "assets/field-mathematics.png", description: "PDF-style reading note preview." },
+          { title: "ML Slides.ppt", type: "ppt", image: "assets/field-machine-learning.png", description: "Presentation preview for machine learning notes." },
+          { title: "notes.html", type: "html", href: "notes.html", image: "assets/field-computing.png", description: "HTML entry that opens the Notes page." },
+        ],
+      },
+      paper: {
+        title: "Paper",
+        meta: "Paper folder · reading library and references",
+        files: [
+          { title: "Bayesian Modeling.pdf", type: "pdf", image: "assets/bayesian-modeling-cover.svg", description: "Paper cover preview." },
+          { title: "Bayesian Analysis.pdf", type: "pdf", image: "assets/bayesian-analysis-python2-cover.svg", description: "Paper cover preview." },
+          { title: "Economics.xlsx", type: "sheet", image: "assets/field-economics.png", description: "Spreadsheet-style economics reading tracker." },
+          { title: "paper-library.html", type: "html", href: "paper-library.html", image: "assets/field-finance.png", description: "HTML entry that opens the Paper library." },
+        ],
+      },
+    };
+
+    let activeFolderKey = null;
+    let dockFolderKey = null;
+    let dockFolderMinimized = false;
+    let floatingWindowZIndex = 170;
+
+    function bringWindowToFront(overlay) {
+      if (!overlay) return;
+      floatingWindowZIndex += 1;
+      overlay.style.zIndex = String(floatingWindowZIndex);
+    }
+
+    function renderDockFolderApps() {
+      const container = $("#dockFolderApps");
+      const separator = $("#dockFolderSeparator");
+      if (!container || !separator) return;
+      container.innerHTML = "";
+      const folder = desktopFolderData[dockFolderKey];
+      if (folder) {
+        const button = document.createElement("button");
+        button.className = "dock-folder-button";
+        button.classList.toggle("is-minimized", dockFolderMinimized);
+        button.type = "button";
+        button.dataset.folderOpen = dockFolderKey;
+        button.setAttribute("aria-label", `Open ${folder.title} folder`);
+        button.innerHTML = `<span>${folder.title}</span><span class="dock-folder-running-dot" aria-hidden="true"></span>`;
+        button.addEventListener("click", () => openFolderWindow(dockFolderKey));
+        container.appendChild(button);
+      }
+      const hasFolder = Boolean(folder);
+      container.classList.toggle("has-items", hasFolder);
+      separator.classList.toggle("is-visible", false);
+    }
+
+    function addFolderToDock(key) {
+      if (!desktopFolderData[key]) return;
+      dockFolderKey = key;
+      renderDockFolderApps();
+    }
+
+    function setDockFolderMinimized(isMinimized) {
+      dockFolderMinimized = isMinimized;
+      renderDockFolderApps();
+    }
+
+    function fileTypeLabel(type) {
+      return ({ image: "Image", doc: "Document", pdf: "PDF", sheet: "Spreadsheet", ppt: "Slides", html: "HTML" })[type] || "File";
+    }
+
+    function showFolderOpenWith(file) {
+      const overlay = $("#htmlOpenOverlay");
+      const title = $("#htmlOpenTitle");
+      const description = $("#htmlOpenDescription");
+      const confirm = $("#htmlOpenConfirm");
+      if (!overlay || !confirm) return;
+      if (title) title.textContent = `Open ${file.title}?`;
+      if (description) description.textContent = "This HTML file will open with the default browser.";
+      confirm.setAttribute("href", file.href || "#");
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    function closeHtmlOpenDialog() {
+      const overlay = $("#htmlOpenOverlay");
+      if (!overlay) return;
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    function hideFolderOpenWith() {
+      const panel = $("#folderFilePreviewPanel");
+      if (panel) panel.classList.add("is-empty");
+    }
+
+    function openImageViewer(file) {
+      const overlay = $("#imageViewerOverlay");
+      const title = $("#imageViewerTitle");
+      const body = $("#imageViewerBody");
+      if (!overlay || !body) return;
+      const viewer = $(".image-viewer");
+      if (title) title.textContent = file.title;
+      const image = new Image();
+      image.src = file.image;
+      image.alt = file.title;
+      body.replaceChildren(image);
+      if (viewer) {
+        viewer.style.position = "";
+        viewer.style.left = "";
+        viewer.style.top = "";
+        viewer.style.width = "";
+        viewer.style.height = "";
+        const fitViewerToImage = () => {
+          const titlebarHeight = 38;
+          const maxWidth = Math.min(1100, window.innerWidth - 64);
+          const maxHeight = Math.min(860, window.innerHeight - 64);
+          const imageWidth = image.naturalWidth || 860;
+          const imageHeight = image.naturalHeight || 620;
+          const imageMaxHeight = Math.max(260, maxHeight - titlebarHeight);
+          const scale = Math.min(maxWidth / imageWidth, imageMaxHeight / imageHeight);
+          const contentWidth = Math.round(imageWidth * scale);
+          const contentHeight = Math.round(imageHeight * scale);
+          viewer.style.width = `${Math.max(360, contentWidth)}px`;
+          viewer.style.height = `${Math.max(300, contentHeight + titlebarHeight)}px`;
+        };
+        if (image.complete) fitViewerToImage();
+        else image.addEventListener("load", fitViewerToImage, { once: true });
+      }
+      overlay.classList.add("open");
+      overlay.setAttribute("aria-hidden", "false");
+      bringWindowToFront(overlay);
+    }
+
+    function closeImageViewer() {
+      const overlay = $("#imageViewerOverlay");
+      if (!overlay) return;
+      overlay.classList.remove("open");
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    function renderFolderSidebar(activeKey) {
+      const list = $("#folderSidebarList");
+      if (!list) return;
+      list.innerHTML = "";
+      Object.entries(desktopFolderData).forEach(([key, folder]) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "folder-sidebar-button";
+        button.classList.toggle("active", key === activeKey);
+        button.textContent = folder.title;
+        button.setAttribute("aria-pressed", key === activeKey ? "true" : "false");
+        button.addEventListener("click", () => {
+          activeFolderKey = key;
+          renderFolderFiles(key);
+          addFolderToDock(key);
+        });
+        list.appendChild(button);
+      });
+    }
+
+    function renderFolderFiles(key) {
+      const folder = desktopFolderData[key];
+      const title = $("#folderWindowTitle");
+      const count = $("#folderWindowCount");
+      const grid = $("#folderFileGrid");
+      const previewPanel = $("#folderFilePreviewPanel");
+      if (!folder || !grid) return;
+      renderFolderSidebar(key);
+      if (title) title.textContent = "";
+      if (count) count.textContent = `${folder.files.length} items`;
+      if (previewPanel) previewPanel.classList.add("is-empty");
+      grid.innerHTML = "";
+      folder.files.forEach((file, index) => {
+        const node = document.createElement(file.type === "html" ? "a" : "button");
+        node.className = "folder-file";
+        node.classList.toggle("selected", index === 0 && file.type !== "html");
+        node.dataset.fileType = file.type;
+        if (file.type === "html") node.href = file.href;
+        else node.type = "button";
+        node.innerHTML = `
+          <span class="folder-file-thumb"><img src="${file.image}" alt=""></span>
+          <span class="folder-file-title">${file.title}</span>
+        `;
+        node.addEventListener("click", (event) => {
+          event.preventDefault();
+          grid.querySelectorAll(".folder-file.selected").forEach((item) => item.classList.remove("selected"));
+          node.classList.add("selected");
+          if (file.type === "html") showFolderOpenWith(file);
+          else hideFolderOpenWith();
+        });
+        node.addEventListener("dblclick", (event) => {
+          event.preventDefault();
+          if (file.type === "image") openImageViewer(file);
+          else if (file.type === "html") showFolderOpenWith(file);
+        });
+        grid.appendChild(node);
+      });
+    }
+
+    function openFolderWindow(key) {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      if (!overlay || !desktopFolderData[key]) return;
+      activeFolderKey = key;
+      renderFolderFiles(key);
+      addFolderToDock(key);
+      setDockFolderMinimized(false);
+      overlay.classList.add("open");
+      overlay.classList.remove("minimized");
+      overlay.setAttribute("aria-hidden", "false");
+      bringWindowToFront(overlay);
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function closeFolderWindow() {
+      const overlay = $("#folderWindowOverlay");
+      const fullscreenButton = $("#folderWindowFullscreen");
+      if (!overlay) return;
+      overlay.classList.remove("open", "minimized", "fullscreen");
+      overlay.setAttribute("aria-hidden", "true");
+      fullscreenButton?.setAttribute("aria-pressed", "false");
+      fullscreenButton?.setAttribute("aria-label", "Enter full screen folder window");
+      dockFolderKey = null;
+      dockFolderMinimized = false;
+      renderDockFolderApps();
+    }
+
+    function minimizeFolderWindow() {
+      const overlay = $("#folderWindowOverlay");
+      if (!overlay) return;
+      overlay.classList.add("minimized");
+      overlay.classList.remove("fullscreen");
+      setDockFolderMinimized(true);
+    }
+
+    function toggleFolderWindowFullscreen() {
+      const overlay = $("#folderWindowOverlay");
+      const fullscreenButton = $("#folderWindowFullscreen");
+      if (!overlay) return;
+      const isFullscreen = overlay.classList.toggle("fullscreen");
+      overlay.classList.remove("minimized");
+      setDockFolderMinimized(false);
+      bringWindowToFront(overlay);
+      fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+      fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen folder window" : "Enter full screen folder window");
+    }
+
+    function setShopDockMinimized(isMinimized) {
+      document.querySelectorAll("[data-shop-window-open]").forEach((link) => {
+        if (!isMinimized) {
+          link.classList.remove("is-minimized");
+          return;
+        }
+        link.classList.remove("is-minimized");
+        void link.offsetWidth;
+        link.classList.add("is-minimized");
+      });
+    }
+
+    function setSettingsDockMinimized(isMinimized) {
+      document.querySelectorAll("[data-settings-window-open]").forEach((link) => {
+        if (!isMinimized) {
+          link.classList.remove("is-minimized");
+          return;
+        }
+        link.classList.remove("is-minimized");
+        void link.offsetWidth;
+        link.classList.add("is-minimized");
+      });
+    }
+
+    function openShopWindow() {
+      const overlay = $("#shopWindowOverlay");
+      const win = $("#shopWindow");
+      if (!overlay) return;
+      overlay.classList.add("open");
+      overlay.classList.remove("minimized");
+      overlay.setAttribute("aria-hidden", "false");
+      setShopDockMinimized(false);
+      bringWindowToFront(overlay);
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function closeShopWindow() {
+      const overlay = $("#shopWindowOverlay");
+      const fullscreenButton = $("#shopWindowFullscreen");
+      if (!overlay) return;
+      overlay.classList.remove("open", "minimized", "fullscreen");
+      overlay.setAttribute("aria-hidden", "true");
+      setShopDockMinimized(false);
+      fullscreenButton?.setAttribute("aria-pressed", "false");
+      fullscreenButton?.setAttribute("aria-label", "Enter full screen shop window");
+    }
+
+    function minimizeShopWindow() {
+      const overlay = $("#shopWindowOverlay");
+      if (!overlay) return;
+      overlay.classList.add("minimized");
+      overlay.classList.remove("fullscreen");
+      setShopDockMinimized(true);
+    }
+
+    function restoreShopWindow() {
+      const overlay = $("#shopWindowOverlay");
+      const win = $("#shopWindow");
+      if (!overlay?.classList.contains("minimized")) return;
+      overlay.classList.remove("minimized");
+      setShopDockMinimized(false);
+      bringWindowToFront(overlay);
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function toggleShopWindowFullscreen() {
+      const overlay = $("#shopWindowOverlay");
+      const fullscreenButton = $("#shopWindowFullscreen");
+      if (!overlay) return;
+      const isFullscreen = overlay.classList.toggle("fullscreen");
+      overlay.classList.remove("minimized");
+      setShopDockMinimized(false);
+      bringWindowToFront(overlay);
+      fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+      fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen shop window" : "Enter full screen shop window");
+    }
+
+
+    const settingsSectionData = {
+      about: {
+        title: "About Me",
+        subtitle: "A quick overview of my academic journey and interests.",
+        body: `
+          <div class="settings-profile-card">
+            <img class="settings-profile-large" src="profile.jpg" alt="Zirui Kong portrait">
+            <div class="settings-profile-facts">
+              <div><span>👤</span><strong>Name:</strong><p>Zirui Kong / 子睿</p></div>
+              <div><span>🎯</span><strong>Current focus:</strong><p>Economics, research, data, and policy</p></div>
+              <div><span>📍</span><strong>Hometown:</strong><p>Hefei, Anhui, China</p></div>
+              <div><span>🎓</span><strong>Undergraduate:</strong><p>The Ohio State University, Economics</p></div>
+              <div><span>🌐</span><strong>Exchange:</strong><p>Peking University Guanghua School</p></div>
+              <div><span>♡</span><strong>Interests:</strong><p>Public policy, finance, quantitative analysis, design</p></div>
+              <div><span>💼</span><strong>Experience:</strong><p>Internships in banking, data analysis, and research</p></div>
+              <div><span>⚑</span><strong>Goal:</strong><p>Explore economics through research and data-driven thinking</p></div>
+            </div>
+          </div>
+          <div class="settings-bio-card">
+            <h3>Short Bio</h3>
+            <p>I’m Zirui Kong, an economics student with interests in research, public policy, and data analysis. My academic journey has taken me from Hefei to Columbus and Beijing, and I’m especially interested in using research and data-driven thinking to better understand institutions, society, and real-world decision making.</p>
+          </div>
+          <div class="settings-card-grid">
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--blue">🏠</span><h3>Background</h3><span>›</span></div><p>I’m from Hefei, Anhui, China. My curiosity began with economics and expanded into research, data, and public policy.</p><div class="settings-tags"><span>Hefei, China</span><span>Curious & Analytical</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--green">🎓</span><h3>Education</h3><span>›</span></div><p>Economics major at The Ohio State University, with an exchange experience at Peking University Guanghua School.</p><div class="settings-tags settings-tags--green"><span>OSU Economics</span><span>PKU Guanghua</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--purple">💼</span><h3>Experience & Skills</h3><span>›</span></div><p>Experience in banking, data analysis, and research, using Python, R, Excel, and Stata for analytical work.</p><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Excel</span><span>Stata</span><span>+</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--orange">🎯</span><h3>Future Goals</h3><span>›</span></div><p>Pursue graduate study in economics or policy-related fields and use data to create public impact.</p><div class="settings-tags settings-tags--orange"><span>Research</span><span>Policy</span><span>Impact</span></div></article>
+          </div>
+        `,
+      },
+      hometown: {
+        title: "Hometown",
+        subtitle: "Where my journey began and how place shaped my curiosity.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is where my journey began. Growing up there gave me a grounded perspective and shaped my early academic curiosity.</p><div class="settings-tags"><span>Home Base</span><span>Anhui</span><span>Early Influence</span></div></article><article class="settings-detail-card"><h3>Perspective</h3><p>My background helps me connect economics with institutions, local development, and the way everyday decisions shape broader outcomes.</p><div class="settings-tags settings-tags--green"><span>Community</span><span>Growth</span></div></article></div>`,
+      },
+      education: {
+        title: "Education",
+        subtitle: "Academic training across Columbus and Beijing.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>The Ohio State University</h3><p>B.A. in Economics, with foundations in quantitative coursework, economics theory, statistics, and analytical thinking.</p><div class="settings-tags settings-tags--green"><span>Economics</span><span>Undergraduate</span><span>2022–2025</span></div></article><article class="settings-detail-card"><h3>Peking University Guanghua</h3><p>Exchange experience focused on broader academic exposure, research-oriented learning, and a China-related policy perspective.</p><div class="settings-tags"><span>Exchange</span><span>Beijing</span><span>2025–2026</span></div></article><article class="settings-detail-card"><h3>Relevant Coursework</h3><ul><li>Econometrics and statistics</li><li>Microeconomics and macroeconomics</li><li>Data analysis and policy-related coursework</li></ul></article></div>`,
+      },
+      exchange: {
+        title: "Exchange",
+        subtitle: "A broader lens on economics, institutions, and society.",
+        body: `<div class="settings-detail-card"><h3>Peking University Guanghua School</h3><p>My exchange experience at Peking University broadened my academic perspective and deepened my interest in connecting economics with institutions, society, and policy.</p><div class="settings-tags"><span>Beijing</span><span>Exchange Program</span><span>Perspective</span><span>Growth</span></div></div>`,
+      },
+      research: {
+        title: "Research",
+        subtitle: "Questions, methods, and areas I want to understand more deeply.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Interest Areas</h3><p>Economics, public policy, quantitative social science, policy evaluation, inequality, and AI adoption.</p><div class="settings-tags"><span>Policy Evaluation</span><span>Data Analysis</span><span>AI Adoption</span></div></article><article class="settings-detail-card"><h3>Current Curiosity</h3><p>How data informs decision-making, how institutions shape outcomes, and how research can create public impact.</p><div class="settings-tags settings-tags--orange"><span>Decision Making</span><span>Institutions</span><span>Impact</span></div></article></div>`,
+      },
+      experience: {
+        title: "Experience",
+        subtitle: "Connecting analytical tools with practical problems.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Banking & Finance</h3><p>Internship experience strengthened my ability to connect quantitative tools with real-world financial questions.</p><div class="settings-tags settings-tags--purple"><span>Banking</span><span>Securities</span></div></article><article class="settings-detail-card"><h3>Research & Data</h3><p>Worked on research support and data-oriented tasks, building stronger habits in data cleaning, analysis, and communication.</p><div class="settings-tags"><span>Data Analysis</span><span>Research Support</span></div></article></div>`,
+      },
+      skills: {
+        title: "Skills",
+        subtitle: "Methods and tools grouped by how I use them.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Analytical Tools</h3><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Stata</span><span>Excel</span><span>SQL</span></div></article><article class="settings-detail-card"><h3>Research Skills</h3><div class="settings-tags"><span>Data Cleaning</span><span>Statistical Analysis</span><span>Visualization</span><span>Literature Review</span></div></article><article class="settings-detail-card"><h3>Personal Strengths</h3><div class="settings-tags settings-tags--green"><span>Structured Thinking</span><span>Curiosity</span><span>Academic Writing</span><span>Cross-cultural Perspective</span></div></article></div>`,
+      },
+      interests: {
+        title: "Interests",
+        subtitle: "The ideas and practices that keep me curious.",
+        body: `<div class="settings-detail-card"><h3>What I Like Exploring</h3><p>I’m especially interested in how data, policy, and institutions interact — and I also enjoy design as a way to make complex ideas more intuitive and engaging.</p><div class="settings-tags"><span>Economics</span><span>Research</span><span>Public Policy</span><span>Data Visualization</span><span>Design</span><span>Global Perspective</span></div></div>`,
+      },
+      contact: {
+        title: "Contact",
+        subtitle: "Ways to get in touch or continue exploring my work.",
+        body: `<div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="mailto:kong.480@osu.edu"><strong>OSU Email</strong><span>kong.480@osu.edu</span></a><a class="settings-link-card" href="shop.html"><strong>Portfolio</strong><span>Open the Shop / archive page</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Resume</strong><span>Open PDF in a new tab</span></a></div>`,
+      },
+    };
+
+    function renderSettingsSection(sectionKey = "about") {
+      const content = $(".settings-content");
+      const section = settingsSectionData[sectionKey] || settingsSectionData.about;
+      if (!content || !section) return;
+      content.classList.add("is-switching");
+      window.setTimeout(() => {
+        content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
+        content.classList.remove("is-switching");
+      }, 120);
+    }
+
+    function bindSettingsSidebar() {
+      const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
+      if (!buttons.length) return;
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => {
+            item.classList.remove("is-active");
+            item.setAttribute("aria-pressed", "false");
+          });
+          button.classList.add("is-active");
+          button.setAttribute("aria-pressed", "true");
+          renderSettingsSection(button.dataset.settingsSection);
+        });
+      });
+    }
+
+
+    function openSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      if (!overlay) return;
+      overlay.classList.add("open");
+      overlay.classList.remove("minimized");
+      overlay.setAttribute("aria-hidden", "false");
+      setSettingsDockMinimized(false);
+      bringWindowToFront(overlay);
+      window.setTimeout(() => win?.focus(), 0);
+    }
+
+    function closeSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      const fullscreenButton = $("#settingsWindowFullscreen");
+      if (!overlay) return;
+      overlay.classList.remove("open", "minimized", "fullscreen");
+      overlay.setAttribute("aria-hidden", "true");
+      setSettingsDockMinimized(false);
+      fullscreenButton?.setAttribute("aria-pressed", "false");
+      fullscreenButton?.setAttribute("aria-label", "Enter full screen settings window");
+    }
+
+    function minimizeSettingsWindow() {
+      const overlay = $("#settingsWindowOverlay");
+      if (!overlay) return;
+      overlay.classList.add("minimized");
+      overlay.classList.remove("fullscreen");
+      setSettingsDockMinimized(true);
+    }
+
+    function toggleSettingsWindowFullscreen() {
+      const overlay = $("#settingsWindowOverlay");
+      const fullscreenButton = $("#settingsWindowFullscreen");
+      if (!overlay) return;
+      const isFullscreen = overlay.classList.toggle("fullscreen");
+      overlay.classList.remove("minimized");
+      setSettingsDockMinimized(false);
+      bringWindowToFront(overlay);
+      fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
+      fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen settings window" : "Enter full screen settings window");
+    }
+
+    function clampSettingsWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindSettingsWindowDrag() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      const titlebar = $(".settings-window-titlebar");
+      if (!overlay || !win || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        win.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampSettingsWindowToViewport(win, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          win.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindSettingsWindowResize() {
+      const overlay = $("#settingsWindowOverlay");
+      const win = $("#settingsWindow");
+      const handle = $("#settingsWindowResizeHandle");
+      if (!overlay || !win || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(560, window.innerWidth - 20);
+          const minHeight = 430;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampSettingsWindowToViewport(win, rect.left, rect.top, nextWidth, nextHeight);
+          win.style.width = `${clamped.width}px`;
+          win.style.height = `${clamped.height}px`;
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function clampShopWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindShopWindowDrag() {
+      const overlay = $("#shopWindowOverlay");
+      const win = $("#shopWindow");
+      const titlebar = $(".shop-window-titlebar");
+      if (!overlay || !win || !titlebar) return;
+
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        if (overlay.classList.contains("minimized")) return;
+        if (overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        win.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+
+        const move = (moveEvent) => {
+          const clamped = clampShopWindowToViewport(win, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+
+        const stop = () => {
+          win.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindShopWindowResize() {
+      const overlay = $("#shopWindowOverlay");
+      const win = $("#shopWindow");
+      const handle = $("#shopWindowResizeHandle");
+      if (!overlay || !win || !handle) return;
+
+      handle.addEventListener("pointerdown", (event) => {
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+
+        const move = (moveEvent) => {
+          const minWidth = Math.min(520, window.innerWidth - 20);
+          const minHeight = 390;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampShopWindowToViewport(win, rect.left, rect.top, nextWidth, nextHeight);
+          win.style.width = `${clamped.width}px`;
+          win.style.height = `${clamped.height}px`;
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+        };
+
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function clampFolderWindowToViewport(win, nextLeft, nextTop, nextWidth = win.offsetWidth, nextHeight = win.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindFolderWindowDrag() {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      const titlebar = $(".folder-window-titlebar");
+      if (!overlay || !win || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        win.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampFolderWindowToViewport(win, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+          win.style.right = "auto";
+        };
+        const stop = () => {
+          win.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindFolderWindowResize() {
+      const overlay = $("#folderWindowOverlay");
+      const win = $("#folderWindow");
+      const handle = $("#folderWindowResizeHandle");
+      if (!overlay || !win || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
+        event.preventDefault();
+        bringWindowToFront(overlay);
+        const rect = win.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(520, window.innerWidth - 20);
+          const minHeight = 390;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampFolderWindowToViewport(win, rect.left, rect.top, nextWidth, nextHeight);
+          win.style.width = `${clamped.width}px`;
+          win.style.height = `${clamped.height}px`;
+          win.style.left = `${clamped.left}px`;
+          win.style.top = `${clamped.top}px`;
+          win.style.right = "auto";
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function clampImageViewerToViewport(viewer, nextLeft, nextTop, nextWidth = viewer.offsetWidth, nextHeight = viewer.offsetHeight) {
+      const margin = 10;
+      const maxLeft = Math.max(margin, window.innerWidth - nextWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - nextHeight - margin);
+      return {
+        left: Math.min(Math.max(margin, nextLeft), maxLeft),
+        top: Math.min(Math.max(margin, nextTop), maxTop),
+        width: Math.min(nextWidth, window.innerWidth - margin * 2),
+        height: Math.min(nextHeight, window.innerHeight - margin * 2),
+      };
+    }
+
+    function bindImageViewerDrag() {
+      const viewer = $(".image-viewer");
+      const titlebar = $(".image-viewer-titlebar");
+      if (!viewer || !titlebar) return;
+      titlebar.addEventListener("pointerdown", (event) => {
+        if (event.target?.closest?.("button")) return;
+        event.preventDefault();
+        bringWindowToFront($("#imageViewerOverlay"));
+        const rect = viewer.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        viewer.classList.add("is-dragging");
+        titlebar.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const clamped = clampImageViewerToViewport(viewer, rect.left + moveEvent.clientX - startX, rect.top + moveEvent.clientY - startY);
+          viewer.style.position = "fixed";
+          viewer.style.left = `${clamped.left}px`;
+          viewer.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          viewer.classList.remove("is-dragging");
+          titlebar.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
+    function bindImageViewerResize() {
+      const viewer = $(".image-viewer");
+      const handle = $("#imageViewerResizeHandle");
+      if (!viewer || !handle) return;
+      handle.addEventListener("pointerdown", (event) => {
+        event.preventDefault();
+        bringWindowToFront($("#imageViewerOverlay"));
+        const rect = viewer.getBoundingClientRect();
+        const startX = event.clientX;
+        const startY = event.clientY;
+        handle.setPointerCapture?.(event.pointerId);
+        const move = (moveEvent) => {
+          const minWidth = Math.min(420, window.innerWidth - 20);
+          const minHeight = 320;
+          const nextWidth = Math.max(minWidth, rect.width + moveEvent.clientX - startX);
+          const nextHeight = Math.max(minHeight, rect.height + moveEvent.clientY - startY);
+          const clamped = clampImageViewerToViewport(viewer, rect.left, rect.top, nextWidth, nextHeight);
+          viewer.style.position = "fixed";
+          viewer.style.width = `${clamped.width}px`;
+          viewer.style.height = `${clamped.height}px`;
+          viewer.style.left = `${clamped.left}px`;
+          viewer.style.top = `${clamped.top}px`;
+        };
+        const stop = () => {
+          handle.releasePointerCapture?.(event.pointerId);
+          window.removeEventListener("pointermove", move);
+          window.removeEventListener("pointerup", stop);
+        };
+        window.addEventListener("pointermove", move);
+        window.addEventListener("pointerup", stop, { once: true });
+      });
+    }
+
     function bindEvents() {
       const bookingOpenButton = $("#bookingOpenButton");
       const bookingCloseButton = $("#bookingCloseButton");
       const bookingForm = $("#bookingForm");
+      const shopOpenLinks = Array.from(document.querySelectorAll("[data-shop-window-open]"));
+      const shopCloseButton = $("#shopWindowClose");
+      const shopMinimizeButton = $("#shopWindowMinimize");
+      const shopFullscreenButton = $("#shopWindowFullscreen");
+      const shopWindowTitlebar = $(".shop-window-titlebar");
+      const settingsOpenLinks = Array.from(document.querySelectorAll("[data-settings-window-open]"));
+      const settingsCloseButton = $("#settingsWindowClose");
+      const settingsMinimizeButton = $("#settingsWindowMinimize");
+      const settingsFullscreenButton = $("#settingsWindowFullscreen");
+      const folderOpenButtons = Array.from(document.querySelectorAll("[data-folder-open]"));
+      const folderCloseButton = $("#folderWindowClose");
+      const folderMinimizeButton = $("#folderWindowMinimize");
+      const folderFullscreenButton = $("#folderWindowFullscreen");
+      const imageViewerClose = $("#imageViewerClose");
+      const htmlOpenClose = $("#htmlOpenClose");
+      const htmlOpenCancel = $("#htmlOpenCancel");
+      const floatingWindows = [
+        ["#folderWindow", "#folderWindowOverlay"],
+        ["#shopWindow", "#shopWindowOverlay"],
+        ["#settingsWindow", "#settingsWindowOverlay"],
+        [".image-viewer", "#imageViewerOverlay"],
+      ];
+
+      if (htmlOpenClose) htmlOpenClose.addEventListener("click", closeHtmlOpenDialog);
+      if (htmlOpenCancel) htmlOpenCancel.addEventListener("click", closeHtmlOpenDialog);
+      if (imageViewerClose) imageViewerClose.addEventListener("click", closeImageViewer);
+      floatingWindows.forEach(([windowSelector, overlaySelector]) => {
+        const floatingWindow = $(windowSelector);
+        const overlay = $(overlaySelector);
+        if (!floatingWindow || !overlay) return;
+        floatingWindow.addEventListener("pointerdown", () => bringWindowToFront(overlay));
+      });
+      bindImageViewerDrag();
+      bindImageViewerResize();
+
+      folderOpenButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.preventDefault();
+          openFolderWindow(button.dataset.folderOpen);
+        });
+      });
+      if (folderCloseButton) folderCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeFolderWindow();
+      });
+      if (folderMinimizeButton) folderMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeFolderWindow();
+      });
+      if (folderFullscreenButton) folderFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleFolderWindowFullscreen();
+      });
+      bindFolderWindowDrag();
+      bindFolderWindowResize();
+
+      shopOpenLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          openShopWindow();
+        });
+      });
+      if (shopCloseButton) shopCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeShopWindow();
+      });
+      if (shopMinimizeButton) shopMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeShopWindow();
+      });
+      if (shopFullscreenButton) shopFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleShopWindowFullscreen();
+      });
+      if (shopWindowTitlebar) shopWindowTitlebar.addEventListener("click", (event) => {
+        if (event.target?.closest?.("button")) return;
+        restoreShopWindow();
+      });
+      bindShopWindowDrag();
+      bindShopWindowResize();
+
+      settingsOpenLinks.forEach((link) => {
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          openSettingsWindow();
+        });
+      });
+      if (settingsCloseButton) settingsCloseButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        closeSettingsWindow();
+      });
+      if (settingsMinimizeButton) settingsMinimizeButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        minimizeSettingsWindow();
+      });
+      if (settingsFullscreenButton) settingsFullscreenButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        toggleSettingsWindowFullscreen();
+      });
+      bindSettingsSidebar();
+      bindSettingsWindowDrag();
+      bindSettingsWindowResize();
 
       if (bookingOpenButton) bookingOpenButton.addEventListener("click", openBookingPanel);
       if (bookingCloseButton) bookingCloseButton.addEventListener("click", closeBookingPanel);
@@ -3146,7 +5646,14 @@
         item.addEventListener("focusin", () => setInquiryPointerActive(item));
       });
       document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") closeBookingPanel();
+        if (event.key === "Escape") {
+          closeBookingPanel();
+          closeShopWindow();
+          closeSettingsWindow();
+          closeFolderWindow();
+          closeImageViewer();
+          closeHtmlOpenDialog();
+        }
       });
     }
 
@@ -3172,6 +5679,8 @@
       if (!dock || window.matchMedia("(pointer: coarse)").matches) return;
       const dockItems = Array.from(dock.querySelectorAll(".top-floating-dock-link"));
       const maxDistance = 150;
+      let latestClientX = 0;
+      let dockFrame = 0;
 
       const setDockItemSize = (item, size, iconSize) => {
         item.style.setProperty("--dock-size", `${size.toFixed(2)}px`);
@@ -3187,13 +5696,29 @@
           const rect = item.getBoundingClientRect();
           const center = rect.left + rect.width / 2;
           const distance = Math.max(-maxDistance, Math.min(clientX - center, maxDistance));
-          const closeness = 1 - Math.abs(distance) / maxDistance;
+          const rawCloseness = 1 - Math.abs(distance) / maxDistance;
+          const closeness = rawCloseness * rawCloseness * (3 - 2 * rawCloseness);
           setDockItemSize(item, 48 + closeness * 38, 32 + closeness * 22);
         });
       };
 
-      dock.addEventListener("mousemove", (event) => magnifyDock(event.clientX), { passive: true });
-      dock.addEventListener("mouseleave", resetDock, { passive: true });
+      const scheduleMagnifyDock = (clientX) => {
+        latestClientX = clientX;
+        if (dockFrame) return;
+        dockFrame = requestAnimationFrame(() => {
+          dockFrame = 0;
+          magnifyDock(latestClientX);
+        });
+      };
+
+      dock.addEventListener("pointermove", (event) => scheduleMagnifyDock(event.clientX), { passive: true });
+      dock.addEventListener("mouseleave", () => {
+        if (dockFrame) {
+          cancelAnimationFrame(dockFrame);
+          dockFrame = 0;
+        }
+        resetDock();
+      }, { passive: true });
       dock.addEventListener("focusout", resetDock);
       dockItems.forEach((item) => {
         item.addEventListener("focus", () => {
@@ -3219,6 +5744,7 @@
       let currentScale = 1;
       let rafId = 0;
       let running = true;
+      let lastFrameTime = 0;
 
       const move = (event) => {
         targetX = event.clientX;
@@ -3231,11 +5757,15 @@
         targetScale = isInteractive ? 1.22 : 1;
       };
 
-      const animate = () => {
+      const animate = (time = performance.now()) => {
         if (!running) return;
-        currentX += (targetX - currentX) * 0.22;
-        currentY += (targetY - currentY) * 0.22;
-        currentScale += (targetScale - currentScale) * 0.18;
+        const delta = lastFrameTime ? Math.min(34, time - lastFrameTime) : 16.7;
+        lastFrameTime = time;
+        const positionEase = 1 - Math.pow(0.0018, delta / 180);
+        const scaleEase = 1 - Math.pow(0.0025, delta / 150);
+        currentX += (targetX - currentX) * positionEase;
+        currentY += (targetY - currentY) * positionEase;
+        currentScale += (targetScale - currentScale) * scaleEase;
         cursor.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%) scale(${currentScale})`;
         rafId = requestAnimationFrame(animate);
       };
@@ -3243,6 +5773,7 @@
       const toggleCursorAnimation = () => {
         running = document.visibilityState === "visible";
         if (running && !rafId) {
+          lastFrameTime = 0;
           rafId = requestAnimationFrame(animate);
         } else if (!running && rafId) {
           cancelAnimationFrame(rafId);
@@ -3273,7 +5804,78 @@
       target.textContent = `${date}  ${time}`;
     }
 
+    function updateLockScreenDateTime() {
+      const dateTarget = $("#lockScreenDate");
+      const timeTarget = $("#lockScreenTime");
+      if (!dateTarget && !timeTarget) return;
+      const now = new Date();
+      const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(now);
+      const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(now);
+      const day = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(now);
+      if (dateTarget) dateTarget.textContent = `${weekday} ${month} ${day}`;
+      if (timeTarget) {
+        const timeParts = new Intl.DateTimeFormat("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+          hour12: true
+        }).formatToParts(now);
+        const hour = timeParts.find((part) => part.type === "hour")?.value || "9";
+        const minute = timeParts.find((part) => part.type === "minute")?.value || "41";
+        timeTarget.textContent = `${hour}:${minute}`;
+      }
+    }
+
+    function dismissLockScreen() {
+      const lockScreen = $("#lockScreen");
+      if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
+      lockScreen.classList.add("is-unlocked");
+      document.body.classList.remove("lock-screen-active");
+      window.setTimeout(() => {
+        lockScreen.setAttribute("hidden", "");
+      }, 620);
+    }
+
+    function initLockScreen() {
+      const lockScreen = $("#lockScreen");
+      const enterButton = $("#lockScreenEnter");
+      if (!lockScreen) return;
+      updateLockScreenDateTime();
+      window.setInterval(updateLockScreenDateTime, 1000);
+      enterButton?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        dismissLockScreen();
+      });
+      lockScreen.addEventListener("click", dismissLockScreen);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Tab") return;
+        dismissLockScreen();
+      });
+    }
+
+    function dismissPageLoader() {
+      const loader = $("#pageLoader");
+      if (!loader || loader.classList.contains("is-hidden")) return;
+      loader.classList.add("is-hidden");
+      document.body.classList.remove("page-loading");
+      window.setTimeout(() => {
+        loader.setAttribute("hidden", "");
+      }, 460);
+    }
+
+    function initPageLoader() {
+      if (document.readyState === "complete") {
+        window.setTimeout(dismissPageLoader, 180);
+      } else {
+        window.addEventListener("load", () => {
+          window.setTimeout(dismissPageLoader, 180);
+        }, { once: true });
+      }
+      window.setTimeout(dismissPageLoader, 6500);
+    }
+
     function init() {
+      initPageLoader();
+      initLockScreen();
       updateMacStatusDateTime();
       window.setInterval(updateMacStatusDateTime, 30000);
       initInquiry();
