@@ -3445,6 +3445,29 @@
     .settings-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
     .settings-chip { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
 
+
+    .settings-sidebar-item { transition: background 180ms ease, color 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
+    .settings-sidebar-item:hover, .settings-sidebar-item:focus-visible { background: rgba(255, 255, 255, 0.62); color: #1f2937; outline: none; transform: translateX(2px); }
+    .settings-sidebar-item.is-active:hover { background: rgba(59, 130, 246, 0.16); transform: none; }
+    .settings-content { transition: opacity 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
+    .settings-content.is-switching { opacity: 0; transform: translateY(6px); }
+    .settings-bio-card, .settings-detail-card {
+      border: 1px solid rgba(17,24,39,.08);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255,255,255,.64);
+      box-shadow: 0 10px 26px rgba(15,23,42,.055), inset 0 1px 0 rgba(255,255,255,.82);
+    }
+    .settings-bio-card p, .settings-detail-card p { margin: 0; color: #4b5563; font-size: 14px; line-height: 1.62; font-weight: 600; }
+    .settings-section-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    .settings-detail-card { display: grid; gap: 10px; align-content: start; }
+    .settings-detail-card h3 { margin: 0; color: #1f2937; font-size: 17px; letter-spacing: -0.045em; }
+    .settings-detail-card ul { margin: 0; padding-left: 18px; color: #4b5563; font-size: 13px; line-height: 1.62; font-weight: 600; }
+    .settings-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .settings-link-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid rgba(17,24,39,.08); border-radius: 16px; padding: 16px 18px; background: rgba(255,255,255,.66); color: #1f2937; text-decoration: none; font-weight: 780; transition: transform 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, background 180ms ease; }
+    .settings-link-card:hover, .settings-link-card:focus-visible { transform: translateY(-2px); border-color: rgba(59,130,246,.28); background: rgba(255,255,255,.86); outline: none; }
+    @media (max-width: 760px) { .settings-section-grid, .settings-link-grid { grid-template-columns: 1fr; } }
+
     .settings-window-resize-handle {
       position: absolute;
       right: 0;
@@ -4257,15 +4280,15 @@
             <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
           </div>
           <div class="settings-sidebar-list">
-            <button class="settings-sidebar-item is-active" type="button"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
-            <button class="settings-sidebar-item" type="button"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
+            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="experience" aria-pressed="false"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
           </div>
           <blockquote class="settings-quote">“Curiosity drives me, and data helps me understand the world.”</blockquote>
         </aside>
@@ -5029,6 +5052,106 @@
     }
 
 
+    const settingsSectionData = {
+      about: {
+        title: "About Me",
+        subtitle: "A quick overview of my academic journey and interests.",
+        body: `
+          <div class="settings-profile-card">
+            <img class="settings-profile-large" src="profile.jpg" alt="Zirui Kong portrait">
+            <div class="settings-profile-facts">
+              <div><span>👤</span><strong>Name:</strong><p>Zirui Kong / 子睿</p></div>
+              <div><span>🎯</span><strong>Current focus:</strong><p>Economics, research, data, and policy</p></div>
+              <div><span>📍</span><strong>Hometown:</strong><p>Hefei, Anhui, China</p></div>
+              <div><span>🎓</span><strong>Undergraduate:</strong><p>The Ohio State University, Economics</p></div>
+              <div><span>🌐</span><strong>Exchange:</strong><p>Peking University Guanghua School</p></div>
+              <div><span>♡</span><strong>Interests:</strong><p>Public policy, finance, quantitative analysis, design</p></div>
+              <div><span>💼</span><strong>Experience:</strong><p>Internships in banking, data analysis, and research</p></div>
+              <div><span>⚑</span><strong>Goal:</strong><p>Explore economics through research and data-driven thinking</p></div>
+            </div>
+          </div>
+          <div class="settings-bio-card">
+            <h3>Short Bio</h3>
+            <p>I’m Zirui Kong, an economics student with interests in research, public policy, and data analysis. My academic journey has taken me from Hefei to Columbus and Beijing, and I’m especially interested in using research and data-driven thinking to better understand institutions, society, and real-world decision making.</p>
+          </div>
+          <div class="settings-card-grid">
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--blue">🏠</span><h3>Background</h3><span>›</span></div><p>I’m from Hefei, Anhui, China. My curiosity began with economics and expanded into research, data, and public policy.</p><div class="settings-tags"><span>Hefei, China</span><span>Curious & Analytical</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--green">🎓</span><h3>Education</h3><span>›</span></div><p>Economics major at The Ohio State University, with an exchange experience at Peking University Guanghua School.</p><div class="settings-tags settings-tags--green"><span>OSU Economics</span><span>PKU Guanghua</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--purple">💼</span><h3>Experience & Skills</h3><span>›</span></div><p>Experience in banking, data analysis, and research, using Python, R, Excel, and Stata for analytical work.</p><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Excel</span><span>Stata</span><span>+</span></div></article>
+            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--orange">🎯</span><h3>Future Goals</h3><span>›</span></div><p>Pursue graduate study in economics or policy-related fields and use data to create public impact.</p><div class="settings-tags settings-tags--orange"><span>Research</span><span>Policy</span><span>Impact</span></div></article>
+          </div>
+        `,
+      },
+      hometown: {
+        title: "Hometown",
+        subtitle: "Where my journey began and how place shaped my curiosity.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is where my journey began. Growing up there gave me a grounded perspective and shaped my early academic curiosity.</p><div class="settings-tags"><span>Home Base</span><span>Anhui</span><span>Early Influence</span></div></article><article class="settings-detail-card"><h3>Perspective</h3><p>My background helps me connect economics with institutions, local development, and the way everyday decisions shape broader outcomes.</p><div class="settings-tags settings-tags--green"><span>Community</span><span>Growth</span></div></article></div>`,
+      },
+      education: {
+        title: "Education",
+        subtitle: "Academic training across Columbus and Beijing.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>The Ohio State University</h3><p>B.A. in Economics, with foundations in quantitative coursework, economics theory, statistics, and analytical thinking.</p><div class="settings-tags settings-tags--green"><span>Economics</span><span>Undergraduate</span><span>2022–2025</span></div></article><article class="settings-detail-card"><h3>Peking University Guanghua</h3><p>Exchange experience focused on broader academic exposure, research-oriented learning, and a China-related policy perspective.</p><div class="settings-tags"><span>Exchange</span><span>Beijing</span><span>2025–2026</span></div></article><article class="settings-detail-card"><h3>Relevant Coursework</h3><ul><li>Econometrics and statistics</li><li>Microeconomics and macroeconomics</li><li>Data analysis and policy-related coursework</li></ul></article></div>`,
+      },
+      exchange: {
+        title: "Exchange",
+        subtitle: "A broader lens on economics, institutions, and society.",
+        body: `<div class="settings-detail-card"><h3>Peking University Guanghua School</h3><p>My exchange experience at Peking University broadened my academic perspective and deepened my interest in connecting economics with institutions, society, and policy.</p><div class="settings-tags"><span>Beijing</span><span>Exchange Program</span><span>Perspective</span><span>Growth</span></div></div>`,
+      },
+      research: {
+        title: "Research",
+        subtitle: "Questions, methods, and areas I want to understand more deeply.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Interest Areas</h3><p>Economics, public policy, quantitative social science, policy evaluation, inequality, and AI adoption.</p><div class="settings-tags"><span>Policy Evaluation</span><span>Data Analysis</span><span>AI Adoption</span></div></article><article class="settings-detail-card"><h3>Current Curiosity</h3><p>How data informs decision-making, how institutions shape outcomes, and how research can create public impact.</p><div class="settings-tags settings-tags--orange"><span>Decision Making</span><span>Institutions</span><span>Impact</span></div></article></div>`,
+      },
+      experience: {
+        title: "Experience",
+        subtitle: "Connecting analytical tools with practical problems.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Banking & Finance</h3><p>Internship experience strengthened my ability to connect quantitative tools with real-world financial questions.</p><div class="settings-tags settings-tags--purple"><span>Banking</span><span>Securities</span></div></article><article class="settings-detail-card"><h3>Research & Data</h3><p>Worked on research support and data-oriented tasks, building stronger habits in data cleaning, analysis, and communication.</p><div class="settings-tags"><span>Data Analysis</span><span>Research Support</span></div></article></div>`,
+      },
+      skills: {
+        title: "Skills",
+        subtitle: "Methods and tools grouped by how I use them.",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Analytical Tools</h3><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Stata</span><span>Excel</span><span>SQL</span></div></article><article class="settings-detail-card"><h3>Research Skills</h3><div class="settings-tags"><span>Data Cleaning</span><span>Statistical Analysis</span><span>Visualization</span><span>Literature Review</span></div></article><article class="settings-detail-card"><h3>Personal Strengths</h3><div class="settings-tags settings-tags--green"><span>Structured Thinking</span><span>Curiosity</span><span>Academic Writing</span><span>Cross-cultural Perspective</span></div></article></div>`,
+      },
+      interests: {
+        title: "Interests",
+        subtitle: "The ideas and practices that keep me curious.",
+        body: `<div class="settings-detail-card"><h3>What I Like Exploring</h3><p>I’m especially interested in how data, policy, and institutions interact — and I also enjoy design as a way to make complex ideas more intuitive and engaging.</p><div class="settings-tags"><span>Economics</span><span>Research</span><span>Public Policy</span><span>Data Visualization</span><span>Design</span><span>Global Perspective</span></div></div>`,
+      },
+      contact: {
+        title: "Contact",
+        subtitle: "Ways to get in touch or continue exploring my work.",
+        body: `<div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="mailto:kong.480@osu.edu"><strong>OSU Email</strong><span>kong.480@osu.edu</span></a><a class="settings-link-card" href="shop.html"><strong>Portfolio</strong><span>Open the Shop / archive page</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Resume</strong><span>Open PDF in a new tab</span></a></div>`,
+      },
+    };
+
+    function renderSettingsSection(sectionKey = "about") {
+      const content = $(".settings-content");
+      const section = settingsSectionData[sectionKey] || settingsSectionData.about;
+      if (!content || !section) return;
+      content.classList.add("is-switching");
+      window.setTimeout(() => {
+        content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
+        content.classList.remove("is-switching");
+      }, 120);
+    }
+
+    function bindSettingsSidebar() {
+      const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
+      if (!buttons.length) return;
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          buttons.forEach((item) => {
+            item.classList.remove("is-active");
+            item.setAttribute("aria-pressed", "false");
+          });
+          button.classList.add("is-active");
+          button.setAttribute("aria-pressed", "true");
+          renderSettingsSection(button.dataset.settingsSection);
+        });
+      });
+    }
+
+
     function openSettingsWindow() {
       const overlay = $("#settingsWindowOverlay");
       const win = $("#settingsWindow");
@@ -5492,6 +5615,7 @@
         event.stopPropagation();
         toggleSettingsWindowFullscreen();
       });
+      bindSettingsSidebar();
       bindSettingsWindowDrag();
       bindSettingsWindowResize();
 
