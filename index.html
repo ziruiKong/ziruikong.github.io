@@ -3346,7 +3346,7 @@
     .settings-window-main {
       min-height: 0;
       display: grid;
-      grid-template-columns: 360px minmax(0, 1fr);
+      grid-template-columns: 390px minmax(0, 1fr);
       background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(246, 243, 237, 0.92));
     }
 
@@ -3365,26 +3365,30 @@
     .settings-profile strong { display: block; font-size: 18px; color: #1f2937; letter-spacing: -0.045em; }
     .settings-profile span { display: block; margin-top: 5px; font-size: 16px; color: #6b7280; }
 
-    .settings-sidebar-list { display: grid; align-content: start; gap: 16px; overflow: auto; }
+    .settings-sidebar-list { display: grid; align-content: start; gap: 10px; overflow: auto; padding-right: 4px; }
     .settings-sidebar-item {
       display: flex;
       align-items: center;
-      gap: 18px;
+      gap: 16px;
       width: 100%;
       border: 0;
       border-radius: 16px;
-      padding: 18px 24px;
+      padding: 13px 18px;
       background: transparent;
       color: #4b5563;
       text-align: left;
       font: inherit;
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 780;
       letter-spacing: -0.035em;
       cursor: default;
     }
     .settings-sidebar-item.is-active { color: #1f2937; background: rgba(59, 130, 246, 0.14); }
     .settings-sidebar-icon { width: 30px; text-align: center; font-size: 21px; filter: grayscale(.18); }
+    .settings-sidebar-copy { display: grid; gap: 3px; min-width: 0; }
+    .settings-sidebar-copy span:first-child { color: inherit; }
+    .settings-sidebar-subtitle { color: rgba(75,85,99,.72); font-size: 12px; font-weight: 650; letter-spacing: -0.02em; }
+    .settings-sidebar-item.is-active .settings-sidebar-subtitle { color: rgba(31,41,55,.68); }
 
     .settings-quote {
       margin: 0;
@@ -3469,6 +3473,12 @@
     .settings-detail-card { display: grid; gap: 10px; align-content: start; }
     .settings-detail-card h3 { margin: 0; color: #1f2937; font-size: 17px; letter-spacing: -0.045em; }
     .settings-detail-card ul { margin: 0; padding-left: 18px; color: #4b5563; font-size: 13px; line-height: 1.62; font-weight: 600; }
+    .settings-detail-card h4 { margin: 2px 0 0; color: #374151; font-size: 14px; letter-spacing: -0.035em; }
+    .settings-hero-title { margin: 0; color: #111827; font-size: 24px; letter-spacing: -0.055em; }
+    .settings-kicker { margin: -4px 0 2px; color: #2563eb; font-size: 13px; font-weight: 820; letter-spacing: -0.025em; }
+    .settings-profile-list { display: grid; gap: 8px; }
+    .settings-profile-list div { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 10px; color: #4b5563; font-size: 13px; line-height: 1.45; }
+    .settings-profile-list strong { color: #1f2937; }
     .settings-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .settings-link-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid rgba(17,24,39,.08); border-radius: 16px; padding: 16px 18px; background: rgba(255,255,255,.66); color: #1f2937; text-decoration: none; font-weight: 780; transition: transform 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, background 180ms ease; }
     .settings-link-card:hover, .settings-link-card:focus-visible { transform: translateY(-2px); border-color: rgba(59,130,246,.28); background: rgba(255,255,255,.86); outline: none; }
@@ -4286,15 +4296,16 @@
             <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
           </div>
           <div class="settings-sidebar-list">
-            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="experience" aria-pressed="false"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
+            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span class="settings-sidebar-copy"><span>About Me</span><span class="settings-sidebar-subtitle">Personal overview</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span class="settings-sidebar-copy"><span>Hometown</span><span class="settings-sidebar-subtitle">Where I am from</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span class="settings-sidebar-copy"><span>Education</span><span class="settings-sidebar-subtitle">Academic journey</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="columbia" aria-pressed="false"><span class="settings-sidebar-icon">🦁</span><span class="settings-sidebar-copy"><span>Columbia</span><span class="settings-sidebar-subtitle">Current academic chapter</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span class="settings-sidebar-copy"><span>Exchange</span><span class="settings-sidebar-subtitle">Global academic experience</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span class="settings-sidebar-copy"><span>Research</span><span class="settings-sidebar-subtitle">Questions and projects</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span class="settings-sidebar-copy"><span>Skills</span><span class="settings-sidebar-subtitle">Methods and tools</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span class="settings-sidebar-copy"><span>Interests</span><span class="settings-sidebar-subtitle">What I want to study</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="doctoral" aria-pressed="false"><span class="settings-sidebar-icon">🎯</span><span class="settings-sidebar-copy"><span>Doctoral Goals</span><span class="settings-sidebar-subtitle">Long-term academic direction</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span class="settings-sidebar-copy"><span>Contact</span><span class="settings-sidebar-subtitle">Let’s connect</span></span></button>
           </div>
         </aside>
         <main class="settings-content">
@@ -5057,75 +5068,72 @@
     }
 
 
+    const list = (items) => `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
+    const chips = (items, variant = "") => `<div class="settings-tags ${variant}">${items.map((item) => `<span>${item}</span>`).join("")}</div>`;
+    const profileRows = (rows) => `<div class="settings-profile-list">${rows.map(([label, value]) => `<div><strong>${label}</strong><span>${value}</span></div>`).join("")}</div>`;
+
     const settingsSectionData = {
       about: {
         title: "About Me",
-        subtitle: "A quick overview of my academic journey and interests.",
+        subtitle: "Personal overview",
         body: `
           <section class="settings-about-card" aria-label="About Zirui Kong">
             <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
             <div class="settings-facts">
-              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
-              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
-              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
-              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
-              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
-              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
-              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
-              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
+              <h3 class="settings-hero-title">Zirui Kong</h3>
+              <p class="settings-kicker">Statistics · Data Analysis · Interdisciplinary Research</p>
+              <p>I am a student and aspiring researcher focused on statistics, data analysis, and quantitative methods. I am interested in applying statistical reasoning and computational tools across economics, social science, public policy, finance, technology, and business.</p>
+              <p>My academic journey has taken me from Hefei to Columbus, Beijing, and New York. These experiences shaped my interest in using data to describe patterns, explain complex phenomena, evaluate evidence, and support better decisions.</p>
             </div>
           </section>
-          <div class="settings-bio-card">
-            <h3>Short Bio</h3>
-            <p>I’m Zirui Kong, an economics student with interests in research, public policy, and data analysis. My academic journey has taken me from Hefei to Columbus and Beijing, and I’m especially interested in using research and data-driven thinking to better understand institutions, society, and real-world decision making.</p>
-          </div>
-          <div class="settings-card-grid">
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--blue">🏠</span><h3>Background</h3><span>›</span></div><p>I’m from Hefei, Anhui, China. My curiosity began with economics and expanded into research, data, and public policy.</p><div class="settings-tags"><span>Hefei, China</span><span>Curious & Analytical</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--green">🎓</span><h3>Education</h3><span>›</span></div><p>Economics major at The Ohio State University, with an exchange experience at Peking University Guanghua School.</p><div class="settings-tags settings-tags--green"><span>OSU Economics</span><span>PKU Guanghua</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--purple">💼</span><h3>Experience & Skills</h3><span>›</span></div><p>Experience in banking, data analysis, and research, using Python, R, Excel, and Stata for analytical work.</p><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Excel</span><span>Stata</span><span>+</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--orange">🎯</span><h3>Future Goals</h3><span>›</span></div><p>Pursue graduate study in economics or policy-related fields and use data to create public impact.</p><div class="settings-tags settings-tags--orange"><span>Research</span><span>Policy</span><span>Impact</span></div></article>
-          </div>
+          <article class="settings-detail-card"><h3>Profile</h3>${profileRows([["Name:","Zirui Kong"],["Hometown:","Hefei, Anhui, China"],["Undergraduate:","The Ohio State University"],["Exchange:","Peking University Guanghua School of Management"],["Current Institution:","Columbia University"],["Current Period:","September 2026 – Present"],["Primary Focus:","Statistics and data analysis"],["Broader Interests:","Economics, social science, finance, technology, policy, and business"],["Long-Term Goal:","Pursue a Ph.D. and conduct interdisciplinary quantitative research"]])}</article>
+          <article class="settings-detail-card"><h3>Personal Statement</h3><p>I hope to use statistics and data analysis as a common language for studying problems across disciplines and, ultimately, to pursue doctoral research with both methodological depth and broad real-world relevance.</p></article>
         `,
       },
       hometown: {
         title: "Hometown",
-        subtitle: "Where my journey began and how place shaped my curiosity.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is where my journey began. Growing up there gave me a grounded perspective and shaped my early academic curiosity.</p><div class="settings-tags"><span>Home Base</span><span>Anhui</span><span>Early Influence</span></div></article><article class="settings-detail-card"><h3>Perspective</h3><p>My background helps me connect economics with institutions, local development, and the way everyday decisions shape broader outcomes.</p><div class="settings-tags settings-tags--green"><span>Community</span><span>Growth</span></div></article></div>`,
+        subtitle: "Where I am from",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is my hometown and the starting point of my academic journey. Growing up in a rapidly developing city shaped my early curiosity about economic change, technological development, education, and the role of data in understanding social progress.</p></article><article class="settings-detail-card"><h3>Location</h3>${profileRows([["City:","Hefei"],["Province:","Anhui"],["Country:","China"],["Role in My Journey:","Home and starting point"]])}</article><article class="settings-detail-card"><h3>Personal Connection</h3><p>My experience in Hefei encouraged me to observe how cities, institutions, industries, and individuals respond differently to development and technological change. These observations later contributed to my interest in quantitative analysis and interdisciplinary research.</p>${chips(["Home","Anhui","Development","Starting Point"])}</article></div>`,
       },
       education: {
         title: "Education",
-        subtitle: "Academic training across Columbus and Beijing.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>The Ohio State University</h3><p>B.A. in Economics, with foundations in quantitative coursework, economics theory, statistics, and analytical thinking.</p><div class="settings-tags settings-tags--green"><span>Economics</span><span>Undergraduate</span><span>2022–2025</span></div></article><article class="settings-detail-card"><h3>Peking University Guanghua</h3><p>Exchange experience focused on broader academic exposure, research-oriented learning, and a China-related policy perspective.</p><div class="settings-tags"><span>Exchange</span><span>Beijing</span><span>2025–2026</span></div></article><article class="settings-detail-card"><h3>Relevant Coursework</h3><ul><li>Econometrics and statistics</li><li>Microeconomics and macroeconomics</li><li>Data analysis and policy-related coursework</li></ul></article></div>`,
+        subtitle: "Academic journey",
+        body: `<article class="settings-detail-card"><h3>Academic Timeline</h3></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Columbia University</h3><h4>September 2026 – Present · New York, United States</h4><p>At Columbia University, I am focusing on advanced training in statistics, data analysis, research methodology, and quantitative social science.</p><p>My goal is to develop a rigorous methodological foundation that can support research across multiple fields rather than limiting my work to a single substantive discipline.</p><h4>Current Areas of Development</h4>${list(["Statistical inference","Regression and multivariate analysis","Bayesian statistics","Causal inference","Computational methods","Data visualization","Research design","Quantitative social science","Reproducible data analysis"])}</article><article class="settings-detail-card"><h3>Peking University</h3><h4>Guanghua School of Management · September 2025 – January 2026 · Beijing, China</h4><p>I attended Peking University as a full-time, non-degree exchange student. This experience expanded my understanding of Chinese institutions, markets, technology, and economic development.</p><p>It also strengthened my interest in using quantitative methods to connect theoretical questions with empirical evidence.</p><h4>Selected Areas of Study</h4>${list(["Causal inference","Data visualization in R","Artificial intelligence and forecasting","Chinese institutions and capital markets","Applied quantitative methods"])}</article><article class="settings-detail-card"><h3>The Ohio State University</h3><h4>Bachelor of Arts in Economics · 2022 – December 2025 · Columbus, Ohio, United States</h4><p>My undergraduate education provided a foundation in economics, mathematics, statistics, and empirical reasoning.</p><p>Over time, my academic interests shifted from studying individual financial and economic topics toward developing broader statistical and analytical methods that can be applied across disciplines.</p><h4>Academic Foundations</h4>${list(["Economics","Calculus","Linear algebra","Probability","Mathematical statistics","Regression analysis","Causal inference","Data analysis"])}</article></div>`,
+      },
+      columbia: {
+        title: "Columbia",
+        subtitle: "Current academic chapter",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Columbia University</h3><h4>September 2026 – Present</h4><p>Columbia University represents the current stage of my academic development. My primary objective is to build strong technical training in statistics and data analysis while gaining experience applying these methods to questions from multiple disciplines.</p><h4>Current Focus</h4>${list(["Statistical theory and inference","Applied data analysis","Computational statistics","Bayesian methods","Causal inference","Survey methodology","Quantitative social science","Interdisciplinary research design"])}</article><article class="settings-detail-card"><h3>Academic Objectives</h3>${list(["Build a rigorous foundation in statistical theory","Strengthen programming and computational skills","Participate in faculty-led research","Gain research assistant experience","Develop independent empirical projects","Work with data from multiple substantive domains","Prepare for doctoral-level research","Produce publication-oriented academic work"])}</article><article class="settings-detail-card"><h3>Long-Term Direction</h3><p>My long-term goal is to pursue a Ph.D. in a field related to statistics, quantitative social science, data science, or an interdisciplinary area that combines rigorous methodology with substantive applications.</p><p>I hope to become a researcher who can both develop and apply quantitative methods across economics, social science, technology, business, and policy.</p>${chips(["Columbia University","Statistics","Data Analysis","Ph.D. Preparation"])}</article></div>`,
       },
       exchange: {
         title: "Exchange",
-        subtitle: "A broader lens on economics, institutions, and society.",
-        body: `<div class="settings-detail-card"><h3>Peking University Guanghua School</h3><p>My exchange experience at Peking University broadened my academic perspective and deepened my interest in connecting economics with institutions, society, and policy.</p><div class="settings-tags"><span>Beijing</span><span>Exchange Program</span><span>Perspective</span><span>Growth</span></div></div>`,
+        subtitle: "Global academic experience",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Peking University</h3><h4>Guanghua School of Management</h4>${profileRows([["Program Type:","Full-time non-degree exchange program"],["Location:","Beijing, China"],["Period:","September 2025 – January 2026"]])}<p>My exchange experience at Peking University broadened my understanding of China’s economic institutions, business environment, technological transformation, and policy development.</p><p>It also showed me the value of combining domain knowledge with statistical and computational methods.</p></article><article class="settings-detail-card"><h3>Academic Interests</h3>${list(["Causal inference","Artificial intelligence and forecasting","Data visualization","Chinese institutions and markets","Technology and society","Applied quantitative research"])}</article><article class="settings-detail-card"><h3>What I Gained</h3>${list(["A broader interdisciplinary perspective","Experience across different academic systems","A stronger interest in empirical research","Greater familiarity with applied data analysis","A clearer direction toward statistics-focused graduate study"])}${chips(["Peking University","Guanghua","Beijing","Exchange"])}</article></div>`,
       },
       research: {
         title: "Research",
-        subtitle: "Questions, methods, and areas I want to understand more deeply.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Interest Areas</h3><p>Economics, public policy, quantitative social science, policy evaluation, inequality, and AI adoption.</p><div class="settings-tags"><span>Policy Evaluation</span><span>Data Analysis</span><span>AI Adoption</span></div></article><article class="settings-detail-card"><h3>Current Curiosity</h3><p>How data informs decision-making, how institutions shape outcomes, and how research can create public impact.</p><div class="settings-tags settings-tags--orange"><span>Decision Making</span><span>Institutions</span><span>Impact</span></div></article></div>`,
-      },
-      experience: {
-        title: "Experience",
-        subtitle: "Connecting analytical tools with practical problems.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Banking & Finance</h3><p>Internship experience strengthened my ability to connect quantitative tools with real-world financial questions.</p><div class="settings-tags settings-tags--purple"><span>Banking</span><span>Securities</span></div></article><article class="settings-detail-card"><h3>Research & Data</h3><p>Worked on research support and data-oriented tasks, building stronger habits in data cleaning, analysis, and communication.</p><div class="settings-tags"><span>Data Analysis</span><span>Research Support</span></div></article></div>`,
+        subtitle: "Questions and projects",
+        body: `<article class="settings-detail-card"><h3>Research Philosophy</h3><p>I view statistics and data analysis as methodological tools that can connect different fields. Rather than focusing exclusively on one application area, I hope to study a broad range of questions while maintaining a consistent emphasis on rigorous research design, statistical modeling, and empirical evidence.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Methodological Interests</h3>${list(["Statistical inference","Bayesian modeling","Causal inference","Longitudinal and panel data","Time-series analysis","Survey methodology","Latent-variable models","Machine learning","Dynamic systems","Computational simulation"])}</article><article class="settings-detail-card"><h3>Application Areas</h3>${list(["Economics","Quantitative social science","Public policy","Finance","Business analytics","Technology adoption","Education","Social inequality","Organizational research","Population and survey studies"])}</article><article class="settings-detail-card"><h3>Current Research Project</h3><h4>Dynamic Pathways of AI Adoption and Skill Formation</h4><p><strong>A Threshold Model of Technological Stratification</strong></p><p>This project examines how skills, social position, perceived risks, institutional support, and peer effects interact to shape the adoption of artificial intelligence.</p><p>The project combines dynamic modeling, simulation, and potential survey-based estimation to study how unequal starting conditions can generate persistent differences in technological participation and skill development.</p><h4>Methods</h4>${list(["Ordinary differential equations","Dynamic systems","Threshold models","Bayesian latent-variable models","Survey-based parameter estimation","Python simulation","Sensitivity analysis","Robustness analysis"])}</article><article class="settings-detail-card"><h3>Additional Research Directions</h3><h4>ESG and Financing Constraints</h4><p>An empirical project studying whether ESG ratings reduce financing constraints among firms in carbon-intensive industries.</p>${list(["Panel data","Fixed-effects models","Heterogeneity analysis","Robustness testing"])}<h4>High-Frequency Financial Data</h4><p>Research involving financial price spreads, market dynamics, and predictive time-series models.</p>${list(["AR and ARIMA models","Stationarity testing","Cointegration analysis","Structural-break detection","Predictive modeling"])}</article><article class="settings-detail-card"><h3>Future Research Goal</h3><p>My goal is to move from applying established statistical methods toward understanding how methods are selected, evaluated, improved, and adapted across different research settings.</p></article></div>`,
       },
       skills: {
         title: "Skills",
-        subtitle: "Methods and tools grouped by how I use them.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Analytical Tools</h3><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Stata</span><span>Excel</span><span>SQL</span></div></article><article class="settings-detail-card"><h3>Research Skills</h3><div class="settings-tags"><span>Data Cleaning</span><span>Statistical Analysis</span><span>Visualization</span><span>Literature Review</span></div></article><article class="settings-detail-card"><h3>Personal Strengths</h3><div class="settings-tags settings-tags--green"><span>Structured Thinking</span><span>Curiosity</span><span>Academic Writing</span><span>Cross-cultural Perspective</span></div></article></div>`,
+        subtitle: "Methods and tools",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Programming</h3>${chips(["Python","R","SQL"],"settings-tags--purple")}</article><article class="settings-detail-card"><h3>Statistical Software</h3>${chips(["Stata","SAS","Excel"])}</article><article class="settings-detail-card"><h3>Statistical Methods</h3>${list(["Linear regression","Generalized linear models","Panel-data analysis","Causal inference","Time-series analysis","Bayesian modeling","Fixed-effects models","Latent-variable models","Statistical simulation","Predictive modeling"])}</article><article class="settings-detail-card"><h3>Data Analysis</h3>${list(["Data cleaning","Exploratory data analysis","Data visualization","Model evaluation","Feature construction","Reproducible workflows","Statistical interpretation","Communicating quantitative results"])}</article><article class="settings-detail-card"><h3>Research Skills</h3>${list(["Research design","Literature review","Hypothesis development","Academic writing","Robustness analysis","Policy analysis","Interdisciplinary problem formulation"])}</article><article class="settings-detail-card"><h3>Current Development Priorities</h3>${list(["Advanced probability","Mathematical statistics","Computational statistics","Machine learning","Bayesian computation","Survey statistics","High-dimensional data analysis"])}</article></div>`,
       },
       interests: {
         title: "Interests",
-        subtitle: "The ideas and practices that keep me curious.",
-        body: `<div class="settings-detail-card"><h3>What I Like Exploring</h3><p>I’m especially interested in how data, policy, and institutions interact — and I also enjoy design as a way to make complex ideas more intuitive and engaging.</p><div class="settings-tags"><span>Economics</span><span>Research</span><span>Public Policy</span><span>Data Visualization</span><span>Design</span><span>Global Perspective</span></div></div>`,
+        subtitle: "What I want to study",
+        body: `<article class="settings-detail-card"><h3>Core Interest</h3><p>My central academic interest lies in statistics and data analysis.</p><p>I am especially interested in how statistical methods can be used across disciplines to uncover patterns, test explanations, evaluate uncertainty, and support better decisions.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Fields of Application</h3>${list(["Economics","Social science","Public policy","Finance","Business","Technology","Education","Organizational studies","Survey research","Population research"])}</article><article class="settings-detail-card"><h3>Questions That Interest Me</h3>${list(["How can statistical models improve our understanding of complex social systems?","How should researchers measure uncertainty and hidden heterogeneity?","How can causal inference be applied in observational settings?","How can survey and administrative data be combined?","How do technologies affect different social and economic groups?","How can quantitative methods be adapted across disciplines?","How can data analysis move beyond prediction toward explanation?"])}</article><article class="settings-detail-card"><h3>Personal Interests</h3>${chips(["Football analytics","Web and interface design","Data visualization","Urban culture","Digital storytelling","Global education"])}</article><article class="settings-detail-card"><h3>Personal Statement</h3><p>I want to build methodological depth in statistics while maintaining the intellectual flexibility to work across many different fields.</p></article></div>`,
+      },
+      doctoral: {
+        title: "Doctoral Goals",
+        subtitle: "Long-term academic direction",
+        body: `<article class="settings-detail-card"><h3>Pursuing a Ph.D.</h3><p>My long-term academic goal is to pursue a Ph.D. in statistics, quantitative social science, data science, social statistics, or a closely related interdisciplinary field.</p><p>I hope to receive doctoral training that combines rigorous statistical methodology, computational tools, and substantive research applications.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Why a Ph.D.</h3>${list(["Develop deeper expertise in statistical theory and methodology","Conduct independent and original research","Work on complex interdisciplinary questions","Collaborate with researchers from different fields","Contribute to academic publications","Teach and communicate quantitative methods","Build a long-term career in research"])}</article><article class="settings-detail-card"><h3>Potential Doctoral Areas</h3>${list(["Statistics","Applied statistics","Social statistics","Quantitative social science","Computational social science","Survey methodology","Data science","Biostatistics or population statistics","Interdisciplinary quantitative methods"])}</article><article class="settings-detail-card"><h3>Preparation Plan</h3>${list(["Complete advanced coursework in statistics and mathematics","Gain sustained research assistant experience","Develop independent research projects","Build strong relationships with faculty mentors","Improve academic writing and research communication","Produce a substantial research paper","Strengthen programming and reproducible research skills","Prepare for Ph.D. applications"])}</article><article class="settings-detail-card"><h3>Long-Term Vision</h3><p>I hope to become an interdisciplinary quantitative researcher who can contribute both methodological insight and substantive knowledge.</p><p>My goal is not only to analyze data, but also to improve how research questions are formulated, how evidence is evaluated, and how statistical results are translated into meaningful conclusions.</p>${chips(["Ph.D.","Statistics","Interdisciplinary Research","Academic Career"],"settings-tags--orange")}</article></div>`,
       },
       contact: {
         title: "Contact",
-        subtitle: "Ways to get in touch or continue exploring my work.",
-        body: `<div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="mailto:kong.480@osu.edu"><strong>OSU Email</strong><span>kong.480@osu.edu</span></a><a class="settings-link-card" href="shop.html"><strong>Portfolio</strong><span>Open the Shop / archive page</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Resume</strong><span>Open PDF in a new tab</span></a></div>`,
+        subtitle: "Let’s connect",
+        body: `<article class="settings-detail-card"><h3>Get in Touch</h3><p>I welcome conversations related to statistics, data analysis, quantitative research, doctoral preparation, and interdisciplinary collaboration.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Contact Options</h3><div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="#"><strong>LinkedIn</strong><span>Connect professionally</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Curriculum Vitae</strong><span>Open CV / resume</span></a><a class="settings-link-card" href="#"><strong>GitHub</strong><span>Code and projects</span></a><a class="settings-link-card" href="index.html"><strong>Personal Website</strong><span>ziruikong.github.io</span></a></div></article><article class="settings-detail-card"><h3>Open To</h3>${list(["Research assistant opportunities","Statistical and data-analysis projects","Faculty-led research","Interdisciplinary collaboration","Academic discussions","Ph.D. preparation and mentorship","Quantitative research opportunities"])}</article><article class="settings-detail-card"><h3>Closing Note</h3><p>Open to thoughtful conversations about statistics, data, interdisciplinary research, and future doctoral study.</p></article></div>`,
       },
     };
 
@@ -5165,6 +5173,8 @@
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
       setSettingsDockMinimized(false);
+      const activeSection = document.querySelector(".settings-sidebar-item.is-active")?.dataset.settingsSection || "about";
+      renderSettingsSection(activeSection);
       bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
