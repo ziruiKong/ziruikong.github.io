@@ -2697,6 +2697,7 @@
       background: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
+      pointer-events: none;
     }
 
     .image-viewer-overlay.open { display: grid; }
@@ -2713,6 +2714,7 @@
       border-radius: 22px;
       background: rgba(250, 246, 236, 0.96);
       box-shadow: 0 30px 90px rgba(0, 0, 0, 0.32);
+      pointer-events: auto;
     }
 
     .image-viewer.is-dragging .image-viewer-titlebar { cursor: grabbing; }
@@ -4186,6 +4188,13 @@
     let activeFolderKey = null;
     let dockFolderKey = null;
     let dockFolderMinimized = false;
+    let floatingWindowZIndex = 170;
+
+    function bringWindowToFront(overlay) {
+      if (!overlay) return;
+      floatingWindowZIndex += 1;
+      overlay.style.zIndex = String(floatingWindowZIndex);
+    }
 
     function renderDockFolderApps() {
       const container = $("#dockFolderApps");
@@ -4264,6 +4273,7 @@
       }
       overlay.classList.add("open");
       overlay.setAttribute("aria-hidden", "false");
+      bringWindowToFront(overlay);
     }
 
     function closeImageViewer() {
@@ -4343,6 +4353,7 @@
       overlay.classList.add("open");
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
+      bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
 
@@ -4371,6 +4382,7 @@
       const isFullscreen = overlay.classList.toggle("fullscreen");
       overlay.classList.remove("minimized");
       setDockFolderMinimized(false);
+      bringWindowToFront(overlay);
       fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen folder window" : "Enter full screen folder window");
     }
@@ -4395,6 +4407,7 @@
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
       setShopDockMinimized(false);
+      bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
 
@@ -4423,6 +4436,7 @@
       if (!overlay?.classList.contains("minimized")) return;
       overlay.classList.remove("minimized");
       setShopDockMinimized(false);
+      bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
 
@@ -4433,6 +4447,7 @@
       const isFullscreen = overlay.classList.toggle("fullscreen");
       overlay.classList.remove("minimized");
       setShopDockMinimized(false);
+      bringWindowToFront(overlay);
       fullscreenButton?.setAttribute("aria-pressed", isFullscreen ? "true" : "false");
       fullscreenButton?.setAttribute("aria-label", isFullscreen ? "Exit full screen shop window" : "Enter full screen shop window");
     }
@@ -4460,6 +4475,7 @@
         if (overlay.classList.contains("minimized")) return;
         if (overlay.classList.contains("fullscreen")) return;
         event.preventDefault();
+        bringWindowToFront(overlay);
         const rect = win.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4493,6 +4509,7 @@
       handle.addEventListener("pointerdown", (event) => {
         if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
         event.preventDefault();
+        bringWindowToFront(overlay);
         const rect = win.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4542,6 +4559,7 @@
         if (event.target?.closest?.("button")) return;
         if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
         event.preventDefault();
+        bringWindowToFront(overlay);
         const rect = win.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4572,6 +4590,7 @@
       handle.addEventListener("pointerdown", (event) => {
         if (overlay.classList.contains("minimized") || overlay.classList.contains("fullscreen")) return;
         event.preventDefault();
+        bringWindowToFront(overlay);
         const rect = win.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4617,6 +4636,7 @@
       titlebar.addEventListener("pointerdown", (event) => {
         if (event.target?.closest?.("button")) return;
         event.preventDefault();
+        bringWindowToFront($("#imageViewerOverlay"));
         const rect = viewer.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4645,6 +4665,7 @@
       if (!viewer || !handle) return;
       handle.addEventListener("pointerdown", (event) => {
         event.preventDefault();
+        bringWindowToFront($("#imageViewerOverlay"));
         const rect = viewer.getBoundingClientRect();
         const startX = event.clientX;
         const startY = event.clientY;
@@ -4687,10 +4708,21 @@
       const imageViewerClose = $("#imageViewerClose");
       const htmlOpenClose = $("#htmlOpenClose");
       const htmlOpenCancel = $("#htmlOpenCancel");
+      const floatingWindows = [
+        ["#folderWindow", "#folderWindowOverlay"],
+        ["#shopWindow", "#shopWindowOverlay"],
+        [".image-viewer", "#imageViewerOverlay"],
+      ];
 
       if (htmlOpenClose) htmlOpenClose.addEventListener("click", closeHtmlOpenDialog);
       if (htmlOpenCancel) htmlOpenCancel.addEventListener("click", closeHtmlOpenDialog);
       if (imageViewerClose) imageViewerClose.addEventListener("click", closeImageViewer);
+      floatingWindows.forEach(([windowSelector, overlaySelector]) => {
+        const floatingWindow = $(windowSelector);
+        const overlay = $(overlaySelector);
+        if (!floatingWindow || !overlay) return;
+        floatingWindow.addEventListener("pointerdown", () => bringWindowToFront(overlay));
+      });
       bindImageViewerDrag();
       bindImageViewerResize();
 
