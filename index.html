@@ -150,7 +150,7 @@
       inset: 0;
       z-index: 12000;
       display: grid;
-      grid-template-rows: minmax(180px, 34vh) 1fr;
+      grid-template-rows: minmax(150px, 30vh) 1fr;
       justify-items: center;
       color: rgba(255, 255, 255, 0.92);
       background:
@@ -160,6 +160,11 @@
       opacity: 1;
       visibility: visible;
       transition: opacity 560ms ease, visibility 560ms ease, transform 560ms cubic-bezier(.2,.8,.2,1);
+      cursor: auto;
+    }
+
+    .lock-screen * {
+      cursor: auto;
     }
 
     .lock-screen.is-unlocked {
@@ -171,14 +176,14 @@
 
     .lock-screen-clock {
       align-self: start;
-      margin-top: clamp(44px, 6vh, 72px);
+      margin-top: clamp(34px, 5vh, 56px);
       text-align: center;
       text-shadow: 0 3px 18px rgba(11, 24, 49, 0.28);
       user-select: none;
     }
 
     .lock-screen-date {
-      font-size: clamp(18px, 2.1vw, 28px);
+      font-size: clamp(15px, 1.55vw, 22px);
       font-weight: 760;
       letter-spacing: -0.04em;
       line-height: 1;
@@ -187,7 +192,7 @@
 
     .lock-screen-time {
       margin-top: 4px;
-      font-size: clamp(72px, 12vw, 148px);
+      font-size: clamp(54px, 8.4vw, 108px);
       font-weight: 820;
       letter-spacing: -0.085em;
       line-height: 0.9;
@@ -198,15 +203,15 @@
       align-self: end;
       display: grid;
       justify-items: center;
-      gap: 9px;
-      margin-bottom: clamp(42px, 7vh, 82px);
+      gap: 7px;
+      margin-bottom: clamp(34px, 6vh, 64px);
       text-align: center;
       text-shadow: 0 2px 12px rgba(11, 24, 49, 0.42);
     }
 
     .lock-screen-avatar {
-      width: 58px;
-      height: 58px;
+      width: 46px;
+      height: 46px;
       border-radius: 999px;
       display: grid;
       place-items: center;
@@ -223,7 +228,7 @@
     }
 
     .lock-screen-name {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 800;
       letter-spacing: -0.035em;
     }
@@ -231,7 +236,7 @@
     .lock-screen-welcome {
       margin: -2px 0 0;
       max-width: min(520px, calc(100vw - 42px));
-      font-size: clamp(11px, 1.25vw, 14px);
+      font-size: clamp(10px, 1vw, 12px);
       font-weight: 650;
       letter-spacing: -0.02em;
       color: rgba(255, 255, 255, 0.82);
@@ -254,6 +259,10 @@
       font-weight: 780;
       letter-spacing: -0.02em;
       transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .lock-screen .lock-screen-enter {
+      cursor: pointer;
     }
 
     .lock-screen-enter:hover,
