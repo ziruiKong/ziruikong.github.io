@@ -2720,8 +2720,9 @@
     .image-viewer.is-dragging .image-viewer-titlebar { cursor: grabbing; }
 
     .image-viewer-titlebar {
+      position: relative;
       display: grid;
-      grid-template-columns: 76px minmax(0, 1fr);
+      grid-template-columns: 86px minmax(0, 1fr) 86px;
       align-items: center;
       gap: 8px;
       padding: 0 14px;
@@ -2731,17 +2732,46 @@
       touch-action: none;
     }
 
-    .image-viewer-close {
+    .image-viewer-controls {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .image-viewer-close,
+    .image-viewer-dot {
       width: 12px;
       height: 12px;
       border: 0;
       border-radius: 999px;
-      background: #ff453a;
       padding: 0;
+      display: block;
+    }
+
+    .image-viewer-close {
+      background: #ff453a;
+    }
+
+    .image-viewer-dot.yellow {
+      background: #ffbd2e;
+    }
+
+    .image-viewer-dot.green {
+      background: #28c840;
     }
 
     .image-viewer-title {
-      justify-self: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(56%, calc(100% - 190px));
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-size: 13px;
       font-weight: 760;
       color: #1f2937;
@@ -3748,7 +3778,11 @@
   <section class="image-viewer-overlay" id="imageViewerOverlay" aria-hidden="true" aria-label="Image viewer">
     <div class="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
       <div class="image-viewer-titlebar">
-        <button class="image-viewer-close" id="imageViewerClose" type="button" aria-label="Close image viewer"></button>
+        <div class="image-viewer-controls" aria-label="Window controls">
+          <button class="image-viewer-close" id="imageViewerClose" type="button" aria-label="Close image viewer"></button>
+          <span class="image-viewer-dot yellow" aria-hidden="true"></span>
+          <span class="image-viewer-dot green" aria-hidden="true"></span>
+        </div>
         <span class="image-viewer-title" id="imageViewerTitle">Image</span>
       </div>
       <div class="image-viewer-body" id="imageViewerBody"></div>
