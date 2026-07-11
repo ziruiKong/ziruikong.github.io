@@ -2462,6 +2462,7 @@
     }
 
     .folder-file {
+      position: relative;
       display: grid;
       justify-items: center;
       gap: 14px;
@@ -2476,13 +2477,38 @@
     }
 
     .folder-file:hover,
-    .folder-file:focus-visible,
-    .folder-file.selected {
-      background: rgba(245, 238, 222, 0.86);
-      border-color: rgba(206, 190, 158, 0.58);
-      box-shadow: 0 10px 28px rgba(50, 38, 20, 0.10), inset 0 1px 0 rgba(255, 255, 255, 0.68);
+    .folder-file:focus-visible {
+      background: rgba(245, 238, 222, 0.74);
+      border-color: rgba(206, 190, 158, 0.42);
+      box-shadow: 0 10px 28px rgba(50, 38, 20, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.68);
       outline: none;
       transform: translateY(-2px);
+    }
+
+    .folder-file.selected {
+      background: rgba(235, 244, 255, 0.96);
+      border-color: rgba(37, 99, 235, 0.72);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18), 0 16px 34px rgba(37, 99, 235, 0.16);
+      outline: none;
+      transform: translateY(-2px);
+    }
+
+    .folder-file.selected::after {
+      content: "✓";
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      z-index: 3;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 900;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.32);
     }
 
     .folder-file-thumb {
