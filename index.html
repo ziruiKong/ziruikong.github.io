@@ -5135,6 +5135,7 @@
       if (!content || !section) return;
       content.classList.remove("is-switching");
       content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
+      content.scrollTop = 0;
     }
 
     function selectSettingsSection(sectionKey = "about") {
