@@ -4179,20 +4179,29 @@
       width: 100%;
       height: 100%;
       display: grid;
-      grid-template-rows: 28px 1fr;
+      place-items: center;
       color: #fff;
-      background: linear-gradient(135deg, rgba(12, 20, 36, .82), rgba(9, 9, 12, .78)), url("assets/hero525.png") center/cover;
+      background: #000;
       transform: scale(calc(1 + var(--mac-progress) * 0.18));
       transform-origin: center;
     }
 
     .macbook-screen-bar {
-      display: flex;
+      display: none;
       align-items: center;
       gap: 7px;
       padding: 0 12px;
       background: rgba(9, 9, 12, .82);
       border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .macbook-terminal-mark {
+      color: #fff;
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 900;
+      line-height: 1;
+      transform: translateY(-8%);
+      text-shadow: 0 0 22px rgba(255,255,255,.26);
     }
 
     .macbook-screen-dot { width: 8px; height: 8px; border-radius: 999px; background: #ff5f57; }
@@ -4349,7 +4358,7 @@
       min-height: 100vh;
       padding: clamp(28px, 6vw, 80px);
       color: #fff;
-      background: linear-gradient(180deg, rgba(6, 12, 24, .08), rgba(6, 12, 24, .34)), url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
+      background: transparent;
       border-radius: var(--mac-pop-radius, 32px);
       clip-path: inset(var(--mac-pop-inset-y, 29%) var(--mac-pop-inset-x, 24%) round var(--mac-pop-radius, 32px));
       opacity: var(--mac-pop);
@@ -4360,19 +4369,62 @@
     }
 
     .macbook-scroll-page-popout::before {
+      content: none;
+    }
+
+    .macbook-app-preview {
+      position: relative;
+      width: min(1100px, 86vw);
+      aspect-ratio: 16 / 8.6;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #10131f;
+      box-shadow: 0 28px 70px rgba(15,23,42,.32), 0 0 0 1px rgba(255,255,255,.08) inset;
+      transform: perspective(900px) rotateX(calc(-14deg + var(--mac-pop) * 14deg));
+      transform-origin: 50% 100%;
+    }
+
+    .macbook-app-preview::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.18), transparent 36%), linear-gradient(180deg, transparent, rgba(0,0,0,.44));
-      pointer-events: none;
+      background:
+        linear-gradient(90deg, #111522 0 22%, transparent 22%),
+        repeating-linear-gradient(180deg, #171b29 0 31px, #202331 31px 32px, #121623 32px 63px);
     }
 
-    .macbook-scroll-page-popout .macbook-screen-lock {
-      inset: 0;
-      opacity: 1;
-      transform: none;
-      background: transparent;
+    .macbook-app-preview::after {
+      content: "";
+      position: absolute;
+      left: 24%;
+      right: 4%;
+      top: 9%;
+      bottom: 8%;
+      border-radius: 10px;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,.08) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 12%),
+        #111522;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
     }
+
+    .macbook-app-sidebar,
+    .macbook-app-topbar,
+    .macbook-app-row {
+      position: absolute;
+      z-index: 1;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+    }
+
+    .macbook-app-sidebar { left: 4%; top: 15%; width: 14%; height: 4%; }
+    .macbook-app-topbar { left: 26%; top: 5%; width: 64%; height: 4%; }
+    .macbook-app-row { left: 30%; width: 56%; height: 2.2%; }
+    .macbook-app-row:nth-child(3) { top: 23%; }
+    .macbook-app-row:nth-child(4) { top: 33%; width: 62%; }
+    .macbook-app-row:nth-child(5) { top: 43%; width: 52%; }
+    .macbook-app-row:nth-child(6) { top: 53%; width: 60%; }
+    .macbook-app-row:nth-child(7) { top: 63%; width: 48%; }
 
     .macbook-popout-content {
       position: relative;
@@ -4753,16 +4805,13 @@
           <div class="macbook-scroll-screen">
             <div class="macbook-scroll-screen-inner">
               <div class="macbook-screen-bar"><span class="macbook-screen-dot"></span><span class="macbook-screen-dot"></span><span class="macbook-screen-dot"></span></div>
-              <div class="macbook-screen-lock" aria-label="MacBook lock screen preview">
-                <div class="macbook-screen-lock-clock" aria-live="polite"><div class="macbook-screen-lock-date" id="macbookLockDate">Tue Apr 1</div><div class="macbook-screen-lock-time" id="macbookLockTime">9:41</div></div>
-                <div class="macbook-screen-lock-profile"><span class="macbook-screen-lock-avatar" aria-hidden="true"><img src="assets/favicon-kzr.png" alt=""></span><div class="macbook-screen-lock-name">Zirui Kong</div><p class="macbook-screen-lock-welcome">Welcome to Zirui Kong's personal website</p><button class="macbook-screen-lock-enter" type="button" tabindex="-1">Enter Website</button></div>
-              </div>
+              <div class="macbook-terminal-mark" aria-hidden="true">&gt;</div>
             </div>
           </div>
         </div>
         <div class="macbook-scroll-base"><div class="macbook-scroll-keyboard"></div><div class="macbook-scroll-trackpad"></div></div>
       </div>
-      <div class="macbook-scroll-page-popout" aria-hidden="true"><div class="macbook-screen-lock"><div class="macbook-screen-lock-clock" aria-live="polite"><div class="macbook-screen-lock-date" id="macbookPopDate">Tue Apr 1</div><div class="macbook-screen-lock-time" id="macbookPopTime">9:41</div></div><div class="macbook-screen-lock-profile"><span class="macbook-screen-lock-avatar" aria-hidden="true"><img src="assets/favicon-kzr.png" alt=""></span><div class="macbook-screen-lock-name">Zirui Kong</div><p class="macbook-screen-lock-welcome">Welcome to Zirui Kong's personal website</p><button class="macbook-screen-lock-enter" type="button" tabindex="-1">Enter Website</button></div></div></div>
+      <div class="macbook-scroll-page-popout" aria-hidden="true"><div class="macbook-app-preview"><span class="macbook-app-sidebar"></span><span class="macbook-app-topbar"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span></div></div>
       <div class="macbook-scroll-hint">Scroll to enter</div>
     </div>
   </section>
@@ -4878,8 +4927,7 @@
         intro.style.setProperty("--mac-pop-translate", `${170 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-copy-translate", `${42 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.44).toFixed(4));
-        document.body.classList.toggle("macbook-intro-active", rect.top <= 0 && rect.bottom > window.innerHeight * 0.3 && !document.body.classList.contains("lock-screen-active"));
-        if (rawProgress >= 0.985) activateFullLockScreen();
+        document.body.classList.toggle("macbook-intro-active", rect.bottom > window.innerHeight * 0.3);
       };
       updateIntro();
       window.addEventListener("scroll", updateIntro, { passive: true });
