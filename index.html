@@ -144,7 +144,7 @@
     }
 
     body.lock-screen-active {
-      overflow: auto;
+      overflow: hidden;
     }
 
     .lock-screen {
@@ -4070,13 +4070,11 @@
 
 
 
-    body.macbook-intro-active .site-header,
-    body.macbook-intro-active .floating-nav,
-    body.macbook-intro-active .desktop-folder-stack,
-    body.macbook-intro-active .main-music-card {
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 180ms ease;
+    .macbook-scroll-title,
+    .macbook-screen-content,
+    .macbook-scroll-hint,
+    .macbook-popout-content {
+      display: none;
     }
     .macbook-scroll-intro {
       --mac-progress: 0;
@@ -4334,7 +4332,7 @@
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
-<body class="page-loading">
+<body class="page-loading lock-screen-active">
   <section class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading page">
     <div class="page-loader-inner">
       <div class="banter-loader" aria-hidden="true">
@@ -4351,7 +4349,7 @@
       <span class="page-loader-text">Loading website</span>
     </div>
   </section>
-  <section class="lock-screen" id="lockScreen" aria-label="Welcome lock screen" hidden>
+  <section class="lock-screen" id="lockScreen" aria-label="Welcome lock screen">
     <div class="lock-screen-clock" aria-live="polite">
       <div class="lock-screen-date" id="lockScreenDate">Tue Apr 1</div>
       <div class="lock-screen-time" id="lockScreenTime">9:41</div>
