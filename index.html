@@ -9,7 +9,10 @@
   <link rel="apple-touch-icon" href="assets/favicon-kzr.png">
   <script>
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    const resetInitialScroll = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    resetInitialScroll();
+    window.addEventListener("pageshow", resetInitialScroll, { once: true });
+    window.addEventListener("load", () => requestAnimationFrame(resetInitialScroll), { once: true });
   </script>
   <link rel="stylesheet" href="cookie-consent.css?v=20260525">
   <style>
@@ -4367,8 +4370,8 @@
       border-radius: var(--mac-pop-radius, 32px);
       clip-path: inset(var(--mac-pop-inset-y, 29%) var(--mac-pop-inset-x, 24%) round var(--mac-pop-radius, 32px));
       opacity: var(--mac-pop);
-      transform: translateY(calc(var(--mac-pop-translate, 170px) + 48px)) scale(var(--mac-pop-scale, .58));
-      transform-origin: 50% 58%;
+      transform: translateY(calc(var(--mac-pop-translate, 170px) + 96px)) scale(var(--mac-pop-scale, .58));
+      transform-origin: 50% 68%;
       pointer-events: none;
       will-change: clip-path, transform, opacity;
     }
@@ -4932,7 +4935,9 @@
         intro.style.setProperty("--mac-pop-translate", `${170 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-copy-translate", `${42 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.48).toFixed(4));
-        document.body.classList.toggle("macbook-intro-active", rect.bottom > window.innerHeight * 0.3);
+        const introActive = rect.bottom > window.innerHeight * 0.3;
+        document.body.classList.toggle("macbook-intro-active", introActive);
+        document.body.classList.toggle("macbook-intro-complete", !introActive);
       };
       updateIntro();
       window.addEventListener("scroll", updateIntro, { passive: true });
@@ -6384,7 +6389,6 @@
 
     function init() {
       if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       initPageLoader();
       initLockScreen();
       updateMacStatusDateTime();
