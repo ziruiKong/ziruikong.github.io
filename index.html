@@ -144,7 +144,7 @@
     }
 
     body.lock-screen-active {
-      overflow: hidden;
+      overflow: auto;
     }
 
     .lock-screen {
@@ -159,9 +159,10 @@
         linear-gradient(180deg, rgba(8, 19, 45, 0.08), rgba(8, 19, 45, 0.32)),
         url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
       overflow: hidden;
-      opacity: 1;
+      opacity: var(--lock-opacity, 1);
       visibility: visible;
-      transition: opacity 560ms ease, visibility 560ms ease, transform 560ms cubic-bezier(.2,.8,.2,1);
+      transform: scale(var(--lock-scale, 1));
+      transition: opacity 220ms ease, visibility 560ms ease, transform 220ms cubic-bezier(.2,.8,.2,1);
       cursor: auto;
     }
 
@@ -172,7 +173,7 @@
     .lock-screen.is-unlocked {
       opacity: 0;
       visibility: hidden;
-      transform: scale(1.02);
+      transform: scale(1.04);
       pointer-events: none;
     }
 
@@ -6139,6 +6140,16 @@
       }
     }
 
+
+    function updateLockScreenScrollProgress() {
+      const lockScreen = $("#lockScreen");
+      if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
+      const progress = Math.min(1, Math.max(0, (window.scrollY || 0) / Math.max(1, window.innerHeight * 0.58)));
+      lockScreen.style.setProperty("--lock-opacity", (1 - progress).toFixed(4));
+      lockScreen.style.setProperty("--lock-scale", (1 + progress * 0.04).toFixed(4));
+      if (progress >= 0.98) dismissLockScreen();
+    }
+
     function dismissLockScreen() {
       const lockScreen = $("#lockScreen");
       if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
@@ -6154,7 +6165,9 @@
       const enterButton = $("#lockScreenEnter");
       if (!lockScreen) return;
       updateLockScreenDateTime();
+      updateLockScreenScrollProgress();
       window.setInterval(updateLockScreenDateTime, 1000);
+      window.addEventListener("scroll", updateLockScreenScrollProgress, { passive: true });
       enterButton?.addEventListener("click", (event) => {
         event.stopPropagation();
         dismissLockScreen();
