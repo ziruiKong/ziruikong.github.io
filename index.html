@@ -4296,16 +4296,16 @@
             <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
           </div>
           <div class="settings-sidebar-list">
-            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span class="settings-sidebar-copy"><span>About Me</span><span class="settings-sidebar-subtitle">Personal overview</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span class="settings-sidebar-copy"><span>Hometown</span><span class="settings-sidebar-subtitle">Where I am from</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span class="settings-sidebar-copy"><span>Education</span><span class="settings-sidebar-subtitle">Academic journey</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="columbia" aria-pressed="false"><span class="settings-sidebar-icon">🦁</span><span class="settings-sidebar-copy"><span>Columbia</span><span class="settings-sidebar-subtitle">Current academic chapter</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span class="settings-sidebar-copy"><span>Exchange</span><span class="settings-sidebar-subtitle">Global academic experience</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span class="settings-sidebar-copy"><span>Research</span><span class="settings-sidebar-subtitle">Questions and projects</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span class="settings-sidebar-copy"><span>Skills</span><span class="settings-sidebar-subtitle">Methods and tools</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span class="settings-sidebar-copy"><span>Interests</span><span class="settings-sidebar-subtitle">What I want to study</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="doctoral" aria-pressed="false"><span class="settings-sidebar-icon">🎯</span><span class="settings-sidebar-copy"><span>Doctoral Goals</span><span class="settings-sidebar-subtitle">Long-term academic direction</span></span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span class="settings-sidebar-copy"><span>Contact</span><span class="settings-sidebar-subtitle">Let’s connect</span></span></button>
+            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true" onclick="selectSettingsSection('about')"><span class="settings-sidebar-icon">👤</span><span class="settings-sidebar-copy"><span>About Me</span><span class="settings-sidebar-subtitle">Personal overview</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false" onclick="selectSettingsSection('hometown')"><span class="settings-sidebar-icon">🏠</span><span class="settings-sidebar-copy"><span>Hometown</span><span class="settings-sidebar-subtitle">Where I am from</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false" onclick="selectSettingsSection('education')"><span class="settings-sidebar-icon">🎓</span><span class="settings-sidebar-copy"><span>Education</span><span class="settings-sidebar-subtitle">Academic journey</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="columbia" aria-pressed="false" onclick="selectSettingsSection('columbia')"><span class="settings-sidebar-icon">🦁</span><span class="settings-sidebar-copy"><span>Columbia</span><span class="settings-sidebar-subtitle">Current academic chapter</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false" onclick="selectSettingsSection('exchange')"><span class="settings-sidebar-icon">🌐</span><span class="settings-sidebar-copy"><span>Exchange</span><span class="settings-sidebar-subtitle">Global academic experience</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false" onclick="selectSettingsSection('research')"><span class="settings-sidebar-icon">📊</span><span class="settings-sidebar-copy"><span>Research</span><span class="settings-sidebar-subtitle">Questions and projects</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false" onclick="selectSettingsSection('skills')"><span class="settings-sidebar-icon">‹›</span><span class="settings-sidebar-copy"><span>Skills</span><span class="settings-sidebar-subtitle">Methods and tools</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false" onclick="selectSettingsSection('interests')"><span class="settings-sidebar-icon">♥</span><span class="settings-sidebar-copy"><span>Interests</span><span class="settings-sidebar-subtitle">What I want to study</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="doctoral" aria-pressed="false" onclick="selectSettingsSection('doctoral')"><span class="settings-sidebar-icon">🎯</span><span class="settings-sidebar-copy"><span>Doctoral Goals</span><span class="settings-sidebar-subtitle">Long-term academic direction</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false" onclick="selectSettingsSection('contact')"><span class="settings-sidebar-icon">✉</span><span class="settings-sidebar-copy"><span>Contact</span><span class="settings-sidebar-subtitle">Let’s connect</span></span></button>
           </div>
         </aside>
         <main class="settings-content">
@@ -5137,19 +5137,22 @@
       content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
     }
 
+    function selectSettingsSection(sectionKey = "about") {
+      const targetKey = settingsSectionData[sectionKey] ? sectionKey : "about";
+      const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
+      buttons.forEach((item) => {
+        const isActive = item.dataset.settingsSection === targetKey;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      renderSettingsSection(targetKey);
+    }
+
     function bindSettingsSidebar() {
       const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
       if (!buttons.length) return;
       buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          buttons.forEach((item) => {
-            item.classList.remove("is-active");
-            item.setAttribute("aria-pressed", "false");
-          });
-          button.classList.add("is-active");
-          button.setAttribute("aria-pressed", "true");
-          renderSettingsSection(button.dataset.settingsSection);
-        });
+        button.addEventListener("click", () => selectSettingsSection(button.dataset.settingsSection));
       });
     }
 
@@ -5163,7 +5166,7 @@
       overlay.setAttribute("aria-hidden", "false");
       setSettingsDockMinimized(false);
       const activeSection = document.querySelector(".settings-sidebar-item.is-active")?.dataset.settingsSection || "about";
-      renderSettingsSection(activeSection);
+      selectSettingsSection(activeSection);
       bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
