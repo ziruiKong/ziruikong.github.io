@@ -4070,9 +4070,18 @@
 
 
 
+
+
+    body.macbook-intro-active .site-header,
+    body.macbook-intro-active .floating-nav,
+    body.macbook-intro-active .desktop-folder-stack,
+    body.macbook-intro-active .main-music-card {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
     .macbook-scroll-title,
-    .macbook-scroll-hint,
-    .macbook-popout-content {
+    .macbook-scroll-hint {
       display: none;
     }
     .macbook-scroll-intro {
@@ -4328,7 +4337,7 @@
       min-height: 100vh;
       padding: clamp(28px, 6vw, 80px);
       color: #fff;
-      background: linear-gradient(135deg, rgba(7, 10, 18, .72), rgba(9, 9, 12, .5)), url("assets/hero525.png") center/cover;
+      background: linear-gradient(180deg, rgba(6, 12, 24, .08), rgba(6, 12, 24, .34)), url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
       border-radius: var(--mac-pop-radius, 32px);
       clip-path: inset(var(--mac-pop-inset-y, 29%) var(--mac-pop-inset-x, 24%) round var(--mac-pop-radius, 32px));
       opacity: var(--mac-pop);
@@ -4344,6 +4353,13 @@
       inset: 0;
       background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.18), transparent 36%), linear-gradient(180deg, transparent, rgba(0,0,0,.44));
       pointer-events: none;
+    }
+
+    .macbook-scroll-page-popout .macbook-screen-lock {
+      inset: 0;
+      opacity: 1;
+      transform: none;
+      background: transparent;
     }
 
     .macbook-popout-content {
@@ -4734,7 +4750,7 @@
         </div>
         <div class="macbook-scroll-base"><div class="macbook-scroll-keyboard"></div><div class="macbook-scroll-trackpad"></div></div>
       </div>
-      <div class="macbook-scroll-page-popout" aria-hidden="true"><div class="macbook-popout-content"><p>Zirui Kong desktop</p><h2>Enter the website</h2></div></div>
+      <div class="macbook-scroll-page-popout" aria-hidden="true"><div class="macbook-screen-lock"><div class="macbook-screen-lock-clock" aria-live="polite"><div class="macbook-screen-lock-date" id="macbookPopDate">Tue Apr 1</div><div class="macbook-screen-lock-time" id="macbookPopTime">9:41</div></div><div class="macbook-screen-lock-profile"><span class="macbook-screen-lock-avatar" aria-hidden="true"><img src="assets/favicon-kzr.png" alt=""></span><div class="macbook-screen-lock-name">Zirui Kong</div><p class="macbook-screen-lock-welcome">Welcome to Zirui Kong's personal website</p><button class="macbook-screen-lock-enter" type="button" tabindex="-1">Enter Website</button></div></div></div>
       <div class="macbook-scroll-hint">Scroll to enter</div>
     </div>
   </section>
@@ -6203,14 +6219,17 @@
       const timeTarget = $("#lockScreenTime");
       const macbookDateTarget = $("#macbookLockDate");
       const macbookTimeTarget = $("#macbookLockTime");
-      if (!dateTarget && !timeTarget && !macbookDateTarget && !macbookTimeTarget) return;
+      const macbookPopDateTarget = $("#macbookPopDate");
+      const macbookPopTimeTarget = $("#macbookPopTime");
+      if (!dateTarget && !timeTarget && !macbookDateTarget && !macbookTimeTarget && !macbookPopDateTarget && !macbookPopTimeTarget) return;
       const now = new Date();
       const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(now);
       const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(now);
       const day = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(now);
       if (dateTarget) dateTarget.textContent = `${weekday} ${month} ${day}`;
       if (macbookDateTarget) macbookDateTarget.textContent = `${weekday} ${month} ${day}`;
-      if (timeTarget || macbookTimeTarget) {
+      if (macbookPopDateTarget) macbookPopDateTarget.textContent = `${weekday} ${month} ${day}`;
+      if (timeTarget || macbookTimeTarget || macbookPopTimeTarget) {
         const timeParts = new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           minute: "2-digit",
@@ -6221,6 +6240,7 @@
         const timeText = `${hour}:${minute}`;
         if (timeTarget) timeTarget.textContent = timeText;
         if (macbookTimeTarget) macbookTimeTarget.textContent = timeText;
+        if (macbookPopTimeTarget) macbookPopTimeTarget.textContent = timeText;
       }
     }
 
