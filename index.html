@@ -4861,10 +4861,10 @@
         if (document.body.classList.contains("macbook-intro-complete")) return;
         const rect = intro.getBoundingClientRect();
         const travel = Math.max(1, intro.offsetHeight - window.innerHeight);
-        const rawProgress = reduceMotion ? 1 : Math.min(1, Math.max(0, -rect.top / travel));
-        const progress = rawProgress * rawProgress * (3 - 2 * rawProgress);
+        const rawProgress = Math.min(1, Math.max(0, -rect.top / travel));
+        const progress = reduceMotion ? rawProgress : rawProgress * rawProgress * (3 - 2 * rawProgress);
         const rawPopProgress = Math.min(1, Math.max(0, (rawProgress - 0.18) / 0.72));
-        const popProgress = rawPopProgress * rawPopProgress * (3 - 2 * rawPopProgress);
+        const popProgress = reduceMotion ? rawPopProgress : rawPopProgress * rawPopProgress * (3 - 2 * rawPopProgress);
         intro.style.setProperty("--mac-progress", progress.toFixed(4));
         intro.style.setProperty("--mac-open", Math.min(1, progress * 1.25).toFixed(4));
         intro.style.setProperty("--mac-pop", popProgress.toFixed(4));
@@ -6326,6 +6326,8 @@
     }
 
     function init() {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       initPageLoader();
       initLockScreen();
       updateMacStatusDateTime();
