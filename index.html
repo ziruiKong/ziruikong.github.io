@@ -4310,26 +4310,18 @@
         </aside>
         <main class="settings-content">
           <h2>About Me</h2>
-          <p>A quick overview of my academic journey and interests.</p>
+          <p>Personal overview</p>
           <section class="settings-about-card" aria-label="About Zirui Kong">
             <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
             <div class="settings-facts">
-              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
-              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
-              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
-              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
-              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
-              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
-              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
-              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
+              <h3 class="settings-hero-title">Zirui Kong</h3>
+              <p class="settings-kicker">Statistics · Data Analysis · Interdisciplinary Research</p>
+              <p>I am a student and aspiring researcher focused on statistics, data analysis, and quantitative methods. I am interested in applying statistical reasoning and computational tools across economics, social science, public policy, finance, technology, and business.</p>
+              <p>My academic journey has taken me from Hefei to Columbus, Beijing, and New York. These experiences shaped my interest in using data to describe patterns, explain complex phenomena, evaluate evidence, and support better decisions.</p>
             </div>
           </section>
-          <section class="settings-card-grid" aria-label="Settings overview cards">
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🏠</span> Background</span><span>›</span></div><p>I'm from Hefei, Anhui, China. I'm curious about how economics work and how data can inform better decisions.</p><div class="settings-chip-row"><span class="settings-chip">Hefei, China</span><span class="settings-chip">Curious & Analytical</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎓</span> Education</span><span>›</span></div><p>Economics major at The Ohio State University. Exchange student at Peking University Guanghua School of Management.</p><div class="settings-chip-row"><span class="settings-chip">OSU Economics</span><span class="settings-chip">PKU Guanghua</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">💼</span> Experience & Skills</span><span>›</span></div><p>Internship experience in banking, data analysis, and research. Skilled in Python, R, Excel, and Stata.</p><div class="settings-chip-row"><span class="settings-chip">Python</span><span class="settings-chip">R</span><span class="settings-chip">Excel</span><span class="settings-chip">Stata</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎯</span> Future Goals</span><span>›</span></div><p>Pursue graduate studies in economics or public policy. Use research and data to create real-world impact.</p><div class="settings-chip-row"><span class="settings-chip">Research</span><span class="settings-chip">Policy</span><span class="settings-chip">Impact</span></div></article>
-          </section>
+          <article class="settings-detail-card"><h3>Profile</h3><div class="settings-profile-list"><div><strong>Name:</strong><span>Zirui Kong</span></div><div><strong>Hometown:</strong><span>Hefei, Anhui, China</span></div><div><strong>Undergraduate:</strong><span>The Ohio State University</span></div><div><strong>Exchange:</strong><span>Peking University Guanghua School of Management</span></div><div><strong>Current Institution:</strong><span>Columbia University</span></div><div><strong>Current Period:</strong><span>September 2026 – Present</span></div><div><strong>Primary Focus:</strong><span>Statistics and data analysis</span></div><div><strong>Broader Interests:</strong><span>Economics, social science, finance, technology, policy, and business</span></div><div><strong>Long-Term Goal:</strong><span>Pursue a Ph.D. and conduct interdisciplinary quantitative research</span></div></div></article>
+          <article class="settings-detail-card"><h3>Personal Statement</h3><p>I hope to use statistics and data analysis as a common language for studying problems across disciplines and, ultimately, to pursue doctoral research with both methodological depth and broad real-world relevance.</p></article>
         </main>
       </div>
       <div class="settings-window-resize-handle" id="settingsWindowResizeHandle" aria-hidden="true"></div>
@@ -5141,11 +5133,8 @@
       const content = $(".settings-content");
       const section = settingsSectionData[sectionKey] || settingsSectionData.about;
       if (!content || !section) return;
-      content.classList.add("is-switching");
-      window.setTimeout(() => {
-        content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
-        content.classList.remove("is-switching");
-      }, 120);
+      content.classList.remove("is-switching");
+      content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
     }
 
     function bindSettingsSidebar() {
