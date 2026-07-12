@@ -4329,7 +4329,7 @@
       transform: rotateX(58deg) translateY(-18px);
       transform-origin: top center;
       overflow: hidden;
-      opacity: calc(1 - var(--mac-pop));
+      opacity: calc(1 - var(--mac-pop) * .58);
       will-change: opacity;
     }
 
@@ -4379,7 +4379,7 @@
 
     .macbook-app-preview {
       position: relative;
-      width: min(1100px, 86vw);
+      width: min(1260px, 92vw);
       aspect-ratio: 16 / 8.6;
       overflow: hidden;
       border-radius: 16px;
@@ -4931,7 +4931,7 @@
         intro.style.setProperty("--mac-pop-inset-x", `${24 * (1 - popProgress)}%`);
         intro.style.setProperty("--mac-pop-translate", `${170 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-copy-translate", `${42 * (1 - popProgress)}px`);
-        intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.44).toFixed(4));
+        intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.48).toFixed(4));
         document.body.classList.toggle("macbook-intro-active", rect.bottom > window.innerHeight * 0.3);
       };
       updateIntro();
