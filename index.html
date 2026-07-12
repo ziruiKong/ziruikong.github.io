@@ -4075,10 +4075,18 @@
     body.macbook-intro-active .site-header,
     body.macbook-intro-active .floating-nav,
     body.macbook-intro-active .desktop-folder-stack,
-    body.macbook-intro-active .main-music-card {
+    body.macbook-intro-active .main-music-card,
+    body.lock-screen-active .site-header,
+    body.lock-screen-active .floating-nav,
+    body.lock-screen-active .desktop-folder-stack,
+    body.lock-screen-active .main-music-card {
       opacity: 0;
       pointer-events: none;
       transition: opacity 180ms ease;
+    }
+
+    body.macbook-intro-complete .macbook-scroll-intro {
+      display: none;
     }
     .macbook-scroll-title,
     .macbook-scroll-hint {
@@ -4418,7 +4426,7 @@
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
-<body class="page-loading">
+<body class="page-loading macbook-intro-active">
   <section class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading page">
     <div class="page-loader-inner">
       <div class="banter-loader" aria-hidden="true">
@@ -4835,11 +4843,22 @@
     }
 
 
+    function activateFullLockScreen() {
+      const lockScreen = $("#lockScreen");
+      if (!lockScreen || document.body.classList.contains("lock-screen-active")) return;
+      lockScreen.hidden = false;
+      lockScreen.classList.remove("is-unlocked");
+      lockScreen.style.setProperty("--lock-opacity", "1");
+      lockScreen.style.setProperty("--lock-scale", "1");
+      document.body.classList.add("lock-screen-active");
+    }
+
     function initMacbookScrollIntro() {
       const intro = document.getElementById("macbookScrollIntro");
       if (!intro) return;
       const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
       const updateIntro = () => {
+        if (document.body.classList.contains("macbook-intro-complete")) return;
         const rect = intro.getBoundingClientRect();
         const travel = Math.max(1, intro.offsetHeight - window.innerHeight);
         const rawProgress = reduceMotion ? 1 : Math.min(1, Math.max(0, -rect.top / travel));
@@ -4855,7 +4874,8 @@
         intro.style.setProperty("--mac-pop-translate", `${170 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-copy-translate", `${42 * (1 - popProgress)}px`);
         intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.44).toFixed(4));
-        document.body.classList.toggle("macbook-intro-active", rect.top <= 0 && rect.bottom > window.innerHeight * 0.3);
+        document.body.classList.toggle("macbook-intro-active", rect.top <= 0 && rect.bottom > window.innerHeight * 0.3 && !document.body.classList.contains("lock-screen-active"));
+        if (rawProgress >= 0.985) activateFullLockScreen();
       };
       updateIntro();
       window.addEventListener("scroll", updateIntro, { passive: true });
@@ -6248,15 +6268,16 @@
     function updateLockScreenScrollProgress() {
       const lockScreen = $("#lockScreen");
       if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
-      const progress = Math.min(1, Math.max(0, (window.scrollY || 0) / Math.max(1, window.innerHeight * 0.58)));
-      lockScreen.style.setProperty("--lock-opacity", (1 - progress).toFixed(4));
-      lockScreen.style.setProperty("--lock-scale", (1 + progress * 0.04).toFixed(4));
-      if (progress >= 0.98) dismissLockScreen();
+      lockScreen.style.setProperty("--lock-opacity", "1");
+      lockScreen.style.setProperty("--lock-scale", "1");
     }
 
     function dismissLockScreen() {
       const lockScreen = $("#lockScreen");
-      if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
+      if (!lockScreen || lockScreen.classList.contains("is-unlocked") || !document.body.classList.contains("lock-screen-active")) return;
+      document.body.classList.add("macbook-intro-complete");
+      document.body.classList.remove("macbook-intro-active");
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       lockScreen.classList.add("is-unlocked");
       document.body.classList.remove("lock-screen-active");
       window.setTimeout(() => {
