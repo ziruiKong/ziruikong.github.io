@@ -7,6 +7,13 @@
   <meta name="description" content="KZR is Zirui Kong's personal website for learning records, plans, interests, and long-term growth.">
   <link rel="icon" type="image/png" href="assets/favicon-kzr.png">
   <link rel="apple-touch-icon" href="assets/favicon-kzr.png">
+  <script>
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    const resetInitialScroll = () => window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    resetInitialScroll();
+    window.addEventListener("pageshow", resetInitialScroll, { once: true });
+    window.addEventListener("load", () => requestAnimationFrame(resetInitialScroll), { once: true });
+  </script>
   <link rel="stylesheet" href="cookie-consent.css?v=20260525">
   <style>
     :root {
@@ -159,9 +166,10 @@
         linear-gradient(180deg, rgba(8, 19, 45, 0.08), rgba(8, 19, 45, 0.32)),
         url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
       overflow: hidden;
-      opacity: 1;
+      opacity: var(--lock-opacity, 1);
       visibility: visible;
-      transition: opacity 560ms ease, visibility 560ms ease, transform 560ms cubic-bezier(.2,.8,.2,1);
+      transform: scale(var(--lock-scale, 1));
+      transition: opacity 220ms ease, visibility 560ms ease, transform 220ms cubic-bezier(.2,.8,.2,1);
       cursor: auto;
     }
 
@@ -172,7 +180,7 @@
     .lock-screen.is-unlocked {
       opacity: 0;
       visibility: hidden;
-      transform: scale(1.02);
+      transform: scale(1.04);
       pointer-events: none;
     }
 
@@ -3346,45 +3354,49 @@
     .settings-window-main {
       min-height: 0;
       display: grid;
-      grid-template-columns: 274px minmax(0, 1fr);
+      grid-template-columns: 390px minmax(0, 1fr);
       background: linear-gradient(180deg, rgba(255, 252, 247, 0.94), rgba(246, 243, 237, 0.92));
     }
 
     .settings-sidebar {
       min-width: 0;
-      padding: 26px 18px 22px;
+      padding: 38px 26px 28px;
       border-right: 1px solid rgba(17, 24, 39, 0.08);
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      gap: 22px;
+      grid-template-rows: auto minmax(0, 1fr);
+      gap: 30px;
       background: rgba(247, 243, 235, 0.74);
     }
 
     .settings-profile { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .settings-profile img { width: 58px; height: 58px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
-    .settings-profile strong { display: block; font-size: 14px; color: #1f2937; letter-spacing: -0.045em; }
-    .settings-profile span { display: block; margin-top: 3px; font-size: 12px; color: #6b7280; }
+    .settings-profile img { width: 66px; height: 66px; border-radius: 999px; object-fit: cover; background: #e5e7eb; }
+    .settings-profile strong { display: block; font-size: 18px; color: #1f2937; letter-spacing: -0.045em; }
+    .settings-profile span { display: block; margin-top: 5px; font-size: 16px; color: #6b7280; }
 
-    .settings-sidebar-list { display: grid; align-content: start; gap: 8px; overflow: auto; }
+    .settings-sidebar-list { display: grid; align-content: start; gap: 10px; overflow: auto; padding-right: 4px; }
     .settings-sidebar-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       width: 100%;
       border: 0;
-      border-radius: 12px;
-      padding: 12px 14px;
+      border-radius: 16px;
+      padding: 13px 18px;
       background: transparent;
       color: #4b5563;
       text-align: left;
       font: inherit;
-      font-size: 14px;
-      font-weight: 720;
+      font-size: 18px;
+      font-weight: 780;
       letter-spacing: -0.035em;
       cursor: default;
     }
     .settings-sidebar-item.is-active { color: #1f2937; background: rgba(59, 130, 246, 0.14); }
-    .settings-sidebar-icon { width: 22px; text-align: center; font-size: 17px; filter: grayscale(.18); }
+    .settings-sidebar-icon { width: 30px; text-align: center; font-size: 21px; filter: grayscale(.18); }
+    .settings-sidebar-copy { display: grid; gap: 3px; min-width: 0; }
+    .settings-sidebar-copy span:first-child { color: inherit; }
+    .settings-sidebar-subtitle { color: rgba(75,85,99,.72); font-size: 12px; font-weight: 650; letter-spacing: -0.02em; }
+    .settings-sidebar-item.is-active .settings-sidebar-subtitle { color: rgba(31,41,55,.68); }
 
     .settings-quote {
       margin: 0;
@@ -3445,6 +3457,12 @@
     .settings-chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
     .settings-chip { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
 
+    .settings-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; }
+    .settings-tags span { border-radius: 7px; padding: 5px 9px; background: rgba(59,130,246,.12); color: #2563eb; font-size: 11px; font-weight: 760; }
+    .settings-tags--green span { background: rgba(34,197,94,.12); color: #15803d; }
+    .settings-tags--purple span { background: rgba(124,58,237,.12); color: #6d28d9; }
+    .settings-tags--orange span { background: rgba(249,115,22,.12); color: #c2410c; }
+
 
     .settings-sidebar-item { transition: background 180ms ease, color 180ms ease, transform 180ms cubic-bezier(.22,1,.36,1); }
     .settings-sidebar-item:hover, .settings-sidebar-item:focus-visible { background: rgba(255, 255, 255, 0.62); color: #1f2937; outline: none; transform: translateX(2px); }
@@ -3463,6 +3481,12 @@
     .settings-detail-card { display: grid; gap: 10px; align-content: start; }
     .settings-detail-card h3 { margin: 0; color: #1f2937; font-size: 17px; letter-spacing: -0.045em; }
     .settings-detail-card ul { margin: 0; padding-left: 18px; color: #4b5563; font-size: 13px; line-height: 1.62; font-weight: 600; }
+    .settings-detail-card h4 { margin: 2px 0 0; color: #374151; font-size: 14px; letter-spacing: -0.035em; }
+    .settings-hero-title { margin: 0; color: #111827; font-size: 24px; letter-spacing: -0.055em; }
+    .settings-kicker { margin: -4px 0 2px; color: #2563eb; font-size: 13px; font-weight: 820; letter-spacing: -0.025em; }
+    .settings-profile-list { display: grid; gap: 8px; }
+    .settings-profile-list div { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 10px; color: #4b5563; font-size: 13px; line-height: 1.45; }
+    .settings-profile-list strong { color: #1f2937; }
     .settings-link-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .settings-link-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; border: 1px solid rgba(17,24,39,.08); border-radius: 16px; padding: 16px 18px; background: rgba(255,255,255,.66); color: #1f2937; text-decoration: none; font-weight: 780; transition: transform 180ms cubic-bezier(.22,1,.36,1), border-color 180ms ease, background 180ms ease; }
     .settings-link-card:hover, .settings-link-card:focus-visible { transform: translateY(-2px); border-color: rgba(59,130,246,.28); background: rgba(255,255,255,.86); outline: none; }
@@ -4049,10 +4073,424 @@
         border-radius: 18px;
       }
     }
+
+
+
+
+
+
+    body.macbook-intro-active .site-header,
+    body.macbook-intro-active .floating-nav,
+    body.macbook-intro-active .desktop-folder-stack,
+    body.macbook-intro-active .music-dock,
+    body.lock-screen-active .site-header,
+    body.lock-screen-active .floating-nav,
+    body.lock-screen-active .desktop-folder-stack,
+    body.lock-screen-active .music-dock {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease;
+    }
+
+    body.macbook-intro-complete .macbook-scroll-intro {
+      display: none;
+    }
+    .macbook-scroll-title,
+    .macbook-scroll-hint {
+      display: none;
+    }
+    .macbook-scroll-intro {
+      --mac-progress: 0;
+      --mac-open: 0;
+      --mac-pop: 0;
+      position: relative;
+      min-height: 220vh;
+      background: linear-gradient(180deg, #fff 0%, #f7f3ea 52%, rgba(247, 243, 234, 0) 100%);
+      z-index: 12;
+      overflow: clip;
+    }
+
+    .macbook-scroll-sticky {
+      position: sticky;
+      top: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 8vh 24px 4vh;
+      perspective: 1200px;
+    }
+
+    .macbook-scroll-title {
+      position: absolute;
+      top: clamp(74px, 12vh, 132px);
+      left: 50%;
+      transform: translateX(-50%) translateY(calc(var(--mac-progress) * -110px));
+      width: min(860px, calc(100vw - 32px));
+      color: #1f2937;
+      text-align: center;
+      font-size: clamp(30px, 4vw, 58px);
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+      font-weight: 900;
+      opacity: calc(1 - var(--mac-pop));
+      pointer-events: none;
+    }
+
+    .macbook-scroll-device {
+      position: relative;
+      width: min(980px, 86vw);
+      transform: translateY(calc(88px - var(--mac-progress) * 170px)) scale(calc(0.78 + var(--mac-progress) * 0.54));
+      transform-origin: 50% 44%;
+      transition: transform 80ms linear;
+      will-change: transform;
+    }
+
+    .macbook-scroll-lid {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: 10px solid #050505;
+      border-radius: 22px 22px 12px 12px;
+      background: #050505;
+      box-shadow: 0 18px 44px rgba(0,0,0,.32), inset 0 0 0 1px rgba(255,255,255,.1);
+      overflow: hidden;
+      transform: perspective(900px) rotateX(calc(-27deg + var(--mac-open) * 27deg));
+      transform-origin: bottom center;
+      will-change: transform;
+    }
+
+    .macbook-scroll-screen {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px 12px 6px 6px;
+      overflow: hidden;
+      background: #0b1020;
+    }
+
+    .macbook-scroll-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(255,255,255,.16), transparent 42%);
+      mix-blend-mode: screen;
+      pointer-events: none;
+      z-index: 2;
+      opacity: calc(0.48 - var(--mac-progress) * 0.36);
+    }
+
+    .macbook-scroll-screen-inner {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: #000;
+      transform: scale(calc(1 + var(--mac-progress) * 0.18));
+      transform-origin: center;
+    }
+
+    .macbook-screen-bar {
+      display: none;
+      align-items: center;
+      gap: 7px;
+      padding: 0 12px;
+      background: rgba(9, 9, 12, .82);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .macbook-terminal-mark {
+      color: #fff;
+      font-size: clamp(22px, 4vw, 38px);
+      font-weight: 900;
+      line-height: 1;
+      transform: translateY(-8%);
+      text-shadow: 0 0 22px rgba(255,255,255,.26);
+    }
+
+    .macbook-screen-dot { width: 8px; height: 8px; border-radius: 999px; background: #ff5f57; }
+    .macbook-screen-dot:nth-child(2) { background: #ffbd2e; }
+    .macbook-screen-dot:nth-child(3) { background: #28c840; }
+
+    .macbook-screen-content {
+      display: grid;
+      align-content: center;
+      justify-items: start;
+      gap: 12px;
+      padding: clamp(28px, 6vw, 70px);
+    }
+
+    .macbook-screen-lock {
+      position: absolute;
+      inset: 28px 0 0;
+      display: grid;
+      grid-template-rows: minmax(90px, 30%) 1fr;
+      justify-items: center;
+      color: rgba(255,255,255,.94);
+      background:
+        linear-gradient(180deg, rgba(6, 12, 24, .12), rgba(6, 12, 24, .38)),
+        url("https://wallpapers.com/images/hd/macbook-default-sxckzoomp8aciyr6.jpg") center / cover no-repeat;
+      text-align: center;
+      transition: opacity 260ms ease, transform 420ms cubic-bezier(.22,1,.36,1);
+      opacity: calc(1 - var(--mac-pop));
+      transform: scale(calc(1 + var(--mac-pop) * .04));
+    }
+
+    .macbook-screen-lock-clock {
+      align-self: start;
+      margin-top: clamp(18px, 4vh, 44px);
+      text-shadow: 0 3px 18px rgba(11, 24, 49, 0.32);
+    }
+
+    .macbook-screen-lock-date {
+      font-size: clamp(13px, 1.5vw, 20px);
+      font-weight: 760;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      opacity: .92;
+    }
+
+    .macbook-screen-lock-time {
+      margin-top: 4px;
+      font-size: clamp(52px, 9vw, 112px);
+      font-weight: 840;
+      letter-spacing: -0.09em;
+      line-height: .9;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .macbook-screen-lock-profile {
+      align-self: end;
+      display: grid;
+      justify-items: center;
+      gap: 7px;
+      margin-bottom: clamp(22px, 5vh, 54px);
+      text-shadow: 0 2px 12px rgba(11, 24, 49, 0.44);
+    }
+
+    .macbook-screen-lock-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 10px 30px rgba(9,20,43,.24), inset 0 1px 0 rgba(255,255,255,.8);
+      overflow: hidden;
+    }
+
+    .macbook-screen-lock-avatar img {
+      width: 78%;
+      height: 78%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .macbook-screen-lock-name { font-size: 12px; font-weight: 800; letter-spacing: -0.035em; }
+    .macbook-screen-lock-welcome { margin: -2px 0 0; max-width: min(520px, calc(100vw - 42px)); color: rgba(255,255,255,.84); font-size: clamp(10px, 1vw, 12px); font-weight: 650; letter-spacing: -0.02em; }
+    .macbook-screen-lock-enter { margin-top: 8px; min-width: 132px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; padding: 9px 18px; color: rgba(255,255,255,.9); background: rgba(255,255,255,.12); box-shadow: inset 0 1px 0 rgba(255,255,255,.28), 0 14px 30px rgba(4,15,32,.16); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); font: inherit; font-size: 12px; font-weight: 780; letter-spacing: -0.02em; }
+
+
+    .macbook-screen-kicker {
+      margin: 0;
+      color: rgba(255,255,255,.72);
+      font-size: clamp(11px, 1.1vw, 14px);
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .macbook-screen-heading {
+      margin: 0;
+      max-width: 760px;
+      color: #fff;
+      font-size: clamp(38px, 7vw, 86px);
+      line-height: .82;
+      letter-spacing: -0.075em;
+      text-transform: uppercase;
+    }
+
+    .macbook-screen-copy {
+      margin: 0;
+      max-width: 520px;
+      color: rgba(255,255,255,.78);
+      font-size: clamp(13px, 1.5vw, 18px);
+      line-height: 1.45;
+      font-weight: 650;
+    }
+
+    .macbook-scroll-base {
+      position: relative;
+      width: 112%;
+      height: clamp(120px, 18vw, 210px);
+      margin: -2px -6% 0;
+      border-radius: 0 0 28px 28px;
+      background:
+        radial-gradient(circle at 17% 24%, rgba(15,23,42,.42) .7px, transparent .9px) 0 0 / 5px 5px,
+        radial-gradient(circle at 83% 24%, rgba(15,23,42,.42) .7px, transparent .9px) 0 0 / 5px 5px,
+        linear-gradient(180deg, #e5e7eb, #cfd4dc 74%, #aeb5c1);
+      box-shadow: 0 32px 70px rgba(15, 23, 42, .2);
+      transform: rotateX(58deg) translateY(-18px);
+      transform-origin: top center;
+      overflow: hidden;
+      opacity: calc(1 - var(--mac-pop) * .58);
+      will-change: opacity;
+    }
+
+    .macbook-scroll-keyboard {
+      width: 64%;
+      height: 43%;
+      margin: 22px auto 0;
+      border-radius: 14px;
+      background:
+        repeating-linear-gradient(90deg, transparent 0 30px, rgba(255,255,255,.11) 30px 33px),
+        repeating-linear-gradient(0deg, #08080a 0 17px, #17171a 17px 20px);
+      box-shadow: inset 0 0 0 3px rgba(0,0,0,.22), 0 10px 22px rgba(15,23,42,.18);
+    }
+
+    .macbook-scroll-trackpad {
+      width: 30%;
+      height: 38%;
+      margin: 14px auto 0;
+      border-radius: 18px;
+      background: rgba(255,255,255,.22);
+      box-shadow: inset 0 0 0 2px rgba(15,23,42,.12);
+    }
+
+    .macbook-scroll-page-popout {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      min-height: 100vh;
+      padding: clamp(28px, 6vw, 80px);
+      color: #fff;
+      background: transparent;
+      border-radius: var(--mac-pop-radius, 32px);
+      clip-path: inset(var(--mac-pop-inset-y, 29%) var(--mac-pop-inset-x, 24%) round var(--mac-pop-radius, 32px));
+      opacity: var(--mac-pop);
+      transform: translateY(calc(var(--mac-pop-translate, 170px) + 96px)) scale(var(--mac-pop-scale, .58));
+      transform-origin: 50% 68%;
+      pointer-events: none;
+      will-change: clip-path, transform, opacity;
+    }
+
+    .macbook-scroll-page-popout::before {
+      content: none;
+    }
+
+    .macbook-app-preview {
+      position: relative;
+      width: min(1260px, 92vw);
+      aspect-ratio: 16 / 8.6;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #10131f;
+      box-shadow: 0 28px 70px rgba(15,23,42,.32), 0 0 0 1px rgba(255,255,255,.08) inset;
+      transform: perspective(900px) rotateX(calc(-14deg + var(--mac-pop) * 14deg));
+      transform-origin: 50% 100%;
+    }
+
+    .macbook-app-preview::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, #111522 0 22%, transparent 22%),
+        repeating-linear-gradient(180deg, #171b29 0 31px, #202331 31px 32px, #121623 32px 63px);
+    }
+
+    .macbook-app-preview::after {
+      content: "";
+      position: absolute;
+      left: 24%;
+      right: 4%;
+      top: 9%;
+      bottom: 8%;
+      border-radius: 10px;
+      background:
+        repeating-linear-gradient(180deg, rgba(255,255,255,.08) 0 1px, transparent 1px 44px),
+        linear-gradient(180deg, rgba(255,255,255,.08), transparent 12%),
+        #111522;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+
+    .macbook-app-sidebar,
+    .macbook-app-topbar,
+    .macbook-app-row {
+      position: absolute;
+      z-index: 1;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+    }
+
+    .macbook-app-sidebar { left: 4%; top: 15%; width: 14%; height: 4%; }
+    .macbook-app-topbar { left: 26%; top: 5%; width: 64%; height: 4%; }
+    .macbook-app-row { left: 30%; width: 56%; height: 2.2%; }
+    .macbook-app-row:nth-child(3) { top: 23%; }
+    .macbook-app-row:nth-child(4) { top: 33%; width: 62%; }
+    .macbook-app-row:nth-child(5) { top: 43%; width: 52%; }
+    .macbook-app-row:nth-child(6) { top: 53%; width: 60%; }
+    .macbook-app-row:nth-child(7) { top: 63%; width: 48%; }
+
+    .macbook-popout-content {
+      position: relative;
+      display: grid;
+      gap: 18px;
+      max-width: min(980px, 86vw);
+      text-align: center;
+      transform: translateY(var(--mac-pop-copy-translate, 42px));
+    }
+
+    .macbook-popout-content p {
+      margin: 0;
+      color: rgba(255,255,255,.76);
+      font-size: clamp(13px, 1.4vw, 18px);
+      font-weight: 760;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .macbook-popout-content h2 {
+      margin: 0;
+      color: #fff;
+      font-size: clamp(54px, 11vw, 168px);
+      line-height: .78;
+      letter-spacing: -0.085em;
+      text-transform: uppercase;
+    }
+
+    .macbook-scroll-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 34px;
+      transform: translateX(-50%);
+      color: rgba(31,41,55,.58);
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      font-weight: 850;
+      opacity: calc(1 - var(--mac-progress) * 1.4);
+    }
+
+    @media (max-width: 760px) {
+      .macbook-scroll-intro { min-height: 180vh; }
+      .macbook-scroll-device { width: 96vw; }
+      .macbook-scroll-base { height: 112px; }
+      .macbook-scroll-title { top: 80px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .macbook-scroll-intro { min-height: 100vh; }
+      .macbook-scroll-device { transform: none; }
+      .macbook-scroll-lid { transform: none; }
+      .macbook-scroll-title, .macbook-scroll-hint { opacity: 1; }
+    }
   </style>
   <link rel="stylesheet" href="global-loader.css?v=20260526">
 </head>
-<body class="page-loading lock-screen-active">
+<body class="page-loading macbook-intro-active">
   <section class="page-loader" id="pageLoader" role="status" aria-live="polite" aria-label="Loading page">
     <div class="page-loader-inner">
       <div class="banter-loader" aria-hidden="true">
@@ -4069,7 +4507,7 @@
       <span class="page-loader-text">Loading website</span>
     </div>
   </section>
-  <section class="lock-screen" id="lockScreen" aria-label="Welcome lock screen">
+  <section class="lock-screen" id="lockScreen" aria-label="Welcome lock screen" hidden>
     <div class="lock-screen-clock" aria-live="polite">
       <div class="lock-screen-date" id="lockScreenDate">Tue Apr 1</div>
       <div class="lock-screen-time" id="lockScreenTime">9:41</div>
@@ -4280,40 +4718,32 @@
             <div><strong>Zirui Kong / 子睿</strong><span>Economics Student</span></div>
           </div>
           <div class="settings-sidebar-list">
-            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true"><span class="settings-sidebar-icon">👤</span><span>About Me</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false"><span class="settings-sidebar-icon">🏠</span><span>Hometown</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false"><span class="settings-sidebar-icon">🎓</span><span>Education</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false"><span class="settings-sidebar-icon">🌐</span><span>Exchange</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false"><span class="settings-sidebar-icon">📊</span><span>Research</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="experience" aria-pressed="false"><span class="settings-sidebar-icon">💼</span><span>Experience</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false"><span class="settings-sidebar-icon">‹›</span><span>Skills</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false"><span class="settings-sidebar-icon">♥</span><span>Interests</span></button>
-            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false"><span class="settings-sidebar-icon">✉</span><span>Contact</span></button>
+            <button class="settings-sidebar-item is-active" type="button" data-settings-section="about" aria-pressed="true" onclick="selectSettingsSection('about')"><span class="settings-sidebar-icon">👤</span><span class="settings-sidebar-copy"><span>About Me</span><span class="settings-sidebar-subtitle">Personal overview</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="hometown" aria-pressed="false" onclick="selectSettingsSection('hometown')"><span class="settings-sidebar-icon">🏠</span><span class="settings-sidebar-copy"><span>Hometown</span><span class="settings-sidebar-subtitle">Where I am from</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="education" aria-pressed="false" onclick="selectSettingsSection('education')"><span class="settings-sidebar-icon">🎓</span><span class="settings-sidebar-copy"><span>Education</span><span class="settings-sidebar-subtitle">Academic journey</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="columbia" aria-pressed="false" onclick="selectSettingsSection('columbia')"><span class="settings-sidebar-icon">🦁</span><span class="settings-sidebar-copy"><span>Columbia</span><span class="settings-sidebar-subtitle">Current academic chapter</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="exchange" aria-pressed="false" onclick="selectSettingsSection('exchange')"><span class="settings-sidebar-icon">🌐</span><span class="settings-sidebar-copy"><span>Exchange</span><span class="settings-sidebar-subtitle">Global academic experience</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="research" aria-pressed="false" onclick="selectSettingsSection('research')"><span class="settings-sidebar-icon">📊</span><span class="settings-sidebar-copy"><span>Research</span><span class="settings-sidebar-subtitle">Questions and projects</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="skills" aria-pressed="false" onclick="selectSettingsSection('skills')"><span class="settings-sidebar-icon">‹›</span><span class="settings-sidebar-copy"><span>Skills</span><span class="settings-sidebar-subtitle">Methods and tools</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="interests" aria-pressed="false" onclick="selectSettingsSection('interests')"><span class="settings-sidebar-icon">♥</span><span class="settings-sidebar-copy"><span>Interests</span><span class="settings-sidebar-subtitle">What I want to study</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="doctoral" aria-pressed="false" onclick="selectSettingsSection('doctoral')"><span class="settings-sidebar-icon">🎯</span><span class="settings-sidebar-copy"><span>Doctoral Goals</span><span class="settings-sidebar-subtitle">Long-term academic direction</span></span></button>
+            <button class="settings-sidebar-item" type="button" data-settings-section="contact" aria-pressed="false" onclick="selectSettingsSection('contact')"><span class="settings-sidebar-icon">✉</span><span class="settings-sidebar-copy"><span>Contact</span><span class="settings-sidebar-subtitle">Let’s connect</span></span></button>
           </div>
-          <blockquote class="settings-quote">“Curiosity drives me, and data helps me understand the world.”</blockquote>
         </aside>
         <main class="settings-content">
           <h2>About Me</h2>
-          <p>A quick overview of my academic journey and interests.</p>
+          <p>Personal overview</p>
           <section class="settings-about-card" aria-label="About Zirui Kong">
             <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
             <div class="settings-facts">
-              <div class="settings-fact"><span>♟</span><b>Name:</b><span>Zirui Kong / 子睿</span></div>
-              <div class="settings-fact"><span>◎</span><b>Current focus:</b><span>Economics, research, data, and policy</span></div>
-              <div class="settings-fact"><span>⌖</span><b>Hometown:</b><span>Hefei, Anhui, China</span></div>
-              <div class="settings-fact"><span>🎓</span><b>Undergraduate:</b><span>The Ohio State University, Economics</span></div>
-              <div class="settings-fact"><span>🌐</span><b>Exchange:</b><span>Peking University Guanghua School</span></div>
-              <div class="settings-fact"><span>♥</span><b>Interests:</b><span>Public policy, finance, quantitative analysis, design</span></div>
-              <div class="settings-fact"><span>💼</span><b>Experience:</b><span>Internships in banking, data analysis, and research</span></div>
-              <div class="settings-fact"><span>⚑</span><b>Goal:</b><span>Explore economics through research and data-driven thinking</span></div>
+              <h3 class="settings-hero-title">Zirui Kong</h3>
+              <p class="settings-kicker">Statistics · Data Analysis · Interdisciplinary Research</p>
+              <p>I am a student and aspiring researcher focused on statistics, data analysis, and quantitative methods. I am interested in applying statistical reasoning and computational tools across economics, social science, public policy, finance, technology, and business.</p>
+              <p>My academic journey has taken me from Hefei to Columbus, Beijing, and New York. These experiences shaped my interest in using data to describe patterns, explain complex phenomena, evaluate evidence, and support better decisions.</p>
             </div>
           </section>
-          <section class="settings-card-grid" aria-label="Settings overview cards">
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🏠</span> Background</span><span>›</span></div><p>I'm from Hefei, Anhui, China. I'm curious about how economics work and how data can inform better decisions.</p><div class="settings-chip-row"><span class="settings-chip">Hefei, China</span><span class="settings-chip">Curious & Analytical</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎓</span> Education</span><span>›</span></div><p>Economics major at The Ohio State University. Exchange student at Peking University Guanghua School of Management.</p><div class="settings-chip-row"><span class="settings-chip">OSU Economics</span><span class="settings-chip">PKU Guanghua</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">💼</span> Experience & Skills</span><span>›</span></div><p>Internship experience in banking, data analysis, and research. Skilled in Python, R, Excel, and Stata.</p><div class="settings-chip-row"><span class="settings-chip">Python</span><span class="settings-chip">R</span><span class="settings-chip">Excel</span><span class="settings-chip">Stata</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span><span class="settings-card-icon">🎯</span> Future Goals</span><span>›</span></div><p>Pursue graduate studies in economics or public policy. Use research and data to create real-world impact.</p><div class="settings-chip-row"><span class="settings-chip">Research</span><span class="settings-chip">Policy</span><span class="settings-chip">Impact</span></div></article>
-          </section>
+          <article class="settings-detail-card"><h3>Profile</h3><div class="settings-profile-list"><div><strong>Name:</strong><span>Zirui Kong</span></div><div><strong>Hometown:</strong><span>Hefei, Anhui, China</span></div><div><strong>Undergraduate:</strong><span>The Ohio State University</span></div><div><strong>Exchange:</strong><span>Peking University Guanghua School of Management</span></div><div><strong>Current Institution:</strong><span>Columbia University</span></div><div><strong>Current Period:</strong><span>September 2026 – Present</span></div><div><strong>Primary Focus:</strong><span>Statistics and data analysis</span></div><div><strong>Broader Interests:</strong><span>Economics, social science, finance, technology, policy, and business</span></div><div><strong>Long-Term Goal:</strong><span>Pursue a Ph.D. and conduct interdisciplinary quantitative research</span></div></div></article>
+          <article class="settings-detail-card"><h3>Personal Statement</h3><p>I hope to use statistics and data analysis as a common language for studying problems across disciplines and, ultimately, to pursue doctoral research with both methodological depth and broad real-world relevance.</p></article>
         </main>
       </div>
       <div class="settings-window-resize-handle" id="settingsWindowResizeHandle" aria-hidden="true"></div>
@@ -4370,6 +4800,27 @@
         <span class="remaining-time" id="homepageMusicDuration">10:00</span>
       </div>
       <input class="music-progress" id="homepageMusicProgress" type="range" min="0" max="600" value="0" step="0.1" aria-label="Background music progress">
+    </div>
+  </section>
+
+
+
+  <section class="macbook-scroll-intro" id="macbookScrollIntro" aria-label="Scroll into the website preview">
+    <div class="macbook-scroll-sticky">
+      <h1 class="macbook-scroll-title">Scroll into the desktop.</h1>
+      <div class="macbook-scroll-device" aria-hidden="true">
+        <div class="macbook-scroll-lid">
+          <div class="macbook-scroll-screen">
+            <div class="macbook-scroll-screen-inner">
+              <div class="macbook-screen-bar"><span class="macbook-screen-dot"></span><span class="macbook-screen-dot"></span><span class="macbook-screen-dot"></span></div>
+              <div class="macbook-terminal-mark" aria-hidden="true">&gt;</div>
+            </div>
+          </div>
+        </div>
+        <div class="macbook-scroll-base"><div class="macbook-scroll-keyboard"></div><div class="macbook-scroll-trackpad"></div></div>
+      </div>
+      <div class="macbook-scroll-page-popout" aria-hidden="true"><div class="macbook-app-preview"><span class="macbook-app-sidebar"></span><span class="macbook-app-topbar"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span><span class="macbook-app-row"></span></div></div>
+      <div class="macbook-scroll-hint">Scroll to enter</div>
     </div>
   </section>
 
@@ -4450,6 +4901,47 @@
           mobileNavToggle.setAttribute("aria-expanded", "false");
         }
       });
+    }
+
+
+    function activateFullLockScreen() {
+      const lockScreen = $("#lockScreen");
+      if (!lockScreen || document.body.classList.contains("lock-screen-active")) return;
+      lockScreen.hidden = false;
+      lockScreen.classList.remove("is-unlocked");
+      lockScreen.style.setProperty("--lock-opacity", "1");
+      lockScreen.style.setProperty("--lock-scale", "1");
+      document.body.classList.add("lock-screen-active");
+    }
+
+    function initMacbookScrollIntro() {
+      const intro = document.getElementById("macbookScrollIntro");
+      if (!intro) return;
+      const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+      const updateIntro = () => {
+        if (document.body.classList.contains("macbook-intro-complete")) return;
+        const rect = intro.getBoundingClientRect();
+        const travel = Math.max(1, intro.offsetHeight - window.innerHeight);
+        const rawProgress = Math.min(1, Math.max(0, -rect.top / travel));
+        const progress = reduceMotion ? rawProgress : rawProgress * rawProgress * (3 - 2 * rawProgress);
+        const rawPopProgress = Math.min(1, Math.max(0, (rawProgress - 0.18) / 0.72));
+        const popProgress = reduceMotion ? rawPopProgress : rawPopProgress * rawPopProgress * (3 - 2 * rawPopProgress);
+        intro.style.setProperty("--mac-progress", progress.toFixed(4));
+        intro.style.setProperty("--mac-open", Math.min(1, progress * 1.25).toFixed(4));
+        intro.style.setProperty("--mac-pop", popProgress.toFixed(4));
+        intro.style.setProperty("--mac-pop-radius", `${32 * (1 - popProgress)}px`);
+        intro.style.setProperty("--mac-pop-inset-y", `${29 * (1 - popProgress)}%`);
+        intro.style.setProperty("--mac-pop-inset-x", `${24 * (1 - popProgress)}%`);
+        intro.style.setProperty("--mac-pop-translate", `${170 * (1 - popProgress)}px`);
+        intro.style.setProperty("--mac-pop-copy-translate", `${42 * (1 - popProgress)}px`);
+        intro.style.setProperty("--mac-pop-scale", (0.58 + popProgress * 0.48).toFixed(4));
+        const introActive = rect.bottom > window.innerHeight * 0.3;
+        document.body.classList.toggle("macbook-intro-active", introActive);
+        document.body.classList.toggle("macbook-intro-complete", !introActive);
+      };
+      updateIntro();
+      window.addEventListener("scroll", updateIntro, { passive: true });
+      window.addEventListener("resize", updateIntro);
     }
 
     function updateHeaderTone() {
@@ -5052,75 +5544,72 @@
     }
 
 
+    const list = (items) => `<ul>${items.map((item) => `<li>${item}</li>`).join("")}</ul>`;
+    const chips = (items, variant = "") => `<div class="settings-tags ${variant}">${items.map((item) => `<span>${item}</span>`).join("")}</div>`;
+    const profileRows = (rows) => `<div class="settings-profile-list">${rows.map(([label, value]) => `<div><strong>${label}</strong><span>${value}</span></div>`).join("")}</div>`;
+
     const settingsSectionData = {
       about: {
         title: "About Me",
-        subtitle: "A quick overview of my academic journey and interests.",
+        subtitle: "Personal overview",
         body: `
-          <div class="settings-profile-card">
-            <img class="settings-profile-large" src="profile.jpg" alt="Zirui Kong portrait">
-            <div class="settings-profile-facts">
-              <div><span>👤</span><strong>Name:</strong><p>Zirui Kong / 子睿</p></div>
-              <div><span>🎯</span><strong>Current focus:</strong><p>Economics, research, data, and policy</p></div>
-              <div><span>📍</span><strong>Hometown:</strong><p>Hefei, Anhui, China</p></div>
-              <div><span>🎓</span><strong>Undergraduate:</strong><p>The Ohio State University, Economics</p></div>
-              <div><span>🌐</span><strong>Exchange:</strong><p>Peking University Guanghua School</p></div>
-              <div><span>♡</span><strong>Interests:</strong><p>Public policy, finance, quantitative analysis, design</p></div>
-              <div><span>💼</span><strong>Experience:</strong><p>Internships in banking, data analysis, and research</p></div>
-              <div><span>⚑</span><strong>Goal:</strong><p>Explore economics through research and data-driven thinking</p></div>
+          <section class="settings-about-card" aria-label="About Zirui Kong">
+            <img class="settings-about-photo" src="assets/ChatGPT Image May 25, 2026, 08_23_25 PM.png" alt="Zirui Kong portrait">
+            <div class="settings-facts">
+              <h3 class="settings-hero-title">Zirui Kong</h3>
+              <p class="settings-kicker">Statistics · Data Analysis · Interdisciplinary Research</p>
+              <p>I am a student and aspiring researcher focused on statistics, data analysis, and quantitative methods. I am interested in applying statistical reasoning and computational tools across economics, social science, public policy, finance, technology, and business.</p>
+              <p>My academic journey has taken me from Hefei to Columbus, Beijing, and New York. These experiences shaped my interest in using data to describe patterns, explain complex phenomena, evaluate evidence, and support better decisions.</p>
             </div>
-          </div>
-          <div class="settings-bio-card">
-            <h3>Short Bio</h3>
-            <p>I’m Zirui Kong, an economics student with interests in research, public policy, and data analysis. My academic journey has taken me from Hefei to Columbus and Beijing, and I’m especially interested in using research and data-driven thinking to better understand institutions, society, and real-world decision making.</p>
-          </div>
-          <div class="settings-card-grid">
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--blue">🏠</span><h3>Background</h3><span>›</span></div><p>I’m from Hefei, Anhui, China. My curiosity began with economics and expanded into research, data, and public policy.</p><div class="settings-tags"><span>Hefei, China</span><span>Curious & Analytical</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--green">🎓</span><h3>Education</h3><span>›</span></div><p>Economics major at The Ohio State University, with an exchange experience at Peking University Guanghua School.</p><div class="settings-tags settings-tags--green"><span>OSU Economics</span><span>PKU Guanghua</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--purple">💼</span><h3>Experience & Skills</h3><span>›</span></div><p>Experience in banking, data analysis, and research, using Python, R, Excel, and Stata for analytical work.</p><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Excel</span><span>Stata</span><span>+</span></div></article>
-            <article class="settings-card"><div class="settings-card-head"><span class="settings-card-icon settings-card-icon--orange">🎯</span><h3>Future Goals</h3><span>›</span></div><p>Pursue graduate study in economics or policy-related fields and use data to create public impact.</p><div class="settings-tags settings-tags--orange"><span>Research</span><span>Policy</span><span>Impact</span></div></article>
-          </div>
+          </section>
+          <article class="settings-detail-card"><h3>Profile</h3>${profileRows([["Name:","Zirui Kong"],["Hometown:","Hefei, Anhui, China"],["Undergraduate:","The Ohio State University"],["Exchange:","Peking University Guanghua School of Management"],["Current Institution:","Columbia University"],["Current Period:","September 2026 – Present"],["Primary Focus:","Statistics and data analysis"],["Broader Interests:","Economics, social science, finance, technology, policy, and business"],["Long-Term Goal:","Pursue a Ph.D. and conduct interdisciplinary quantitative research"]])}</article>
+          <article class="settings-detail-card"><h3>Personal Statement</h3><p>I hope to use statistics and data analysis as a common language for studying problems across disciplines and, ultimately, to pursue doctoral research with both methodological depth and broad real-world relevance.</p></article>
         `,
       },
       hometown: {
         title: "Hometown",
-        subtitle: "Where my journey began and how place shaped my curiosity.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is where my journey began. Growing up there gave me a grounded perspective and shaped my early academic curiosity.</p><div class="settings-tags"><span>Home Base</span><span>Anhui</span><span>Early Influence</span></div></article><article class="settings-detail-card"><h3>Perspective</h3><p>My background helps me connect economics with institutions, local development, and the way everyday decisions shape broader outcomes.</p><div class="settings-tags settings-tags--green"><span>Community</span><span>Growth</span></div></article></div>`,
+        subtitle: "Where I am from",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Hefei, Anhui, China</h3><p>Hefei is my hometown and the starting point of my academic journey. Growing up in a rapidly developing city shaped my early curiosity about economic change, technological development, education, and the role of data in understanding social progress.</p></article><article class="settings-detail-card"><h3>Location</h3>${profileRows([["City:","Hefei"],["Province:","Anhui"],["Country:","China"],["Role in My Journey:","Home and starting point"]])}</article><article class="settings-detail-card"><h3>Personal Connection</h3><p>My experience in Hefei encouraged me to observe how cities, institutions, industries, and individuals respond differently to development and technological change. These observations later contributed to my interest in quantitative analysis and interdisciplinary research.</p>${chips(["Home","Anhui","Development","Starting Point"])}</article></div>`,
       },
       education: {
         title: "Education",
-        subtitle: "Academic training across Columbus and Beijing.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>The Ohio State University</h3><p>B.A. in Economics, with foundations in quantitative coursework, economics theory, statistics, and analytical thinking.</p><div class="settings-tags settings-tags--green"><span>Economics</span><span>Undergraduate</span><span>2022–2025</span></div></article><article class="settings-detail-card"><h3>Peking University Guanghua</h3><p>Exchange experience focused on broader academic exposure, research-oriented learning, and a China-related policy perspective.</p><div class="settings-tags"><span>Exchange</span><span>Beijing</span><span>2025–2026</span></div></article><article class="settings-detail-card"><h3>Relevant Coursework</h3><ul><li>Econometrics and statistics</li><li>Microeconomics and macroeconomics</li><li>Data analysis and policy-related coursework</li></ul></article></div>`,
+        subtitle: "Academic journey",
+        body: `<article class="settings-detail-card"><h3>Academic Timeline</h3></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Columbia University</h3><h4>September 2026 – Present · New York, United States</h4><p>At Columbia University, I am focusing on advanced training in statistics, data analysis, research methodology, and quantitative social science.</p><p>My goal is to develop a rigorous methodological foundation that can support research across multiple fields rather than limiting my work to a single substantive discipline.</p><h4>Current Areas of Development</h4>${list(["Statistical inference","Regression and multivariate analysis","Bayesian statistics","Causal inference","Computational methods","Data visualization","Research design","Quantitative social science","Reproducible data analysis"])}</article><article class="settings-detail-card"><h3>Peking University</h3><h4>Guanghua School of Management · September 2025 – January 2026 · Beijing, China</h4><p>I attended Peking University as a full-time, non-degree exchange student. This experience expanded my understanding of Chinese institutions, markets, technology, and economic development.</p><p>It also strengthened my interest in using quantitative methods to connect theoretical questions with empirical evidence.</p><h4>Selected Areas of Study</h4>${list(["Causal inference","Data visualization in R","Artificial intelligence and forecasting","Chinese institutions and capital markets","Applied quantitative methods"])}</article><article class="settings-detail-card"><h3>The Ohio State University</h3><h4>Bachelor of Arts in Economics · 2022 – December 2025 · Columbus, Ohio, United States</h4><p>My undergraduate education provided a foundation in economics, mathematics, statistics, and empirical reasoning.</p><p>Over time, my academic interests shifted from studying individual financial and economic topics toward developing broader statistical and analytical methods that can be applied across disciplines.</p><h4>Academic Foundations</h4>${list(["Economics","Calculus","Linear algebra","Probability","Mathematical statistics","Regression analysis","Causal inference","Data analysis"])}</article></div>`,
+      },
+      columbia: {
+        title: "Columbia",
+        subtitle: "Current academic chapter",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Columbia University</h3><h4>September 2026 – Present</h4><p>Columbia University represents the current stage of my academic development. My primary objective is to build strong technical training in statistics and data analysis while gaining experience applying these methods to questions from multiple disciplines.</p><h4>Current Focus</h4>${list(["Statistical theory and inference","Applied data analysis","Computational statistics","Bayesian methods","Causal inference","Survey methodology","Quantitative social science","Interdisciplinary research design"])}</article><article class="settings-detail-card"><h3>Academic Objectives</h3>${list(["Build a rigorous foundation in statistical theory","Strengthen programming and computational skills","Participate in faculty-led research","Gain research assistant experience","Develop independent empirical projects","Work with data from multiple substantive domains","Prepare for doctoral-level research","Produce publication-oriented academic work"])}</article><article class="settings-detail-card"><h3>Long-Term Direction</h3><p>My long-term goal is to pursue a Ph.D. in a field related to statistics, quantitative social science, data science, or an interdisciplinary area that combines rigorous methodology with substantive applications.</p><p>I hope to become a researcher who can both develop and apply quantitative methods across economics, social science, technology, business, and policy.</p>${chips(["Columbia University","Statistics","Data Analysis","Ph.D. Preparation"])}</article></div>`,
       },
       exchange: {
         title: "Exchange",
-        subtitle: "A broader lens on economics, institutions, and society.",
-        body: `<div class="settings-detail-card"><h3>Peking University Guanghua School</h3><p>My exchange experience at Peking University broadened my academic perspective and deepened my interest in connecting economics with institutions, society, and policy.</p><div class="settings-tags"><span>Beijing</span><span>Exchange Program</span><span>Perspective</span><span>Growth</span></div></div>`,
+        subtitle: "Global academic experience",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Peking University</h3><h4>Guanghua School of Management</h4>${profileRows([["Program Type:","Full-time non-degree exchange program"],["Location:","Beijing, China"],["Period:","September 2025 – January 2026"]])}<p>My exchange experience at Peking University broadened my understanding of China’s economic institutions, business environment, technological transformation, and policy development.</p><p>It also showed me the value of combining domain knowledge with statistical and computational methods.</p></article><article class="settings-detail-card"><h3>Academic Interests</h3>${list(["Causal inference","Artificial intelligence and forecasting","Data visualization","Chinese institutions and markets","Technology and society","Applied quantitative research"])}</article><article class="settings-detail-card"><h3>What I Gained</h3>${list(["A broader interdisciplinary perspective","Experience across different academic systems","A stronger interest in empirical research","Greater familiarity with applied data analysis","A clearer direction toward statistics-focused graduate study"])}${chips(["Peking University","Guanghua","Beijing","Exchange"])}</article></div>`,
       },
       research: {
         title: "Research",
-        subtitle: "Questions, methods, and areas I want to understand more deeply.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Interest Areas</h3><p>Economics, public policy, quantitative social science, policy evaluation, inequality, and AI adoption.</p><div class="settings-tags"><span>Policy Evaluation</span><span>Data Analysis</span><span>AI Adoption</span></div></article><article class="settings-detail-card"><h3>Current Curiosity</h3><p>How data informs decision-making, how institutions shape outcomes, and how research can create public impact.</p><div class="settings-tags settings-tags--orange"><span>Decision Making</span><span>Institutions</span><span>Impact</span></div></article></div>`,
-      },
-      experience: {
-        title: "Experience",
-        subtitle: "Connecting analytical tools with practical problems.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Banking & Finance</h3><p>Internship experience strengthened my ability to connect quantitative tools with real-world financial questions.</p><div class="settings-tags settings-tags--purple"><span>Banking</span><span>Securities</span></div></article><article class="settings-detail-card"><h3>Research & Data</h3><p>Worked on research support and data-oriented tasks, building stronger habits in data cleaning, analysis, and communication.</p><div class="settings-tags"><span>Data Analysis</span><span>Research Support</span></div></article></div>`,
+        subtitle: "Questions and projects",
+        body: `<article class="settings-detail-card"><h3>Research Philosophy</h3><p>I view statistics and data analysis as methodological tools that can connect different fields. Rather than focusing exclusively on one application area, I hope to study a broad range of questions while maintaining a consistent emphasis on rigorous research design, statistical modeling, and empirical evidence.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Methodological Interests</h3>${list(["Statistical inference","Bayesian modeling","Causal inference","Longitudinal and panel data","Time-series analysis","Survey methodology","Latent-variable models","Machine learning","Dynamic systems","Computational simulation"])}</article><article class="settings-detail-card"><h3>Application Areas</h3>${list(["Economics","Quantitative social science","Public policy","Finance","Business analytics","Technology adoption","Education","Social inequality","Organizational research","Population and survey studies"])}</article><article class="settings-detail-card"><h3>Current Research Project</h3><h4>Dynamic Pathways of AI Adoption and Skill Formation</h4><p><strong>A Threshold Model of Technological Stratification</strong></p><p>This project examines how skills, social position, perceived risks, institutional support, and peer effects interact to shape the adoption of artificial intelligence.</p><p>The project combines dynamic modeling, simulation, and potential survey-based estimation to study how unequal starting conditions can generate persistent differences in technological participation and skill development.</p><h4>Methods</h4>${list(["Ordinary differential equations","Dynamic systems","Threshold models","Bayesian latent-variable models","Survey-based parameter estimation","Python simulation","Sensitivity analysis","Robustness analysis"])}</article><article class="settings-detail-card"><h3>Additional Research Directions</h3><h4>ESG and Financing Constraints</h4><p>An empirical project studying whether ESG ratings reduce financing constraints among firms in carbon-intensive industries.</p>${list(["Panel data","Fixed-effects models","Heterogeneity analysis","Robustness testing"])}<h4>High-Frequency Financial Data</h4><p>Research involving financial price spreads, market dynamics, and predictive time-series models.</p>${list(["AR and ARIMA models","Stationarity testing","Cointegration analysis","Structural-break detection","Predictive modeling"])}</article><article class="settings-detail-card"><h3>Future Research Goal</h3><p>My goal is to move from applying established statistical methods toward understanding how methods are selected, evaluated, improved, and adapted across different research settings.</p></article></div>`,
       },
       skills: {
         title: "Skills",
-        subtitle: "Methods and tools grouped by how I use them.",
-        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Analytical Tools</h3><div class="settings-tags settings-tags--purple"><span>Python</span><span>R</span><span>Stata</span><span>Excel</span><span>SQL</span></div></article><article class="settings-detail-card"><h3>Research Skills</h3><div class="settings-tags"><span>Data Cleaning</span><span>Statistical Analysis</span><span>Visualization</span><span>Literature Review</span></div></article><article class="settings-detail-card"><h3>Personal Strengths</h3><div class="settings-tags settings-tags--green"><span>Structured Thinking</span><span>Curiosity</span><span>Academic Writing</span><span>Cross-cultural Perspective</span></div></article></div>`,
+        subtitle: "Methods and tools",
+        body: `<div class="settings-section-grid"><article class="settings-detail-card"><h3>Programming</h3>${chips(["Python","R","SQL"],"settings-tags--purple")}</article><article class="settings-detail-card"><h3>Statistical Software</h3>${chips(["Stata","SAS","Excel"])}</article><article class="settings-detail-card"><h3>Statistical Methods</h3>${list(["Linear regression","Generalized linear models","Panel-data analysis","Causal inference","Time-series analysis","Bayesian modeling","Fixed-effects models","Latent-variable models","Statistical simulation","Predictive modeling"])}</article><article class="settings-detail-card"><h3>Data Analysis</h3>${list(["Data cleaning","Exploratory data analysis","Data visualization","Model evaluation","Feature construction","Reproducible workflows","Statistical interpretation","Communicating quantitative results"])}</article><article class="settings-detail-card"><h3>Research Skills</h3>${list(["Research design","Literature review","Hypothesis development","Academic writing","Robustness analysis","Policy analysis","Interdisciplinary problem formulation"])}</article><article class="settings-detail-card"><h3>Current Development Priorities</h3>${list(["Advanced probability","Mathematical statistics","Computational statistics","Machine learning","Bayesian computation","Survey statistics","High-dimensional data analysis"])}</article></div>`,
       },
       interests: {
         title: "Interests",
-        subtitle: "The ideas and practices that keep me curious.",
-        body: `<div class="settings-detail-card"><h3>What I Like Exploring</h3><p>I’m especially interested in how data, policy, and institutions interact — and I also enjoy design as a way to make complex ideas more intuitive and engaging.</p><div class="settings-tags"><span>Economics</span><span>Research</span><span>Public Policy</span><span>Data Visualization</span><span>Design</span><span>Global Perspective</span></div></div>`,
+        subtitle: "What I want to study",
+        body: `<article class="settings-detail-card"><h3>Core Interest</h3><p>My central academic interest lies in statistics and data analysis.</p><p>I am especially interested in how statistical methods can be used across disciplines to uncover patterns, test explanations, evaluate uncertainty, and support better decisions.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Fields of Application</h3>${list(["Economics","Social science","Public policy","Finance","Business","Technology","Education","Organizational studies","Survey research","Population research"])}</article><article class="settings-detail-card"><h3>Questions That Interest Me</h3>${list(["How can statistical models improve our understanding of complex social systems?","How should researchers measure uncertainty and hidden heterogeneity?","How can causal inference be applied in observational settings?","How can survey and administrative data be combined?","How do technologies affect different social and economic groups?","How can quantitative methods be adapted across disciplines?","How can data analysis move beyond prediction toward explanation?"])}</article><article class="settings-detail-card"><h3>Personal Interests</h3>${chips(["Football analytics","Web and interface design","Data visualization","Urban culture","Digital storytelling","Global education"])}</article><article class="settings-detail-card"><h3>Personal Statement</h3><p>I want to build methodological depth in statistics while maintaining the intellectual flexibility to work across many different fields.</p></article></div>`,
+      },
+      doctoral: {
+        title: "Doctoral Goals",
+        subtitle: "Long-term academic direction",
+        body: `<article class="settings-detail-card"><h3>Pursuing a Ph.D.</h3><p>My long-term academic goal is to pursue a Ph.D. in statistics, quantitative social science, data science, social statistics, or a closely related interdisciplinary field.</p><p>I hope to receive doctoral training that combines rigorous statistical methodology, computational tools, and substantive research applications.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Why a Ph.D.</h3>${list(["Develop deeper expertise in statistical theory and methodology","Conduct independent and original research","Work on complex interdisciplinary questions","Collaborate with researchers from different fields","Contribute to academic publications","Teach and communicate quantitative methods","Build a long-term career in research"])}</article><article class="settings-detail-card"><h3>Potential Doctoral Areas</h3>${list(["Statistics","Applied statistics","Social statistics","Quantitative social science","Computational social science","Survey methodology","Data science","Biostatistics or population statistics","Interdisciplinary quantitative methods"])}</article><article class="settings-detail-card"><h3>Preparation Plan</h3>${list(["Complete advanced coursework in statistics and mathematics","Gain sustained research assistant experience","Develop independent research projects","Build strong relationships with faculty mentors","Improve academic writing and research communication","Produce a substantial research paper","Strengthen programming and reproducible research skills","Prepare for Ph.D. applications"])}</article><article class="settings-detail-card"><h3>Long-Term Vision</h3><p>I hope to become an interdisciplinary quantitative researcher who can contribute both methodological insight and substantive knowledge.</p><p>My goal is not only to analyze data, but also to improve how research questions are formulated, how evidence is evaluated, and how statistical results are translated into meaningful conclusions.</p>${chips(["Ph.D.","Statistics","Interdisciplinary Research","Academic Career"],"settings-tags--orange")}</article></div>`,
       },
       contact: {
         title: "Contact",
-        subtitle: "Ways to get in touch or continue exploring my work.",
-        body: `<div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="mailto:kong.480@osu.edu"><strong>OSU Email</strong><span>kong.480@osu.edu</span></a><a class="settings-link-card" href="shop.html"><strong>Portfolio</strong><span>Open the Shop / archive page</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Resume</strong><span>Open PDF in a new tab</span></a></div>`,
+        subtitle: "Let’s connect",
+        body: `<article class="settings-detail-card"><h3>Get in Touch</h3><p>I welcome conversations related to statistics, data analysis, quantitative research, doctoral preparation, and interdisciplinary collaboration.</p></article><div class="settings-section-grid"><article class="settings-detail-card"><h3>Contact Options</h3><div class="settings-link-grid"><a class="settings-link-card" href="mailto:kongzirui2004@163.com"><strong>Email</strong><span>kongzirui2004@163.com</span></a><a class="settings-link-card" href="#"><strong>LinkedIn</strong><span>Connect professionally</span></a><a class="settings-link-card" href="resume.pdf" target="_blank" rel="noopener noreferrer"><strong>Curriculum Vitae</strong><span>Open CV / resume</span></a><a class="settings-link-card" href="#"><strong>GitHub</strong><span>Code and projects</span></a><a class="settings-link-card" href="index.html"><strong>Personal Website</strong><span>ziruikong.github.io</span></a></div></article><article class="settings-detail-card"><h3>Open To</h3>${list(["Research assistant opportunities","Statistical and data-analysis projects","Faculty-led research","Interdisciplinary collaboration","Academic discussions","Ph.D. preparation and mentorship","Quantitative research opportunities"])}</article><article class="settings-detail-card"><h3>Closing Note</h3><p>Open to thoughtful conversations about statistics, data, interdisciplinary research, and future doctoral study.</p></article></div>`,
       },
     };
 
@@ -5128,26 +5617,27 @@
       const content = $(".settings-content");
       const section = settingsSectionData[sectionKey] || settingsSectionData.about;
       if (!content || !section) return;
-      content.classList.add("is-switching");
-      window.setTimeout(() => {
-        content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
-        content.classList.remove("is-switching");
-      }, 120);
+      content.classList.remove("is-switching");
+      content.innerHTML = `<h2>${section.title}</h2><p>${section.subtitle}</p>${section.body}`;
+      content.scrollTop = 0;
+    }
+
+    function selectSettingsSection(sectionKey = "about") {
+      const targetKey = settingsSectionData[sectionKey] ? sectionKey : "about";
+      const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
+      buttons.forEach((item) => {
+        const isActive = item.dataset.settingsSection === targetKey;
+        item.classList.toggle("is-active", isActive);
+        item.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      renderSettingsSection(targetKey);
     }
 
     function bindSettingsSidebar() {
       const buttons = Array.from(document.querySelectorAll("[data-settings-section]"));
       if (!buttons.length) return;
       buttons.forEach((button) => {
-        button.addEventListener("click", () => {
-          buttons.forEach((item) => {
-            item.classList.remove("is-active");
-            item.setAttribute("aria-pressed", "false");
-          });
-          button.classList.add("is-active");
-          button.setAttribute("aria-pressed", "true");
-          renderSettingsSection(button.dataset.settingsSection);
-        });
+        button.addEventListener("click", () => selectSettingsSection(button.dataset.settingsSection));
       });
     }
 
@@ -5160,6 +5650,8 @@
       overlay.classList.remove("minimized");
       overlay.setAttribute("aria-hidden", "false");
       setSettingsDockMinimized(false);
+      const activeSection = document.querySelector(".settings-sidebar-item.is-active")?.dataset.settingsSection || "about";
+      selectSettingsSection(activeSection);
       bringWindowToFront(overlay);
       window.setTimeout(() => win?.focus(), 0);
     }
@@ -5807,13 +6299,19 @@
     function updateLockScreenDateTime() {
       const dateTarget = $("#lockScreenDate");
       const timeTarget = $("#lockScreenTime");
-      if (!dateTarget && !timeTarget) return;
+      const macbookDateTarget = $("#macbookLockDate");
+      const macbookTimeTarget = $("#macbookLockTime");
+      const macbookPopDateTarget = $("#macbookPopDate");
+      const macbookPopTimeTarget = $("#macbookPopTime");
+      if (!dateTarget && !timeTarget && !macbookDateTarget && !macbookTimeTarget && !macbookPopDateTarget && !macbookPopTimeTarget) return;
       const now = new Date();
       const weekday = new Intl.DateTimeFormat("en-US", { weekday: "short" }).format(now);
       const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(now);
       const day = new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(now);
       if (dateTarget) dateTarget.textContent = `${weekday} ${month} ${day}`;
-      if (timeTarget) {
+      if (macbookDateTarget) macbookDateTarget.textContent = `${weekday} ${month} ${day}`;
+      if (macbookPopDateTarget) macbookPopDateTarget.textContent = `${weekday} ${month} ${day}`;
+      if (timeTarget || macbookTimeTarget || macbookPopTimeTarget) {
         const timeParts = new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           minute: "2-digit",
@@ -5821,13 +6319,27 @@
         }).formatToParts(now);
         const hour = timeParts.find((part) => part.type === "hour")?.value || "9";
         const minute = timeParts.find((part) => part.type === "minute")?.value || "41";
-        timeTarget.textContent = `${hour}:${minute}`;
+        const timeText = `${hour}:${minute}`;
+        if (timeTarget) timeTarget.textContent = timeText;
+        if (macbookTimeTarget) macbookTimeTarget.textContent = timeText;
+        if (macbookPopTimeTarget) macbookPopTimeTarget.textContent = timeText;
       }
+    }
+
+
+    function updateLockScreenScrollProgress() {
+      const lockScreen = $("#lockScreen");
+      if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
+      lockScreen.style.setProperty("--lock-opacity", "1");
+      lockScreen.style.setProperty("--lock-scale", "1");
     }
 
     function dismissLockScreen() {
       const lockScreen = $("#lockScreen");
-      if (!lockScreen || lockScreen.classList.contains("is-unlocked")) return;
+      if (!lockScreen || lockScreen.classList.contains("is-unlocked") || !document.body.classList.contains("lock-screen-active")) return;
+      document.body.classList.add("macbook-intro-complete");
+      document.body.classList.remove("macbook-intro-active");
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       lockScreen.classList.add("is-unlocked");
       document.body.classList.remove("lock-screen-active");
       window.setTimeout(() => {
@@ -5840,7 +6352,9 @@
       const enterButton = $("#lockScreenEnter");
       if (!lockScreen) return;
       updateLockScreenDateTime();
+      updateLockScreenScrollProgress();
       window.setInterval(updateLockScreenDateTime, 1000);
+      window.addEventListener("scroll", updateLockScreenScrollProgress, { passive: true });
       enterButton?.addEventListener("click", (event) => {
         event.stopPropagation();
         dismissLockScreen();
@@ -5874,6 +6388,7 @@
     }
 
     function init() {
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
       initPageLoader();
       initLockScreen();
       updateMacStatusDateTime();
@@ -5883,6 +6398,7 @@
       updateMusicButton();
       initArchiveMusicAutoplay();
       initTopFloatingDock();
+      initMacbookScrollIntro();
       initLiquidCursor();
       updateHeaderTone();
       window.addEventListener("scroll", updateHeaderTone, { passive: true });
