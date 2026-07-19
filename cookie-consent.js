@@ -28,11 +28,17 @@
       <div class="cookie-preferences" id="cookiePreferences">
         <label class="cookie-toggle">
           <span>Essential cookies</span>
-          <input type="checkbox" checked disabled>
+          <span class="toggle-switch">
+            <input type="checkbox" checked disabled>
+            <span class="toggle-switch-background"><span class="toggle-switch-handle"></span></span>
+          </span>
         </label>
         <label class="cookie-toggle">
           <span>Analytics cookies</span>
-          <input id="cookieAnalytics" type="checkbox">
+          <span class="toggle-switch">
+            <input id="cookieAnalytics" type="checkbox">
+            <span class="toggle-switch-background"><span class="toggle-switch-handle"></span></span>
+          </span>
         </label>
       </div>
       <div class="cookie-actions">
