@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yarripedia</title>
+  <script>
+    (function () {
+      if (location.pathname === "/yarripedia" || location.pathname === "/yarripedia/") {
+        location.replace("https://yarripedia.rayk.chatgpt.site/" + location.search + location.hash);
+      }
+    }());
+  </script>
+  <style>
+    body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center;min-height:100vh;margin:0;color:#152d5b;background:#fff}
+    main{text-align:center;padding:2rem}
+    a{color:#4267b2}
+  </style>
+</head>
+<body>
+  <main>
+    <p>正在打开 Yarripedia…</p>
+    <p><a href="https://yarripedia.rayk.chatgpt.site/">如果没有自动打开，请点击这里</a></p>
+  </main>
+</body>
+</html>
