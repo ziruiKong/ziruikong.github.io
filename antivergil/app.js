@@ -2594,6 +2594,16 @@ const CALENDAR_SOURCES = [
 const CALENDAR_SOURCE_MAP = new Map(CALENDAR_SOURCES.map((source) => [source.id, source]));
 const CALENDAR_WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const CALENDAR_WEEKDAYS_MINI = ["S", "M", "T", "W", "T", "F", "S"];
+const CALENDAR_COURSE_COLORS = [
+  "#2f6690",
+  "#3f7d62",
+  "#b3742b",
+  "#8c5b88",
+  "#3f7f86",
+  "#b24e4e",
+  "#657b3f",
+  "#5b67a6",
+];
 const CALENDAR_ACADEMIC_DATES = [
   { date: "2026-11-25", title: "Thanksgiving break begins" },
   { date: "2026-12-14", title: "Last day of fall classes" },
@@ -2747,6 +2757,16 @@ function calendarSourceFor(sourceId) {
   return CALENDAR_SOURCE_MAP.get(sourceId) || CALENDAR_SOURCES[0];
 }
 
+function calendarEventColor(event) {
+  if (event.kind !== "course") return calendarSourceFor(event.source).color;
+  const code = normCode(event.courseCode || event.title);
+  let hash = 0;
+  for (let index = 0; index < code.length; index += 1) {
+    hash = ((hash * 31) + code.charCodeAt(index)) >>> 0;
+  }
+  return CALENDAR_COURSE_COLORS[hash % CALENDAR_COURSE_COLORS.length];
+}
+
 function calendarAllEventsInRange(start, end) {
   initializeCalendarState();
   const events = [];
@@ -2867,13 +2887,13 @@ function layoutCalendarEvents(events) {
 }
 
 function calendarEventClassName(event, conflicts) {
-  const source = calendarSourceFor(event.source);
+  const color = calendarEventColor(event);
   const classes = ["calendar-event"];
   if (event.kind === "custom") classes.push("draggable");
   if (event.end - event.start <= 45) classes.push("compact");
   if (event.source === "personal") classes.push("solid");
   if (event.kind === "course" && conflicts.some(([a, b]) => a.classId === event.sectionId || b.classId === event.sectionId)) classes.push("conflict");
-  return { className: classes.join(" "), color: source.color };
+  return { className: classes.join(" "), color };
 }
 
 function calendarEventMarkup(event, conflicts) {
@@ -3032,8 +3052,9 @@ function renderCalendarInspector(events) {
   const next = upcoming[0] || events.slice().sort((a, b) => `${a.date}-${a.start ?? 0}`.localeCompare(`${b.date}-${b.start ?? 0}`))[0];
   if (next) {
     const source = calendarSourceFor(next.source);
+    const eventColor = calendarEventColor(next);
     $("#calendar-focus").innerHTML = `
-      <div class="calendar-focus-card" style="--event-color:${source.color}">
+      <div class="calendar-focus-card" style="--event-color:${eventColor}">
         <div class="focus-kicker">Next up · ${esc(source.label)}</div>
         <h3>${esc(next.title)}</h3>
         <p>${esc(calendarFromKey(next.date).toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" }))}${next.location ? ` · ${esc(next.location)}` : ""}</p>
@@ -3091,8 +3112,8 @@ function renderTimeGridCalendar(days) {
   const allDayRow = `<div class="calendar-all-day-label">ALL DAY</div>${days.map((date) => {
     const items = allDay.filter((event) => event.date === calendarDateKey(date));
     return `<div class="calendar-all-day-cell">${items.map((event) => {
-      const source = calendarSourceFor(event.source);
-      return `<button type="button" class="calendar-all-day-event" style="--event-color:${source.color}" data-calendar-event="${esc(event.id)}">${esc(event.title)}</button>`;
+      const color = calendarEventColor(event);
+      return `<button type="button" class="calendar-all-day-event" style="--event-color:${color}" data-calendar-event="${esc(event.id)}">${esc(event.title)}</button>`;
     }).join("")}</div>`;
   }).join("")}`;
   const rail = Array.from({ length: CALENDAR_VISIBLE_HOURS + 1 }, (_, index) => {
@@ -3149,8 +3170,8 @@ function renderMonthCalendar() {
     cells += `<div class="${classes.join(" ")}" data-calendar-date="${key}">
       <span class="calendar-month-date">${date.getDate()}</span>
       ${dayEvents.slice(0, 3).map((event) => {
-        const source = calendarSourceFor(event.source);
-        return `<button type="button" class="calendar-month-event" style="--event-color:${source.color}" data-calendar-event="${esc(event.id)}"><span>${esc(event.title)}</span></button>`;
+        const color = calendarEventColor(event);
+        return `<button type="button" class="calendar-month-event" style="--event-color:${color}" data-calendar-event="${esc(event.id)}"><span>${esc(event.title)}</span></button>`;
       }).join("")}
       ${dayEvents.length > 3 ? `<button type="button" class="calendar-month-more" data-calendar-date="${key}">+${dayEvents.length - 3} more</button>` : ""}
     </div>`;
@@ -3174,7 +3195,8 @@ function renderAgendaCalendar() {
       <div class="calendar-agenda-date">${esc(date.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase())}<b>${date.getDate()}</b>${esc(date.toLocaleDateString("en-US", { month: "short" }))}</div>
       <div class="calendar-agenda-events">${items.map((event) => {
         const source = calendarSourceFor(event.source);
-        return `<button type="button" class="calendar-agenda-event" style="--event-color:${source.color}" data-calendar-event="${esc(event.id)}">
+        const color = calendarEventColor(event);
+        return `<button type="button" class="calendar-agenda-event" style="--event-color:${color}" data-calendar-event="${esc(event.id)}">
           <time>${esc(calendarEventTime(event))}</time><b>${esc(event.title)}</b><small>${esc(source.label)}</small>
         </button>`;
       }).join("")}</div>
@@ -3237,6 +3259,7 @@ function openCalendarReadonlyEvent(event) {
 
 function openCalendarCourseEvent(event) {
   const section = state.schedule.find((item) => item.classId === event.sectionId);
+  const eventColor = calendarEventColor(event);
   const dateLabel = calendarFromKey(event.date).toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -3247,7 +3270,7 @@ function openCalendarCourseEvent(event) {
     <div class="calendar-event-form calendar-course-event-modal">
       <div class="form-head">
         <div>
-          <div class="form-kicker">Course on your calendar</div>
+          <div class="form-kicker" style="color:${eventColor}">Course on your calendar</div>
           <h2>${esc(event.courseCode || section?.code || "Course")}</h2>
         </div>
         <span class="calendar-course-status"><i></i>On calendar</span>
