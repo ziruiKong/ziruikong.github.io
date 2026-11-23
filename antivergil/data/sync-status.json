@@ -1,0 +1,18 @@
+{
+  "status": "error",
+  "term": "2027-Spring",
+  "intervalMinutes": 60,
+  "dataThrough": "2026-11-23",
+  "snapshotUpdatedAt": "2026-11-23 13:28",
+  "officialUpdatedAt": "2026-11-23T18:06:00.000Z",
+  "lastAttemptAt": "2026-11-23T19:33:50.557Z",
+  "lastSuccessfulSyncAt": "2026-11-23T18:28:17.299Z",
+  "nextSyncAt": "2026-11-23T20:33:50.734Z",
+  "source": "soid/columbia-catalog-data",
+  "subjectsUpdated": 66,
+  "subjectsRequested": 66,
+  "matchedSections": 2993,
+  "unmatchedSections": 128,
+  "warning": "128 sections without a numeric official count retained their previous value.",
+  "lastError": "下载 https://raw.githubusercontent.com/soid/columbia-catalog-data/master/classes/2027-Spring.json ...\n失败: fetch failed"
+}
