@@ -94,6 +94,19 @@ function updateHistoryIndex(history) {
 async function main() {
   const previous = readJson(STATUS_PATH, {});
   const startedAt = new Date().toISOString();
+  const existingCoursesJson = path.join(ROOT, "data", `courses-${TERM}.json`);
+  const existingCoursesJs = path.join(ROOT, "data", `courses-${TERM}.js`);
+  const existingHistoryDir = path.join(ROOT, "data", "enrollment-history");
+  const historyFiles = [
+    `${TERM}.json`,
+    `${TERM}.js`,
+    `${TERM}-summary.csv`,
+    "latest.js",
+  ];
+  let catalogSource = "live mirror";
+  let snapshotSource = "live mirror";
+  let mirrorFallbackReason = null;
+
   fs.mkdirSync(stagedHistoryDir, { recursive: true });
   writeStatus({
     ...previous,
@@ -105,25 +118,44 @@ async function main() {
   });
 
   try {
-    await runNode([
-      path.join(ROOT, "crawler.mjs"),
-      "bundle",
-      "--out",
-      stagedCoursesJson,
-      "--with-enrollment",
-    ]);
+    try {
+      await runNode([
+        path.join(ROOT, "crawler.mjs"),
+        "bundle",
+        "--out",
+        stagedCoursesJson,
+        "--with-enrollment",
+      ]);
+    } catch (error) {
+      mirrorFallbackReason = error.message;
+      catalogSource = "cached catalog";
+      copyIntoPlace(existingCoursesJson, stagedCoursesJson);
+      copyIntoPlace(existingCoursesJs, stagedCoursesJs);
+      console.warn(`Catalog mirror unavailable; using cached catalog. ${error.message}`);
+    }
 
-    await runNode([
-      path.join(ROOT, "snapshot.mjs"),
-      TERM,
-      "--out-dir",
-      stagedHistoryDir,
-      "--cache-dir",
-      path.join(ROOT, "work", "raw-enroll"),
-      "--courses-file",
-      stagedCoursesJson,
-      "--refresh",
-    ]);
+    try {
+      await runNode([
+        path.join(ROOT, "snapshot.mjs"),
+        TERM,
+        "--out-dir",
+        stagedHistoryDir,
+        "--cache-dir",
+        path.join(ROOT, "work", "raw-enroll"),
+        "--courses-file",
+        stagedCoursesJson,
+        "--refresh",
+      ]);
+    } catch (error) {
+      snapshotSource = "cached history";
+      for (const name of historyFiles) {
+        copyIntoPlace(
+          path.join(existingHistoryDir, name),
+          path.join(stagedHistoryDir, name),
+        );
+      }
+      console.warn(`Enrollment mirror unavailable; using cached history. ${error.message}`);
+    }
 
     const official = await refreshOfficialEnrollment({
       term: TERM,
@@ -155,15 +187,22 @@ async function main() {
       lastSuccessfulSyncAt: completedAt,
       nextSyncAt: new Date(Date.now() + INTERVAL_MINUTES * 60_000).toISOString(),
       source: "Columbia Directory of Classes + soid catalog mirror",
+      catalogSource,
+      snapshotSource,
       subjectsUpdated: official.subjectsUpdated,
       subjectsRequested: official.subjectsRequested,
       matchedSections: official.matched,
       unmatchedSections: official.totalSections - official.matched,
-      warning: official.subjectErrors.length
-        ? `${official.subjectErrors.length} subject page(s) unavailable; previous counts retained for those sections.`
-        : official.matched < official.totalSections
-          ? `${official.totalSections - official.matched} sections without a numeric official count retained their previous value.`
+      warning: [
+        official.subjectErrors.length
+          ? `${official.subjectErrors.length} subject page(s) unavailable; previous counts retained for those sections.`
+          : official.matched < official.totalSections
+            ? `${official.totalSections - official.matched} sections without a numeric official count retained their previous value.`
+            : null,
+        mirrorFallbackReason
+          ? "Catalog/enrollment mirror was unavailable; official counts were applied to the latest cached catalog."
           : null,
+      ].filter(Boolean).join(" ") || null,
       lastError: null,
     });
     console.log(
