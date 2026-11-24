@@ -3490,7 +3490,7 @@ main {
 
 .prof-course-bar-row {
   display: grid;
-  grid-template-columns: minmax(320px, 1.1fr) minmax(160px, 1.4fr) minmax(164px, auto);
+  grid-template-columns: minmax(320px, 1.1fr) minmax(150px, 1.25fr) minmax(220px, auto);
   align-items: center;
   gap: 16px;
   min-height: 44px;
@@ -3581,12 +3581,13 @@ main {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 4px;
 }
 
 .prof-course-bar-stat b {
-  width: 100%;
+  width: auto;
+  flex: 0 0 auto;
   font-size: 14px;
 }
 
