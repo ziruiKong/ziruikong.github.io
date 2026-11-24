@@ -2519,9 +2519,10 @@ function termChartSVG(offerings) {
   });
   if (currentPath.length > 1) dropPaths.push(currentPath.join(" "));
   const labels = rows.map((row, index) => {
-    if (rows.length > 8 && index % 2 && index !== rows.length - 1) return "";
     const x = left + slot * index + slot / 2;
-    return `<text class="prof-chart-label" x="${x.toFixed(1)}" y="${height - 14}" text-anchor="middle">${esc(row.term.replace("-", " ").replace("20", "'"))}</text>`;
+    const [year, season] = row.term.split("-");
+    const label = `${season[0]}'${year.slice(-2)}`;
+    return `<text class="prof-chart-label" x="${x.toFixed(1)}" y="${height - 14}" text-anchor="middle">${esc(label)}</text>`;
   }).join("");
   return `
     <svg class="prof-term-chart" viewBox="0 0 ${width} ${height}" role="img" aria-label="Enrollment and drop-rate history by term">
